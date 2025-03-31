@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Welcome – MatthewRaynor.com{% endblock %}
+{% block content %}
+<div class="container my-4">
+  <div class="row justify-content-center">
+    <!-- Blog Button -->
+    <div class="col-md-3 col-12 text-center mb-3">
+      <a href="#" class="btn btn-light btn-lg w-100 shadow-sm border">
+        Blog<br>
+        <small>Inspirational writing & updates</small>
+      </a>
+    </div>
+    <!-- Store Button -->
+    <div class="col-md-3 col-12 text-center mb-3">
+      <a href="#" class="btn btn-light btn-lg w-100 shadow-sm border">
+        Store<br>
+        <small>Shop my book and artwork</small>
+      </a>
+    </div>
+    <!-- Portfolio Button -->
+    <div class="col-md-3 col-12 text-center mb-3">
+      <a href="#" class="btn btn-light btn-lg w-100 shadow-sm border">
+        Portfolio<br>
+        <small>See my development projects</small>
+      </a>
+    </div>
+  </div>
+
+  <!-- Calendar Section -->
+  <div class="card mt-4 shadow-sm">
+    <div class="card-header fw-bold">
+      Upcoming Features
+    </div>
+    <div class="card-body">
+      <div id="calendar"></div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    var calendarEl = document.getElementById("calendar");
+    if (!calendarEl) {
+        console.error("Calendar element not found!");
+        return;
+    }
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: "dayGridMonth",
+        height: 'auto',
+        events: async function(fetchInfo, successCallback, failureCallback) {
+            try {
+                const blogEvents = await fetch("#");
+                const blogData = await blogEvents.json();
+
+                const storeEvents = await fetch("#");
+                const storeData = await storeEvents.json();
+
+                const events = [...blogData, ...storeData];
+                successCallback(events);
+            } catch (error) {
+                console.error("Calendar fetch error:", error);
+                failureCallback(error);
+            }
+        },
+        eventClick: function(info) {
+            if (info.event.url) {
+                window.location.href = "#";
+                info.jsEvent.preventDefault();
+            }
+        }
+    });
+
+    calendar.render();
+});
+</script>
+{% endblock %}

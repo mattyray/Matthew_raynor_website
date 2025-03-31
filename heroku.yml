@@ -1,0 +1,12 @@
+build:
+  docker:
+    web: Dockerfile  # Tells Heroku to use the Dockerfile to build your app
+
+release:
+  image: web
+  command:
+    - python manage.py migrate  # Runs database migrations
+    - python manage.py collectstatic --noinput  # Collects static files
+
+run:
+  web: gunicorn django_project.wsgi --bind 0.0.0.0:$PORT  # Starts the app
