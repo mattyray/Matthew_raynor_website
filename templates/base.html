@@ -116,10 +116,37 @@
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       flatpickr(".datepicker", { dateFormat: "Y-m-d" });
-
       const selects = document.querySelectorAll(".select2");
       selects.forEach(el => {
         $(el).select2({ width: "100%" });
+      });
+    });
+  </script>
+
+  <!-- AI Assistant Chat Widget -->
+  <div id="ai-chatbot" style="position: fixed; bottom: 80px; right: 20px; width: 320px; height: 400px; background: white; border: 1px solid #ddd; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.2); display: none; z-index: 1000;">
+    <div id="ai-chatbot-header" style="background: #007bff; color: white; padding: 10px; cursor: pointer;">
+      AI Assistant
+      <span id="ai-chatbot-close" style="float: right; cursor: pointer;">&times;</span>
+    </div>
+    <div id="ai-chatbot-body" style="padding: 10px; height: calc(100% - 60px); overflow-y: auto;">
+      <!-- Chat messages will appear here -->
+      <p>Hello! How can I assist you today?</p>
+    </div>
+    <div id="ai-chatbot-input" style="padding: 10px;">
+      <input type="text" placeholder="Type your message..." style="width: 100%; padding: 5px;">
+    </div>
+  </div>
+  <button id="ai-chatbot-toggle" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;" class="btn btn-primary">Chat</button>
+  
+  <script>
+    // Use jQuery for simple toggling of the chat widget
+    $(document).ready(function() {
+      $('#ai-chatbot-toggle').click(function() {
+        $('#ai-chatbot').toggle();
+      });
+      $('#ai-chatbot-close').click(function() {
+        $('#ai-chatbot').hide();
       });
     });
   </script>

@@ -2,37 +2,66 @@
 {% block title %}Welcome – MatthewRaynor.com{% endblock %}
 {% block content %}
 <div class="container my-4">
-  <div class="row justify-content-center">
-    <!-- Blog Button -->
-    <div class="col-md-3 col-12 text-center mb-3">
-      <a href="#" class="btn btn-light btn-lg w-100 shadow-sm border">
-        Blog<br>
-        <small>Inspirational writing & updates</small>
-      </a>
-    </div>
-    <!-- Store Button -->
-    <div class="col-md-3 col-12 text-center mb-3">
-      <a href="#" class="btn btn-light btn-lg w-100 shadow-sm border">
-        Store<br>
-        <small>Shop my book and artwork</small>
-      </a>
-    </div>
-    <!-- Portfolio Button -->
-    <div class="col-md-3 col-12 text-center mb-3">
-      <a href="#" class="btn btn-light btn-lg w-100 shadow-sm border">
-        Portfolio<br>
-        <small>See my development projects</small>
-      </a>
-    </div>
+  <!-- Hero Section -->
+  <div class="text-center mb-5">
+    <h1 class="fw-bold">Welcome to MatthewRaynor.com</h1>
+    <p class="lead">Discover inspirational content, shop unique artwork and books, and explore my development portfolio.</p>
   </div>
 
-  <!-- Calendar Section -->
-  <div class="card mt-4 shadow-sm">
-    <div class="card-header fw-bold">
-      Upcoming Features
+  <!-- Key Areas Section -->
+  <div class="row text-center">
+    <!-- Blog Card -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h3 class="card-title">Blog</h3>
+          <p class="card-text">Inspirational writing & updates to spark your creativity.</p>
+          <a href="#" class="btn btn-outline-primary">Explore Blog</a>
+        </div>
+      </div>
     </div>
-    <div class="card-body">
-      <div id="calendar"></div>
+    <!-- Store Card -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h3 class="card-title">Store</h3>
+          <p class="card-text">Shop my book and unique artwork, curated just for you.</p>
+          <a href="#" class="btn btn-outline-success">Visit Store</a>
+        </div>
+      </div>
+    </div>
+    <!-- Portfolio Card -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h3 class="card-title">Portfolio</h3>
+          <p class="card-text">Discover my development projects and creative endeavors.</p>
+          <a href="#" class="btn btn-outline-info">View Portfolio</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row text-center">
+    <!-- Press & Gallery Card -->
+    <div class="col-md-6 mb-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h3 class="card-title">Press & Gallery</h3>
+          <p class="card-text">Read about media coverage and view highlights of my artwork and events.</p>
+          <a href="#" class="btn btn-outline-warning">View Press</a>
+        </div>
+      </div>
+    </div>
+    <!-- Newsletter Card -->
+    <div class="col-md-6 mb-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h3 class="card-title">Newsletter</h3>
+          <p class="card-text">Sign up for our newsletter to stay updated with the latest news and insights.</p>
+          <a href="#" class="btn btn-outline-danger">Subscribe Now</a>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -40,40 +69,22 @@
 
 {% block extra_js %}
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    var calendarEl = document.getElementById("calendar");
-    if (!calendarEl) {
-        console.error("Calendar element not found!");
-        return;
+// AI Chatbot Integration
+document.addEventListener("DOMContentLoaded", function() {
+  // Toggle Chatbot Widget
+  document.getElementById('ai-chatbot-toggle').addEventListener('click', function() {
+    var chatbot = document.getElementById('ai-chatbot');
+    if (chatbot.style.display === 'none' || chatbot.style.display === '') {
+      chatbot.style.display = 'block';
+    } else {
+      chatbot.style.display = 'none';
     }
-
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: "dayGridMonth",
-        height: 'auto',
-        events: async function(fetchInfo, successCallback, failureCallback) {
-            try {
-                const blogEvents = await fetch("#");
-                const blogData = await blogEvents.json();
-
-                const storeEvents = await fetch("#");
-                const storeData = await storeEvents.json();
-
-                const events = [...blogData, ...storeData];
-                successCallback(events);
-            } catch (error) {
-                console.error("Calendar fetch error:", error);
-                failureCallback(error);
-            }
-        },
-        eventClick: function(info) {
-            if (info.event.url) {
-                window.location.href = "#";
-                info.jsEvent.preventDefault();
-            }
-        }
-    });
-
-    calendar.render();
+  });
+  
+  // Close Button for Chatbot
+  document.getElementById('ai-chatbot-close').addEventListener('click', function() {
+    document.getElementById('ai-chatbot').style.display = 'none';
+  });
 });
 </script>
 {% endblock %}

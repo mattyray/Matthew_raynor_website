@@ -9,3 +9,5 @@ gunicorn
 django-environ 
 pandas
 django-import-export
+django-allauth>=0.51.0
+
