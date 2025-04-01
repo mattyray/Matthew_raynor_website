@@ -1,0 +1,80 @@
+// custom.scss
+
+// 1. Override Bootstrap Variables with a Buddhism-Inspired Palette
+
+// Primary color: Green Lotus (for buttons, navbar, etc.)
+$primary: #4CAF50;
+
+// Secondary color: Soft cream for backgrounds
+$secondary: #FFF8E1;
+
+// Body background and text colors
+$body-bg: $secondary;
+$text-color: #3E3E3E;
+
+// Define a harmonious theme palette
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "success": #66BB6A,    // A slightly brighter green for success messages
+  "info": #29B6F6,       // Calm blue for informational alerts
+  "warning": #FFA726,    // Warm orange for warnings
+  "danger": #EF5350      // Gentle red for errors
+);
+
+// Optionally, set a font that complements the theme
+$font-family-base: 'Roboto', sans-serif;
+
+// Navbar customizations: Darken the navbar for better contrast
+$navbar-bg: darken($primary, 20%); // Darker green for navbar background
+$navbar-light-color: #FFFFFF;      // White text for navbar elements
+
+// 2. Import Bootstrap's Sass Files
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+// 3. Additional Custom Styles
+
+// Ensure navbar uses our dark theme with white text
+.navbar {
+  background-color: $navbar-bg !important;
+  .navbar-brand,
+  .nav-link {
+    color: $navbar-light-color !important;
+  }
+}
+
+// Style for the offcanvas menu toggle button for visibility
+.btn-outline-light {
+  border-color: $navbar-light-color !important;
+  color: $navbar-light-color !important;
+}
+
+// Footer styling for visibility
+footer {
+  background-color: $navbar-bg !important;
+  color: #fff !important;
+}
+
+// Offcanvas sidebar styling (optional adjustments)
+.offcanvas-header,
+.offcanvas-body {
+  background-color: $secondary;
+  color: $text-color;
+}
+
+// Custom Newsletter Button Styling with explicit sizing to match default buttons
+$newsletter-color: #9C27B0; // Purple for the newsletter button
+
+.btn-newsletter {
+  border: 1px solid $newsletter-color !important;
+  color: $newsletter-color !important;
+  font-size: 1rem;         // Default font-size
+  padding: 0.375rem 0.75rem; // Default padding
+  transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+}
+
+.btn-newsletter:hover,
+.btn-newsletter:focus {
+  background-color: $newsletter-color !important;
+  color: $secondary !important;
+}
