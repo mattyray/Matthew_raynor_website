@@ -18,9 +18,9 @@ class SignupPageView(generic.CreateView):
     """Handles user sign-up using Django’s built-in authentication system."""
     form_class = CustomUserCreationForm
     success_url = reverse_lazy("login")  # Redirect to login page after sign-up
-    template_name = "registration/signup.html"
+    template_name = "account/signup.html"
 
 
 
 class DashboardView(LoginRequiredMixin, TemplateView):
-    template_name = "accounts/dashboard.html"
+    template_name = "account/dashboard.html"
