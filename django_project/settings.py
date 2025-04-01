@@ -122,8 +122,7 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # ✅ Login & Logout
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = "/"  
+ 
 
 # ✅ Security Settings for Production
 if not DEBUG:
@@ -153,7 +152,13 @@ SITE_ID = 1
 
 ACCOUNT_LOGIN_METHODS = {'email'}
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
+ACCOUNT_USER_MODEL_USERNAME_FIELD = "email"
 
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # or 'optional' based on your preference
-LOGIN_REDIRECT_URL = '/accounts/dashboard/'  # or wherever you want to redirect after login
+
+
+ACCOUNT_EMAIL_VERIFICATION = 'optional'  # or 'optional' based on your preference
+LOGIN_REDIRECT_URL = '/'  # or wherever you want to redirect after login
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = "/" 
