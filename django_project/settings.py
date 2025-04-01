@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'import_export',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount'
 
 ]
 
@@ -47,12 +50,14 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'allauth.account.middleware.AccountMiddleware',  # Add this line
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 # ✅ URL Configuration
 ROOT_URLCONF = 'django_project.urls'
@@ -143,3 +148,12 @@ STATICFILES_FINDERS = [
 ]
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
+SITE_ID = 1
+
+
+ACCOUNT_LOGIN_METHODS = {'email'}
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
+
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # or 'optional' based on your preference
+LOGIN_REDIRECT_URL = '/accounts/dashboard/'  # or wherever you want to redirect after login
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'

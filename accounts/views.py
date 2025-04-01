@@ -4,6 +4,8 @@ from django.contrib.auth import logout
 from django.shortcuts import redirect, render
 from .forms import CustomUserCreationForm
 from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import TemplateView
 
 def custom_logout(request):
     """Logs out the user and redirects to the homepage."""
@@ -17,3 +19,8 @@ class SignupPageView(generic.CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy("login")  # Redirect to login page after sign-up
     template_name = "registration/signup.html"
+
+
+
+class DashboardView(LoginRequiredMixin, TemplateView):
+    template_name = "accounts/dashboard.html"
