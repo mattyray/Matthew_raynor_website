@@ -1,77 +1,135 @@
-// Override Bootstrap Variables with a Serious, Muted Palette
-$primary: #4CAF50; // Green Lotus
-$secondary: #FFF8E1; // Soft Cream
+// -----------------------------------------------------
+// Define Crunchyroll-Inspired Palette & Typography
+// -----------------------------------------------------
+$primary: #4CAF50;         // Green Lotus for branding
+$secondary: #FFF8E1;       // Soft Cream background
+$nav-bg: #111111;          // Deep black for navigation background
+$nav-hover: #222222;       // Slightly lighter black on hover
+$text-light: #FFFFFF;      // White text for nav items
 
-// Body and text colors
-$body-bg: $secondary;
-$text-color: #3E3E3E;
-
-// Define a serious theme palette
-$theme-colors: (
-  "primary": $primary,
-  "secondary": $secondary,
-  "success": #66BB6A,
-  "info": #29B6F6,
-  "warning": #FFA726,
-  "danger": #EF5350
-);
-
-// Set base font
 $font-family-base: 'Roboto', sans-serif;
 
-// Darken primary for navbar backgrounds (for a serious look)
-$navbar-bg: darken($primary, 20%); // e.g. deep green or charcoal tone
-$navbar-light-color: #FFFFFF;
-
-// Import Bootstrap's Sass
+// -----------------------------------------------------
+// Import Bootstrap
+// -----------------------------------------------------
 @import "../../node_modules/bootstrap/scss/bootstrap";
 
-// Global Custom Styles
+// -----------------------------------------------------
+// Global Styles
+// -----------------------------------------------------
 body {
   font-family: $font-family-base;
-  background-color: $body-bg;
-  color: $text-color;
+  background-color: $secondary;
+  color: #3E3E3E;
 }
 
-// Desktop Navbar
-.navbar {
-  background-color: $navbar-bg !important;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
-  .navbar-brand, .nav-link {
-    color: $navbar-light-color !important;
-    &:hover {
-      color: lighten($primary, 20%) !important;
+// -----------------------------------------------------
+// Desktop Navbar Styling (Crunchyroll Inspired)
+// -----------------------------------------------------
+.navbar.bg-crunchy {
+  background-color: $nav-bg !important;
+  border-bottom: 1px solid $nav-hover;
+  .navbar-brand {
+    .brand-text {
+      color: $primary;  // Brand text in green (same as icon)
+      font-weight: bold;
     }
+  }
+  .navbar-nav .nav-link {
+    color: $text-light !important;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.2s ease;
+    &:hover {
+      background-color: $nav-hover;
+    }
+  }
+  .divider {
+    color: $text-light;
+    padding: 0 0.75rem;
+    font-size: 1.25rem;
+  }
+  .search-input {
+    min-width: 200px;
   }
 }
 
-// Mobile Offcanvas Styling (Minimal, Clean)
+// -----------------------------------------------------
+// Mobile Offcanvas Styling
+// -----------------------------------------------------
 .offcanvas {
-  transition: transform 0.3s ease-in-out;
-  box-shadow: 0 0 15px rgba(0,0,0,0.3);
-  border-right: 1px solid #ccc;
-}
-.offcanvas-header, .offcanvas-body {
   background-color: $secondary;
-  color: $text-color;
-  padding: 1rem;
-}
-.list-group-item {
-  font-weight: 500;
-  border: none;
-  border-radius: 0;
-  padding: 0.75rem 1rem;
+  color: #3E3E3E;
+  .offcanvas-header, .offcanvas-body {
+    padding: 1rem;
+  }
+  .offcanvas-link {
+    color: #3E3E3E;
+    display: block;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    &:hover {
+      background-color: $nav-hover;
+      color: $text-light;
+    }
+  }
+  .divider {
+    text-align: center;
+    padding: 0.5rem 0;
+    color: #777;
+  }
 }
 
-// Newsletter Button Styling
-$newsletter-color: #9C27B0;
-.btn-newsletter {
-  border: 1px solid $newsletter-color !important;
-  color: $newsletter-color !important;
-  padding: 0.375rem 0.75rem;
-  transition: background-color 0.15s, color 0.15s;
-  &:hover, &:focus {
-    background-color: $newsletter-color !important;
-    color: $secondary !important;
+// -----------------------------------------------------
+// Chat Widget Styling (Matching Navigation Theme)
+// -----------------------------------------------------
+.chat-widget {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 320px;
+  height: 400px;
+  background-color: $nav-bg;
+  border: 1px solid $nav-hover;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  display: none;
+  z-index: 1000;
+  .chat-header {
+    background-color: $primary;
+    color: $text-light;
+    padding: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    .chat-close {
+      float: right;
+      cursor: pointer;
+    }
+  }
+  .chat-body {
+    padding: 10px;
+    height: calc(100% - 120px);
+    overflow-y: auto;
+    color: $text-light;
+  }
+  .chat-input {
+    padding: 10px;
+    input.form-control {
+      background-color: $secondary;
+      border: 1px solid $nav-hover;
+      color: #3E3E3E;
+    }
+  }
+}
+.chat-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  background-color: $nav-bg;
+  border: 1px solid $nav-hover;
+  color: $text-light;
+  transition: background-color 0.2s ease;
+  &:hover {
+    background-color: $nav-hover;
   }
 }
