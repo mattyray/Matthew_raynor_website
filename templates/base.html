@@ -6,10 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}MatthewRaynor.com{% endblock %}</title>
 
-  <!-- Favicon linking to home -->
-  <a href="{% url 'home' %}">
-    <link rel="icon" type="image/png" sizes="64x64" href="{% static 'images/icon-64x64.png' %}">
-  </a>
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="64x64" href="{% static 'images/icon-64x64.png' %}">
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="{% static 'css/custom.css' %}">
@@ -36,25 +34,18 @@
   {% endblock %}
 </head>
 <body>
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <!-- Desktop Navbar: Visible only on large screens -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-none d-lg-flex">
     <div class="container">
-      <div class="d-flex align-items-center">
-        <!-- Clicking the image returns to home -->
-        <a href="{% url 'home' %}">
-          <img src="{% static 'images/nav-icon-128x128.png' %}" alt="Site Icon" class="nav-icon">
-        </a>
-        <a class="btn btn-outline-light me-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" role="button" aria-controls="offcanvasSidebar">
-          Menu
-        </a>
-        <!-- Navbar brand also links to home -->
-        <a class="navbar-brand fw-bold" href="{% url 'home' %}">Matthew Raynor</a>
-      </div>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <a class="navbar-brand fw-bold" href="{% url 'home' %}">
+        <img src="{% static 'images/nav-icon-128x128.png' %}" alt="Site Icon" class="nav-icon">
+        Matthew Raynor
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDesktop"
+              aria-controls="navbarDesktop" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="collapse navbar-collapse" id="navbarDesktop">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item"><a class="nav-link fw-bold" href="#">Store</a></li>
           <li class="nav-item"><a class="nav-link fw-bold" href="#">Blog</a></li>
@@ -72,31 +63,42 @@
     </div>
   </nav>
 
-  <!-- Offcanvas Sidebar -->
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+  <!-- Mobile Offcanvas Trigger: Visible only on small screens -->
+  <div class="d-lg-none">
+    <nav class="navbar navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="{% url 'home' %}">
+          <img src="{% static 'images/nav-icon-128x128.png' %}" alt="Site Icon" class="nav-icon">
+          Matthew Raynor
+        </a>
+        <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar"
+                aria-controls="offcanvasSidebar">
+          Menu
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Mobile Offcanvas Sidebar -->
+  <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="offcanvasSidebarLabel">Navigation</h5>
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
       <div class="list-group">
-        <div class="mb-3">
-          <h6 class="text-uppercase">Explore</h6>
-          <!-- Home link added -->
-          <a href="{% url 'home' %}" class="btn btn-outline-primary btn-sm d-block mb-1">Home</a>
-          <a href="#" class="btn btn-outline-primary btn-sm d-block mb-1">Blog</a>
-          <a href="#" class="btn btn-outline-primary btn-sm d-block mb-1">Portfolio</a>
-          <a href="#" class="btn btn-outline-primary btn-sm d-block mb-1">Press</a>
-          <a href="#" class="btn btn-outline-primary btn-sm d-block mb-1">Contact</a>
-          {% if user.is_authenticated %}
-            <a href="{% url 'dashboard' %}" class="btn btn-outline-primary btn-sm d-block mb-1">Dashboard</a>
-          {% endif %}
-        </div>
-        <div>
-          <h6 class="text-uppercase">Shop</h6>
-          <a href="#" class="btn btn-outline-success btn-sm d-block mb-1">View Store</a>
-          <a href="#" class="btn btn-outline-success btn-sm d-block">Leave a Review</a>
-        </div>
+        <h6 class="text-uppercase">Explore</h6>
+        <a href="{% url 'home' %}" class="list-group-item list-group-item-action">Home</a>
+        <a href="#" class="list-group-item list-group-item-action">Blog</a>
+        <a href="#" class="list-group-item list-group-item-action">Portfolio</a>
+        <a href="#" class="list-group-item list-group-item-action">Press</a>
+        <a href="#" class="list-group-item list-group-item-action">Contact</a>
+        {% if user.is_authenticated %}
+          <a href="{% url 'dashboard' %}" class="list-group-item list-group-item-action">Dashboard</a>
+        {% endif %}
+        <h6 class="mt-3 text-uppercase">Shop</h6>
+        <a href="#" class="list-group-item list-group-item-action">View Store</a>
+        <a href="#" class="list-group-item list-group-item-action">Leave a Review</a>
       </div>
     </div>
   </div>
@@ -123,8 +125,7 @@
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       flatpickr(".datepicker", { dateFormat: "Y-m-d" });
-      const selects = document.querySelectorAll(".select2");
-      selects.forEach(el => {
+      document.querySelectorAll(".select2").forEach(el => {
         $(el).select2({ width: "100%" });
       });
     });
@@ -137,7 +138,6 @@
       <span id="ai-chatbot-close" style="float: right; cursor: pointer;">&times;</span>
     </div>
     <div id="ai-chatbot-body" style="padding: 10px; height: calc(100% - 60px); overflow-y: auto;">
-      <!-- Chat messages will appear here -->
       <p>Hello! How can I assist you today?</p>
     </div>
     <div id="ai-chatbot-input" style="padding: 10px;">
@@ -145,9 +145,7 @@
     </div>
   </div>
   <button id="ai-chatbot-toggle" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;" class="btn btn-primary">Chat</button>
-  
   <script>
-    // Use jQuery for simple toggling of the chat widget
     $(document).ready(function() {
       $('#ai-chatbot-toggle').click(function() {
         $('#ai-chatbot').toggle();

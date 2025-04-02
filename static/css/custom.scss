@@ -1,80 +1,77 @@
-// custom.scss
+// Override Bootstrap Variables with a Serious, Muted Palette
+$primary: #4CAF50; // Green Lotus
+$secondary: #FFF8E1; // Soft Cream
 
-// 1. Override Bootstrap Variables with a Buddhism-Inspired Palette
-
-// Primary color: Green Lotus (for buttons, navbar, etc.)
-$primary: #4CAF50;
-
-// Secondary color: Soft cream for backgrounds
-$secondary: #FFF8E1;
-
-// Body background and text colors
+// Body and text colors
 $body-bg: $secondary;
 $text-color: #3E3E3E;
 
-// Define a harmonious theme palette
+// Define a serious theme palette
 $theme-colors: (
   "primary": $primary,
   "secondary": $secondary,
-  "success": #66BB6A,    // A slightly brighter green for success messages
-  "info": #29B6F6,       // Calm blue for informational alerts
-  "warning": #FFA726,    // Warm orange for warnings
-  "danger": #EF5350      // Gentle red for errors
+  "success": #66BB6A,
+  "info": #29B6F6,
+  "warning": #FFA726,
+  "danger": #EF5350
 );
 
-// Optionally, set a font that complements the theme
+// Set base font
 $font-family-base: 'Roboto', sans-serif;
 
-// Navbar customizations: Darken the navbar for better contrast
-$navbar-bg: darken($primary, 20%); // Darker green for navbar background
-$navbar-light-color: #FFFFFF;      // White text for navbar elements
+// Darken primary for navbar backgrounds (for a serious look)
+$navbar-bg: darken($primary, 20%); // e.g. deep green or charcoal tone
+$navbar-light-color: #FFFFFF;
 
-// 2. Import Bootstrap's Sass Files
+// Import Bootstrap's Sass
 @import "../../node_modules/bootstrap/scss/bootstrap";
 
-// 3. Additional Custom Styles
-
-// Ensure navbar uses our dark theme with white text
-.navbar {
-  background-color: $navbar-bg !important;
-  .navbar-brand,
-  .nav-link {
-    color: $navbar-light-color !important;
-  }
-}
-
-// Style for the offcanvas menu toggle button for visibility
-.btn-outline-light {
-  border-color: $navbar-light-color !important;
-  color: $navbar-light-color !important;
-}
-
-// Footer styling for visibility
-footer {
-  background-color: $navbar-bg !important;
-  color: #fff !important;
-}
-
-// Offcanvas sidebar styling (optional adjustments)
-.offcanvas-header,
-.offcanvas-body {
-  background-color: $secondary;
+// Global Custom Styles
+body {
+  font-family: $font-family-base;
+  background-color: $body-bg;
   color: $text-color;
 }
 
-// Custom Newsletter Button Styling with explicit sizing to match default buttons
-$newsletter-color: #9C27B0; // Purple for the newsletter button
+// Desktop Navbar
+.navbar {
+  background-color: $navbar-bg !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  .navbar-brand, .nav-link {
+    color: $navbar-light-color !important;
+    &:hover {
+      color: lighten($primary, 20%) !important;
+    }
+  }
+}
 
+// Mobile Offcanvas Styling (Minimal, Clean)
+.offcanvas {
+  transition: transform 0.3s ease-in-out;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  border-right: 1px solid #ccc;
+}
+.offcanvas-header, .offcanvas-body {
+  background-color: $secondary;
+  color: $text-color;
+  padding: 1rem;
+}
+.list-group-item {
+  font-weight: 500;
+  border: none;
+  border-radius: 0;
+  padding: 0.75rem 1rem;
+}
+
+// Newsletter Button Styling
+$newsletter-color: #9C27B0;
 .btn-newsletter {
   border: 1px solid $newsletter-color !important;
   color: $newsletter-color !important;
-  font-size: 1rem;         // Default font-size
-  padding: 0.375rem 0.75rem; // Default padding
-  transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
-}
-
-.btn-newsletter:hover,
-.btn-newsletter:focus {
-  background-color: $newsletter-color !important;
-  color: $secondary !important;
+  padding: 0.375rem 0.75rem;
+  transition: background-color 0.15s, color 0.15s;
+  &:hover, &:focus {
+    background-color: $newsletter-color !important;
+    color: $secondary !important;
+  }
 }
