@@ -11954,4 +11954,18 @@ body {
   background-color: #222222;
 }
 
+.navbar.bg-crunchy .navbar-nav li.store {
+  position: relative;
+  padding-left: 1.5rem;
+}
+.navbar.bg-crunchy .navbar-nav li.store::before {
+  content: "|";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #CCCCCC;
+  font-size: 1.25rem;
+}
+
 /*# sourceMappingURL=custom.css.map */

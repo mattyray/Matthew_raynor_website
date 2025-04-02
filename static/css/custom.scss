@@ -137,3 +137,23 @@ body {
     background-color: $nav-hover;
   }
 }
+
+.navbar.bg-crunchy {
+  .navbar-nav {
+    li.store {
+      position: relative;
+      padding-left: 1.5rem; // create space for the divider
+
+      &::before {
+        content: "|";
+        position: absolute;
+        left: 0; // adjust as needed
+        top: 50%;
+        transform: translateY(-50%);
+        color: $nav-text;
+        font-size: 1.25rem; // match your divider size
+      }
+    }
+  }
+}
+
