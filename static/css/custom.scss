@@ -5,7 +5,8 @@ $primary: #4CAF50;         // Green Lotus for branding
 $secondary: #FFF8E1;       // Soft Cream background
 $nav-bg: #111111;          // Deep black for navigation background
 $nav-hover: #222222;       // Slightly lighter black on hover
-$text-light: #FFFFFF;      // White text for nav items
+$nav-text: #CCCCCC;        // Off-white/grey for nav text
+$text-light: #FFFFFF;      // White for highlighted text
 
 $font-family-base: 'Roboto', sans-serif;
 
@@ -31,20 +32,22 @@ body {
   border-bottom: 1px solid $nav-hover;
   .navbar-brand {
     .brand-text {
-      color: $primary;  // Brand text in green (same as icon)
+      color: $primary;  // Brand text in green
       font-weight: bold;
+      font-size: 1.25rem;  // Adjust size as needed
     }
   }
   .navbar-nav .nav-link {
-    color: $text-light !important;
+    color: $nav-text !important;
     padding: 0.5rem 1rem;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease;
     &:hover {
       background-color: $nav-hover;
+      color: $text-light;  // Switch to white on hover
     }
   }
   .divider {
-    color: $text-light;
+    color: $nav-text;
     padding: 0 0.75rem;
     font-size: 1.25rem;
   }
@@ -67,6 +70,7 @@ body {
     display: block;
     padding: 0.75rem 1rem;
     text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
     &:hover {
       background-color: $nav-hover;
       color: $text-light;
@@ -127,7 +131,7 @@ body {
   z-index: 1000;
   background-color: $nav-bg;
   border: 1px solid $nav-hover;
-  color: $text-light;
+  color: $nav-text;
   transition: background-color 0.2s ease;
   &:hover {
     background-color: $nav-hover;

@@ -11857,17 +11857,19 @@ body {
 .navbar.bg-crunchy .navbar-brand .brand-text {
   color: #4CAF50;
   font-weight: bold;
+  font-size: 1.25rem;
 }
 .navbar.bg-crunchy .navbar-nav .nav-link {
-  color: #FFFFFF !important;
+  color: #CCCCCC !important;
   padding: 0.5rem 1rem;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 .navbar.bg-crunchy .navbar-nav .nav-link:hover {
   background-color: #222222;
+  color: #FFFFFF;
 }
 .navbar.bg-crunchy .divider {
-  color: #FFFFFF;
+  color: #CCCCCC;
   padding: 0 0.75rem;
   font-size: 1.25rem;
 }
@@ -11887,6 +11889,7 @@ body {
   display: block;
   padding: 0.75rem 1rem;
   text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 .offcanvas .offcanvas-link:hover {
   background-color: #222222;
@@ -11944,7 +11947,7 @@ body {
   z-index: 1000;
   background-color: #111111;
   border: 1px solid #222222;
-  color: #FFFFFF;
+  color: #CCCCCC;
   transition: background-color 0.2s ease;
 }
 .chat-toggle:hover {

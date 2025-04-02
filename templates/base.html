@@ -26,8 +26,9 @@
 
   {% block extra_css %}
   <style>
+    /* Reduce the icon size to match text height */
     .nav-icon {
-      height: 60px;
+      height: 40px;
       margin-right: 10px;
     }
   </style>
@@ -39,7 +40,7 @@
     <div class="container">
       <!-- Brand -->
       <a class="navbar-brand fw-bold" href="{% url 'home' %}">
-        <img src="{% static 'images/nav-icon-128x128.png' %}" alt="Site Icon" class="nav-icon">
+        <img src="{% static 'images/icon.png' %}" alt="Site Icon" class="nav-icon">
         <span class="brand-text">Matthew Raynor</span>
       </a>
       <!-- Navbar Items -->
@@ -75,7 +76,7 @@
     <nav class="navbar navbar-dark bg-crunchy">
       <div class="container">
         <a class="navbar-brand fw-bold" href="{% url 'home' %}">
-          <img src="{% static 'images/nav-icon-128x128.png' %}" alt="Site Icon" class="nav-icon">
+          <img src="{% static 'images/icon.png' %}" alt="Site Icon" class="nav-icon">
           <span class="brand-text">Matthew Raynor</span>
         </a>
         <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar"
@@ -90,7 +91,7 @@
   <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="offcanvasSidebarLabel">
-        <img src="{% static 'images/nav-icon-128x128.png' %}" alt="Site Icon" class="nav-icon">
+        <img src="{% static 'images/icon.png' %}" alt="Site Icon" class="nav-icon">
         <span class="brand-text">Matthew Raynor</span>
       </h5>
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
