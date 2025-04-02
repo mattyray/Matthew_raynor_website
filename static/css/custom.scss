@@ -162,3 +162,11 @@ footer {
   color: $text-light;
 }
 
+.navbar.bg-crunchy {
+  .navbar-nav {
+    li.store a.nav-link {
+      font-weight: bold;
+    }
+  }
+}
+

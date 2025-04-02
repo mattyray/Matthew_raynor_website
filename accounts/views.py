@@ -15,10 +15,10 @@ def custom_logout(request):
     return redirect("/")  # Redirect to the root URL explicitly
 
 class SignupPageView(generic.CreateView):
-    """Handles user sign-up using Django’s built-in authentication system."""
     form_class = CustomUserCreationForm
-    success_url = reverse_lazy("login")  # Redirect to login page after sign-up
+    success_url = reverse_lazy("account_login")  # Redirect to login page after sign-up
     template_name = "account/signup.html"
+
 
 
 

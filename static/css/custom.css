@@ -11973,4 +11973,8 @@ footer {
   color: #FFFFFF;
 }
 
+.navbar.bg-crunchy .navbar-nav li.store a.nav-link {
+  font-weight: bold;
+}
+
 /*# sourceMappingURL=custom.css.map */
