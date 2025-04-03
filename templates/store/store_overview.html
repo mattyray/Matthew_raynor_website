@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Store Overview - MatthewRaynor.com{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4">Store Overview</h2>
+  
+  <!-- Books Section -->
+  <section>
+    <h3>Books</h3>
+    <div class="row">
+      {% for book in books %}
+        <div class="col-md-4">
+          <div class="card mb-4">
+            {% if book.image %}
+              <img src="{{ book.image.url }}" class="card-img-top" alt="{{ book.title }}">
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{ book.title }}</h5>
+              <p class="card-text">${{ book.price }}</p>
+              <a href="{% url 'product_detail' book.slug %}" class="btn btn-primary">View Details</a>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <p>No books available.</p>
+      {% endfor %}
+    </div>
+  </section>
+  
+  <!-- Artwork Collections Section -->
+  <section class="mt-5">
+    <h3>Artwork Collections</h3>
+    <div class="row">
+      {% for collection in collections %}
+        <div class="col-md-4">
+          <div class="card mb-4">
+            {% if collection.cover_image %}
+              <img src="{{ collection.cover_image.url }}" class="card-img-top" alt="{{ collection.name }}">
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{ collection.name }}</h5>
+              <p class="card-text">{{ collection.description|truncatewords:20 }}</p>
+              <a href="{% url 'collection_detail' collection.slug %}" class="btn btn-primary">View Collection</a>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <p>No artwork collections available.</p>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+{% endblock %}

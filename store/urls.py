@@ -1,7 +1,14 @@
 from django.urls import path
-from .views import ProductListView, ProductDetailView
+from .views import (
+    ProductDetailView,
+    CollectionDetailView,
+    StoreOverviewView,
+)
 
 urlpatterns = [
-    path('', ProductListView.as_view(), name='product_list'),
-    path('<slug:slug>/', ProductDetailView.as_view(), name='product_detail'),
+    # New store overview page as the root for the store app:
+    path('', StoreOverviewView.as_view(), name='store_overview'),
+    # Additional URL patterns:
+    path('products/<slug:slug>/', ProductDetailView.as_view(), name='product_detail'),
+    path('collections/<slug:slug>/', CollectionDetailView.as_view(), name='collection_detail'),
 ]

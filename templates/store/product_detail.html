@@ -14,6 +14,13 @@
       <p>{{ product.description }}</p>
       <h4>${{ product.price }}</h4>
       <p><strong>Stock:</strong> {{ product.stock }}</p>
+      {% if product.product_type == 'artwork' and product.collection %}
+        <p><strong>Collection:</strong> 
+          <a href="{% url 'collection_detail' product.collection.slug %}">
+            {{ product.collection.name }}
+          </a>
+        </p>
+      {% endif %}
       <!-- Placeholder for "Add to Cart" functionality -->
       <a href="#" class="btn btn-success">Add to Cart</a>
     </div>
