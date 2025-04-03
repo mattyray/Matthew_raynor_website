@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}{{ product.title }} - MatthewRaynor.com{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-6">
+      {% if product.image %}
+        <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.title }}">
+      {% endif %}
+    </div>
+    <div class="col-md-6">
+      <h2>{{ product.title }}</h2>
+      <p>{{ product.description }}</p>
+      <h4>${{ product.price }}</h4>
+      <p><strong>Stock:</strong> {{ product.stock }}</p>
+      <!-- Placeholder for "Add to Cart" functionality -->
+      <a href="#" class="btn btn-success">Add to Cart</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
