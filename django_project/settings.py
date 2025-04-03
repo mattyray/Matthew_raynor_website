@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     # Custom apps
     'accounts.apps.AccountsConfig',
     'pages.apps.PagesConfig',
+    'store.apps.StoreConfig',
 
     # Third-party packages
     'crispy_forms',
