@@ -8,6 +8,8 @@ urlpatterns = [
     path("accounts/", include("accounts.urls")),         # Custom signup and logout routes
     path("accounts/", include("allauth.urls")),  # Django-allauth handles login, signup, etc.
     path("", include("pages.urls")),           
+    path('store/', include('store.urls')),
+
 
 ]
 
