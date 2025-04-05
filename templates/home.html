@@ -6,14 +6,21 @@
 <div class="container-fluid p-0">
   
   <!-- HERO SECTION -->
-  <section class="hero text-white text-center d-flex align-items-center" style="background: url('{% static 'images/hero.png' %}') center/cover no-repeat; height: 90vh;">
-    <div class="container">
-      <h1 class="display-4 fw-bold">From the Sea to the Screen</h1>
-      <p class="lead">Author • Developer • Artist</p>
-      <a href="{% url 'store_overview' %}" class="btn btn-primary btn-lg mt-3">Explore My Store</a>
-      <a href="{% url 'post_list' %}" class="btn btn-outline-light btn-lg mt-3 ms-2">Read the Blog</a>
+  <section class="hero text-white text-center d-flex align-items-center position-relative" style="background: url('{% static 'images/hero.png' %}') center/cover no-repeat; height: 90vh;">
+    <!-- Overlay -->
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0, 0, 0, 0.5); z-index: 1;"></div>
+  
+    <!-- Content -->
+    <div class="container position-relative z-2">
+      <div class="p-4 rounded-4 bg-dark bg-opacity-50 shadow-lg d-inline-block">
+        <h1 class="display-4 fw-bold text-shadow">From Sea to Art to Code!</h1>
+        <p class="lead">Author • Developer • Artist</p>
+        <a href="{% url 'store_overview' %}" class="btn btn-primary btn-lg mt-3">Explore My Store</a>
+        <a href="{% url 'post_list' %}" class="btn btn-outline-light btn-lg mt-3 ms-2">Read the Blog</a>
+      </div>
     </div>
   </section>
+  
 
   <!-- MY STORY -->
   <section class="py-5 bg-light">
