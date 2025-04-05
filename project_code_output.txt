@@ -136,7 +136,8 @@ tablib==3.8.0
 typing_extensions==4.13.0
 tzdata==2025.2
 whitenoise==6.9.0
-===== manage.py =====
+Pillow==10.0.0
+django-embed-video==1.4.10===== manage.py =====
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
 import os
@@ -202,12 +203,13 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 ===== accounts/views.py =====
 from django.urls import reverse_lazy
 from django.views import generic
-from django.contrib.auth import logout
+from django.contrib.auth import logout, get_user_model
 from django.shortcuts import redirect, render
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
+from django.views.generic.edit import UpdateView
 
 def custom_logout(request):
     """Logs out the user and redirects to the homepage."""
@@ -217,15 +219,32 @@ def custom_logout(request):
     return redirect("/")  # Redirect to the root URL explicitly
 
 class SignupPageView(generic.CreateView):
-    """Handles user sign-up using Django’s built-in authentication system."""
     form_class = CustomUserCreationForm
-    success_url = reverse_lazy("login")  # Redirect to login page after sign-up
+    success_url = reverse_lazy("account_login")  # Redirect to login page after sign-up
     template_name = "account/signup.html"
-
-
 
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = "account/dashboard.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Example: Pass profile info, orders, and reviews
+        # context['orders'] = Order.objects.filter(user=self.request.user)
+        # context['reviews'] = Review.objects.filter(user=self.request.user)
+        return context
+
+
+class ProfileEditView(LoginRequiredMixin, UpdateView):
+    model = get_user_model()
+    form_class = CustomUserChangeForm
+    template_name = "account/profile_edit.html"
+    success_url = reverse_lazy("dashboard")
+
+    def get_object(self):
+        return self.request.user
+
+
+
 
 ===== accounts/forms.py =====
 from django.contrib.auth import get_user_model
@@ -243,13 +262,27 @@ class CustomUserChangeForm(UserChangeForm):
 
 
 ===== accounts/urls.py =====
-from django.urls import path
-from .views import DashboardView, SignupPageView, custom_logout
+from django.urls import path, include
+from django.contrib.auth import views as auth_views
+
+from .views import SignupPageView, DashboardView, custom_logout, ProfileEditView
 
 urlpatterns = [
-    path("signup/", SignupPageView.as_view(), name="signup"),
-    path("logout/", custom_logout, name="logout"),
-    path("dashboard/", DashboardView.as_view(), name="dashboard"),
+    path('signup/', SignupPageView.as_view(), name='signup'),
+    path('login/', include('allauth.urls')),  # or your custom login view
+    path('dashboard/', DashboardView.as_view(), name='dashboard'),
+    path('profile/edit/', ProfileEditView.as_view(), name='profile_edit'),
+    path('logout/', custom_logout, name='logout'),
+        path(
+        'password/change/',
+        auth_views.PasswordChangeView.as_view(template_name='account/password_change.html'),
+        name='password_change'
+    ),
+    path(
+        'password/change/done/',
+        auth_views.PasswordChangeDoneView.as_view(template_name='account/password_change_done.html'),
+        name='password_change_done'
+    ),
 ]
 
 
@@ -302,6 +335,7 @@ from .views import HomePageView
 
 urlpatterns = [
     path("", HomePageView.as_view(), name="home"),  # Ensure this exists!
+    
 ]
 
 
@@ -309,6 +343,318 @@ urlpatterns = [
 from django.contrib import admin
 
 # Register your models here.
+
+
+===== blog/models.py =====
+from django.db import models
+from django.contrib.auth import get_user_model
+from django.utils.text import slugify
+from embed_video.fields import EmbedVideoField  # Import the embed video field
+
+User = get_user_model()
+
+class Post(models.Model):
+    title = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True, blank=True)
+    content = models.TextField()
+    video = EmbedVideoField(blank=True, null=True)  # New field for video embeds (e.g., TikTok)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="blog_posts")
+    is_published = models.BooleanField(default=False)
+    published_date = models.DateTimeField(null=True, blank=True)
+    updated_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-published_date']
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super(Post, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    name = models.CharField(max_length=255, blank=True)
+    email = models.EmailField(blank=True)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    approved = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['created_at']
+
+    def __str__(self):
+        if self.user:
+            return f"Comment by {self.user} on {self.post}"
+        return f"Comment by {self.name} on {self.post}"
+
+
+===== blog/views.py =====
+from django.urls import reverse
+from django.views.generic import ListView, DetailView
+from django.views.generic.edit import FormMixin
+from .models import Post, Comment
+from .forms import CommentForm
+
+class PostListView(ListView):
+    model = Post
+    template_name = "blog/post_list.html"
+    context_object_name = "posts"
+
+    def get_queryset(self):
+        return Post.objects.filter(is_published=True)
+
+class PostDetailView(FormMixin, DetailView):
+    model = Post
+    template_name = "blog/post_detail.html"
+    context_object_name = "post"
+    form_class = CommentForm
+
+    def get_success_url(self):
+        return reverse("post_detail", kwargs={"slug": self.object.slug})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.get_form()
+        context['comments'] = self.object.comments.filter(approved=True)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        comment = form.save(commit=False)
+        comment.post = self.object
+        if self.request.user.is_authenticated:
+            comment.user = self.request.user
+        comment.approved = True  # Automatically approve for now
+        comment.save()
+        return super().form_valid(form)
+
+
+===== blog/forms.py =====
+from django import forms
+from .models import Comment
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        # If you require authenticated users only, you might only need the content field.
+        # Otherwise, include name and email.
+        fields = ['content']
+        widgets = {
+            'content': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Leave a comment...'}),
+        }
+
+
+===== blog/urls.py =====
+from django.urls import path
+from .views import PostListView, PostDetailView
+
+urlpatterns = [
+    path('', PostListView.as_view(), name='post_list'),
+    path('<slug:slug>/', PostDetailView.as_view(), name='post_detail'),
+]
+
+
+===== blog/admin.py =====
+from django.contrib import admin
+from .models import Post, Comment
+
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    list_display = ('title', 'author', 'is_published', 'published_date', 'video')
+    prepopulated_fields = {'slug': ('title',)}
+    search_fields = ('title', 'content')
+    list_filter = ('is_published', 'published_date')
+    fields = ('title', 'slug', 'content', 'video', 'author', 'is_published', 'published_date')
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('post', 'user', 'created_at', 'approved')
+    list_filter = ('approved', 'created_at')
+    search_fields = ('content',)
+
+
+===== store/models.py =====
+from django.db import models
+
+from django.db import models
+from django.conf import settings
+from django.utils.text import slugify
+
+User = settings.AUTH_USER_MODEL
+
+class Product(models.Model):
+    PRODUCT_TYPE_CHOICES = (
+         ('book', 'Book'),
+         ('artwork', 'Artwork'),
+    )
+    product_type = models.CharField(max_length=10, choices=PRODUCT_TYPE_CHOICES)
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    image = models.ImageField(upload_to='products/', null=True, blank=True)
+    stock = models.PositiveIntegerField(default=0)
+    slug = models.SlugField(unique=True, blank=True)
+    # Only relevant for artwork:
+    collection = models.ForeignKey(
+        'Collection', 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True,
+        related_name="products"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super(Product, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
+
+
+class Order(models.Model):
+    STATUS_CHOICES = [
+        ('P', 'Pending'),
+        ('C', 'Completed'),
+        ('F', 'Failed'),
+    ]
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
+
+    @property
+    def total_price(self):
+        return sum(item.total_price for item in self.items.all())
+
+    def __str__(self):
+        return f"Order {self.id} by {self.user}"
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    price = models.DecimalField(max_digits=10, decimal_places=2)  # Product price at time of order
+
+    @property
+    def total_price(self):
+        return self.price * self.quantity
+
+    def __str__(self):
+        return f"{self.quantity} x {self.product.title}"
+
+class Review(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rating = models.PositiveSmallIntegerField(default=5)
+    comment = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Review of {self.product.title} by {self.user}"
+    
+class Collection(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    cover_image = models.ImageField(upload_to='collections/', null=True, blank=True)
+    slug = models.SlugField(unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+
+
+===== store/views.py =====
+from django.views.generic import DetailView, TemplateView
+from .models import Product, Collection
+
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = "store/product_detail.html"
+    context_object_name = "product"
+
+class CollectionDetailView(DetailView):
+    model = Collection
+    template_name = "store/collection_detail.html"
+    context_object_name = "collection"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Only include artwork products in this collection
+        context['artworks'] = Product.objects.filter(
+            product_type='artwork', 
+            collection=self.object
+        )
+        return context
+
+class StoreOverviewView(TemplateView):
+    template_name = "store/store_overview.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Fetch books (products with product_type 'book')
+        context['books'] = Product.objects.filter(product_type='book')
+        # Fetch all artwork collections
+        context['collections'] = Collection.objects.all()
+        return context
+
+
+===== store/urls.py =====
+from django.urls import path
+from .views import (
+    ProductDetailView,
+    CollectionDetailView,
+    StoreOverviewView,
+)
+
+urlpatterns = [
+    # New store overview page as the root for the store app:
+    path('', StoreOverviewView.as_view(), name='store_overview'),
+    # Additional URL patterns:
+    path('products/<slug:slug>/', ProductDetailView.as_view(), name='product_detail'),
+    path('collections/<slug:slug>/', CollectionDetailView.as_view(), name='collection_detail'),
+]
+
+
+===== store/admin.py =====
+from django.contrib import admin
+from .models import Product, Order, OrderItem, Review
+
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('title', 'price', 'stock', 'created_at')
+    prepopulated_fields = {'slug': ('title',)}
+    search_fields = ('title', 'description')
+    list_filter = ('created_at',)
+
+class OrderItemInline(admin.TabularInline):
+    model = OrderItem
+    extra = 0
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'status', 'created_at', 'total_price')
+    list_filter = ('status', 'created_at')
+    inlines = [OrderItemInline]
+
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('product', 'user', 'rating', 'created_at')
+    list_filter = ('rating', 'created_at')
+    search_fields = ('comment',)
 
 
 ===== django_project/settings.py =====
@@ -344,10 +690,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+   # 'django.contrib.sites',  
+
 
     # Custom apps
     'accounts.apps.AccountsConfig',
     'pages.apps.PagesConfig',
+    'store.apps.StoreConfig',
+    'blog.apps.BlogConfig',
+
 
     # Third-party packages
     'crispy_forms',
@@ -355,7 +706,9 @@ INSTALLED_APPS = [
     'import_export',
     'allauth',
     'allauth.account',
-    'allauth.socialaccount'
+    'allauth.socialaccount',
+    'embed_video',
+
 
 ]
 
@@ -486,16 +839,14 @@ from django.conf import settings
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("accounts.urls")),         # Custom signup and logout routes
-    path("accounts/", include("allauth.urls")),  # Django-allauth handles login, signup, etc.
-    path("", include("pages.urls")),           
-
+    path("accounts/", include("allauth.urls")),            # Django-allauth handles login, signup, etc.
+    path("blog/", include("blog.urls")),                   # Blog URLs
+    path("", include("pages.urls")),                       
+    path("store/", include("store.urls")),
 ]
-
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
-
 
 
 ===== django_project/asgi.py =====
@@ -536,109 +887,99 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_project.settings')
 application = get_wsgi_application()
 
 
-===== templates/registration/logout.html =====
-{% extends "base.html" %}
-
-{% block title %}Logout{% endblock %}
-
-{% block content %}
-<div class="container text-center mt-4">
-    <h2>You have been logged out</h2>
-    <a href="{% url 'login' %}" class="btn btn-primary">Login Again</a>
-</div>
-{% endblock %}
-
-
 ===== templates/home.html =====
 {% extends "base.html" %}
-{% block title %}Welcome – MatthewRaynor.com{% endblock %}
+{% block title %}MatthewRaynor.com - Home{% endblock %}
+
 {% block content %}
-<div class="container my-4">
-  <!-- Hero Section -->
-  <div class="text-center mb-5">
-    <h1 class="fw-bold">Welcome to MatthewRaynor.com</h1>
-    <p class="lead">Discover inspirational content, shop unique artwork and books, and explore my development portfolio.</p>
-  </div>
-
-  <!-- Key Areas Section -->
-  <div class="row text-center">
-    <!-- Blog Card: Use btn-outline-info for blue -->
-    <div class="col-md-4 mb-4">
-      <div class="card h-100 shadow-sm">
-        <div class="card-body">
-          <h3 class="card-title">Blog</h3>
-          <p class="card-text">Inspirational writing & updates to spark your creativity.</p>
-          <a href="#" class="btn btn-outline-info">Explore Blog</a>
-        </div>
-      </div>
-    </div>
-    <!-- Store Card: Use btn-outline-warning for orange -->
-    <div class="col-md-4 mb-4">
-      <div class="card h-100 shadow-sm">
-        <div class="card-body">
-          <h3 class="card-title">Store</h3>
-          <p class="card-text">Shop my book and unique artwork, curated just for you.</p>
-          <a href="#" class="btn btn-outline-warning">Visit Store</a>
-        </div>
-      </div>
-    </div>
-    <!-- Portfolio Card: We'll keep this as btn-outline-primary (green) -->
-    <div class="col-md-4 mb-4">
-      <div class="card h-100 shadow-sm">
-        <div class="card-body">
-          <h3 class="card-title">Portfolio</h3>
-          <p class="card-text">Discover my development projects and creative endeavors.</p>
-          <a href="#" class="btn btn-outline-primary">View Portfolio</a>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="container py-5">
   
-  <div class="row text-center">
-    <!-- Press & Gallery Card -->
-    <div class="col-md-6 mb-4">
-      <div class="card h-100 shadow-sm">
-        <div class="card-body">
-          <h3 class="card-title">Press & Gallery</h3>
-          <p class="card-text">Read about media coverage and view highlights of my artwork and events.</p>
-          <a href="#" class="btn btn-outline-danger">View Press</a>
+  <!-- My Journey Section -->
+  <section id="my-journey" class="mb-5">
+    <div class="text-center">
+      <h2 class="fw-bold mb-4">My Journey</h2>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <p class="lead">
+          Once a commercial fisherman battling the unpredictable forces of the sea, I faced a life-altering challenge that left me quadriplegic. Instead of letting adversity define me, I embraced a new beginning by teaching myself programming and mastering adaptive technology. <em>Before Me After Me</em> is not just a book—it’s a testament to resilience, self-discovery, and the relentless pursuit of hope.
+        </p>
+        <p class="lead">
+          Every setback fueled my determination to create a life of purpose, blending creativity with technology to inspire others to push beyond their limits. With every challenge, I discovered a new strength within myself, and my journey continues as an ongoing narrative of transformation.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- My Store Section -->
+  <section id="my-store" class="mb-5">
+    <div class="text-center">
+      <h2 class="fw-bold mb-4">My Store</h2>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <p class="lead">
+          Discover <em>Before Me After Me</em>, my powerful memoir that chronicles a journey from the relentless forces of the sea to the transformative world of adaptive technology and creativity. In my store, you'll also find curated artwork collections featuring breathtaking photography on aluminum prints—each collection a vivid celebration of beauty, strength, and resilience. Experience the story behind every piece of art.
+        </p>
+        <div class="text-center">
+          <a href="{% url 'store_overview' %}" class="btn btn-primary btn-lg mt-3">Visit My Store</a>
         </div>
       </div>
     </div>
-    <!-- Newsletter Card -->
-    <div class="col-md-6 mb-4">
-      <div class="card h-100 shadow-sm">
-        <div class="card-body">
-          <h3 class="card-title">Newsletter</h3>
-          <p class="card-text">Sign up for our newsletter to stay updated with the latest news and insights.</p>
-          <a href="#" class="btn btn-newsletter">Subscribe Now</a>
+  </section>
+
+  <!-- Blog & Inspiration Section -->
+  <section id="blog-inspiration" class="mb-5">
+    <div class="text-center">
+      <h2 class="fw-bold mb-4">Blog & Inspiration</h2>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <p class="lead">
+          My blog is a vibrant hub where dynamic TikTok videos meet thoughtful, inspirational writings. The TikTok videos deliver practical tips, humor, and behind-the-scenes glimpses into adaptive living, offering quick, engaging insights into creative problem-solving. Alongside these videos, my inspirational writings delve into personal reflections on resilience and overcoming obstacles, providing in-depth motivation and practical advice.
+        </p>
+        <div class="text-center">
+          <a href="{% url 'post_list' %}" class="btn btn-primary btn-lg mt-3">Read My Blog</a>
         </div>
       </div>
     </div>
-  </div>
+  </section>
+
+  <!-- Portfolio Section -->
+  <section id="portfolio" class="mb-5">
+    <div class="text-center">
+      <h2 class="fw-bold mb-4">Portfolio</h2>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <p class="lead">
+          Explore my portfolio—a curated collection of programming projects that demonstrates my expertise in web development. Highlights include the Art Mover App for managing art moving logistics, a robust Bookstore API Project built with Django, and a dynamic Fundraiser Website designed to drive social impact. I specialize in Python, Django, Django REST Framework, Docker, and Bootstrap, and my work is driven by a commitment to accessible, user-centric design.
+        </p>
+        <div class="text-center">
+          <a href="#" class="btn btn-primary btn-lg mt-3">View My Portfolio</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Press Section -->
+  <section id="press" class="mb-5">
+    <div class="text-center">
+      <h2 class="fw-bold mb-4">In the Press</h2>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <p class="lead">
+          My journey and creative endeavors have captured media attention nationwide. In-depth interviews and feature articles celebrate my transformation and innovative approach to accessible technology and art. These press appearances underscore the impact of my work and serve as a powerful testament to overcoming life’s challenges.
+        </p>
+        <div class="text-center">
+          <a href="#" class="btn btn-primary btn-lg mt-3">See Press Coverage</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </div>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-// AI Chatbot Integration
-document.addEventListener("DOMContentLoaded", function() {
-  // Toggle Chatbot Widget
-  document.getElementById('ai-chatbot-toggle').addEventListener('click', function() {
-    var chatbot = document.getElementById('ai-chatbot');
-    if (chatbot.style.display === 'none' || chatbot.style.display === '') {
-      chatbot.style.display = 'block';
-    } else {
-      chatbot.style.display = 'none';
-    }
-  });
-  
-  // Close Button for Chatbot
-  document.getElementById('ai-chatbot-close').addEventListener('click', function() {
-    document.getElementById('ai-chatbot').style.display = 'none';
-  });
-});
-</script>
 {% endblock %}
 
 
@@ -651,10 +992,8 @@ document.addEventListener("DOMContentLoaded", function() {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}MatthewRaynor.com{% endblock %}</title>
 
-  <!-- Favicon linking to home -->
-  <a href="{% url 'home' %}">
-    <link rel="icon" type="image/png" sizes="64x64" href="{% static 'images/icon-64x64.png' %}">
-  </a>
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="64x64" href="{% static 'images/icon.png' %}">
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="{% static 'css/custom.css' %}">
@@ -673,75 +1012,97 @@ document.addEventListener("DOMContentLoaded", function() {
 
   {% block extra_css %}
   <style>
+    /* Reduce the icon size to match text height */
     .nav-icon {
-      height: 60px;
+      height: 40px;
       margin-right: 10px;
     }
   </style>
   {% endblock %}
 </head>
 <body>
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <!-- Desktop Navbar: Visible only on large screens -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-crunchy d-none d-lg-flex">
     <div class="container">
-      <div class="d-flex align-items-center">
-        <!-- Clicking the image returns to home -->
-        <a href="{% url 'home' %}">
-          <img src="{% static 'images/nav-icon-128x128.png' %}" alt="Site Icon" class="nav-icon">
-        </a>
-        <a class="btn btn-outline-light me-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" role="button" aria-controls="offcanvasSidebar">
-          Menu
-        </a>
-        <!-- Navbar brand also links to home -->
-        <a class="navbar-brand fw-bold" href="{% url 'home' %}">Matthew Raynor</a>
-      </div>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link fw-bold" href="#">Store</a></li>
-          <li class="nav-item"><a class="nav-link fw-bold" href="#">Blog</a></li>
-          <li class="nav-item"><a class="nav-link fw-bold" href="#">Portfolio</a></li>
-          <li class="nav-item"><a class="nav-link fw-bold" href="#">Press</a></li>
-          <li class="nav-item"><a class="nav-link fw-bold" href="#">Contact</a></li>
+      <!-- Brand -->
+      <a class="navbar-brand fw-bold" href="{% url 'home' %}">
+        <img src="{% static 'images/icon.png' %}" alt="Site Icon" class="nav-icon">
+        <span class="brand-text">Matthew Raynor</span>
+      </a>
+      <!-- Navbar Items -->
+      <div class="collapse navbar-collapse" id="navbarDesktop">
+        <ul class="navbar-nav ms-3 me-auto">
+          <li class="nav-item"><a class="nav-link" href="{% url 'post_list' %}">Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Portfolio</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Press</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+          <li class="nav-item store"><a class="nav-link" href="{% url 'store_overview' %}">Store</a></li>
+        </ul>
+        <!-- Search Bar -->
+        <form class="d-flex me-3">
+          <input class="form-control search-input" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-light" type="submit">Search</button>
+        </form>
+        <!-- Authentication Links -->
+        <ul class="navbar-nav">
           {% if user.is_authenticated %}
-            <li class="nav-item"><a class="nav-link fw-bold" href="{% url 'dashboard' %}">Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link fw-bold" href="{% url 'logout' %}">Logout</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
           {% else %}
-            <li class="nav-item"><a class="nav-link fw-bold" href="{% url 'account_login' %}">Login</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'account_login' %}">Login</a></li>
           {% endif %}
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- Offcanvas Sidebar -->
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+  <!-- Mobile Navbar & Offcanvas Trigger: Visible only on small screens -->
+  <div class="d-lg-none">
+    <nav class="navbar navbar-dark bg-crunchy">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="{% url 'home' %}">
+          <img src="{% static 'images/icon.png' %}" alt="Site Icon" class="nav-icon">
+          <span class="brand-text">Matthew Raynor</span>
+        </a>
+        <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar"
+                aria-controls="offcanvasSidebar">
+          Menu
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Mobile Offcanvas Sidebar -->
+  <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
     <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasSidebarLabel">Navigation</h5>
+      <h5 class="offcanvas-title" id="offcanvasSidebarLabel">
+        <img src="{% static 'images/icon.png' %}" alt="Site Icon" class="nav-icon">
+        <span class="brand-text">Matthew Raynor</span>
+      </h5>
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-      <div class="list-group">
-        <div class="mb-3">
-          <h6 class="text-uppercase">Explore</h6>
-          <!-- Home link added -->
-          <a href="{% url 'home' %}" class="btn btn-outline-primary btn-sm d-block mb-1">Home</a>
-          <a href="#" class="btn btn-outline-primary btn-sm d-block mb-1">Blog</a>
-          <a href="#" class="btn btn-outline-primary btn-sm d-block mb-1">Portfolio</a>
-          <a href="#" class="btn btn-outline-primary btn-sm d-block mb-1">Press</a>
-          <a href="#" class="btn btn-outline-primary btn-sm d-block mb-1">Contact</a>
-          {% if user.is_authenticated %}
-            <a href="{% url 'dashboard' %}" class="btn btn-outline-primary btn-sm d-block mb-1">Dashboard</a>
-          {% endif %}
-        </div>
-        <div>
-          <h6 class="text-uppercase">Shop</h6>
-          <a href="#" class="btn btn-outline-success btn-sm d-block mb-1">View Store</a>
-          <a href="#" class="btn btn-outline-success btn-sm d-block">Leave a Review</a>
-        </div>
+      <ul class="list-unstyled">
+        <li><a class="offcanvas-link" href="#">Blog</a></li>
+        <li><a class="offcanvas-link" href="#">Portfolio</a></li>
+        <li><a class="offcanvas-link" href="#">Press</a></li>
+        <li><a class="offcanvas-link" href="#">Contact</a></li>
+        <li class="divider">|</li>
+        <li><a class="offcanvas-link" href="#">Store</a></li>
+      </ul>
+      <div class="mt-3">
+        <form class="d-flex">
+          <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-light" type="submit">Search</button>
+        </form>
+      </div>
+      <div class="mt-3">
+        {% if user.is_authenticated %}
+          <a class="btn btn-outline-light w-100" href="{% url 'dashboard' %}">Dashboard</a>
+          <a class="btn btn-outline-light w-100 mt-2" href="{% url 'logout' %}">Logout</a>
+        {% else %}
+          <a class="btn btn-outline-light w-100" href="{% url 'account_login' %}">Login</a>
+        {% endif %}
       </div>
     </div>
   </div>
@@ -752,11 +1113,26 @@ document.addEventListener("DOMContentLoaded", function() {
   </main>
 
   <!-- Footer -->
-  <footer class="mt-4 bg-dark text-white text-center py-3">
+  <footer class="mt-4 bg-crunchy text-white text-center py-3">
     <div class="container">
       <p class="mb-0">&copy; {% now "Y" %} MatthewRaynor.com</p>
     </div>
   </footer>
+
+  <!-- AI Assistant Chat Widget -->
+  <div id="ai-chatbot" class="chat-widget">
+    <div id="ai-chatbot-header" class="chat-header">
+      AI Assistant
+      <span id="ai-chatbot-close" class="chat-close">&times;</span>
+    </div>
+    <div id="ai-chatbot-body" class="chat-body">
+      <p>Hello! How can I assist you today?</p>
+    </div>
+    <div id="ai-chatbot-input" class="chat-input">
+      <input type="text" placeholder="Type your message..." class="form-control">
+    </div>
+  </div>
+  <button id="ai-chatbot-toggle" class="btn chat-toggle">Chat</button>
 
   <!-- JS Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -768,31 +1144,10 @@ document.addEventListener("DOMContentLoaded", function() {
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       flatpickr(".datepicker", { dateFormat: "Y-m-d" });
-      const selects = document.querySelectorAll(".select2");
-      selects.forEach(el => {
+      document.querySelectorAll(".select2").forEach(el => {
         $(el).select2({ width: "100%" });
       });
     });
-  </script>
-
-  <!-- AI Assistant Chat Widget -->
-  <div id="ai-chatbot" style="position: fixed; bottom: 80px; right: 20px; width: 320px; height: 400px; background: white; border: 1px solid #ddd; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.2); display: none; z-index: 1000;">
-    <div id="ai-chatbot-header" style="background: #007bff; color: white; padding: 10px; cursor: pointer;">
-      AI Assistant
-      <span id="ai-chatbot-close" style="float: right; cursor: pointer;">&times;</span>
-    </div>
-    <div id="ai-chatbot-body" style="padding: 10px; height: calc(100% - 60px); overflow-y: auto;">
-      <!-- Chat messages will appear here -->
-      <p>Hello! How can I assist you today?</p>
-    </div>
-    <div id="ai-chatbot-input" style="padding: 10px;">
-      <input type="text" placeholder="Type your message..." style="width: 100%; padding: 5px;">
-    </div>
-  </div>
-  <button id="ai-chatbot-toggle" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;" class="btn btn-primary">Chat</button>
-  
-  <script>
-    // Use jQuery for simple toggling of the chat widget
     $(document).ready(function() {
       $('#ai-chatbot-toggle').click(function() {
         $('#ai-chatbot').toggle();
@@ -804,6 +1159,132 @@ document.addEventListener("DOMContentLoaded", function() {
   </script>
 </body>
 </html>
+
+
+===== templates/blog/post_list.html =====
+{% extends 'base.html' %}
+{% load embed_video_tags %}
+
+{% block title %}Blog - Updates & Stories{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center fw-bold">Latest Blog Posts</h1>
+    <p class="lead text-center">Follow my journey and stay updated.</p>
+
+    <div class="row">
+        {% for post in posts %}
+        <div class="col-md-12 mb-4">
+            <div class="card shadow-sm">
+                <div class="row g-0 align-items-center">
+                    <!-- Video Section -->
+                    <div class="col-md-4">
+                        <div class="ratio ratio-16x9">
+                            {% if post.video %}
+                                {% video post.video 'small' %}
+                            {% else %}
+                                <img src="https://source.unsplash.com/400x250/?technology,writing" class="img-fluid rounded-start" alt="Blog Image">
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Blog Info Section -->
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                <a href="{% url 'post_detail' post.slug %}" class="text-dark text-decoration-none fw-bold">{{ post.title }}</a>
+                            </h4>
+                            <p class="text-muted">Published on {{ post.created_at|date:"F d, Y" }}</p>
+                            <p>{{ post.content|truncatewords:30 }}</p>
+                            <a href="{% url 'post_detail' post.slug %}" class="btn btn-outline-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center">No blog posts yet. Stay tuned!</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+
+===== templates/blog/post_detail.html =====
+{% extends 'base.html' %}
+{% load embed_video_tags %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}{{ post.title }} - Blog{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <h1 class="fw-bold">{{ post.title }}</h1>
+            <p class="text-muted">Published on {{ post.created_at|date:"F d, Y" }}</p>
+
+            <!-- Video Section -->
+            {% if post.video %}
+            <div class="ratio ratio-16x9 my-3">
+                {% video post.video 'large' %}
+            </div>
+            {% endif %}
+
+            <!-- Blog Content -->
+            <p class="lead">{{ post.content }}</p>
+
+            <!-- Back to Blog Button -->
+            <a href="{% url 'post_list' %}" class="btn btn-secondary mt-3">Back to Blog</a>
+        </div>
+    </div>
+    
+    <!-- Comments Section -->
+    <div class="mt-4">
+        <h3>Comments</h3>
+        {% if comments %}
+            <ul class="list-unstyled">
+                {% for comment in comments %}
+                    <li class="mb-3">
+                        <strong>{% if comment.user %}{{ comment.user }}{% else %}{{ comment.name }}{% endif %}</strong> said:
+                        <p>{{ comment.content|linebreaks }}</p>
+                        <small class="text-muted">{{ comment.created_at|date:"M d, Y H:i" }}</small>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No comments yet. Be the first to comment!</p>
+        {% endif %}
+        
+        <h4 class="mt-4">Leave a Comment</h4>
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-primary">Submit Comment</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+
+===== templates/account/profile_edit.html =====
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Edit Profile - MatthewRaynor.com{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Edit Profile</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+    <p class="mt-3"><a href="{% url 'dashboard' %}">Back to Dashboard</a></p>
+</div>
+{% endblock %}
 
 
 ===== templates/account/login.html =====
@@ -830,11 +1311,86 @@ document.addEventListener("DOMContentLoaded", function() {
 ===== templates/account/dashboard.html =====
 {% extends "base.html" %}
 {% block title %}Dashboard - MatthewRaynor.com{% endblock %}
+
 {% block content %}
 <div class="container mt-4">
     <h2>Welcome, {{ user.email }}</h2>
-    <p>Here you can view your account details, order history, and more.</p>
-    <!-- Add additional dashboard content as needed -->
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Profile Information</h3>
+            <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <!-- Future: Include avatar if available -->
+            <a href="{% url 'profile_edit' %}" class="btn btn-secondary">Edit Profile</a>
+        </div>
+        <div class="col-md-6">
+            <h3>Account Settings</h3>
+    #      <p><a href="{% url 'account_change_password' %}">Change Password</a></p>
+            <!-- Additional account options can be added here -->
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Order History</h3>
+            {% if orders %}
+                <ul>
+                {% for order in orders %}
+                    <li>Order #{{ order.id }}: {{ order.total_price }}</li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>No orders yet.</p>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <h3>Submitted Reviews</h3>
+            {% if reviews %}
+                <ul>
+                {% for review in reviews %}
+                    <li>{{ review.product.name }}: {{ review.rating }} stars</li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>No reviews submitted yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+===== templates/account/password_change_done.html =====
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Password Changed - MatthewRaynor.com{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Password Successfully Changed</h2>
+    <p>Your password has been updated. You may now <a href="{% url 'dashboard' %}">return to your dashboard</a> or continue browsing.</p>
+</div>
+{% endblock %}
+
+
+===== templates/account/password_change.html =====
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Change Password - MatthewRaynor.com{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Change Password</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary">Change Password</button>
+    </form>
+    <p class="mt-3"><a href="{% url 'dashboard' %}">Back to Dashboard</a></p>
 </div>
 {% endblock %}
 
@@ -854,5 +1410,131 @@ document.addEventListener("DOMContentLoaded", function() {
         <button type="submit" class="btn btn-primary">Sign Up</button>
     </form>
     <p class="mt-3">Already have an account? <a href="{% url 'account_login' %}">Login here</a>.</p>
+</div>
+{% endblock %}
+
+
+===== templates/store/product_detail.html =====
+{% extends "base.html" %}
+{% block title %}{{ product.title }} - MatthewRaynor.com{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-6">
+      {% if product.image %}
+        <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.title }}">
+      {% endif %}
+    </div>
+    <div class="col-md-6">
+      <h2>{{ product.title }}</h2>
+      <p>{{ product.description }}</p>
+      <h4>${{ product.price }}</h4>
+      <p><strong>Stock:</strong> {{ product.stock }}</p>
+      {% if product.product_type == 'artwork' and product.collection %}
+        <p><strong>Collection:</strong> 
+          <a href="{% url 'collection_detail' product.collection.slug %}">
+            {{ product.collection.name }}
+          </a>
+        </p>
+      {% endif %}
+      <!-- Placeholder for "Add to Cart" functionality -->
+      <a href="#" class="btn btn-success">Add to Cart</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+===== templates/store/store_overview.html =====
+{% extends "base.html" %}
+{% block title %}Store Overview - MatthewRaynor.com{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4">Store Overview</h2>
+  
+  <!-- Books Section -->
+  <section>
+    <h3>Books</h3>
+    <div class="row">
+      {% for book in books %}
+        <div class="col-md-4">
+          <div class="card mb-4">
+            {% if book.image %}
+              <img src="{{ book.image.url }}" class="card-img-top" alt="{{ book.title }}">
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{ book.title }}</h5>
+              <p class="card-text">${{ book.price }}</p>
+              <a href="{% url 'product_detail' book.slug %}" class="btn btn-primary">View Details</a>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <p>No books available.</p>
+      {% endfor %}
+    </div>
+  </section>
+  
+  <!-- Artwork Collections Section -->
+  <section class="mt-5">
+    <h3>Artwork Collections</h3>
+    <div class="row">
+      {% for collection in collections %}
+        <div class="col-md-4">
+          <div class="card mb-4">
+            {% if collection.cover_image %}
+              <img src="{{ collection.cover_image.url }}" class="card-img-top" alt="{{ collection.name }}">
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{ collection.name }}</h5>
+              <p class="card-text">{{ collection.description|truncatewords:20 }}</p>
+              <a href="{% url 'collection_detail' collection.slug %}" class="btn btn-primary">View Collection</a>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <p>No artwork collections available.</p>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+{% endblock %}
+
+
+===== templates/store/collection_detail.html =====
+{% extends "base.html" %}
+{% block title %}{{ collection.name }} - MatthewRaynor.com{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>{{ collection.name }}</h2>
+  {% if collection.cover_image %}
+    <img src="{{ collection.cover_image.url }}" class="img-fluid mb-4" alt="{{ collection.name }}">
+  {% endif %}
+  <p>{{ collection.description }}</p>
+  
+  <hr>
+  
+  <h3>Artwork in this Collection</h3>
+  <div class="row">
+    {% for artwork in artworks %}
+      <div class="col-md-4">
+        <div class="card mb-4">
+          {% if artwork.image %}
+            <img src="{{ artwork.image.url }}" class="card-img-top" alt="{{ artwork.title }}">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ artwork.title }}</h5>
+            <p class="card-text">${{ artwork.price }}</p>
+            <a href="{% url 'product_detail' artwork.slug %}" class="btn btn-primary">View Details</a>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p>No artworks available in this collection.</p>
+    {% endfor %}
+  </div>
 </div>
 {% endblock %}

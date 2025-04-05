@@ -8,7 +8,19 @@ $nav-hover: #222222;       // Slightly lighter black on hover
 $nav-text: #CCCCCC;        // Off-white/grey for nav text
 $text-light: #FFFFFF;      // White for highlighted text
 
-$font-family-base: 'Roboto', sans-serif;
+// Additional theme colors
+$deep-ocean-blue: #003049;
+$coral-highlight: #FF6B6B;
+$soft-white: #FAFAFA;
+
+// Typography
+$font-heading: 'Playfair Display', serif;
+$font-sans: 'Montserrat', sans-serif;
+$font-body: 'Open Sans', sans-serif;
+
+$font-family-base: $font-body;
+$base-font-size: 16px;
+$line-height: 1.6;
 
 // -----------------------------------------------------
 // Import Bootstrap
@@ -20,8 +32,86 @@ $font-family-base: 'Roboto', sans-serif;
 // -----------------------------------------------------
 body {
   font-family: $font-family-base;
+  font-size: $base-font-size;
+  line-height: $line-height;
   background-color: $secondary;
   color: #3E3E3E;
+  margin: 0;
+  padding: 0;
+}
+
+// Generic section spacing
+section {
+  padding: 60px 0;
+  border-bottom: 1px solid #eaeaea;
+  &:last-of-type {
+    border-bottom: none;
+  }
+}
+
+// Headings typography
+h1, h2, h3, h4, h5 {
+  font-family: $font-heading;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+
+.navbar-brand,
+.btn,
+.card-title {
+  font-family: $font-sans;
+}
+
+// -----------------------------------------------------
+// Utility Color Classes
+// -----------------------------------------------------
+.text-coral {
+  color: $coral-highlight !important;
+}
+.bg-ocean {
+  background-color: $deep-ocean-blue !important;
+}
+.bg-soft {
+  background-color: $soft-white !important;
+}
+
+// -----------------------------------------------------
+// Animation Classes
+// -----------------------------------------------------
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+  opacity: 0;
+}
+
+// -----------------------------------------------------
+// Card Styling Enhancements
+// -----------------------------------------------------
+.card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
 }
 
 // -----------------------------------------------------
@@ -30,29 +120,55 @@ body {
 .navbar.bg-crunchy {
   background-color: $nav-bg !important;
   border-bottom: 1px solid $nav-hover;
+
   .navbar-brand {
     .brand-text {
-      color: $primary;  // Brand text in green
+      color: $primary;
       font-weight: bold;
-      font-size: 1.25rem;  // Adjust size as needed
+      font-size: 1.25rem;
     }
   }
+
   .navbar-nav .nav-link {
     color: $nav-text !important;
     padding: 0.5rem 1rem;
     transition: background-color 0.2s ease, color 0.2s ease;
+
     &:hover {
       background-color: $nav-hover;
-      color: $text-light;  // Switch to white on hover
+      color: $text-light;
     }
   }
+
   .divider {
     color: $nav-text;
     padding: 0 0.75rem;
     font-size: 1.25rem;
   }
+
   .search-input {
     min-width: 200px;
+  }
+
+  .navbar-nav {
+    li.store {
+      position: relative;
+      padding-left: 1.5rem;
+
+      &::before {
+        content: "|";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        color: $nav-text;
+        font-size: 1.25rem;
+      }
+
+      a.nav-link {
+        font-weight: bold;
+      }
+    }
   }
 }
 
@@ -62,20 +178,25 @@ body {
 .offcanvas {
   background-color: $secondary;
   color: #3E3E3E;
-  .offcanvas-header, .offcanvas-body {
+
+  .offcanvas-header,
+  .offcanvas-body {
     padding: 1rem;
   }
+
   .offcanvas-link {
     color: #3E3E3E;
     display: block;
     padding: 0.75rem 1rem;
     text-decoration: none;
     transition: background-color 0.2s ease, color 0.2s ease;
+
     &:hover {
       background-color: $nav-hover;
       color: $text-light;
     }
   }
+
   .divider {
     text-align: center;
     padding: 0.5rem 0;
@@ -98,25 +219,30 @@ body {
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
   display: none;
   z-index: 1000;
+
   .chat-header {
     background-color: $primary;
     color: $text-light;
     padding: 10px;
     font-weight: bold;
     cursor: pointer;
+
     .chat-close {
       float: right;
       cursor: pointer;
     }
   }
+
   .chat-body {
     padding: 10px;
     height: calc(100% - 120px);
     overflow-y: auto;
     color: $text-light;
   }
+
   .chat-input {
     padding: 10px;
+
     input.form-control {
       background-color: $secondary;
       border: 1px solid $nav-hover;
@@ -124,6 +250,7 @@ body {
     }
   }
 }
+
 .chat-toggle {
   position: fixed;
   bottom: 20px;
@@ -133,40 +260,18 @@ body {
   border: 1px solid $nav-hover;
   color: $nav-text;
   transition: background-color 0.2s ease;
+
   &:hover {
     background-color: $nav-hover;
   }
 }
 
-.navbar.bg-crunchy {
-  .navbar-nav {
-    li.store {
-      position: relative;
-      padding-left: 1.5rem; // create space for the divider
-
-      &::before {
-        content: "|";
-        position: absolute;
-        left: 0; // adjust as needed
-        top: 50%;
-        transform: translateY(-50%);
-        color: $nav-text;
-        font-size: 1.25rem; // match your divider size
-      }
-    }
-  }
-}
-
+// -----------------------------------------------------
+// Footer Styling
+// -----------------------------------------------------
 footer {
   background-color: $nav-bg;
   color: $text-light;
+  padding: 20px 0;
+  text-align: center;
 }
-
-.navbar.bg-crunchy {
-  .navbar-nav {
-    li.store a.nav-link {
-      font-weight: bold;
-    }
-  }
-}
-

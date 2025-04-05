@@ -1,90 +1,106 @@
 {% extends "base.html" %}
-{% block title %}Welcome – MatthewRaynor.com{% endblock %}
+{% load static %}
+{% block title %}Matthew Raynor – Home{% endblock %}
+
 {% block content %}
-<div class="container my-4">
-  <!-- Hero Section -->
-  <div class="text-center mb-5">
-    <h1 class="fw-bold">Welcome to MatthewRaynor.com</h1>
-    <p class="lead">Discover inspirational content, shop unique artwork and books, and explore my development portfolio.</p>
-  </div>
-
-  <!-- Key Areas Section -->
-  <div class="row text-center">
-    <!-- Blog Card: Use btn-outline-info for blue -->
-    <div class="col-md-4 mb-4">
-      <div class="card h-100 shadow-sm">
-        <div class="card-body">
-          <h3 class="card-title">Blog</h3>
-          <p class="card-text">Inspirational writing & updates to spark your creativity.</p>
-          <a href="#" class="btn btn-outline-info">Explore Blog</a>
-        </div>
-      </div>
-    </div>
-    <!-- Store Card: Use btn-outline-warning for orange -->
-    <div class="col-md-4 mb-4">
-      <div class="card h-100 shadow-sm">
-        <div class="card-body">
-          <h3 class="card-title">Store</h3>
-          <p class="card-text">Shop my book and unique artwork, curated just for you.</p>
-          <a href="#" class="btn btn-outline-warning">Visit Store</a>
-        </div>
-      </div>
-    </div>
-    <!-- Portfolio Card: We'll keep this as btn-outline-primary (green) -->
-    <div class="col-md-4 mb-4">
-      <div class="card h-100 shadow-sm">
-        <div class="card-body">
-          <h3 class="card-title">Portfolio</h3>
-          <p class="card-text">Discover my development projects and creative endeavors.</p>
-          <a href="#" class="btn btn-outline-primary">View Portfolio</a>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="container-fluid p-0">
   
-  <div class="row text-center">
-    <!-- Press & Gallery Card -->
-    <div class="col-md-6 mb-4">
-      <div class="card h-100 shadow-sm">
-        <div class="card-body">
-          <h3 class="card-title">Press & Gallery</h3>
-          <p class="card-text">Read about media coverage and view highlights of my artwork and events.</p>
-          <a href="#" class="btn btn-outline-danger">View Press</a>
+  <!-- HERO SECTION -->
+  <section class="hero text-white text-center d-flex align-items-center" style="background: url('{% static 'images/hero.jpg' %}') center/cover no-repeat; height: 90vh;">
+    <div class="container">
+      <h1 class="display-4 fw-bold">From the Sea to the Screen</h1>
+      <p class="lead">Author • Developer • Adaptive Tech Advocate</p>
+      <a href="{% url 'store_overview' %}" class="btn btn-primary btn-lg mt-3">Explore My Store</a>
+      <a href="{% url 'post_list' %}" class="btn btn-outline-light btn-lg mt-3 ms-2">Read the Blog</a>
+    </div>
+  </section>
+
+  <!-- MY STORY -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6 mb-4 mb-md-0">
+          <img src="{% static 'images/matthew_portrait.jpg' %}" class="img-fluid rounded shadow" alt="Matthew Raynor Portrait">
+        </div>
+        <div class="col-md-6">
+          <h2 class="fw-bold">My Journey</h2>
+          <p class="lead">Once a commercial fisherman, I became quadriplegic after a life-altering injury. But I turned pain into purpose, teaching myself to code with a stylus, building apps, and inspiring others through writing and art.</p>
+          <a href="{% url 'post_list' %}" class="btn btn-outline-primary">Read More</a>
         </div>
       </div>
     </div>
-    <!-- Newsletter Card -->
-    <div class="col-md-6 mb-4">
-      <div class="card h-100 shadow-sm">
-        <div class="card-body">
-          <h3 class="card-title">Newsletter</h3>
-          <p class="card-text">Sign up for our newsletter to stay updated with the latest news and insights.</p>
-          <a href="#" class="btn btn-newsletter">Subscribe Now</a>
+  </section>
+
+  <!-- FEATURED BOOK & ART -->
+  <section class="py-5">
+    <div class="container text-center">
+      <h2 class="fw-bold mb-4">Featured Work</h2>
+      <div class="row justify-content-center">
+        <div class="col-md-4 mb-3">
+          <div class="card h-100 shadow">
+            <img src="{% static 'images/book_cover.jpg' %}" class="card-img-top" alt="Before Me After Me">
+            <div class="card-body">
+              <h5 class="card-title">Before Me After Me</h5>
+              <p class="card-text">My memoir of resilience, technology, and transformation.</p>
+              <a href="{% url 'product_detail' 'before-me-after-me' %}" class="btn btn-primary">Buy the Book</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card h-100 shadow">
+            <img src="{% static 'images/art_sample.jpg' %}" class="card-img-top" alt="Aluminum Artwork">
+            <div class="card-body">
+              <h5 class="card-title">Aluminum Prints</h5>
+              <p class="card-text">Oceanic photography infused with strength and serenity.</p>
+              <a href="{% url 'store_overview' %}" class="btn btn-outline-primary">View Artwork</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
+
+  <!-- PORTFOLIO PREVIEW -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <h2 class="text-center fw-bold mb-4">My Development Projects</h2>
+      <div class="row text-center">
+        <div class="col-md-4">
+          <h5 class="fw-bold">Art Mover App</h5>
+          <p>Logistics tool for scheduling and invoicing art shipments.</p>
+        </div>
+        <div class="col-md-4">
+          <h5 class="fw-bold">Bookstore API</h5>
+          <p>REST-powered Django API with authentication and rating system.</p>
+        </div>
+        <div class="col-md-4">
+          <h5 class="fw-bold">Fundraiser Website</h5>
+          <p>Dynamic site with embedded video, donations, and blogging tools.</p>
+        </div>
+      </div>
+      <div class="text-center mt-4">
+        <a href="#" class="btn btn-outline-dark">View Full Portfolio</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOG PREVIEW -->
+  <section class="py-5">
+    <div class="container text-center">
+      <h2 class="fw-bold mb-4">Recent Blog Posts</h2>
+      <p class="lead">Stories of growth, discipline, and living with purpose.</p>
+      <a href="{% url 'post_list' %}" class="btn btn-primary mt-2">Go to Blog</a>
+    </div>
+  </section>
+
+  <!-- CALL TO ACTION -->
+  <section class="py-5 bg-crunchy text-white text-center">
+    <div class="container">
+      <h2 class="fw-bold">Let’s Connect</h2>
+      <p class="mb-4">Got questions about my work, want to collaborate, or just say hi?</p>
+      <a href="#" class="btn btn-light btn-lg">Contact Me</a>
+    </div>
+  </section>
+
 </div>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-// AI Chatbot Integration
-document.addEventListener("DOMContentLoaded", function() {
-  // Toggle Chatbot Widget
-  document.getElementById('ai-chatbot-toggle').addEventListener('click', function() {
-    var chatbot = document.getElementById('ai-chatbot');
-    if (chatbot.style.display === 'none' || chatbot.style.display === '') {
-      chatbot.style.display = 'block';
-    } else {
-      chatbot.style.display = 'none';
-    }
-  });
-  
-  // Close Button for Chatbot
-  document.getElementById('ai-chatbot-close').addEventListener('click', function() {
-    document.getElementById('ai-chatbot').style.display = 'none';
-  });
-});
-</script>
 {% endblock %}
