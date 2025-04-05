@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
+from embed_video.fields import EmbedVideoField  # Import the embed video field
 
 User = get_user_model()
 
@@ -8,6 +9,7 @@ class Post(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(unique=True, blank=True)
     content = models.TextField()
+    video = EmbedVideoField(blank=True, null=True)  # New field for video embeds (e.g., TikTok)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="blog_posts")
     is_published = models.BooleanField(default=False)
     published_date = models.DateTimeField(null=True, blank=True)
@@ -26,9 +28,7 @@ class Post(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
-    # If you require authenticated commenting:
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    # Alternatively, you can capture name/email for anonymous users:
     name = models.CharField(max_length=255, blank=True)
     email = models.EmailField(blank=True)
     content = models.TextField()
