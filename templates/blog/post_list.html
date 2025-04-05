@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Blog - MatthewRaynor.com{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Blog</h2>
+    <div class="row">
+        {% for post in posts %}
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">
+                            <a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a>
+                        </h3>
+                        <p class="card-text">
+                            {{ post.content|truncatewords:30 }}
+                        </p>
+                        <a href="{% url 'post_detail' post.slug %}" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>No posts available.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
