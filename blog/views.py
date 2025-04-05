@@ -10,7 +10,6 @@ class PostListView(ListView):
     context_object_name = "posts"
 
     def get_queryset(self):
-        # Only show published posts
         return Post.objects.filter(is_published=True)
 
 class PostDetailView(FormMixin, DetailView):
@@ -25,12 +24,11 @@ class PostDetailView(FormMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = self.get_form()
-        # Only include approved comments
         context['comments'] = self.object.comments.filter(approved=True)
         return context
 
     def post(self, request, *args, **kwargs):
-        self.object = self.get_object()  # Get the post object
+        self.object = self.get_object()
         form = self.get_form()
         if form.is_valid():
             return self.form_valid(form)
@@ -40,10 +38,8 @@ class PostDetailView(FormMixin, DetailView):
     def form_valid(self, form):
         comment = form.save(commit=False)
         comment.post = self.object
-        # If the user is authenticated, assign the user
         if self.request.user.is_authenticated:
             comment.user = self.request.user
-        # Optionally, set approved to True immediately
-        comment.approved = True
+        comment.approved = True  # Automatically approve for now
         comment.save()
         return super().form_valid(form)
