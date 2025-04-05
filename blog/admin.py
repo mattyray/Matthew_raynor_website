@@ -3,10 +3,11 @@ from .models import Post, Comment
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'author', 'is_published', 'published_date')
+    list_display = ('title', 'author', 'is_published', 'published_date', 'video')
     prepopulated_fields = {'slug': ('title',)}
     search_fields = ('title', 'content')
     list_filter = ('is_published', 'published_date')
+    fields = ('title', 'slug', 'content', 'video', 'author', 'is_published', 'published_date')
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
