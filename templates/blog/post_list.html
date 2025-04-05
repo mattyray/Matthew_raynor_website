@@ -1,40 +1,45 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends 'base.html' %}
 {% load embed_video_tags %}
 
-{% block title %}Blog - MatthewRaynor.com{% endblock %}
+{% block title %}Blog - Updates & Stories{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>Blog</h2>
+<div class="container mt-5">
+    <h1 class="text-center fw-bold">Latest Blog Posts</h1>
+    <p class="lead text-center">Follow my journey and stay updated.</p>
+
     <div class="row">
         {% for post in posts %}
-            <div class="col-md-12 mb-4">
-                {% if post.video %}
-                    <div class="row">
-                        <div class="col-md-6">
-                            {% video post.video as myvideo %}
-                            {{ myvideo }}
-                            {% endvideo %}
-                        </div>
-                        <div class="col-md-6">
-                            <h3><a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a></h3>
-                            <p>{{ post.content|truncatewords:30 }}</p>
-                            <a href="{% url 'post_detail' post.slug %}" class="btn btn-primary">Read More</a>
+        <div class="col-md-12 mb-4">
+            <div class="card shadow-sm">
+                <div class="row g-0 align-items-center">
+                    <!-- Video Section -->
+                    <div class="col-md-4">
+                        <div class="ratio ratio-16x9">
+                            {% if post.video %}
+                                {% video post.video 'small' %}
+                            {% else %}
+                                <img src="https://source.unsplash.com/400x250/?technology,writing" class="img-fluid rounded-start" alt="Blog Image">
+                            {% endif %}
                         </div>
                     </div>
-                {% else %}
-                    <div class="card">
+
+                    <!-- Blog Info Section -->
+                    <div class="col-md-8">
                         <div class="card-body">
-                            <h3><a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a></h3>
+                            <h4 class="card-title">
+                                <a href="{% url 'post_detail' post.slug %}" class="text-dark text-decoration-none fw-bold">{{ post.title }}</a>
+                            </h4>
+                            <p class="text-muted">Published on {{ post.created_at|date:"F d, Y" }}</p>
                             <p>{{ post.content|truncatewords:30 }}</p>
-                            <a href="{% url 'post_detail' post.slug %}" class="btn btn-primary">Read More</a>
+                            <a href="{% url 'post_detail' post.slug %}" class="btn btn-outline-primary">Read More</a>
                         </div>
                     </div>
-                {% endif %}
+                </div>
             </div>
+        </div>
         {% empty %}
-            <p>No posts available.</p>
+        <p class="text-center">No blog posts yet. Stay tuned!</p>
         {% endfor %}
     </div>
 </div>
