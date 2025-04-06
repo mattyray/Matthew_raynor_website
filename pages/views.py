@@ -17,60 +17,67 @@ class PressPageView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["press_articles"] = [
             {
-                "title": "Matthew Raynor: From Fisherman to Developer, A Story of Grit and Code",
-                "source": "Newsday",
-                "link": "https://www.newsday.com/long-island/matthew-raynor-fisherman-developer",
-                "summary": "A deep feature on Matthew’s transformation from deep-sea fisherman to self-taught coder after a tragic accident that left him paralyzed. The story explores his rebirth through technology and creativity.",
-                "image_url": "https://source.unsplash.com/400x250/?ocean,coding"
-            },
-            {
-                "title": "Southampton Quadriplegic Inspires Others With Programming Projects",
-                "source": "Patch – Southampton Edition",
-                "link": "https://patch.com/new-york/southampton/southampton-quadriplegic-inspires-others-programming-projects",
-                "summary": "How Matthew overcame the odds to create software and digital tools, serving as an inspiration for disabled individuals and the broader development community.",
-                "image_url": "https://source.unsplash.com/400x250/?inspiration,tech"
-            },
-            {
-                "title": "Local Man Turns Tragedy Into Triumph With Self-Taught Coding Career",
-                "source": "27East – The Southampton Press",
-                "link": "https://www.27east.com/southampton-press/local-man-turns-tragedy-into-triumph-with-coding-214982/",
-                "summary": "This article covers Matthew's powerful story of rebuilding his life through resilience, coding, and a rediscovered love for creative self-expression.",
-                "image_url": "https://source.unsplash.com/400x250/?recovery,resilience"
-            },
-            {
                 "title": "Matthew Raynor Finds A New Lease On Life Through Art",
-                "source": "27East – Arts Feature",
+                "source": "27East",
                 "link": "https://www.27east.com/arts/matthew-raynor-finds-a-new-lease-on-life-through-art-1506186/",
-                "summary": "From canvas to code, Matthew’s creative journey includes photography exhibits that give voice to his inner transformation.",
-                "image_url": "https://source.unsplash.com/400x250/?art,photography"
+                "summary": "Explores Matthew’s journey into photography and art exhibitions as a healing practice following his spinal cord injury.",
+                "image_url": "https://source.unsplash.com/400x250/?art,healing"
+            },
+            {
+                "title": "Matthew Raynor Photography At Southampton Cultural Center",
+                "source": "27East",
+                "link": "https://www.27east.com/arts/matthew-raynor-photography-at-southampton-cultural-center-1738556/",
+                "summary": "Announces Matthew’s photography exhibition at SCC, showcasing both pre- and post-injury artwork including aerial prints.",
+                "image_url": "https://source.unsplash.com/400x250/?gallery,photography"
+            },
+            {
+                "title": "Before and After: Matt Raynor’s Life and Its Unexpected Turns",
+                "source": "27East",
+                "link": "https://www.27east.com/southampton-press/before-and-after-matt-raynors-life-and-its-unexpected-turns-chronicled-in-new-photography-book-2294539/",
+                "summary": "Covers Matthew’s memoir 'Before Me<>After Me,' documenting his transformation from fisherman to developer and artist.",
+                "image_url": "https://source.unsplash.com/400x250/?book,portrait"
+            },
+            {
+                "title": "Matthew Raynor Exhibits His Art at LTV Studios",
+                "source": "27East",
+                "link": "https://www.27east.com/arts/matthew-raynor-exhibits-his-art-at-ltv-studios-2249981/",
+                "summary": "Features Matthew’s first art show in East Hampton with drone and oceanic works on display at LTV.",
+                "image_url": "https://source.unsplash.com/400x250/?studio,exhibit"
+            },
+            {
+                "title": "Man Paralyzed While Diving Has No Health Aide: 'This Is A Crisis'",
+                "source": "Patch",
+                "link": "https://patch.com/new-york/westhampton-hamptonbays/man-paralyzed-while-diving-has-no-health-aide-crisis",
+                "summary": "Details the healthcare crisis Matthew faced post-accident and community responses to his struggle for daily care.",
+                "image_url": "https://source.unsplash.com/400x250/?hospital,crisis"
             },
             {
                 "title": "Man Paralyzed In Diving Accident Finds Hope In Art — But Needs Help",
-                "source": "Patch – Westhampton-Hampton Bays Edition",
+                "source": "Patch",
                 "link": "https://patch.com/new-york/westhampton-hamptonbays/man-paralyzed-diving-accident-finds-hope-art-needs-help",
-                "summary": "A heartfelt exploration of Matthew’s journey after injury and the urgent call for community support in helping him find new purpose through art and tech.",
-                "image_url": "https://source.unsplash.com/400x250/?hope,community"
-            },
-            {
-                "title": "Matthew Raynor Turns Sight From Sea To Sky Through Drone Photography",
-                "source": "27East – Arts Feature",
-                "link": "https://www.27east.com/arts/matthew-raynor-turns-sight-from-sea-to-sky-through-drone-photography-1725543/",
-                "summary": "Using drones and a creative eye, Matthew captures breathtaking views of the ocean—transcending limits and expressing freedom through flight.",
-                "image_url": "https://source.unsplash.com/400x250/?drone,ocean"
-            },
-            {
-                "title": "Matthew Raynor Art Exhibit Opens At LTV",
-                "source": "James Lane Post",
-                "link": "https://jameslanepost.com/matthew-raynor-art-exhibit-opens-at-ltv",
-                "summary": "This piece highlights the opening of Matthew’s art show, celebrating his journey through stunning aluminum prints and stories behind each frame.",
-                "image_url": "https://source.unsplash.com/400x250/?gallery,exhibit"
+                "summary": "Covers Matthew’s emotional and financial journey toward healing through art after his spinal injury.",
+                "image_url": "https://source.unsplash.com/400x250/?hope,recovery"
             },
             {
                 "title": "Get Matty Ray Back On The Bay",
                 "source": "Dan’s Papers",
-                "link": "https://danspapers.com/2019/07/get-matty-ray-back-on-the-bay",
-                "summary": "A grassroots campaign to help Matthew regain independence after injury, this article reflects early community love and support.",
-                "image_url": "https://source.unsplash.com/400x250/?bay,support"
+                "link": "https://www.danspapers.com/2019/07/get-matty-ray-back-on-the-bay/",
+                "summary": "Highlights an early fundraiser to support Matthew’s recovery and return to independence post-injury.",
+                "image_url": "https://source.unsplash.com/400x250/?fundraiser,community"
+            },
+            {
+                "title": "The Matthew Raynor Story (PechaKucha Presentation)",
+                "source": "PechaKucha.com",
+                "link": "https://www.pechakucha.com/presentations/the-matthew-raynor-story",
+                "summary": "Matthew shares his transformation in a video talk—from seafarer to artist and motivational storyteller.",
+                "image_url": "https://source.unsplash.com/400x250/?presentation,story"
+            },
+            {
+                "title": "Matt Raynor: A Creative Journey",
+                "source": "MILK Books",
+                "link": "https://www.milkbooks.com/blog/your-stories/matt-raynor-a-creative-journey/",
+                "summary": "An inspiring feature on Matthew’s use of photography and publishing to heal and inspire others.",
+                "image_url": "https://source.unsplash.com/400x250/?creative,journal"
             },
         ]
         return context
