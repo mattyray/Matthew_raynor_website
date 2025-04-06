@@ -12,7 +12,7 @@ class HomePageView(TemplateView):
 
 
 class PressPageView(TemplateView):
-    template_name = "press.html"
+    template_name = "pages/press.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
