@@ -321,20 +321,86 @@ from django.db import models
 
 
 ===== pages/views.py =====
-# from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
+from blog.models import Post  # For recent blog posts on the homepage
 
-# class HomePageView(LoginRequiredMixin, TemplateView):
-class HomePageView(TemplateView):  # 👈 No login required
+class HomePageView(TemplateView):
     template_name = 'home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add 3 most recently updated published posts
+        context["recent_posts"] = Post.objects.filter(is_published=True).order_by('-updated_date')[:3]
+        return context
+
+
+class PressPageView(TemplateView):
+    template_name = "pages/press.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["press_articles"] = [
+            {
+                "title": "Matthew Raynor: From Fisherman to Developer, A Story of Grit and Code",
+                "source": "Newsday",
+                "link": "https://www.newsday.com/long-island/matthew-raynor-fisherman-developer",
+                "summary": "Explores Matthew’s transformation from commercial fisherman to self-taught coder after becoming a quadriplegic.",
+            },
+            {
+                "title": "Southampton Quadriplegic Inspires Others With Programming Projects",
+                "source": "Patch – Southampton Edition",
+                "link": "https://patch.com/new-york/southampton/southampton-quadriplegic-inspires-others-programming-projects",
+                "summary": "Details how Matthew overcame disability through tech and motivational content creation.",
+            },
+            {
+                "title": "Local Man Turns Tragedy Into Triumph With Self-Taught Coding Career",
+                "source": "27East – The Southampton Press",
+                "link": "https://www.27east.com/southampton-press/local-man-turns-tragedy-into-triumph-with-coding-214982/",
+                "summary": "Focuses on Matthew’s growth as a developer and transition out of the nursing home.",
+            },
+            {
+                "title": "Matthew Raynor Finds A New Lease On Life Through Art",
+                "source": "27East – Arts Feature",
+                "link": "https://www.27east.com/arts/matthew-raynor-finds-a-new-lease-on-life-through-art-1506186/",
+                "summary": "Explores Matthew’s journey into photography and art exhibitions as a healing practice.",
+            },
+            {
+                "title": "Man Paralyzed In Diving Accident Finds Hope In Art — But Needs Help",
+                "source": "Patch – Westhampton-Hampton Bays Edition",
+                "link": "https://patch.com/new-york/westhampton-hamptonbays/man-paralyzed-diving-accident-finds-hope-art-needs-help",
+                "summary": "Highlights the emotional and financial challenges Matthew faced after his accident and his pursuit of meaning through art.",
+            },
+            {
+                "title": "Matthew Raynor Turns Sight From Sea To Sky Through Drone Photography",
+                "source": "27East – Arts Feature",
+                "link": "https://www.27east.com/arts/matthew-raynor-turns-sight-from-sea-to-sky-through-drone-photography-1725543/",
+                "summary": "Details Matthew’s use of drones to explore photography and healing after his injury.",
+            },
+            {
+                "title": "Matthew Raynor Art Exhibit Opens At LTV",
+                "source": "James Lane Post",
+                "link": "https://jameslanepost.com/matthew-raynor-art-exhibit-opens-at-ltv",
+                "summary": "Announces Matthew’s exhibit at LTV Studios, showcasing photography and mixed media work.",
+            },
+            {
+                "title": "Get Matty Ray Back On The Bay",
+                "source": "Dan’s Papers",
+                "link": "https://danspapers.com/2019/07/get-matty-ray-back-on-the-bay",
+                "summary": "A look at the early fundraising efforts and community support for Matthew after his injury.",
+            },
+        ]
+        return context
 
 
 ===== pages/urls.py =====
 from django.urls import path
-from .views import HomePageView
+from .views import HomePageView, PressPageView
 
 urlpatterns = [
     path("", HomePageView.as_view(), name="home"),  # Ensure this exists!
+    path("press/", PressPageView.as_view(), name="press"),
+    
+    
     
 ]
 
@@ -343,318 +409,6 @@ urlpatterns = [
 from django.contrib import admin
 
 # Register your models here.
-
-
-===== blog/models.py =====
-from django.db import models
-from django.contrib.auth import get_user_model
-from django.utils.text import slugify
-from embed_video.fields import EmbedVideoField  # Import the embed video field
-
-User = get_user_model()
-
-class Post(models.Model):
-    title = models.CharField(max_length=255)
-    slug = models.SlugField(unique=True, blank=True)
-    content = models.TextField()
-    video = EmbedVideoField(blank=True, null=True)  # New field for video embeds (e.g., TikTok)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="blog_posts")
-    is_published = models.BooleanField(default=False)
-    published_date = models.DateTimeField(null=True, blank=True)
-    updated_date = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        ordering = ['-published_date']
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.title)
-        super(Post, self).save(*args, **kwargs)
-
-    def __str__(self):
-        return self.title
-
-class Comment(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    name = models.CharField(max_length=255, blank=True)
-    email = models.EmailField(blank=True)
-    content = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    approved = models.BooleanField(default=False)
-
-    class Meta:
-        ordering = ['created_at']
-
-    def __str__(self):
-        if self.user:
-            return f"Comment by {self.user} on {self.post}"
-        return f"Comment by {self.name} on {self.post}"
-
-
-===== blog/views.py =====
-from django.urls import reverse
-from django.views.generic import ListView, DetailView
-from django.views.generic.edit import FormMixin
-from .models import Post, Comment
-from .forms import CommentForm
-
-class PostListView(ListView):
-    model = Post
-    template_name = "blog/post_list.html"
-    context_object_name = "posts"
-
-    def get_queryset(self):
-        return Post.objects.filter(is_published=True)
-
-class PostDetailView(FormMixin, DetailView):
-    model = Post
-    template_name = "blog/post_detail.html"
-    context_object_name = "post"
-    form_class = CommentForm
-
-    def get_success_url(self):
-        return reverse("post_detail", kwargs={"slug": self.object.slug})
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form'] = self.get_form()
-        context['comments'] = self.object.comments.filter(approved=True)
-        return context
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form = self.get_form()
-        if form.is_valid():
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
-
-    def form_valid(self, form):
-        comment = form.save(commit=False)
-        comment.post = self.object
-        if self.request.user.is_authenticated:
-            comment.user = self.request.user
-        comment.approved = True  # Automatically approve for now
-        comment.save()
-        return super().form_valid(form)
-
-
-===== blog/forms.py =====
-from django import forms
-from .models import Comment
-
-class CommentForm(forms.ModelForm):
-    class Meta:
-        model = Comment
-        # If you require authenticated users only, you might only need the content field.
-        # Otherwise, include name and email.
-        fields = ['content']
-        widgets = {
-            'content': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Leave a comment...'}),
-        }
-
-
-===== blog/urls.py =====
-from django.urls import path
-from .views import PostListView, PostDetailView
-
-urlpatterns = [
-    path('', PostListView.as_view(), name='post_list'),
-    path('<slug:slug>/', PostDetailView.as_view(), name='post_detail'),
-]
-
-
-===== blog/admin.py =====
-from django.contrib import admin
-from .models import Post, Comment
-
-@admin.register(Post)
-class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'author', 'is_published', 'published_date', 'video')
-    prepopulated_fields = {'slug': ('title',)}
-    search_fields = ('title', 'content')
-    list_filter = ('is_published', 'published_date')
-    fields = ('title', 'slug', 'content', 'video', 'author', 'is_published', 'published_date')
-
-@admin.register(Comment)
-class CommentAdmin(admin.ModelAdmin):
-    list_display = ('post', 'user', 'created_at', 'approved')
-    list_filter = ('approved', 'created_at')
-    search_fields = ('content',)
-
-
-===== store/models.py =====
-from django.db import models
-
-from django.db import models
-from django.conf import settings
-from django.utils.text import slugify
-
-User = settings.AUTH_USER_MODEL
-
-class Product(models.Model):
-    PRODUCT_TYPE_CHOICES = (
-         ('book', 'Book'),
-         ('artwork', 'Artwork'),
-    )
-    product_type = models.CharField(max_length=10, choices=PRODUCT_TYPE_CHOICES)
-    title = models.CharField(max_length=255)
-    description = models.TextField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    image = models.ImageField(upload_to='products/', null=True, blank=True)
-    stock = models.PositiveIntegerField(default=0)
-    slug = models.SlugField(unique=True, blank=True)
-    # Only relevant for artwork:
-    collection = models.ForeignKey(
-        'Collection', 
-        on_delete=models.SET_NULL, 
-        null=True, 
-        blank=True,
-        related_name="products"
-    )
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.title)
-        super(Product, self).save(*args, **kwargs)
-
-    def __str__(self):
-        return self.title
-
-
-class Order(models.Model):
-    STATUS_CHOICES = [
-        ('P', 'Pending'),
-        ('C', 'Completed'),
-        ('F', 'Failed'),
-    ]
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
-    created_at = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
-
-    @property
-    def total_price(self):
-        return sum(item.total_price for item in self.items.all())
-
-    def __str__(self):
-        return f"Order {self.id} by {self.user}"
-
-class OrderItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=1)
-    price = models.DecimalField(max_digits=10, decimal_places=2)  # Product price at time of order
-
-    @property
-    def total_price(self):
-        return self.price * self.quantity
-
-    def __str__(self):
-        return f"{self.quantity} x {self.product.title}"
-
-class Review(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    rating = models.PositiveSmallIntegerField(default=5)
-    comment = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Review of {self.product.title} by {self.user}"
-    
-class Collection(models.Model):
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
-    cover_image = models.ImageField(upload_to='collections/', null=True, blank=True)
-    slug = models.SlugField(unique=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.name
-
-
-
-===== store/views.py =====
-from django.views.generic import DetailView, TemplateView
-from .models import Product, Collection
-
-class ProductDetailView(DetailView):
-    model = Product
-    template_name = "store/product_detail.html"
-    context_object_name = "product"
-
-class CollectionDetailView(DetailView):
-    model = Collection
-    template_name = "store/collection_detail.html"
-    context_object_name = "collection"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # Only include artwork products in this collection
-        context['artworks'] = Product.objects.filter(
-            product_type='artwork', 
-            collection=self.object
-        )
-        return context
-
-class StoreOverviewView(TemplateView):
-    template_name = "store/store_overview.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # Fetch books (products with product_type 'book')
-        context['books'] = Product.objects.filter(product_type='book')
-        # Fetch all artwork collections
-        context['collections'] = Collection.objects.all()
-        return context
-
-
-===== store/urls.py =====
-from django.urls import path
-from .views import (
-    ProductDetailView,
-    CollectionDetailView,
-    StoreOverviewView,
-)
-
-urlpatterns = [
-    # New store overview page as the root for the store app:
-    path('', StoreOverviewView.as_view(), name='store_overview'),
-    # Additional URL patterns:
-    path('products/<slug:slug>/', ProductDetailView.as_view(), name='product_detail'),
-    path('collections/<slug:slug>/', CollectionDetailView.as_view(), name='collection_detail'),
-]
-
-
-===== store/admin.py =====
-from django.contrib import admin
-from .models import Product, Order, OrderItem, Review
-
-@admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
-    list_display = ('title', 'price', 'stock', 'created_at')
-    prepopulated_fields = {'slug': ('title',)}
-    search_fields = ('title', 'description')
-    list_filter = ('created_at',)
-
-class OrderItemInline(admin.TabularInline):
-    model = OrderItem
-    extra = 0
-
-@admin.register(Order)
-class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'status', 'created_at', 'total_price')
-    list_filter = ('status', 'created_at')
-    inlines = [OrderItemInline]
-
-@admin.register(Review)
-class ReviewAdmin(admin.ModelAdmin):
-    list_display = ('product', 'user', 'rating', 'created_at')
-    list_filter = ('rating', 'created_at')
-    search_fields = ('comment',)
 
 
 ===== django_project/settings.py =====
@@ -889,97 +643,150 @@ application = get_wsgi_application()
 
 ===== templates/home.html =====
 {% extends "base.html" %}
-{% block title %}MatthewRaynor.com - Home{% endblock %}
+{% load static %}
+{% load embed_video_tags %}
+
+{% block title %}Matthew Raynor – Home{% endblock %}
+
 
 {% block content %}
-<div class="container py-5">
+<div class="container-fluid p-0">
   
-  <!-- My Journey Section -->
-  <section id="my-journey" class="mb-5">
-    <div class="text-center">
-      <h2 class="fw-bold mb-4">My Journey</h2>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <p class="lead">
-          Once a commercial fisherman battling the unpredictable forces of the sea, I faced a life-altering challenge that left me quadriplegic. Instead of letting adversity define me, I embraced a new beginning by teaching myself programming and mastering adaptive technology. <em>Before Me After Me</em> is not just a book—it’s a testament to resilience, self-discovery, and the relentless pursuit of hope.
-        </p>
-        <p class="lead">
-          Every setback fueled my determination to create a life of purpose, blending creativity with technology to inspire others to push beyond their limits. With every challenge, I discovered a new strength within myself, and my journey continues as an ongoing narrative of transformation.
-        </p>
+  <!-- HERO SECTION -->
+  <section class="hero text-white text-center d-flex align-items-center position-relative" style="background: url('{% static 'images/hero.png' %}') center/cover no-repeat; height: 90vh;">
+    <!-- Overlay -->
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0, 0, 0, 0.5); z-index: 1;"></div>
+  
+    <!-- Content -->
+    <div class="container position-relative z-2">
+      <div class="p-4 rounded-4 bg-dark bg-opacity-50 shadow-lg d-inline-block">
+        <h1 class="display-4 fw-bold text-shadow">From Sea to Source Code</h1>
+        <p class="lead">Writer • Developer • Artist • Entertainer</p>
+        <a href="{% url 'store_overview' %}" class="btn btn-primary btn-lg mt-3">Explore My Store</a>
+        <a href="{% url 'post_list' %}" class="btn btn-outline-light btn-lg mt-3 ms-2">Read the Blog</a>
       </div>
     </div>
   </section>
+  
 
-  <!-- My Store Section -->
-  <section id="my-store" class="mb-5">
-    <div class="text-center">
-      <h2 class="fw-bold mb-4">My Store</h2>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <p class="lead">
-          Discover <em>Before Me After Me</em>, my powerful memoir that chronicles a journey from the relentless forces of the sea to the transformative world of adaptive technology and creativity. In my store, you'll also find curated artwork collections featuring breathtaking photography on aluminum prints—each collection a vivid celebration of beauty, strength, and resilience. Experience the story behind every piece of art.
-        </p>
-        <div class="text-center">
-          <a href="{% url 'store_overview' %}" class="btn btn-primary btn-lg mt-3">Visit My Store</a>
+  <!-- MY STORY -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6 mb-4 mb-md-0">
+          <img src="{% static 'images/matthew_portrait.png' %}" class="img-fluid rounded shadow" alt="Matthew Raynor Portrait">
+        </div>
+        <div class="col-md-6">
+          <h2 class="fw-bold">My Journey</h2>
+          <p class="lead">Once a commercial fisherman, I became quadriplegic after a life-altering injury. But I turned pain into purpose, teaching myself to code with a stylus, building apps, and inspiring others through writing and art.</p>
+          <a href="{% url 'post_list' %}" class="btn btn-outline-primary">Read More</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Blog & Inspiration Section -->
-  <section id="blog-inspiration" class="mb-5">
-    <div class="text-center">
-      <h2 class="fw-bold mb-4">Blog & Inspiration</h2>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <p class="lead">
-          My blog is a vibrant hub where dynamic TikTok videos meet thoughtful, inspirational writings. The TikTok videos deliver practical tips, humor, and behind-the-scenes glimpses into adaptive living, offering quick, engaging insights into creative problem-solving. Alongside these videos, my inspirational writings delve into personal reflections on resilience and overcoming obstacles, providing in-depth motivation and practical advice.
-        </p>
-        <div class="text-center">
-          <a href="{% url 'post_list' %}" class="btn btn-primary btn-lg mt-3">Read My Blog</a>
+  <!-- FEATURED BOOK & ART -->
+  <section class="py-5">
+    <div class="container text-center">
+      <h2 class="fw-bold mb-4">Featured Work</h2>
+      <div class="row justify-content-center">
+        <div class="col-md-4 mb-3">
+          <div class="card h-100 shadow">
+            <img src="{% static 'images/book_cover.jpg' %}" class="card-img-top" alt="Before Me After Me">
+            <div class="card-body">
+              <h5 class="card-title">Before Me After Me</h5>
+              <p class="card-text">My memoir of resilience, technology, and transformation.</p>
+              <a href="{% url 'product_detail' 'before-me-after-me' %}" class="btn btn-primary">Buy the Book</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card h-100 shadow">
+            <img src="{% static 'images/art_sample.jpg' %}" class="card-img-top" alt="Aluminum Artwork">
+            <div class="card-body">
+              <h5 class="card-title">Aluminum Prints</h5>
+              <p class="card-text">Oceanic photography infused with strength and serenity.</p>
+              <a href="{% url 'store_overview' %}" class="btn btn-outline-primary">View Artwork</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Portfolio Section -->
-  <section id="portfolio" class="mb-5">
-    <div class="text-center">
-      <h2 class="fw-bold mb-4">Portfolio</h2>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <p class="lead">
-          Explore my portfolio—a curated collection of programming projects that demonstrates my expertise in web development. Highlights include the Art Mover App for managing art moving logistics, a robust Bookstore API Project built with Django, and a dynamic Fundraiser Website designed to drive social impact. I specialize in Python, Django, Django REST Framework, Docker, and Bootstrap, and my work is driven by a commitment to accessible, user-centric design.
-        </p>
-        <div class="text-center">
-          <a href="#" class="btn btn-primary btn-lg mt-3">View My Portfolio</a>
+  <!-- PORTFOLIO PREVIEW -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <h2 class="text-center fw-bold mb-4">My Development Projects</h2>
+      <div class="row text-center">
+        <div class="col-md-4">
+          <h5 class="fw-bold">Art Mover App</h5>
+          <p>Logistics tool for scheduling and invoicing art shipments.</p>
         </div>
+        <div class="col-md-4">
+          <h5 class="fw-bold">Bookstore API</h5>
+          <p>REST-powered Django API with authentication and rating system.</p>
+        </div>
+        <div class="col-md-4">
+          <h5 class="fw-bold">Fundraiser Website</h5>
+          <p>Dynamic site with embedded video, donations, and blogging tools.</p>
+        </div>
+      </div>
+      <div class="text-center mt-4">
+        <a href="#" class="btn btn-outline-dark">View Full Portfolio</a>
       </div>
     </div>
   </section>
 
-  <!-- Press Section -->
-  <section id="press" class="mb-5">
-    <div class="text-center">
-      <h2 class="fw-bold mb-4">In the Press</h2>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <p class="lead">
-          My journey and creative endeavors have captured media attention nationwide. In-depth interviews and feature articles celebrate my transformation and innovative approach to accessible technology and art. These press appearances underscore the impact of my work and serve as a powerful testament to overcoming life’s challenges.
-        </p>
-        <div class="text-center">
-          <a href="#" class="btn btn-primary btn-lg mt-3">See Press Coverage</a>
-        </div>
+  <!-- BLOG PREVIEW -->
+  <section class="py-5">
+    <div class="container">
+      <h2 class="text-center fw-bold mb-4">Recent Blog Posts</h2>
+      <p class="lead text-center">My hilarious and entertaining videos paired with inspirational writing</p>
+
+      <div class="row">
+        {% for post in recent_posts %}
+          <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+              {% if post.video %}
+                <div class="ratio ratio-16x9">
+                  {% video post.video 'small' %}
+                </div>
+              {% else %}
+                <img src="https://source.unsplash.com/400x250/?technology,writing" class="card-img-top" alt="Blog Image">
+              {% endif %}
+              <div class="card-body">
+                <h5 class="card-title">
+                  <a href="{% url 'post_detail' post.slug %}" class="text-decoration-none text-dark fw-bold">
+                    {{ post.title }}
+                  </a>
+                </h5>
+                <p class="text-muted">Updated on {{ post.updated_date|date:"F d, Y" }}</p>
+                <p class="card-text">{{ post.content|truncatewords:25 }}</p>
+                <a href="{% url 'post_detail' post.slug %}" class="btn btn-outline-primary">Read More</a>
+              </div>
+            </div>
+          </div>
+        {% empty %}
+          <p class="text-center">No posts yet. Stay tuned!</p>
+        {% endfor %}
+      </div>
+
+      <div class="text-center mt-4">
+        <a href="{% url 'post_list' %}" class="btn btn-primary">Go to Blog</a>
       </div>
     </div>
   </section>
 
-</div>
+
+  <section class="py-5 position-relative text-center" style="background-color: rgba(255, 248, 225, 0.85);">
+    <div class="container text-dark">
+      <h2 class="fw-bold">Let’s Connect</h2>
+      <p class="mb-4">Got questions about my work? Need a website? Need an application? Need custom photography?</p>
+      <a href="#" class="btn btn-primary btn-lg">Contact Me</a>
+    </div>
+  </section>
+  
 {% endblock %}
 
 
@@ -1000,6 +807,8 @@ application = get_wsgi_application()
 
   <!-- FullCalendar CSS -->
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Montserrat:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet">
+
 
   <!-- Flatpickr CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -1034,7 +843,7 @@ application = get_wsgi_application()
         <ul class="navbar-nav ms-3 me-auto">
           <li class="nav-item"><a class="nav-link" href="{% url 'post_list' %}">Blog</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Portfolio</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Press</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'press' %}">Press</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
           <li class="nav-item store"><a class="nav-link" href="{% url 'store_overview' %}">Store</a></li>
         </ul>
@@ -1411,6 +1220,33 @@ application = get_wsgi_application()
     </form>
     <p class="mt-3">Already have an account? <a href="{% url 'account_login' %}">Login here</a>.</p>
 </div>
+{% endblock %}
+
+
+===== templates/pages/press.html =====
+{% extends "base.html" %}
+{% block title %}Press - Matthew Raynor{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center fw-bold mb-5">In the Press</h2>
+    <div class="row">
+      {% for article in press_articles %}
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title fw-bold">{{ article.title }}</h5>
+            <p class="text-muted mb-2"><small>{{ article.source }}</small></p>
+            <p class="card-text flex-grow-1">{{ article.summary }}</p>
+            <a href="{{ article.link }}" class="btn btn-outline-primary mt-auto" target="_blank">Read More</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
 {% endblock %}
 
 
