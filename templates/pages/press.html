@@ -14,7 +14,13 @@
       <div class="col-md-6 col-lg-4 mb-4">
         <div class="press-card card h-100 shadow-sm border-0 d-flex flex-column">
           {% if article.image_url %}
-            <img src="{{ article.image_url }}" class="card-img-top" alt="{{ article.title }}">
+            <!---->
+
+            <div class="press-image-wrapper">
+                <img src="{{ article.image_url }}" class="card-img-top" alt="{{ article.title }}">
+            </div>
+              
+
           {% endif %}
           <div class="card-body d-flex flex-column">
             <h5 class="card-title">{{ article.title }}</h5>
