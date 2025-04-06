@@ -93,12 +93,44 @@
 
   <!-- BLOG PREVIEW -->
   <section class="py-5">
-    <div class="container text-center">
-      <h2 class="fw-bold mb-4">Recent Blog Posts</h2>
-      <p class="lead">My hilarious and entertaining videos paired with inspirational writing</p>
-      <a href="{% url 'post_list' %}" class="btn btn-primary mt-2">Go to Blog</a>
+    <div class="container">
+      <h2 class="text-center fw-bold mb-4">Recent Blog Posts</h2>
+      <p class="lead text-center">My hilarious and entertaining videos paired with inspirational writing</p>
+
+      <div class="row">
+        {% for post in recent_posts %}
+          <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+              {% if post.video %}
+                <div class="ratio ratio-16x9">
+                  {% video post.video 'small' %}
+                </div>
+              {% else %}
+                <img src="https://source.unsplash.com/400x250/?technology,writing" class="card-img-top" alt="Blog Image">
+              {% endif %}
+              <div class="card-body">
+                <h5 class="card-title">
+                  <a href="{% url 'post_detail' post.slug %}" class="text-decoration-none text-dark fw-bold">
+                    {{ post.title }}
+                  </a>
+                </h5>
+                <p class="text-muted">Updated on {{ post.updated_date|date:"F d, Y" }}</p>
+                <p class="card-text">{{ post.content|truncatewords:25 }}</p>
+                <a href="{% url 'post_detail' post.slug %}" class="btn btn-outline-primary">Read More</a>
+              </div>
+            </div>
+          </div>
+        {% empty %}
+          <p class="text-center">No posts yet. Stay tuned!</p>
+        {% endfor %}
+      </div>
+
+      <div class="text-center mt-4">
+        <a href="{% url 'post_list' %}" class="btn btn-primary">Go to Blog</a>
+      </div>
     </div>
   </section>
+
 
   <!-- CALL TO ACTION -->
   <section class="py-5 bg-crunchy text-white text-center">
