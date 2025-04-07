@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'pages.apps.PagesConfig',
     'store.apps.StoreConfig',
     'blog.apps.BlogConfig',
+    'portfolio.apps.PortfolioConfig',
+
 
 
     # Third-party packages
