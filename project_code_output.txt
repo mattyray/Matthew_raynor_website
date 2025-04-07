@@ -329,7 +329,6 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Add 3 most recently updated published posts
         context["recent_posts"] = Post.objects.filter(is_published=True).order_by('-updated_date')[:3]
         return context
 
@@ -341,52 +340,67 @@ class PressPageView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["press_articles"] = [
             {
-                "title": "Matthew Raynor: From Fisherman to Developer, A Story of Grit and Code",
-                "source": "Newsday",
-                "link": "https://www.newsday.com/long-island/matthew-raynor-fisherman-developer",
-                "summary": "Explores Matthew’s transformation from commercial fisherman to self-taught coder after becoming a quadriplegic.",
-            },
-            {
-                "title": "Southampton Quadriplegic Inspires Others With Programming Projects",
-                "source": "Patch – Southampton Edition",
-                "link": "https://patch.com/new-york/southampton/southampton-quadriplegic-inspires-others-programming-projects",
-                "summary": "Details how Matthew overcame disability through tech and motivational content creation.",
-            },
-            {
-                "title": "Local Man Turns Tragedy Into Triumph With Self-Taught Coding Career",
-                "source": "27East – The Southampton Press",
-                "link": "https://www.27east.com/southampton-press/local-man-turns-tragedy-into-triumph-with-coding-214982/",
-                "summary": "Focuses on Matthew’s growth as a developer and transition out of the nursing home.",
-            },
-            {
                 "title": "Matthew Raynor Finds A New Lease On Life Through Art",
-                "source": "27East – Arts Feature",
+                "source": "27East",
                 "link": "https://www.27east.com/arts/matthew-raynor-finds-a-new-lease-on-life-through-art-1506186/",
-                "summary": "Explores Matthew’s journey into photography and art exhibitions as a healing practice.",
+                "summary": "Explores your transition into photography and art exhibitions as a form of healing and purpose.",
+                "image_url": "https://image.27east.com/2019/08/8.15x10.65_BackofBoat2.jpg"
+            },
+            {
+                "title": "Matthew Raynor Photography At Southampton Cultural Center",
+                "source": "27East",
+                "link": "https://www.27east.com/arts/matthew-raynor-photography-at-southampton-cultural-center-1738556/",
+                "summary": "Highlights your stunning drone and seascape photography exhibit at the SCC, blending grit and serenity.",
+                "image_url": "https://image.27east.com/2020/11/Matt-Raynor-beautifulbirch-scaled.jpg"
+            },
+            {
+                "title": "Before and After: Matt Raynor’s Life and Its Unexpected Turns",
+                "source": "27East",
+                "link": "https://www.27east.com/southampton-press/before-and-after-matt-raynors-life-and-its-unexpected-turns-chronicled-in-new-photography-book-2294539/",
+                "summary": "Covers your memoir 'Before Me<>After Me,' sharing your powerful personal transformation through imagery.",
+                "image_url": "https://image.27east.com/2024/10/party-1.jpg"
+            },
+            {
+                "title": "Matthew Raynor Exhibits His Art at LTV Studios",
+                "source": "27East",
+                "link": "https://www.27east.com/arts/matthew-raynor-exhibits-his-art-at-ltv-studios-2249981/",
+                "summary": "Your LTV Studios debut showcasing new aluminum prints, textures, and emotional storytelling through art.",
+                "image_url": "https://image.27east.com/2024/05/Matt-Raynor-Boardwalk.jpg"
+            },
+            {
+                "title": "Man Paralyzed While Diving Has No Health Aide: 'This Is A Crisis'",
+                "source": "Patch",
+                "link": "https://patch.com/new-york/westhampton-hamptonbays/man-paralyzed-while-diving-has-no-health-aide-crisis",
+                "summary": "A heartbreaking look at the challenges you faced accessing in-home care following your accident.",
+                "image_url": "https://patch.com/img/cdn20/users/1296254/20190912/061810/styles/patch_image/public/matt___12164446739.jpg?width=1200"
             },
             {
                 "title": "Man Paralyzed In Diving Accident Finds Hope In Art — But Needs Help",
-                "source": "Patch – Westhampton-Hampton Bays Edition",
+                "source": "Patch",
                 "link": "https://patch.com/new-york/westhampton-hamptonbays/man-paralyzed-diving-accident-finds-hope-art-needs-help",
-                "summary": "Highlights the emotional and financial challenges Matthew faced after his accident and his pursuit of meaning through art.",
-            },
-            {
-                "title": "Matthew Raynor Turns Sight From Sea To Sky Through Drone Photography",
-                "source": "27East – Arts Feature",
-                "link": "https://www.27east.com/arts/matthew-raynor-turns-sight-from-sea-to-sky-through-drone-photography-1725543/",
-                "summary": "Details Matthew’s use of drones to explore photography and healing after his injury.",
-            },
-            {
-                "title": "Matthew Raynor Art Exhibit Opens At LTV",
-                "source": "James Lane Post",
-                "link": "https://jameslanepost.com/matthew-raynor-art-exhibit-opens-at-ltv",
-                "summary": "Announces Matthew’s exhibit at LTV Studios, showcasing photography and mixed media work.",
+                "summary": "Details your emotional and creative healing journey while raising awareness for support needs.",
+                "image_url": "https://patch.com/img/cdn20/users/1296254/20230421/085742/styles/patch_image/public/matthewraynor___21200506825.jpg?width=1200"
             },
             {
                 "title": "Get Matty Ray Back On The Bay",
                 "source": "Dan’s Papers",
-                "link": "https://danspapers.com/2019/07/get-matty-ray-back-on-the-bay",
-                "summary": "A look at the early fundraising efforts and community support for Matthew after his injury.",
+                "link": "https://www.danspapers.com/2019/07/get-matty-ray-back-on-the-bay/",
+                "summary": "Early community support feature spotlighting your recovery and the fundraiser to aid your journey.",
+                "image_url": "https://www.danspapers.com/wp-content/uploads/2020/11/matt-raynor-benefit.jpg"
+            },
+            {
+                "title": "The Matthew Raynor Story (PechaKucha Presentation)",
+                "source": "PechaKucha",
+                "link": "https://www.pechakucha.com/presentations/the-matthew-raynor-story",
+                "summary": "A visual storytelling presentation of your journey from fisherman to artist to speaker.",
+                "image_url": ""  # You can use a placeholder here or skip the image conditionally in the template
+            },
+            {
+                "title": "Matt Raynor: A Creative Journey",
+                "source": "MILK Books",
+                "link": "https://www.milkbooks.com/blog/your-stories/matt-raynor-a-creative-journey/",
+                "summary": "A deeply personal narrative exploring how art, writing, and resilience fueled your transformation.",
+                "image_url": "https://cdn.milkbooks.com/media/20640/5_2x.webp"
             },
         ]
         return context
@@ -406,6 +420,232 @@ urlpatterns = [
 
 
 ===== pages/admin.py =====
+from django.contrib import admin
+
+# Register your models here.
+
+
+===== blog/models.py =====
+from django.db import models
+from django.contrib.auth import get_user_model
+from django.utils.text import slugify
+from embed_video.fields import EmbedVideoField  # Import the embed video field
+
+User = get_user_model()
+
+class Post(models.Model):
+    title = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True, blank=True)
+    content = models.TextField()
+    video = EmbedVideoField(blank=True, null=True)  # New field for video embeds (e.g., TikTok)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="blog_posts")
+    is_published = models.BooleanField(default=False)
+    published_date = models.DateTimeField(null=True, blank=True)
+    updated_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-published_date']
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super(Post, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    name = models.CharField(max_length=255, blank=True)
+    email = models.EmailField(blank=True)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    approved = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['created_at']
+
+    def __str__(self):
+        if self.user:
+            return f"Comment by {self.user} on {self.post}"
+        return f"Comment by {self.name} on {self.post}"
+
+
+===== blog/views.py =====
+from django.urls import reverse
+from django.views.generic import ListView, DetailView
+from django.views.generic.edit import FormMixin
+from .models import Post, Comment
+from .forms import CommentForm
+
+class PostListView(ListView):
+    model = Post
+    template_name = "blog/post_list.html"
+    context_object_name = "posts"
+
+    def get_queryset(self):
+        return Post.objects.filter(is_published=True)
+
+class PostDetailView(FormMixin, DetailView):
+    model = Post
+    template_name = "blog/post_detail.html"
+    context_object_name = "post"
+    form_class = CommentForm
+
+    def get_success_url(self):
+        return reverse("post_detail", kwargs={"slug": self.object.slug})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.get_form()
+        context['comments'] = self.object.comments.filter(approved=True)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        comment = form.save(commit=False)
+        comment.post = self.object
+        if self.request.user.is_authenticated:
+            comment.user = self.request.user
+        comment.approved = True  # Automatically approve for now
+        comment.save()
+        return super().form_valid(form)
+
+
+===== blog/forms.py =====
+from django import forms
+from .models import Comment
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        # If you require authenticated users only, you might only need the content field.
+        # Otherwise, include name and email.
+        fields = ['content']
+        widgets = {
+            'content': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Leave a comment...'}),
+        }
+
+
+===== blog/urls.py =====
+from django.urls import path
+from .views import PostListView, PostDetailView
+
+urlpatterns = [
+    path('', PostListView.as_view(), name='post_list'),
+    path('<slug:slug>/', PostDetailView.as_view(), name='post_detail'),
+]
+
+
+===== blog/admin.py =====
+from django.contrib import admin
+from .models import Post, Comment
+
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    list_display = ('title', 'author', 'is_published', 'published_date', 'video')
+    prepopulated_fields = {'slug': ('title',)}
+    search_fields = ('title', 'content')
+    list_filter = ('is_published', 'published_date')
+    fields = ('title', 'slug', 'content', 'video', 'author', 'is_published', 'published_date')
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('post', 'user', 'created_at', 'approved')
+    list_filter = ('approved', 'created_at')
+    search_fields = ('content',)
+
+
+===== portfolio/models.py =====
+from django.db import models
+
+# Create your models here.
+
+
+===== portfolio/views.py =====
+from django.views.generic import TemplateView
+from django.shortcuts import get_object_or_404
+from django.utils.text import slugify
+
+# Project data (you can expand later)
+PROJECTS = [
+
+    {
+        "title": "EJ Art Moving App",
+        "slug": "art-mover",
+        "description": "A sleek logistics dashboard for scheduling art moves, managing clients, and tracking invoices.",
+        "tech": ["Django", "FullCalendar", "Bootstrap", "Docker", "PostgreSQL"],
+        "image": "/static/images/projects/art-mover.jpg",
+        "live_url": "https://art-moving-buisness-0a734245a61f.herokuapp.com",
+        "github_url": "https://github.com/mattyray/art_moving_buisness",
+    },
+    {
+        "title": "Freedom Fundraiser Website",
+        "slug": "fundraiser",
+        "description": "A modern, heartfelt donation platform with blog, videos, and updates to support my transition to independent living.",
+        "tech": ["Django", "Bootstrap", "YouTube Embed", "Heroku"],
+        "image": "/static/images/projects/fundraiser.jpg",
+        "live_url": "https://www.mattsfreedomfundraiser.com",
+        "github_url": "https://github.com/mattyray/fundraiser-website",
+    },
+    {
+        "title": "MatthewRaynor.com",
+        "slug": "matthew-raynor",
+        "description": "My personal brand site showcasing blog, store, press, and a portfolio of resilience, art, and development.",
+        "tech": ["Django", "Allauth", "Bootstrap", "Docker", "Heroku"],
+        "image": "/static/images/projects/matthewraynor.jpg",
+        "live_url": "https://www.matthewraynor.com",
+        "github_url": "https://github.com/mattyray/Matthew_raynor_website",
+    },
+    {
+        "title": "Matt’s Bookstore API",
+        "slug": "bookstore",
+        "description": "A Django REST API bookstore with Google SSO, ratings, reviews, and Dockerized deployment.",
+        "tech": ["Django", "DRF", "Docker", "PostgreSQL", "Heroku"],
+        "image": "/static/images/projects/bookstore.jpg",
+        "live_url": "https://mattsbookstore-c15521949514.herokuapp.com",
+        "github_url": "https://github.com/mattyray/ch4-bookstore",
+    },
+]
+
+class PortfolioView(TemplateView):
+    template_name = "portfolio/index.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["projects"] = PROJECTS
+        return context
+
+class ProjectDetailView(TemplateView):
+    template_name = "portfolio/detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        slug = self.kwargs.get("slug")
+        project = get_object_or_404(PROJECTS, slug=slug)
+        context["project"] = project
+        return context
+
+
+===== portfolio/urls.py =====
+from django.urls import path
+from .views import PortfolioView, ProjectDetailView
+
+urlpatterns = [
+    path("", PortfolioView.as_view(), name="portfolio"),
+    path("<slug:slug>/", ProjectDetailView.as_view(), name="project_detail"),
+]
+
+
+===== portfolio/admin.py =====
 from django.contrib import admin
 
 # Register your models here.
@@ -452,6 +692,8 @@ INSTALLED_APPS = [
     'pages.apps.PagesConfig',
     'store.apps.StoreConfig',
     'blog.apps.BlogConfig',
+    'portfolio.apps.PortfolioConfig',
+
 
 
     # Third-party packages
@@ -597,6 +839,8 @@ urlpatterns = [
     path("blog/", include("blog.urls")),                   # Blog URLs
     path("", include("pages.urls")),                       
     path("store/", include("store.urls")),
+    path("portfolio/", include("portfolio.urls")),
+
 ]
 
 if settings.DEBUG:
@@ -663,7 +907,7 @@ application = get_wsgi_application()
         <h1 class="display-4 fw-bold text-shadow">From Sea to Source Code</h1>
         <p class="lead">Writer • Developer • Artist • Entertainer</p>
         <a href="{% url 'store_overview' %}" class="btn btn-primary btn-lg mt-3">Explore My Store</a>
-        <a href="{% url 'post_list' %}" class="btn btn-outline-light btn-lg mt-3 ms-2">Read the Blog</a>
+        <a href="{% url 'post_list' %}" class="btn btn-outline-light btn-lg mt-3 ms-2">Check the V/Blog</a>
       </div>
     </div>
   </section>
@@ -688,7 +932,7 @@ application = get_wsgi_application()
   <!-- FEATURED BOOK & ART -->
   <section class="py-5">
     <div class="container text-center">
-      <h2 class="fw-bold mb-4">Featured Work</h2>
+      <h2 class="fw-bold mb-4">Featured Shop</h2>
       <div class="row justify-content-center">
         <div class="col-md-4 mb-3">
           <div class="card h-100 shadow">
@@ -841,7 +1085,7 @@ application = get_wsgi_application()
       <!-- Navbar Items -->
       <div class="collapse navbar-collapse" id="navbarDesktop">
         <ul class="navbar-nav ms-3 me-auto">
-          <li class="nav-item"><a class="nav-link" href="{% url 'post_list' %}">Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'post_list' %}">V/Blog</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Portfolio</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'press' %}">Press</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
@@ -1228,18 +1472,31 @@ application = get_wsgi_application()
 {% block title %}Press - Matthew Raynor{% endblock %}
 
 {% block content %}
-<section class="py-5 bg-light">
+<section class="press-section">
   <div class="container">
-    <h2 class="text-center fw-bold mb-5">In the Press</h2>
+    <h2 class="section-title">In the Press</h2>
+    <p class="section-subtitle">
+      Stories, interviews, and articles that highlight my journey—from life on the water to life behind the screen. These features celebrate resilience, creativity, and the power of community.
+    </p>
+
     <div class="row">
       {% for article in press_articles %}
       <div class="col-md-6 col-lg-4 mb-4">
-        <div class="card h-100 shadow-sm">
+        <div class="press-card card h-100 shadow-sm border-0 d-flex flex-column">
+          {% if article.image_url %}
+            <!---->
+
+            <div class="press-image-wrapper">
+                <img src="{{ article.image_url }}" class="card-img-top" alt="{{ article.title }}">
+            </div>
+              
+
+          {% endif %}
           <div class="card-body d-flex flex-column">
-            <h5 class="card-title fw-bold">{{ article.title }}</h5>
-            <p class="text-muted mb-2"><small>{{ article.source }}</small></p>
+            <h5 class="card-title">{{ article.title }}</h5>
+            <p class="source"><small>{{ article.source }}</small></p>
             <p class="card-text flex-grow-1">{{ article.summary }}</p>
-            <a href="{{ article.link }}" class="btn btn-outline-primary mt-auto" target="_blank">Read More</a>
+            <a href="{{ article.link }}" class="btn btn-primary mt-3" target="_blank" rel="noopener noreferrer">Read Full Article</a>
           </div>
         </div>
       </div>
