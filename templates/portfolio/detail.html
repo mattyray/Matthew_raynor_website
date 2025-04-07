@@ -5,52 +5,69 @@
 
 {% block content %}
 <div class="container mt-5">
-  <!-- Hero Image + Title -->
+
+  <!-- Hero Image -->
   {% if project.hero_image %}
     <div class="mb-4">
       <img src="{{ project.hero_image }}" class="img-fluid rounded shadow" alt="{{ project.title }}">
     </div>
   {% endif %}
 
+  <!-- Title and Description -->
   <h1 class="display-4 fw-bold">{{ project.title }}</h1>
   <p class="lead">{{ project.description }}</p>
 
   <!-- Tech Stack -->
   <div class="mb-4">
     {% for tech in project.tech %}
-      <span class="badge bg-primary me-2">{{ tech }}</span>
+      <span class="badge bg-primary me-2 mb-2">{{ tech }}</span>
     {% endfor %}
   </div>
 
-  <!-- Highlights (if available) -->
+  <!-- Highlights -->
   {% if project.highlights %}
-    <h4 class="fw-bold mt-4">Key Features</h4>
-    <ul>
+    <h3 class="fw-bold mt-5">🚀 Highlights</h3>
+    <ul class="list-group list-group-flush mb-4">
       {% for item in project.highlights %}
-        <li>{{ item }}</li>
+        <li class="list-group-item">{{ item }}</li>
       {% endfor %}
     </ul>
   {% endif %}
 
   <!-- Problem & Solution -->
   {% if project.problem %}
-    <h4 class="fw-bold mt-4">The Challenge</h4>
+    <h3 class="fw-bold mt-5">🧩 The Challenge</h3>
     <p>{{ project.problem }}</p>
   {% endif %}
 
   {% if project.solution %}
-    <h4 class="fw-bold mt-3">The Solution</h4>
+    <h3 class="fw-bold mt-4">💡 The Solution</h3>
     <p>{{ project.solution }}</p>
   {% endif %}
 
+  <!-- Build Notes -->
+  {% if project.build_notes %}
+    <div class="mt-5">
+      <h3 class="fw-bold">🛠️ Build Overview</h3>
+      <div class="build-notes">
+        {{ project.build_notes|safe }}
+      </div>
+    </div>
+  {% endif %}
+
   <!-- CTA Buttons -->
-  <div class="mt-4">
+  <div class="mt-5">
     {% if project.live_url %}
-      <a href="{{ project.live_url }}" target="_blank" class="btn btn-success me-2">View Live</a>
+      <a href="{{ project.live_url }}" target="_blank" class="btn btn-success btn-lg me-2">
+        🌍 View Live
+      </a>
     {% endif %}
     {% if project.github_url %}
-      <a href="{{ project.github_url }}" target="_blank" class="btn btn-outline-dark">View Code</a>
+      <a href="{{ project.github_url }}" target="_blank" class="btn btn-outline-dark btn-lg">
+        💻 View Code
+      </a>
     {% endif %}
   </div>
+
 </div>
 {% endblock %}
