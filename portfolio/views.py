@@ -1,57 +1,55 @@
 from django.views.generic import TemplateView
-from django.http import Http404
+from django.shortcuts import get_object_or_404
+from django.utils.text import slugify
 
-PROJECTS = {
-    "matthewraynor-com": {
+# Project data (you can expand later)
+PROJECTS = [
+
+    {
+        "title": "EJ Art Moving App",
+        "slug": "art-mover",
+        "description": "A sleek logistics dashboard for scheduling art moves, managing clients, and tracking invoices.",
+        "tech": ["Django", "FullCalendar", "Bootstrap", "Docker", "PostgreSQL"],
+        "image": "/static/images/projects/art-mover.jpg",
+        "live_url": "https://art-moving-buisness-0a734245a61f.herokuapp.com",
+        "github_url": "https://github.com/mattyray/art_moving_buisness",
+    },
+    {
+        "title": "Freedom Fundraiser Website",
+        "slug": "fundraiser",
+        "description": "A modern, heartfelt donation platform with blog, videos, and updates to support my transition to independent living.",
+        "tech": ["Django", "Bootstrap", "YouTube Embed", "Heroku"],
+        "image": "/static/images/projects/fundraiser.jpg",
+        "live_url": "https://www.mattsfreedomfundraiser.com",
+        "github_url": "https://github.com/mattyray/fundraiser-website",
+    },
+    {
         "title": "MatthewRaynor.com",
-        "slug": "matthewraynor-com",
-        "summary": "My flagship personal site: blog, store, press, portfolio, and custom accounts system—all built with Django and Docker.",
-        "tech": ["Django", "Bootstrap", "Docker", "SASS", "PostgreSQL"],
-        "github": "https://github.com/mattyray/Matthew_raynor_website",
-        "live": "https://www.matthewraynor.com",
-        "image": "/static/images/portfolio/matthewraynor-site.png",
-        "details": "This site showcases my entire digital journey—from my memoir and aluminum prints to my blog, media features, and development portfolio. The design is fully responsive and built with custom SASS styling, deployed using Docker and Heroku.",
+        "slug": "matthew-raynor",
+        "description": "My personal brand site showcasing blog, store, press, and a portfolio of resilience, art, and development.",
+        "tech": ["Django", "Allauth", "Bootstrap", "Docker", "Heroku"],
+        "image": "/static/images/projects/matthewraynor.jpg",
+        "live_url": "https://www.matthewraynor.com",
+        "github_url": "https://github.com/mattyray/Matthew_raynor_website",
     },
-    "art-mover-app": {
-        "title": "Art Mover Application",
-        "slug": "art-mover-app",
-        "summary": "A logistics dashboard for work orders, invoicing, scheduling, and client tracking—built for real business use.",
-        "tech": ["Django", "Bootstrap", "PostgreSQL", "Heroku", "Crispy Forms"],
-        "github": "https://github.com/mattyray/art_moving_buisness",
-        "live": "https://art-moving-buisness-0a734245a61f.herokuapp.com",
-        "image": "/static/images/portfolio/art-mover.png",
-        "details": "Built for a real art handling business, this app includes scheduling, client management, invoicing, calendar integration, PDF generation, and authentication. It’s fully styled and production-ready.",
-    },
-    "bookstore-api": {
+    {
         "title": "Matt’s Bookstore API",
-        "slug": "bookstore-api",
-        "summary": "REST-powered Django API with user accounts, book reviews, ratings, and Google login.",
-        "tech": ["Django REST Framework", "Docker", "Heroku", "AllAuth"],
-        "github": "https://github.com/mattyray/ch4-bookstore",
-        "live": "https://mattsbookstore-c15521949514.herokuapp.com",
-        "image": "/static/images/portfolio/bookstore.png",
-        "details": "This bookstore API supports authenticated users, rating and reviewing books, and full CRUD functionality via DRF. Built using Docker and deployed to Heroku with environment variables.",
+        "slug": "bookstore",
+        "description": "A Django REST API bookstore with Google SSO, ratings, reviews, and Dockerized deployment.",
+        "tech": ["Django", "DRF", "Docker", "PostgreSQL", "Heroku"],
+        "image": "/static/images/projects/bookstore.jpg",
+        "live_url": "https://mattsbookstore-c15521949514.herokuapp.com",
+        "github_url": "https://github.com/mattyray/ch4-bookstore",
     },
-    "fundraiser-website": {
-        "title": "Fundraiser Website",
-        "slug": "fundraiser-website",
-        "summary": "Donation site with blogging, embedded videos, and storytelling tools—styled like GoFundMe.",
-        "tech": ["Django", "Bootstrap", "Heroku", "PostgreSQL", "SASS"],
-        "github": "https://github.com/mattyray/fundraiser-website",
-        "live": "https://www.mattsfreedomfundraiser.com",
-        "image": "/static/images/portfolio/fundraiser.png",
-        "details": "Created to raise funds for my transition out of the nursing home, this website features blog posts, donation links, embedded video, and contact forms. Clean UI, real-world impact.",
-    },
-}
+]
 
 class PortfolioView(TemplateView):
     template_name = "portfolio/index.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["projects"] = PROJECTS.values()
+        context["projects"] = PROJECTS
         return context
-
 
 class ProjectDetailView(TemplateView):
     template_name = "portfolio/detail.html"
@@ -59,10 +57,6 @@ class ProjectDetailView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         slug = self.kwargs.get("slug")
-        project = PROJECTS.get(slug)
-
-        if not project:
-            raise Http404("Project not found.")
-
+        project = get_object_or_404(PROJECTS, slug=slug)
         context["project"] = project
         return context
