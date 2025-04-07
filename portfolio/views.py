@@ -1,5 +1,7 @@
 from django.views.generic import TemplateView
 from django.shortcuts import get_object_or_404
+from django.http import Http404
+
 
 # Upgraded PROJECTS list with full build-out data
 PROJECTS = [
@@ -110,12 +112,16 @@ class PortfolioView(TemplateView):
         context["projects"] = PROJECTS
         return context
 
+
 class ProjectDetailView(TemplateView):
     template_name = "portfolio/detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         slug = self.kwargs.get("slug")
-        project = get_object_or_404(PROJECTS, slug=slug)
+        project = next((p for p in PROJECTS if p["slug"] == slug), None)
+        if not project:
+            raise Http404("Project not found")
         context["project"] = project
         return context
+
