@@ -10,7 +10,7 @@ PROJECTS = [
         "slug": "art-mover",
         "description": "A sleek logistics dashboard for scheduling art moves, managing clients, and tracking invoices.",
         "tech": ["Django", "FullCalendar", "Bootstrap", "Docker", "PostgreSQL"],
-        "hero_image": "/static/images/projects/art-mover.jpg",
+        "hero_image": "images/projects/art-mover.jpg",
         "highlights": [
             "Custom client, work order, and invoice models",
             "Color-coded calendar with FullCalendar.js",
@@ -31,7 +31,7 @@ PROJECTS = [
         "slug": "fundraiser",
         "description": "A modern, heartfelt donation platform with blog, videos, and updates to support my transition to independent living.",
         "tech": ["Django", "Bootstrap", "YouTube Embed", "Heroku", "Docker", "PostgreSQL"],
-        "hero_image": "/static/images/projects/fundraiser.jpg",
+        "hero_image": "images/projects/fundraiser.jpg",
         "highlights": [
             "Embedded YouTube campaign video with autoplay",
             "Blog for motivational updates",
@@ -65,7 +65,7 @@ PROJECTS = [
         "slug": "matthew-raynor",
         "description": "My personal brand site showcasing blog, store, press, and a portfolio of resilience, art, and development.",
         "tech": ["Django", "Allauth", "Bootstrap", "Docker", "Heroku"],
-        "hero_image": "/static/images/projects/matthewraynor.jpg",
+        "hero_image": "images/projects/matthewraynor.jpg",
         "highlights": [
             "Integrated blog, e-commerce, press, and portfolio",
             "Deployed using Docker and Heroku container stack",
@@ -86,7 +86,7 @@ PROJECTS = [
         "slug": "bookstore",
         "description": "A Django REST API bookstore with Google SSO, ratings, reviews, and Dockerized deployment.",
         "tech": ["Django", "DRF", "Docker", "PostgreSQL", "Heroku"],
-        "hero_image": "/static/images/projects/bookstore.jpg",
+        "hero_image": "images/projects/bookstore.jpg",
         "highlights": [
             "Custom user model with email login and Django Admin integration",
             "Books app with CRUD, slugs, UUID primary keys, and media uploads",
