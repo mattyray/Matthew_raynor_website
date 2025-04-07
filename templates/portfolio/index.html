@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load static %}  <!-- ✅ Add this line to use the static tag -->
+
 {% block title %}Portfolio - Matthew Raynor{% endblock %}
 
 {% block content %}
@@ -8,7 +10,12 @@
     {% for project in projects %}
     <div class="col-md-4 mb-4">
       <div class="card h-100 shadow-sm">
-        <img src="{{ project.image }}" class="card-img-top" alt="{{ project.title }}">
+
+        <!-- Thumbnail Image in 4:3 Ratio -->
+        <div class="ratio ratio-4x3">
+            <img src="{% static project.image %}" class="card-img-top object-fit-cover" alt="{{ project.title }}">
+        </div>
+
         <div class="card-body">
           <h5 class="card-title">{{ project.title }}</h5>
           <p class="card-text">{{ project.description|truncatewords:20 }}</p>
