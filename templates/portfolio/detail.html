@@ -1,65 +1,130 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}{{ project.title }} - Portfolio | Matthew Raynor{% endblock %}
+{% block title %}{{ project.title }} – Case Study | Matthew Raynor{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container my-5">
+
+  <!-- Title & Intro -->
+  <div class="text-center mb-4">
+    <h1 class="display-5 fw-bold">{{ project.title }}</h1>
+    <p class="lead">{{ project.description }}</p>
+  </div>
 
   <!-- Hero Image -->
   {% if project.hero_image %}
-    <div class="mb-4">
-        <img src="{% static project.hero_image %}" class="img-fluid rounded shadow" alt="{{ project.title }}">
+    <div class="text-center mb-5">
+      <img src="{% static project.hero_image %}" class="img-fluid rounded shadow-sm" alt="{{ project.title }}" style="max-height: 500px; object-fit: cover;">
     </div>
   {% endif %}
 
-  <!-- Title and Description -->
-  <h1 class="display-4 fw-bold">{{ project.title }}</h1>
-  <p class="lead">{{ project.description }}</p>
+  <!-- Overview -->
+  {% if project.overview %}
+    <div class="mb-5">
+      <h3 class="fw-bold">📌 Overview</h3>
+      <p>{{ project.overview }}</p>
+    </div>
+  {% endif %}
 
   <!-- Tech Stack -->
-  <div class="mb-4">
-    {% for tech in project.tech %}
-      <span class="badge bg-primary me-2 mb-2">{{ tech }}</span>
-    {% endfor %}
-  </div>
-
-  <!-- Highlights -->
-  {% if project.highlights %}
-    <h3 class="fw-bold mt-5">🚀 Highlights</h3>
-    <ul class="list-group list-group-flush mb-4">
-      {% for item in project.highlights %}
-        <li class="list-group-item">{{ item }}</li>
-      {% endfor %}
-    </ul>
+  {% if project.tech_stack %}
+    <div class="mb-5">
+      <h3 class="fw-bold">🛠️ Tech Stack</h3>
+      <div class="row">
+        {% for section, tools in project.tech_stack.items %}
+          <div class="col-md-6 mb-3">
+            <h5 class="text-capitalize">{{ section|title }}</h5>
+            <ul class="list-group list-group-flush">
+              {% for tool in tools %}
+                <li class="list-group-item">{{ tool }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
   {% endif %}
 
   <!-- Problem & Solution -->
-  {% if project.problem %}
-    <h3 class="fw-bold mt-5">🧩 The Challenge</h3>
-    <p>{{ project.problem }}</p>
+  <div class="row mb-5">
+    {% if project.problem %}
+    <div class="col-md-6">
+      <h3 class="fw-bold">🧩 The Problem</h3>
+      <p>{{ project.problem }}</p>
+    </div>
+    {% endif %}
+    {% if project.solution %}
+    <div class="col-md-6">
+      <h3 class="fw-bold">💡 The Solution</h3>
+      <p>{{ project.solution }}</p>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Feature Highlights -->
+  {% if project.special_features %}
+    <div class="mb-5">
+      <h3 class="fw-bold">✨ Special Features</h3>
+      <ul class="list-group list-group-flush">
+        {% for feature in project.special_features %}
+          <li class="list-group-item">✅ {{ feature }}</li>
+        {% endfor %}
+      </ul>
+    </div>
   {% endif %}
 
-  {% if project.solution %}
-    <h3 class="fw-bold mt-4">💡 The Solution</h3>
-    <p>{{ project.solution }}</p>
+  <!-- Real-World Problems Solved -->
+  {% if project.problems_solved %}
+    <div class="mb-5">
+      <h3 class="fw-bold">🎯 Real Problems Solved</h3>
+      <ul class="list-group list-group-flush">
+        {% for problem in project.problems_solved %}
+          <li class="list-group-item">🔧 {{ problem }}</li>
+        {% endfor %}
+      </ul>
+    </div>
   {% endif %}
 
-  <!-- Build Notes -->
+  <!-- Build Notes (Rich HTML) -->
   {% if project.build_notes %}
-    <div class="mt-5">
-      <h3 class="fw-bold">🛠️ Build Overview</h3>
-      <div class="build-notes">
+    <div class="mb-5">
+      <h3 class="fw-bold">📚 Build Notes</h3>
+      <div class="ps-2 border-start border-4 border-primary">
         {{ project.build_notes|safe }}
       </div>
     </div>
   {% endif %}
 
+  <!-- Improvements -->
+  {% if project.improvements %}
+    <div class="mb-5">
+      <h3 class="fw-bold">🚧 Improvements I'd Make</h3>
+      <ul class="list-group list-group-flush">
+        {% for improvement in project.improvements %}
+          <li class="list-group-item">🛠 {{ improvement }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+  <!-- Personal Achievements -->
+  {% if project.proud_of %}
+    <div class="mb-5">
+      <h3 class="fw-bold">🏅 What I'm Proud Of</h3>
+      <ul class="list-group list-group-flush">
+        {% for item in project.proud_of %}
+          <li class="list-group-item">🌟 {{ item }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
   <!-- CTA Buttons -->
-  <div class="mt-5">
+  <div class="text-center mt-5">
     {% if project.live_url %}
-      <a href="{{ project.live_url }}" target="_blank" class="btn btn-success btn-lg me-2">
-        🌍 View Live
+      <a href="{{ project.live_url }}" target="_blank" class="btn btn-success btn-lg me-3">
+        🌐 View Live
       </a>
     {% endif %}
     {% if project.github_url %}
