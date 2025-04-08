@@ -9,7 +9,7 @@
   <!-- Hero Image -->
   {% if project.hero_image %}
     <div class="mb-4">
-      <img src="{{ project.hero_image }}" class="img-fluid rounded shadow" alt="{{ project.title }}">
+        <img src="{% static project.hero_image %}" class="img-fluid rounded shadow" alt="{{ project.title }}">
     </div>
   {% endif %}
 
