@@ -19,7 +19,7 @@
         <div class="card-body">
           <h5 class="card-title">{{ project.title }}</h5>
           <p class="card-text">{{ project.description|truncatewords:20 }}</p>
-          <a href="{% url 'project_detail' project.slug %}" class="btn btn-outline-primary">View Project</a>
+          <a href="{% url 'portfolio:project_detail' project.slug %}" class="btn btn-outline-primary">View Project</a>
         </div>
       </div>
     </div>
