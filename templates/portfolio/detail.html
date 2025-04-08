@@ -1,161 +1,60 @@
-{% extends "base.html" %}
+{% extends "base_portfolio.html" %}
 {% load static %}
-
-{% block title %}{{ project.title }} – Case Study | Matthew Raynor{% endblock %}
-
 {% block content %}
 <div class="container my-5">
 
-  <!-- Top Title & CTA -->
-  <div class="text-center mb-4">
-    <h1 class="display-5 fw-bold">{{ project.title }}</h1>
-    <p class="lead text-muted">{{ project.description }}</p>
+  <a href="{% url 'portfolio:index' %}" class="btn btn-outline-secondary mb-4">← Back to Portfolio</a>
 
-    <div class="mt-3">
-      {% if project.live_url %}
-        <a href="{{ project.live_url }}" target="_blank" class="btn btn-success btn-lg me-2">
-          🌍 View Live
-        </a>
-      {% endif %}
-      {% if project.github_url %}
-        <a href="{{ project.github_url }}" target="_blank" class="btn btn-outline-dark btn-lg">
-          💻 GitHub Code
-        </a>
-      {% endif %}
-    </div>
+  <h1 class="display-4 mb-3">{{ project.title }}</h1>
+  <p class="lead">{{ project.subtitle }}</p>
+
+  <!-- GitHub & Live Buttons -->
+  <div class="mb-4">
+    <a href="{{ project.github_url }}" class="btn btn-dark me-2" target="_blank"><i class="bi bi-github"></i> GitHub</a>
+    {% if project.live_url %}
+    <a href="{{ project.live_url }}" class="btn btn-primary" target="_blank"><i class="bi bi-box-arrow-up-right"></i> Live Site</a>
+    {% endif %}
   </div>
 
-  <!-- Hero Image -->
-  {% if project.hero_image %}
-    <div class="text-center mb-5">
-      <div class="shadow rounded overflow-hidden mx-auto" style="max-width: 960px;">
-        <img src="{% static project.hero_image %}" class="img-fluid" alt="{{ project.title }}">
-      </div>
-    </div>
-  {% endif %}
-
-  <!-- Narrative Overview -->
-  {% if project.overview %}
-    <div class="mb-5">
-      <h3 class="fw-bold">📌 What This Project Is</h3>
-      <p class="fs-5">{{ project.overview }}</p>
-    </div>
-  {% endif %}
+  <!-- Sections with Anchors -->
+  <nav class="mb-5">
+    <a href="#tech" class="btn btn-outline-primary me-2">🧰 Tech Stack</a>
+    <a href="#features" class="btn btn-outline-primary me-2">✨ Features</a>
+    <a href="#problems" class="btn btn-outline-primary me-2">📌 Challenges Solved</a>
+    <a href="#reflections" class="btn btn-outline-primary me-2">💡 Lessons & Improvements</a>
+  </nav>
 
   <!-- Tech Stack -->
-  {% if project.tech_stack %}
-    <div class="mb-5">
-      <h3 class="fw-bold">🛠️ Tech Stack</h3>
-      <p class="text-muted">Here’s a breakdown of the tools and libraries used in this project, categorized by layer:</p>
-      <div class="row">
-        {% for section, tools in project.tech_stack.items %}
-          <div class="col-md-6 mb-3">
-            <div class="card border-light shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title text-capitalize">{{ section|title }}</h5>
-                <ul class="list-unstyled mb-0">
-                  {% for tool in tools %}
-                    <li>✅ {{ tool }}</li>
-                  {% endfor %}
-                </ul>
-              </div>
-            </div>
-          </div>
-        {% endfor %}
-      </div>
+  <section id="tech" class="mb-5">
+    <h2 class="h4">🧰 Tech Stack</h2>
+    <div class="card card-body bg-light">
+      {{ project.tech_stack|safe }}
     </div>
-  {% endif %}
+  </section>
 
-  <!-- Problem & Solution -->
-  <div class="row mb-5">
-    {% if project.problem %}
-    <div class="col-md-6">
-      <h3 class="fw-bold">🧩 The Problem</h3>
-      <p>{{ project.problem }}</p>
+  <!-- Special Features -->
+  <section id="features" class="mb-5">
+    <h2 class="h4">✨ Special Features</h2>
+    <div class="card card-body">
+      {{ project.features|safe }}
     </div>
-    {% endif %}
-    {% if project.solution %}
-    <div class="col-md-6">
-      <h3 class="fw-bold">💡 The Solution</h3>
-      <p>{{ project.solution }}</p>
-    </div>
-    {% endif %}
-  </div>
+  </section>
 
-  <!-- Feature Highlights -->
-  {% if project.special_features %}
-    <div class="mb-5">
-      <h3 class="fw-bold">✨ Special Features</h3>
-      <p class="text-muted">These are the standout components or integrations that elevate this project beyond a simple CRUD app.</p>
-      <ul class="list-group list-group-flush">
-        {% for feature in project.special_features %}
-          <li class="list-group-item">🌟 {{ feature }}</li>
-        {% endfor %}
-      </ul>
+  <!-- Problems Solved -->
+  <section id="problems" class="mb-5">
+    <h2 class="h4">📌 Real-World Problems Solved</h2>
+    <div class="card card-body bg-light">
+      {{ project.problems|safe }}
     </div>
-  {% endif %}
+  </section>
 
-  <!-- Real-World Problems Solved -->
-  {% if project.problems_solved %}
-    <div class="mb-5">
-      <h3 class="fw-bold">🎯 Real-World Problems Solved</h3>
-      <p class="text-muted">Here’s how this project made a difference for its intended users or audience.</p>
-      <ul class="list-group list-group-flush">
-        {% for problem in project.problems_solved %}
-          <li class="list-group-item">🔧 {{ problem }}</li>
-        {% endfor %}
-      </ul>
+  <!-- Reflections -->
+  <section id="reflections" class="mb-5">
+    <h2 class="h4">💡 Reflections & Next Steps</h2>
+    <div class="card card-body">
+      {{ project.reflections|safe }}
     </div>
-  {% endif %}
-
-  <!-- Build Notes -->
-  {% if project.build_notes %}
-    <div class="mb-5">
-      <h3 class="fw-bold">📚 Build Notes & Architecture</h3>
-      <div class="p-3 border-start border-4 border-primary bg-light-subtle rounded">
-        {{ project.build_notes|safe }}
-      </div>
-    </div>
-  {% endif %}
-
-  <!-- Improvements -->
-  {% if project.improvements %}
-    <div class="mb-5">
-      <h3 class="fw-bold">🚧 What I'd Improve</h3>
-      <p class="text-muted">Every build has room to grow. Here's what I'd refine if I rebuilt this today:</p>
-      <ul class="list-group list-group-flush">
-        {% for improvement in project.improvements %}
-          <li class="list-group-item">🛠 {{ improvement }}</li>
-        {% endfor %}
-      </ul>
-    </div>
-  {% endif %}
-
-  <!-- Personal Achievements -->
-  {% if project.proud_of %}
-    <div class="mb-5">
-      <h3 class="fw-bold">🏅 What I'm Proud Of</h3>
-      <ul class="list-group list-group-flush">
-        {% for item in project.proud_of %}
-          <li class="list-group-item">🌈 {{ item }}</li>
-        {% endfor %}
-      </ul>
-    </div>
-  {% endif %}
-
-  <!-- Final CTA Buttons -->
-  <div class="text-center mt-5">
-    {% if project.live_url %}
-      <a href="{{ project.live_url }}" target="_blank" class="btn btn-success btn-lg me-2">
-        🌍 Visit Live Site
-      </a>
-    {% endif %}
-    {% if project.github_url %}
-      <a href="{{ project.github_url }}" target="_blank" class="btn btn-outline-dark btn-lg">
-        💻 View GitHub Repo
-      </a>
-    {% endif %}
-  </div>
+  </section>
 
 </div>
 {% endblock %}
