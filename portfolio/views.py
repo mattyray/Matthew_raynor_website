@@ -1,106 +1,129 @@
 from django.views.generic import TemplateView
-from django.shortcuts import get_object_or_404
 from django.http import Http404
 
-
-# Upgraded PROJECTS list with full build-out data
 PROJECTS = [
     {
         "title": "EJ Art Moving App",
         "slug": "art-mover",
-        "description": "A sleek logistics dashboard for scheduling art moves, managing clients, and tracking invoices.",
-        "tech": ["Django", "FullCalendar", "Bootstrap", "Docker", "PostgreSQL"],
         "hero_image": "images/projects/art-mover.jpg",
-        "highlights": [
-            "Custom client, work order, and invoice models",
-            "Color-coded calendar with FullCalendar.js",
-            "PDF invoice generation and status tracking",
-            "Flatpickr + Select2 integration for date/time forms",
-            "Dockerized setup with health checks and PostgreSQL"
+        "description": "A sleek logistics dashboard for managing clients, work orders, and invoices.",
+        "overview": "A production-grade business dashboard for an art moving company, complete with scheduling, PDF invoicing, and a dynamic calendar.",
+        "tech_stack": {
+            "backend": ["Django 5", "Python 3.10", "PostgreSQL", "Docker"],
+            "frontend": ["Bootstrap 5", "Crispy Forms", "FullCalendar", "Flatpickr", "Select2"],
+            "deployment": ["Docker Compose", "Heroku", "Whitenoise"],
+            "tools": ["django-environ", "django-import-export"]
+        },
+        "problems_solved": [
+            "Digitized manual scheduling and invoicing",
+            "Visual overview of work orders via FullCalendar",
+            "Centralized client, job, and invoice management"
         ],
-        "problem": "The business needed a centralized, digital workflow to manage high-value art moves across locations and teams.",
-        "solution": "I built a clean admin dashboard with calendar views, invoice logic, and real-time work order tracking.",
-        "build_notes": """
-            <p>Deployed via Docker and Heroku, this application uses Bootstrap 5 and Django Forms styled with Crispy Forms for the frontend. The backend supports full CRUD functionality for clients, work orders, and invoices, with PDF generation and status automation. A robust scheduling system integrates Flatpickr for dates and FullCalendar for visual management.</p>
-        """,
-        "live_url": "https://art-moving-buisness-0a734245a61f.herokuapp.com",
-        "github_url": "https://github.com/mattyray/art_moving_buisness",
+        "special_features": [
+            "Dynamic AJAX invoice creation from client work orders",
+            "PDF invoice generation and calendar event syncing",
+            "Inline formsets and lazy model references to avoid circular imports"
+        ],
+        "improvements": [
+            "Integrate Stripe or QuickBooks for real payment processing",
+            "Add search and filters for completed jobs and past invoices"
+        ],
+        "proud_of": [
+            "Overcame circular model dependencies",
+            "Built a real-time calendar with interactive event links"
+        ],
+        "showcase": "An advanced business app built solo, handling real-world logistics, billing, and scheduling."
     },
     {
         "title": "Freedom Fundraiser Website",
         "slug": "fundraiser",
-        "description": "A modern, heartfelt donation platform with blog, videos, and updates to support my transition to independent living.",
-        "tech": ["Django", "Bootstrap", "YouTube Embed", "Heroku", "Docker", "PostgreSQL"],
         "hero_image": "images/projects/fundraiser.jpg",
-        "highlights": [
-            "Embedded YouTube campaign video with autoplay",
-            "Blog for motivational updates",
-            "Bilingual CDPAP caregiver outreach section",
-            "Donation CTA buttons styled with Bootstrap",
-            "Contact form scaffolded with future CAPTCHA"
+        "description": "A donation-based campaign platform with embedded video, blog, and outreach.",
+        "overview": "Created to support my move out of a nursing home, this campaign site includes a motivational blog, caregiver outreach, and donation CTAs.",
+        "tech_stack": {
+            "backend": ["Django", "Python", "PostgreSQL"],
+            "frontend": ["Bootstrap 5", "Crispy Forms"],
+            "deployment": ["Docker", "Heroku", "Whitenoise"],
+            "tools": ["django-environ", "YouTube Embed", "Mailchimp (planned)"]
+        },
+        "problems_solved": [
+            "Unified storytelling, fundraising, and updates in one hub",
+            "Raised awareness and caregiver interest via CDPAP outreach"
         ],
-        "problem": "I needed a platform to tell my story and raise support as I transitioned out of the nursing home.",
-        "solution": "I built this from scratch using Django and Docker, embedding videos, blog posts, and links to external fundraising tools.",
-        "build_notes": """
-            <h5 class="fw-bold mt-4">Technical Overview</h5>
-            <ul>
-              <li>Custom Django app architecture (pages, blog, accounts, store)</li>
-              <li>Responsive UI built with Bootstrap 5 and Crispy Forms</li>
-              <li>Static files served with Whitenoise in production</li>
-              <li>Dockerized development and deployment via Heroku</li>
-              <li>Secure environment management using django-environ</li>
-            </ul>
-            <h5 class="fw-bold mt-3">Future Additions</h5>
-            <ul>
-              <li>Stripe donations (custom checkout)</li>
-              <li>AI assistant chatbot integration</li>
-              <li>SEO and newsletter signup form</li>
-            </ul>
-        """,
-        "live_url": "https://www.mattsfreedomfundraiser.com",
-        "github_url": "https://github.com/mattyray/fundraiser-website",
+        "special_features": [
+            "Embedded YouTube campaign video with autoplay",
+            "Integrated blog from the fundraiser app with admin post editor"
+        ],
+        "improvements": [
+            "Integrate real payment gateway (Stripe or PayPal)",
+            "Add comment moderation and CAPTCHA"
+        ],
+        "proud_of": [
+            "Deployed the entire project using Docker and Heroku",
+            "Bilingual outreach increased community engagement"
+        ],
+        "showcase": "Represents personal growth, storytelling, and full-stack deployment."
     },
     {
         "title": "MatthewRaynor.com",
         "slug": "matthew-raynor",
-        "description": "My personal brand site showcasing blog, store, press, and a portfolio of resilience, art, and development.",
-        "tech": ["Django", "Allauth", "Bootstrap", "Docker", "Heroku"],
         "hero_image": "images/projects/matthewraynor.jpg",
-        "highlights": [
-            "Integrated blog, e-commerce, press, and portfolio",
-            "Deployed using Docker and Heroku container stack",
-            "Secure custom user model with allauth login",
-            "Full mobile support and accessibility styling",
-            "AI chatbot scaffolded for site-wide assistance"
+        "description": "My flagship website combining my story, blog, art store, and technical portfolio.",
+        "overview": "A personal brand site where all my passions intersect — tech, writing, art, and accessibility.",
+        "tech_stack": {
+            "backend": ["Django 5.1.6", "Python 3.10", "PostgreSQL"],
+            "frontend": ["Bootstrap 5", "SCSS", "Flatpickr", "FullCalendar"],
+            "deployment": ["Docker", "Heroku (Container Stack)", "Whitenoise"],
+            "tools": ["Allauth", "Crispy Forms", "django-environ"]
+        },
+        "problems_solved": [
+            "Needed one site to host my store, blog, portfolio, and press",
+            "Reduced reliance on platforms like Shopify or Medium"
         ],
-        "problem": "I needed a personal hub to unite my creative, technical, and motivational work under one platform.",
-        "solution": "I fused my coding, writing, and photography into one polished brand identity, powered by Django and Docker.",
-        "build_notes": """
-            <p>This site brings together my full-stack skills and personal journey. It includes modular Django apps for blog posts, portfolio items, e-commerce products, and press content. Custom account handling with Google SSO, AI chatbot integration, and a clean responsive UI make this a powerful portfolio centerpiece.</p>
-        """,
-        "live_url": "https://www.matthewraynor.com",
-        "github_url": "https://github.com/mattyray/Matthew_raynor_website",
+        "special_features": [
+            "Custom user model + Allauth integration",
+            "Chatbot scaffold, press hub, gallery section, blog, and store"
+        ],
+        "improvements": [
+            "Add cart, checkout, and testimonial display",
+            "Enable global search and newsletter signup"
+        ],
+        "proud_of": [
+            "Built a fully modular, multi-app Django system",
+            "Reflects my resilience and technical versatility"
+        ],
+        "showcase": "The foundation of my brand and proof of my end-to-end web dev skills."
     },
     {
         "title": "Matt’s Bookstore API",
         "slug": "bookstore",
-        "description": "A Django REST API bookstore with Google SSO, ratings, reviews, and Dockerized deployment.",
-        "tech": ["Django", "DRF", "Docker", "PostgreSQL", "Heroku"],
         "hero_image": "images/projects/bookstore.jpg",
-        "highlights": [
-            "Custom user model with email login and Django Admin integration",
-            "Books app with CRUD, slugs, UUID primary keys, and media uploads",
-            "Authenticated reviews using DRF and permissions",
-            "Full-text search with Q filtering across fields",
-            "Docker + PostgreSQL with Heroku deployment"
+        "description": "A Django REST API bookstore project with Google SSO, reviews, and deployment.",
+        "overview": "An API-first bookstore web app with full CRUD for books, ratings, search, and Docker-based deployment.",
+        "tech_stack": {
+            "backend": ["Django", "DRF", "Python 3.12"],
+            "frontend": ["Bootstrap 5", "Crispy Forms"],
+            "deployment": ["Docker", "Heroku", "Whitenoise"],
+            "tools": ["Allauth", "django-environ"]
+        },
+        "problems_solved": [
+            "Learned DRF by building real API endpoints",
+            "Handled book reviews, search, and secure login"
         ],
-        "problem": "I wanted to learn Django REST Framework by building a real-world bookstore API from scratch.",
-        "solution": "I followed Django for Professionals and added Google SSO, DRF auth, and Docker deployment to cement my skills.",
-        "build_notes": """
-            <p>This API-focused bookstore project includes complete REST endpoints for listing, searching, reviewing, and managing books. It's deployed via Docker/Heroku with PostgreSQL, crispy form styling, and secure account login using django-allauth. I implemented review permission checks, search filters, and full admin control.</p>
-        """,
-        "live_url": "https://mattsbookstore-c15521949514.herokuapp.com",
-        "github_url": "https://github.com/mattyray/ch4-bookstore",
+        "special_features": [
+            "UUID and slug-based URLs",
+            "Secure reviews via permission classes",
+            "Search filtering using Django Q objects"
+        ],
+        "improvements": [
+            "Add frontend search bar and filters",
+            "Convert to SPA with Vue or React"
+        ],
+        "proud_of": [
+            "Handled Docker + DRF + PostgreSQL integration solo",
+            "Built full book management pipeline"
+        ],
+        "showcase": "A clean, REST-based bookstore for testing API design and secure auth."
     },
 ]
 
@@ -111,7 +134,6 @@ class PortfolioView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["projects"] = PROJECTS
         return context
-
 
 class ProjectDetailView(TemplateView):
     template_name = "portfolio/detail.html"
@@ -124,4 +146,3 @@ class ProjectDetailView(TemplateView):
             raise Http404("Project not found")
         context["project"] = project
         return context
-
