@@ -9,20 +9,22 @@ PROJECTS = [
         "description": "A sleek logistics dashboard for managing clients, work orders, and invoices.",
         "overview": "A production-grade business dashboard for an art moving company, complete with scheduling, PDF invoicing, and a dynamic calendar.",
         "tech_stack": {
-            "backend": ["Django 5", "Python 3.10", "PostgreSQL", "Docker"],
+            "backend": ["Django 5.1.6", "Python 3.10", "PostgreSQL", "Docker"],
             "frontend": ["Bootstrap 5", "Crispy Forms", "FullCalendar", "Flatpickr", "Select2"],
             "deployment": ["Docker Compose", "Heroku", "Whitenoise"],
             "tools": ["django-environ", "django-import-export"]
         },
-        "problems_solved": [
-            "Digitized manual scheduling and invoicing",
-            "Visual overview of work orders via FullCalendar",
-            "Centralized client, job, and invoice management"
-        ],
+        "problem": "The client was managing logistics, invoicing, and scheduling manually via email and spreadsheets, which caused delays and errors.",
+        "solution": "I created a centralized system that tracks jobs, clients, and invoices using relational models, AJAX-enhanced forms, and a real-time calendar for scheduling.",
         "special_features": [
             "Dynamic AJAX invoice creation from client work orders",
             "PDF invoice generation and calendar event syncing",
             "Inline formsets and lazy model references to avoid circular imports"
+        ],
+        "problems_solved": [
+            "Digitized manual scheduling and invoicing",
+            "Visual overview of work orders via FullCalendar",
+            "Centralized client, job, and invoice management"
         ],
         "improvements": [
             "Integrate Stripe or QuickBooks for real payment processing",
@@ -32,10 +34,12 @@ PROJECTS = [
             "Overcame circular model dependencies",
             "Built a real-time calendar with interactive event links"
         ],
-        "showcase": "An advanced business app built solo, handling real-world logistics, billing, and scheduling."
+        "build_notes": "<p>Containerized with Docker, deployed using Heroku's container stack. PostgreSQL health checks ensure app doesn’t launch before DB is ready.</p>",
+        "github_url": "https://github.com/mattyray/art_moving_buisness",
+        "live_url": "https://art-moving-buisness-0a734245a61f.herokuapp.com"
     },
     {
-        "title": "Freedom Fundraiser Website",
+        "title": "Matt’s Freedom Fundraiser",
         "slug": "fundraiser",
         "hero_image": "images/projects/fundraiser.jpg",
         "description": "A donation-based campaign platform with embedded video, blog, and outreach.",
@@ -46,23 +50,27 @@ PROJECTS = [
             "deployment": ["Docker", "Heroku", "Whitenoise"],
             "tools": ["django-environ", "YouTube Embed", "Mailchimp (planned)"]
         },
+        "problem": "I needed a way to raise funds for housing and medical needs while also telling my story and engaging my community.",
+        "solution": "I built a multi-page fundraising site that includes a blog, press coverage, embedded video, and contact outreach tools.",
+        "special_features": [
+            "Embedded YouTube campaign video with autoplay",
+            "Integrated blog with post editor and dynamic list/detail views"
+        ],
         "problems_solved": [
             "Unified storytelling, fundraising, and updates in one hub",
             "Raised awareness and caregiver interest via CDPAP outreach"
         ],
-        "special_features": [
-            "Embedded YouTube campaign video with autoplay",
-            "Integrated blog from the fundraiser app with admin post editor"
-        ],
         "improvements": [
-            "Integrate real payment gateway (Stripe or PayPal)",
+            "Integrate Stripe or PayPal for donations",
             "Add comment moderation and CAPTCHA"
         ],
         "proud_of": [
-            "Deployed the entire project using Docker and Heroku",
+            "Deployed solo with Docker and Heroku",
             "Bilingual outreach increased community engagement"
         ],
-        "showcase": "Represents personal growth, storytelling, and full-stack deployment."
+        "build_notes": "<p>Uses Django Pages app with static press data. Campaign blog and store are modular and reusable across other projects.</p>",
+        "github_url": "https://github.com/mattyray/fundraiser-website",
+        "live_url": "https://www.mattfreedomfundraiser.com"
     },
     {
         "title": "MatthewRaynor.com",
@@ -76,23 +84,28 @@ PROJECTS = [
             "deployment": ["Docker", "Heroku (Container Stack)", "Whitenoise"],
             "tools": ["Allauth", "Crispy Forms", "django-environ"]
         },
+        "problem": "I needed a single platform to unify my professional work, writing, art, and personal journey to help others and represent myself to the world.",
+        "solution": "I built a full-featured Django site with custom user login, store, blog, portfolio, and press coverage hub.",
+        "special_features": [
+            "Custom user model + Allauth integration",
+            "Press hub, blog, store, and modular portfolio detail pages",
+            "AI chatbot scaffold and accessible frontend"
+        ],
         "problems_solved": [
             "Needed one site to host my store, blog, portfolio, and press",
             "Reduced reliance on platforms like Shopify or Medium"
         ],
-        "special_features": [
-            "Custom user model + Allauth integration",
-            "Chatbot scaffold, press hub, gallery section, blog, and store"
-        ],
         "improvements": [
-            "Add cart, checkout, and testimonial display",
-            "Enable global search and newsletter signup"
+            "Add Stripe cart/checkout system",
+            "Enable newsletter signup and global search"
         ],
         "proud_of": [
             "Built a fully modular, multi-app Django system",
             "Reflects my resilience and technical versatility"
         ],
-        "showcase": "The foundation of my brand and proof of my end-to-end web dev skills."
+        "build_notes": "<p>Every page is component-driven with a global base template. Portfolio is hardcoded for now, but database-driven expansion is planned.</p>",
+        "github_url": "https://github.com/mattyray/Matthew_raynor_website",
+        "live_url": "https://www.matthewraynor.com"
     },
     {
         "title": "Matt’s Bookstore API",
@@ -106,14 +119,16 @@ PROJECTS = [
             "deployment": ["Docker", "Heroku", "Whitenoise"],
             "tools": ["Allauth", "django-environ"]
         },
-        "problems_solved": [
-            "Learned DRF by building real API endpoints",
-            "Handled book reviews, search, and secure login"
-        ],
+        "problem": "I wanted to learn Django REST Framework by building an API-first bookstore that could handle real CRUD operations and secure logins.",
+        "solution": "Created a REST-ready bookstore with user authentication, image uploads, reviews, and Heroku-based deployment using Docker.",
         "special_features": [
             "UUID and slug-based URLs",
             "Secure reviews via permission classes",
             "Search filtering using Django Q objects"
+        ],
+        "problems_solved": [
+            "Learned DRF by building real API endpoints",
+            "Handled book reviews, search, and secure login"
         ],
         "improvements": [
             "Add frontend search bar and filters",
@@ -123,7 +138,9 @@ PROJECTS = [
             "Handled Docker + DRF + PostgreSQL integration solo",
             "Built full book management pipeline"
         ],
-        "showcase": "A clean, REST-based bookstore for testing API design and secure auth."
+        "build_notes": "<p>Heroku container stack deployment using `heroku.yml` and `.env` management. Includes future-ready DRF endpoints for mobile or SPA frontend.</p>",
+        "github_url": "https://github.com/mattyray/ch4-bookstore",
+        "live_url": ""  # Currently broken, noted in portfolio
     },
 ]
 
