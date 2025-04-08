@@ -1,4 +1,4 @@
-{% extends "base_portfolio.html" %}
+{% extends "base.html" %}
 {% load static %}
 {% block content %}
 <div class="container my-5">
@@ -6,7 +6,7 @@
   <a href="{% url 'portfolio:index' %}" class="btn btn-outline-secondary mb-4">← Back to Portfolio</a>
 
   <h1 class="display-4 mb-3">{{ project.title }}</h1>
-  <p class="lead">{{ project.subtitle }}</p>
+  <p class="lead">{{ project.description }}</p>
 
   <!-- GitHub & Live Buttons -->
   <div class="mb-4">
@@ -19,40 +19,68 @@
   <!-- Sections with Anchors -->
   <nav class="mb-5">
     <a href="#tech" class="btn btn-outline-primary me-2">🧰 Tech Stack</a>
-    <a href="#features" class="btn btn-outline-primary me-2">✨ Features</a>
-    <a href="#problems" class="btn btn-outline-primary me-2">📌 Challenges Solved</a>
-    <a href="#reflections" class="btn btn-outline-primary me-2">💡 Lessons & Improvements</a>
+    <a href="#features" class="btn btn-outline-primary me-2">✨ Special Features</a>
+    <a href="#solved" class="btn btn-outline-primary me-2">📌 Problems Solved</a>
+    <a href="#improvements" class="btn btn-outline-primary me-2">💡 Improvements</a>
+    <a href="#proud" class="btn btn-outline-primary me-2">🏅 Proud Moments</a>
+    <a href="#build" class="btn btn-outline-primary me-2">📋 Build Notes</a>
   </nav>
 
   <!-- Tech Stack -->
   <section id="tech" class="mb-5">
     <h2 class="h4">🧰 Tech Stack</h2>
     <div class="card card-body bg-light">
-      {{ project.tech_stack|safe }}
+      {% for category, tools in project.tech_stack.items %}
+        <p><strong>{{ category|capfirst }}:</strong> {{ tools|join:", " }}</p>
+      {% endfor %}
     </div>
   </section>
 
   <!-- Special Features -->
   <section id="features" class="mb-5">
     <h2 class="h4">✨ Special Features</h2>
-    <div class="card card-body">
-      {{ project.features|safe }}
-    </div>
+    <ul class="list-group list-group-flush">
+      {% for feature in project.special_features %}
+        <li class="list-group-item">🌟 {{ feature }}</li>
+      {% endfor %}
+    </ul>
   </section>
 
   <!-- Problems Solved -->
-  <section id="problems" class="mb-5">
+  <section id="solved" class="mb-5">
     <h2 class="h4">📌 Real-World Problems Solved</h2>
-    <div class="card card-body bg-light">
-      {{ project.problems|safe }}
-    </div>
+    <ul class="list-group list-group-flush">
+      {% for solved in project.problems_solved %}
+        <li class="list-group-item">🔧 {{ solved }}</li>
+      {% endfor %}
+    </ul>
   </section>
 
-  <!-- Reflections -->
-  <section id="reflections" class="mb-5">
-    <h2 class="h4">💡 Reflections & Next Steps</h2>
-    <div class="card card-body">
-      {{ project.reflections|safe }}
+  <!-- Improvements -->
+  <section id="improvements" class="mb-5">
+    <h2 class="h4">💡 What I'd Improve</h2>
+    <ul class="list-group list-group-flush">
+      {% for improvement in project.improvements %}
+        <li class="list-group-item">🛠 {{ improvement }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <!-- Proud Of -->
+  <section id="proud" class="mb-5">
+    <h2 class="h4">🏅 What I'm Proud Of</h2>
+    <ul class="list-group list-group-flush">
+      {% for item in project.proud_of %}
+        <li class="list-group-item">🌈 {{ item }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <!-- Build Notes -->
+  <section id="build" class="mb-5">
+    <h2 class="h4">📋 Build Notes</h2>
+    <div class="card card-body bg-light">
+      {{ project.build_notes|safe }}
     </div>
   </section>
 
