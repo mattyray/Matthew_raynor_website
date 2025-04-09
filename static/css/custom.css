@@ -11845,9 +11845,10 @@ textarea.form-control-lg {
   }
 }
 .fade-in-up {
-  opacity: 0;
   transform: translateY(20px);
-  animation: fadeInUp 0.6s ease-out forwards;
+  opacity: 0;
+  transition: all 0.6s ease-out;
+  will-change: transform, opacity;
 }
 
 @keyframes fadeInUp {
