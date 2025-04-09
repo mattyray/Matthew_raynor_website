@@ -148,18 +148,19 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-  <!-- ScrollReveal Animation -->
-  <script src="https://unpkg.com/scrollreveal"></script>
   <script>
-    ScrollReveal().reveal('.case-section', {
-      origin: 'bottom',
-      distance: '30px',
-      duration: 700,
+    ScrollReveal().reveal('.fade-in-up', {
+      distance: '20px',
+      duration: 600,
       easing: 'ease-out',
+      origin: 'bottom',
+      opacity: 0,
       interval: 100,
-      reset: false
+      reset: false, // important: don't keep resetting
+      cleanup: true // clears inline styles once done
     });
   </script>
+  
 
   {% block extra_js %}{% endblock %}
 
