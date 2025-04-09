@@ -3,17 +3,18 @@
 {% load embed_video_tags %}
 {% load crispy_forms_tags %}
 
-
 {% block title %}{{ post.title }} - Blog{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="card shadow-lg">
+<div class="container mt-5 scroll-reveal">
+
+    <!-- Blog Post Card -->
+    <div class="card shadow-lg scroll-reveal sr-delay-1">
         <div class="card-body">
             <h1 class="fw-bold">{{ post.title }}</h1>
             <p class="text-muted">Published on {{ post.created_at|date:"F d, Y" }}</p>
 
-            <!-- Video Section -->
+            <!-- Video Embed -->
             {% if post.video %}
             <div class="ratio ratio-16x9 my-3">
                 {% video post.video 'large' %}
@@ -24,12 +25,12 @@
             <p class="lead">{{ post.content }}</p>
 
             <!-- Back to Blog Button -->
-            <a href="{% url 'post_list' %}" class="btn btn-secondary mt-3">Back to Blog</a>
+            <a href="{% url 'post_list' %}" class="btn btn-secondary mt-3">← Back to Blog</a>
         </div>
     </div>
-    
+
     <!-- Comments Section -->
-    <div class="mt-4">
+    <div class="mt-5 scroll-reveal sr-delay-2">
         <h3>Comments</h3>
         {% if comments %}
             <ul class="list-unstyled">
@@ -44,7 +45,8 @@
         {% else %}
             <p>No comments yet. Be the first to comment!</p>
         {% endif %}
-        
+
+        <!-- Comment Form -->
         <h4 class="mt-4">Leave a Comment</h4>
         <form method="post">
             {% csrf_token %}
@@ -52,5 +54,6 @@
             <button type="submit" class="btn btn-primary">Submit Comment</button>
         </form>
     </div>
+
 </div>
 {% endblock %}
