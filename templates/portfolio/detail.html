@@ -6,6 +6,7 @@
 {% block content %}
 <div class="container my-5">
 
+  <!-- Back Link -->
   <a href="{% url 'portfolio:index' %}" class="btn btn-outline-secondary mb-4">← Back to Portfolio</a>
 
   <!-- HERO HEADER -->
@@ -29,6 +30,7 @@
   </div>
   {% endif %}
 
+  <!-- OVERVIEW -->
   {% if project.overview %}
   <div class="card mb-4 shadow-sm case-section fade-in-up">
     <div class="card-body">
@@ -38,6 +40,7 @@
   </div>
   {% endif %}
 
+  <!-- PROBLEM & SOLUTION -->
   <div class="row mb-4 case-section fade-in-up">
     {% if project.problem %}
     <div class="col-md-6 mb-3 mb-md-0">
@@ -61,6 +64,7 @@
     {% endif %}
   </div>
 
+  <!-- TECH STACK -->
   {% if project.tech_stack %}
   <div class="card mb-4 shadow-sm case-section fade-in-up">
     <div class="card-body">
@@ -89,6 +93,7 @@
   </div>
   {% endif %}
 
+  <!-- SPECIAL FEATURES -->
   {% if project.special_features %}
   <div class="card mb-4 shadow-sm case-section fade-in-up">
     <div class="card-body">
@@ -102,6 +107,7 @@
   </div>
   {% endif %}
 
+  <!-- PROBLEMS SOLVED -->
   {% if project.problems_solved %}
   <div class="card mb-4 shadow-sm case-section fade-in-up">
     <div class="card-body">
@@ -115,6 +121,7 @@
   </div>
   {% endif %}
 
+  <!-- IMPROVEMENTS -->
   {% if project.improvements %}
   <div class="card mb-4 shadow-sm case-section fade-in-up">
     <div class="card-body">
@@ -128,6 +135,7 @@
   </div>
   {% endif %}
 
+  <!-- PROUD OF -->
   {% if project.proud_of %}
   <div class="card mb-4 shadow-sm case-section fade-in-up">
     <div class="card-body">
@@ -141,6 +149,7 @@
   </div>
   {% endif %}
 
+  <!-- BUILD NOTES -->
   {% if project.build_notes %}
   <div class="card mb-4 shadow-sm case-section fade-in-up">
     <div class="card-body">
@@ -150,6 +159,7 @@
   </div>
   {% endif %}
 
+  <!-- Bottom CTAs -->
   <div class="text-center case-section fade-in-up mt-5">
     {% if project.live_url %}
       <a href="{{ project.live_url }}" class="btn btn-primary btn-lg me-2" target="_blank">🌍 Visit Live Site</a>
