@@ -573,6 +573,7 @@ from django.db import models
 ===== portfolio/views.py =====
 from django.views.generic import TemplateView
 from django.http import Http404
+# 
 
 PROJECTS = [
     {
@@ -582,20 +583,22 @@ PROJECTS = [
         "description": "A sleek logistics dashboard for managing clients, work orders, and invoices.",
         "overview": "A production-grade business dashboard for an art moving company, complete with scheduling, PDF invoicing, and a dynamic calendar.",
         "tech_stack": {
-            "backend": ["Django 5", "Python 3.10", "PostgreSQL", "Docker"],
+            "backend": ["Django 5.1.6", "Python 3.10", "PostgreSQL", "Docker"],
             "frontend": ["Bootstrap 5", "Crispy Forms", "FullCalendar", "Flatpickr", "Select2"],
             "deployment": ["Docker Compose", "Heroku", "Whitenoise"],
             "tools": ["django-environ", "django-import-export"]
         },
-        "problems_solved": [
-            "Digitized manual scheduling and invoicing",
-            "Visual overview of work orders via FullCalendar",
-            "Centralized client, job, and invoice management"
-        ],
+        "problem": "The client was managing logistics, invoicing, and scheduling manually via email and spreadsheets, which caused delays and errors.",
+        "solution": "I created a centralized system that tracks jobs, clients, and invoices using relational models, AJAX-enhanced forms, and a real-time calendar for scheduling.",
         "special_features": [
             "Dynamic AJAX invoice creation from client work orders",
             "PDF invoice generation and calendar event syncing",
             "Inline formsets and lazy model references to avoid circular imports"
+        ],
+        "problems_solved": [
+            "Digitized manual scheduling and invoicing",
+            "Visual overview of work orders via FullCalendar",
+            "Centralized client, job, and invoice management"
         ],
         "improvements": [
             "Integrate Stripe or QuickBooks for real payment processing",
@@ -605,10 +608,12 @@ PROJECTS = [
             "Overcame circular model dependencies",
             "Built a real-time calendar with interactive event links"
         ],
-        "showcase": "An advanced business app built solo, handling real-world logistics, billing, and scheduling."
+        "build_notes": "<p>Containerized with Docker, deployed using Heroku's container stack. PostgreSQL health checks ensure app doesn’t launch before DB is ready.</p>",
+        "github_url": "https://github.com/mattyray/art_moving_buisness",
+        "live_url": "https://art-moving-buisness-0a734245a61f.herokuapp.com"
     },
     {
-        "title": "Freedom Fundraiser Website",
+        "title": "Matt’s Freedom Fundraiser",
         "slug": "fundraiser",
         "hero_image": "images/projects/fundraiser.jpg",
         "description": "A donation-based campaign platform with embedded video, blog, and outreach.",
@@ -619,23 +624,27 @@ PROJECTS = [
             "deployment": ["Docker", "Heroku", "Whitenoise"],
             "tools": ["django-environ", "YouTube Embed", "Mailchimp (planned)"]
         },
+        "problem": "I needed a way to raise funds for housing and medical needs while also telling my story and engaging my community.",
+        "solution": "I built a multi-page fundraising site that includes a blog, press coverage, embedded video, and contact outreach tools.",
+        "special_features": [
+            "Embedded YouTube campaign video with autoplay",
+            "Integrated blog with post editor and dynamic list/detail views"
+        ],
         "problems_solved": [
             "Unified storytelling, fundraising, and updates in one hub",
             "Raised awareness and caregiver interest via CDPAP outreach"
         ],
-        "special_features": [
-            "Embedded YouTube campaign video with autoplay",
-            "Integrated blog from the fundraiser app with admin post editor"
-        ],
         "improvements": [
-            "Integrate real payment gateway (Stripe or PayPal)",
+            "Integrate Stripe or PayPal for donations",
             "Add comment moderation and CAPTCHA"
         ],
         "proud_of": [
-            "Deployed the entire project using Docker and Heroku",
+            "Deployed solo with Docker and Heroku",
             "Bilingual outreach increased community engagement"
         ],
-        "showcase": "Represents personal growth, storytelling, and full-stack deployment."
+        "build_notes": "<p>Uses Django Pages app with static press data. Campaign blog and store are modular and reusable across other projects.</p>",
+        "github_url": "https://github.com/mattyray/fundraiser-website",
+        "live_url": "https://www.mattfreedomfundraiser.com"
     },
     {
         "title": "MatthewRaynor.com",
@@ -649,23 +658,28 @@ PROJECTS = [
             "deployment": ["Docker", "Heroku (Container Stack)", "Whitenoise"],
             "tools": ["Allauth", "Crispy Forms", "django-environ"]
         },
+        "problem": "I needed a single platform to unify my professional work, writing, art, and personal journey to help others and represent myself to the world.",
+        "solution": "I built a full-featured Django site with custom user login, store, blog, portfolio, and press coverage hub.",
+        "special_features": [
+            "Custom user model + Allauth integration",
+            "Press hub, blog, store, and modular portfolio detail pages",
+            "AI chatbot scaffold and accessible frontend"
+        ],
         "problems_solved": [
             "Needed one site to host my store, blog, portfolio, and press",
             "Reduced reliance on platforms like Shopify or Medium"
         ],
-        "special_features": [
-            "Custom user model + Allauth integration",
-            "Chatbot scaffold, press hub, gallery section, blog, and store"
-        ],
         "improvements": [
-            "Add cart, checkout, and testimonial display",
-            "Enable global search and newsletter signup"
+            "Add Stripe cart/checkout system",
+            "Enable newsletter signup and global search"
         ],
         "proud_of": [
             "Built a fully modular, multi-app Django system",
             "Reflects my resilience and technical versatility"
         ],
-        "showcase": "The foundation of my brand and proof of my end-to-end web dev skills."
+        "build_notes": "<p>Every page is component-driven with a global base template. Portfolio is hardcoded for now, but database-driven expansion is planned.</p>",
+        "github_url": "https://github.com/mattyray/Matthew_raynor_website",
+        "live_url": "https://www.matthewraynor.com"
     },
     {
         "title": "Matt’s Bookstore API",
@@ -679,14 +693,16 @@ PROJECTS = [
             "deployment": ["Docker", "Heroku", "Whitenoise"],
             "tools": ["Allauth", "django-environ"]
         },
-        "problems_solved": [
-            "Learned DRF by building real API endpoints",
-            "Handled book reviews, search, and secure login"
-        ],
+        "problem": "I wanted to learn Django REST Framework by building an API-first bookstore that could handle real CRUD operations and secure logins.",
+        "solution": "Created a REST-ready bookstore with user authentication, image uploads, reviews, and Heroku-based deployment using Docker.",
         "special_features": [
             "UUID and slug-based URLs",
             "Secure reviews via permission classes",
             "Search filtering using Django Q objects"
+        ],
+        "problems_solved": [
+            "Learned DRF by building real API endpoints",
+            "Handled book reviews, search, and secure login"
         ],
         "improvements": [
             "Add frontend search bar and filters",
@@ -696,7 +712,9 @@ PROJECTS = [
             "Handled Docker + DRF + PostgreSQL integration solo",
             "Built full book management pipeline"
         ],
-        "showcase": "A clean, REST-based bookstore for testing API design and secure auth."
+        "build_notes": "<p>Heroku container stack deployment using `heroku.yml` and `.env` management. Includes future-ready DRF endpoints for mobile or SPA frontend.</p>",
+        "github_url": "https://github.com/mattyray/ch4-bookstore",
+        "live_url": ""  # Currently broken, noted in portfolio
     },
 ]
 
@@ -722,11 +740,15 @@ class ProjectDetailView(TemplateView):
 
 
 ===== portfolio/urls.py =====
+# portfolio/urls.py
+
 from django.urls import path
 from .views import PortfolioView, ProjectDetailView
 
+app_name = "portfolio"
+
 urlpatterns = [
-    path("", PortfolioView.as_view(), name="portfolio"),
+    path("", PortfolioView.as_view(), name="index"),
     path("<slug:slug>/", ProjectDetailView.as_view(), name="project_detail"),
 ]
 
@@ -1132,6 +1154,9 @@ application = get_wsgi_application()
   <!-- Favicon -->
   <link rel="icon" type="image/png" sizes="64x64" href="{% static 'images/icon.png' %}">
 
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="{% static 'css/custom.css' %}">
 
@@ -1139,19 +1164,17 @@ application = get_wsgi_application()
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Montserrat:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet">
 
-
   <!-- Flatpickr CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
   <!-- Select2 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-  <!-- Custom CSS -->
+  <!-- Optional Additional Styles -->
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
   {% block extra_css %}
   <style>
-    /* Reduce the icon size to match text height */
     .nav-icon {
       height: 40px;
       margin-right: 10px;
@@ -1160,29 +1183,25 @@ application = get_wsgi_application()
   {% endblock %}
 </head>
 <body>
-  <!-- Desktop Navbar: Visible only on large screens -->
+  <!-- Desktop Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-crunchy d-none d-lg-flex">
     <div class="container">
-      <!-- Brand -->
       <a class="navbar-brand fw-bold" href="{% url 'home' %}">
         <img src="{% static 'images/icon.png' %}" alt="Site Icon" class="nav-icon">
         <span class="brand-text">Matthew Raynor</span>
       </a>
-      <!-- Navbar Items -->
       <div class="collapse navbar-collapse" id="navbarDesktop">
         <ul class="navbar-nav ms-3 me-auto">
           <li class="nav-item"><a class="nav-link" href="{% url 'post_list' %}">V/Blog</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'portfolio' %}">Portfolio</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'portfolio:index' %}">Portfolio</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'press' %}">Press</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
           <li class="nav-item store"><a class="nav-link" href="{% url 'store_overview' %}">Store</a></li>
         </ul>
-        <!-- Search Bar -->
         <form class="d-flex me-3">
           <input class="form-control search-input" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-light" type="submit">Search</button>
         </form>
-        <!-- Authentication Links -->
         <ul class="navbar-nav">
           {% if user.is_authenticated %}
             <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
@@ -1195,7 +1214,7 @@ application = get_wsgi_application()
     </div>
   </nav>
 
-  <!-- Mobile Navbar & Offcanvas Trigger: Visible only on small screens -->
+  <!-- Mobile Navbar & Offcanvas -->
   <div class="d-lg-none">
     <nav class="navbar navbar-dark bg-crunchy">
       <div class="container">
@@ -1211,7 +1230,6 @@ application = get_wsgi_application()
     </nav>
   </div>
 
-  <!-- Mobile Offcanvas Sidebar -->
   <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="offcanvasSidebarLabel">
@@ -1222,12 +1240,12 @@ application = get_wsgi_application()
     </div>
     <div class="offcanvas-body">
       <ul class="list-unstyled">
-        <li><a class="offcanvas-link" href="#">Blog</a></li>
-        <li><a class="offcanvas-link" href="#">Portfolio</a></li>
-        <li><a class="offcanvas-link" href="#">Press</a></li>
+        <li><a class="offcanvas-link" href="{% url 'post_list' %}">Blog</a></li>
+        <li><a class="offcanvas-link" href="{% url 'portfolio:index' %}">Portfolio</a></li>
+        <li><a class="offcanvas-link" href="{% url 'press' %}">Press</a></li>
         <li><a class="offcanvas-link" href="#">Contact</a></li>
         <li class="divider">|</li>
-        <li><a class="offcanvas-link" href="#">Store</a></li>
+        <li><a class="offcanvas-link" href="{% url 'store_overview' %}">Store</a></li>
       </ul>
       <div class="mt-3">
         <form class="d-flex">
@@ -1258,15 +1276,10 @@ application = get_wsgi_application()
     </div>
   </footer>
 
-  <!-- AI Assistant Chat Widget -->
+  <!-- AI Chatbot -->
   <div id="ai-chatbot" class="chat-widget">
-    <div id="ai-chatbot-header" class="chat-header">
-      AI Assistant
-      <span id="ai-chatbot-close" class="chat-close">&times;</span>
-    </div>
-    <div id="ai-chatbot-body" class="chat-body">
-      <p>Hello! How can I assist you today?</p>
-    </div>
+    <div id="ai-chatbot-header" class="chat-header">AI Assistant <span id="ai-chatbot-close" class="chat-close">&times;</span></div>
+    <div id="ai-chatbot-body" class="chat-body"><p>Hello! How can I assist you today?</p></div>
     <div id="ai-chatbot-input" class="chat-input">
       <input type="text" placeholder="Type your message..." class="form-control">
     </div>
@@ -1279,19 +1292,33 @@ application = get_wsgi_application()
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-  {% block extra_js %}{% endblock %}
+
+  <!-- ScrollReveal Animation -->
+  <script src="https://unpkg.com/scrollreveal"></script>
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    ScrollReveal().reveal('.case-section', {
+      origin: 'bottom',
+      distance: '30px',
+      duration: 700,
+      easing: 'ease-out',
+      interval: 100,
+      reset: false
+    });
+  </script>
+
+  {% block extra_js %}{% endblock %}
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
       flatpickr(".datepicker", { dateFormat: "Y-m-d" });
       document.querySelectorAll(".select2").forEach(el => {
         $(el).select2({ width: "100%" });
       });
-    });
-    $(document).ready(function() {
-      $('#ai-chatbot-toggle').click(function() {
+
+      $('#ai-chatbot-toggle').click(function () {
         $('#ai-chatbot').toggle();
       });
-      $('#ai-chatbot-close').click(function() {
+      $('#ai-chatbot-close').click(function () {
         $('#ai-chatbot').hide();
       });
     });
@@ -1411,7 +1438,7 @@ application = get_wsgi_application()
 
 ===== templates/portfolio/index.html =====
 {% extends "base.html" %}
-{% load static %}  <!-- ✅ Add this line to use the static tag -->
+{% load static %}
 
 {% block title %}Portfolio - Matthew Raynor{% endblock %}
 
@@ -1431,7 +1458,7 @@ application = get_wsgi_application()
         <div class="card-body">
           <h5 class="card-title">{{ project.title }}</h5>
           <p class="card-text">{{ project.description|truncatewords:20 }}</p>
-          <a href="{% url 'project_detail' project.slug %}" class="btn btn-outline-primary">View Project</a>
+          <a href="{% url 'portfolio:project_detail' project.slug %}" class="btn btn-outline-primary">View Project</a>
         </div>
       </div>
     </div>
@@ -1440,164 +1467,175 @@ application = get_wsgi_application()
 </div>
 {% endblock %}
 
-
 ===== templates/portfolio/detail.html =====
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}{{ project.title }} – Case Study | Matthew Raynor{% endblock %}
+{% block title %}{{ project.title }} – Portfolio{% endblock %}
 
 {% block content %}
 <div class="container my-5">
 
-  <!-- Top Title & CTA -->
-  <div class="text-center mb-4">
-    <h1 class="display-5 fw-bold">{{ project.title }}</h1>
-    <p class="lead text-muted">{{ project.description }}</p>
+  <!-- Back Link -->
+  <a href="{% url 'portfolio:index' %}" class="btn btn-outline-secondary mb-4">← Back to Portfolio</a>
 
+  <!-- HERO HEADER -->
+  <div class="text-center case-section mb-4">
+    <h1 class="fw-bold">{{ project.title }}</h1>
+    <p class="lead text-muted">{{ project.description }}</p>
     <div class="mt-3">
-      {% if project.live_url %}
-        <a href="{{ project.live_url }}" target="_blank" class="btn btn-success btn-lg me-2">
-          🌍 View Live
-        </a>
-      {% endif %}
       {% if project.github_url %}
-        <a href="{{ project.github_url }}" target="_blank" class="btn btn-outline-dark btn-lg">
-          💻 GitHub Code
-        </a>
+        <a href="{{ project.github_url }}" class="btn btn-dark me-2" target="_blank">💻 GitHub</a>
+      {% endif %}
+      {% if project.live_url %}
+        <a href="{{ project.live_url }}" class="btn btn-primary" target="_blank">🌍 Live Site</a>
       {% endif %}
     </div>
   </div>
 
-  <!-- Hero Image -->
+  <!-- HERO IMAGE -->
   {% if project.hero_image %}
-    <div class="text-center mb-5">
-      <div class="shadow rounded overflow-hidden mx-auto" style="max-width: 960px;">
-        <img src="{% static project.hero_image %}" class="img-fluid" alt="{{ project.title }}">
-      </div>
-    </div>
+  <div class="text-center mb-5 case-section">
+    <img src="{% static project.hero_image %}" class="img-fluid rounded shadow-sm" alt="{{ project.title }}" style="max-height: 400px; object-fit: cover; width: 100%; max-width: 960px;">
+  </div>
   {% endif %}
 
-  <!-- Narrative Overview -->
+  <!-- OVERVIEW -->
   {% if project.overview %}
-    <div class="mb-5">
-      <h3 class="fw-bold">📌 What This Project Is</h3>
-      <p class="fs-5">{{ project.overview }}</p>
+  <div class="card mb-4 shadow-sm case-section">
+    <div class="card-body">
+      <h3 class="card-title">📌 Overview</h3>
+      <p class="card-text">{{ project.overview }}</p>
     </div>
+  </div>
   {% endif %}
 
-  <!-- Tech Stack -->
-  {% if project.tech_stack %}
-    <div class="mb-5">
-      <h3 class="fw-bold">🛠️ Tech Stack</h3>
-      <p class="text-muted">Here’s a breakdown of the tools and libraries used in this project, categorized by layer:</p>
-      <div class="row">
-        {% for section, tools in project.tech_stack.items %}
-          <div class="col-md-6 mb-3">
-            <div class="card border-light shadow-sm h-100">
-              <div class="card-body">
-                <h5 class="card-title text-capitalize">{{ section|title }}</h5>
-                <ul class="list-unstyled mb-0">
-                  {% for tool in tools %}
-                    <li>✅ {{ tool }}</li>
-                  {% endfor %}
-                </ul>
-              </div>
-            </div>
-          </div>
-        {% endfor %}
-      </div>
-    </div>
-  {% endif %}
-
-  <!-- Problem & Solution -->
-  <div class="row mb-5">
+  <!-- PROBLEM & SOLUTION -->
+  <div class="row mb-4 case-section">
     {% if project.problem %}
-    <div class="col-md-6">
-      <h3 class="fw-bold">🧩 The Problem</h3>
-      <p>{{ project.problem }}</p>
+    <div class="col-md-6 mb-3 mb-md-0">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h4 class="card-title">🧩 The Problem</h4>
+          <p>{{ project.problem }}</p>
+        </div>
+      </div>
     </div>
     {% endif %}
     {% if project.solution %}
     <div class="col-md-6">
-      <h3 class="fw-bold">💡 The Solution</h3>
-      <p>{{ project.solution }}</p>
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h4 class="card-title">💡 The Solution</h4>
+          <p>{{ project.solution }}</p>
+        </div>
+      </div>
     </div>
     {% endif %}
   </div>
 
-  <!-- Feature Highlights -->
-  {% if project.special_features %}
-    <div class="mb-5">
-      <h3 class="fw-bold">✨ Special Features</h3>
-      <p class="text-muted">These are the standout components or integrations that elevate this project beyond a simple CRUD app.</p>
-      <ul class="list-group list-group-flush">
-        {% for feature in project.special_features %}
-          <li class="list-group-item">🌟 {{ feature }}</li>
+  <!-- TECH STACK -->
+  {% if project.tech_stack %}
+  <div class="card mb-4 shadow-sm case-section">
+    <div class="card-body">
+      <h3 class="card-title">🛠️ Tech Stack</h3>
+      <div class="row">
+        {% for category, tools in project.tech_stack.items %}
+        <div class="col-md-6 mb-3">
+          <strong class="text-muted">{{ category|title }}:</strong>
+          <div class="mt-2">
+            {% for tool in tools %}
+              <span class="tech-pill">
+                {% if tool == "Django" %}<i class="fab fa-python me-1"></i>{% endif %}
+                {% if tool == "Python" %}<i class="fas fa-code me-1"></i>{% endif %}
+                {% if tool == "PostgreSQL" %}<i class="fas fa-database me-1"></i>{% endif %}
+                {% if tool == "Docker" %}<i class="fab fa-docker me-1"></i>{% endif %}
+                {% if tool == "Bootstrap 5" %}<i class="fab fa-bootstrap me-1"></i>{% endif %}
+                {% if tool == "Heroku" %}<i class="fas fa-cloud-upload-alt me-1"></i>{% endif %}
+                {{ tool }}
+              </span>
+            {% endfor %}
+          </div>
+        </div>
         {% endfor %}
-      </ul>
-    </div>
-  {% endif %}
-
-  <!-- Real-World Problems Solved -->
-  {% if project.problems_solved %}
-    <div class="mb-5">
-      <h3 class="fw-bold">🎯 Real-World Problems Solved</h3>
-      <p class="text-muted">Here’s how this project made a difference for its intended users or audience.</p>
-      <ul class="list-group list-group-flush">
-        {% for problem in project.problems_solved %}
-          <li class="list-group-item">🔧 {{ problem }}</li>
-        {% endfor %}
-      </ul>
-    </div>
-  {% endif %}
-
-  <!-- Build Notes -->
-  {% if project.build_notes %}
-    <div class="mb-5">
-      <h3 class="fw-bold">📚 Build Notes & Architecture</h3>
-      <div class="p-3 border-start border-4 border-primary bg-light-subtle rounded">
-        {{ project.build_notes|safe }}
       </div>
     </div>
+  </div>
   {% endif %}
 
-  <!-- Improvements -->
+  <!-- SPECIAL FEATURES -->
+  {% if project.special_features %}
+  <div class="card mb-4 shadow-sm case-section">
+    <div class="card-body">
+      <h3 class="card-title">✨ Special Features</h3>
+      <ul class="mb-0">
+        {% for feature in project.special_features %}
+        <li>🌟 {{ feature }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- PROBLEMS SOLVED -->
+  {% if project.problems_solved %}
+  <div class="card mb-4 shadow-sm case-section">
+    <div class="card-body">
+      <h3 class="card-title">🎯 Real-World Problems Solved</h3>
+      <ul class="mb-0">
+        {% for item in project.problems_solved %}
+        <li>🔧 {{ item }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- IMPROVEMENTS -->
   {% if project.improvements %}
-    <div class="mb-5">
-      <h3 class="fw-bold">🚧 What I'd Improve</h3>
-      <p class="text-muted">Every build has room to grow. Here's what I'd refine if I rebuilt this today:</p>
-      <ul class="list-group list-group-flush">
-        {% for improvement in project.improvements %}
-          <li class="list-group-item">🛠 {{ improvement }}</li>
+  <div class="card mb-4 shadow-sm case-section">
+    <div class="card-body">
+      <h3 class="card-title">🚧 Improvements for Next Time</h3>
+      <ul class="mb-0">
+        {% for item in project.improvements %}
+        <li>🛠 {{ item }}</li>
         {% endfor %}
       </ul>
     </div>
+  </div>
   {% endif %}
 
-  <!-- Personal Achievements -->
+  <!-- PROUD OF -->
   {% if project.proud_of %}
-    <div class="mb-5">
-      <h3 class="fw-bold">🏅 What I'm Proud Of</h3>
-      <ul class="list-group list-group-flush">
+  <div class="card mb-4 shadow-sm case-section">
+    <div class="card-body">
+      <h3 class="card-title">🏅 What I'm Proud Of</h3>
+      <ul class="mb-0">
         {% for item in project.proud_of %}
-          <li class="list-group-item">🌈 {{ item }}</li>
+        <li>🌈 {{ item }}</li>
         {% endfor %}
       </ul>
     </div>
+  </div>
   {% endif %}
 
-  <!-- Final CTA Buttons -->
-  <div class="text-center mt-5">
+  <!-- BUILD NOTES -->
+  {% if project.build_notes %}
+  <div class="card mb-4 shadow-sm case-section">
+    <div class="card-body">
+      <h3 class="card-title">📚 Build Notes</h3>
+      <div class="highlight">{{ project.build_notes|safe }}</div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Bottom CTAs -->
+  <div class="text-center case-section mt-5">
     {% if project.live_url %}
-      <a href="{{ project.live_url }}" target="_blank" class="btn btn-success btn-lg me-2">
-        🌍 Visit Live Site
-      </a>
+      <a href="{{ project.live_url }}" class="btn btn-primary btn-lg me-2" target="_blank">🌍 Visit Live Site</a>
     {% endif %}
     {% if project.github_url %}
-      <a href="{{ project.github_url }}" target="_blank" class="btn btn-outline-dark btn-lg">
-        💻 View GitHub Repo
-      </a>
+      <a href="{{ project.github_url }}" class="btn btn-outline-dark btn-lg" target="_blank">💻 GitHub Repo</a>
     {% endif %}
   </div>
 
