@@ -11844,6 +11844,70 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.sr-delay-1 {
+  animation-delay: 0.2s;
+}
+
+.sr-delay-2 {
+  animation-delay: 0.4s;
+}
+
+.sr-delay-3 {
+  animation-delay: 0.6s;
+}
+
+.sr-delay-4 {
+  animation-delay: 0.8s;
+}
+
+.zoom-in {
+  opacity: 0;
+  transform: scale(0.95);
+  animation: zoomIn 0.6s ease-out forwards;
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.slide-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  animation: slideLeft 0.6s ease-out forwards;
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
 body {
   font-family: "Open Sans", sans-serif;
   font-size: 16px;
@@ -11900,21 +11964,6 @@ h4, .h4 {
 
 .bg-soft {
   background-color: #FAFAFA !important;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.fade-in-up {
-  animation: fadeInUp 0.8s ease-out forwards;
-  opacity: 0;
 }
 
 .card {
@@ -12225,53 +12274,12 @@ footer {
 
 .tech-pill {
   display: inline-block;
-  background: #f2f2f2;
-  padding: 0.4rem 0.8rem;
-  border-radius: 999px;
-  margin: 0.25rem;
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-.tech-pill i {
-  margin-right: 0.4rem;
-}
-
-.tech-pill {
-  display: inline-block;
   background-color: #f8f9fa;
   border: 1px solid #dee2e6;
   padding: 0.4rem 0.75rem;
   border-radius: 50rem;
   font-size: 0.875rem;
   margin: 0.25rem 0.5rem 0.25rem 0;
-}
-
-.case-section {
-  animation: fadeUp 0.6s ease-out;
-}
-
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.case-section {
-  animation: fadeUp 0.6s ease-out;
-}
-
-.card .card-body p {
-  font-size: 1.05rem;
-  line-height: 1.6;
-}
-
-.card-title a:hover {
-  text-decoration: underline;
-  color: #0d6efd;
 }
 
 /*# sourceMappingURL=custom.css.map */

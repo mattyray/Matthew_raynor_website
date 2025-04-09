@@ -26,6 +26,8 @@ $line-height: 1.6;
 // Import Bootstrap
 // -----------------------------------------------------
 @import "../../node_modules/bootstrap/scss/bootstrap";
+@import "reveal";
+
 
 // -----------------------------------------------------
 // Global Styles
@@ -79,24 +81,8 @@ h4 { font-size: 1.5rem; }
   background-color: $soft-white !important;
 }
 
-// -----------------------------------------------------
-// Animation Classes
-// -----------------------------------------------------
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
-.fade-in-up {
-  animation: fadeInUp 0.8s ease-out forwards;
-  opacity: 0;
-}
+
 
 // -----------------------------------------------------
 // Card Styling Enhancements
@@ -486,20 +472,6 @@ footer {
   margin: 0.25rem 0.5rem 0.25rem 0;
 }
 
-.case-section {
-  animation: fadeUp 0.6s ease-out;
-}
-
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
 
 
