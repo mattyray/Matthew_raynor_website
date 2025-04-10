@@ -1,5 +1,31 @@
 from django.views.generic import TemplateView
-from blog.models import Post  # For recent blog posts on the homepage
+from blog.models import Post  
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.core.mail import send_mail
+from .forms import ContactForm
+
+def contact_view(request):
+    if request.method == "POST":
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+
+            # For development, print instead of email
+            print(f"New message from {name} <{email}>: {message}")
+
+            # If email is set up:
+            # send_mail(f"New contact from {name}", message, email, ['mnraynor90@gmail.com'])
+
+            messages.success(request, "Message sent successfully!")
+            return redirect("contact")
+    else:
+        form = ContactForm()
+
+    return render(request, "pages/contact.html", {"form": form})
+
 
 class HomePageView(TemplateView):
     template_name = 'home.html'
