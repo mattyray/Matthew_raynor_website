@@ -11,8 +11,7 @@
 
     <div class="row">
       {% for article in press_articles %}
-      {% with delay_class="sr-delay-"|add:forloop.counter|stringformat:"i"|add:""|slice:":1" %}
-      <div class="col-md-6 col-lg-4 mb-4 fade-in-up {{ delay_class }}">
+      <div class="col-md-6 col-lg-4 mb-4 fade-in-up sr-delay-{{ forloop.counter }}">
         <div class="press-card card h-100 shadow-sm border-0 d-flex flex-column">
           {% if article.image_url %}
           <div class="press-image-wrapper">
@@ -27,7 +26,6 @@
           </div>
         </div>
       </div>
-      {% endwith %}
       {% endfor %}
     </div>
   </div>
