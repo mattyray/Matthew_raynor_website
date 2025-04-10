@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'embed_video',
-    'captcha',
+    'django_recaptcha',
 
 
 ]
