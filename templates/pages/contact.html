@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Contact - MatthewRaynor.com{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h1 class="fw-bold mb-4">Contact Me</h1>
+  <p class="lead">Got questions, feedback, or collaboration ideas? Drop me a message below.</p>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-primary mt-3">Send Message</button>
+  </form>
+</div>
+{% endblock %}
