@@ -7,10 +7,11 @@
 {% block content %}
 <div class="container-fluid p-0">
 
-  <!-- HERO SECTION (static for better performance) -->
-  <section class="hero text-white text-center d-flex align-items-center position-relative" style="background: url('{% static 'images/hero.png' %}') center/cover no-repeat; height: 90vh;">
+  <!-- HERO SECTION -->
+  <section class="hero text-white text-center d-flex align-items-center position-relative fade-in-up sr-delay-1"
+           style="background: url('{% static 'images/hero.png' %}') center/cover no-repeat; height: 90vh;">
     <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0, 0, 0, 0.5); z-index: 1;"></div>
-    <div class="container position-relative z-2 fade-in-up">
+    <div class="container position-relative z-2">
       <div class="p-4 rounded-4 bg-dark bg-opacity-50 shadow-lg d-inline-block">
         <h1 class="display-4 fw-bold text-shadow">From Sea to Source Code</h1>
         <p class="lead">Writer • Developer • Artist • Entertainer</p>
@@ -21,7 +22,7 @@
   </section>
 
   <!-- MY STORY -->
-  <section class="py-5 bg-light fade-in-up">
+  <section class="py-5 bg-light fade-in-up sr-delay-2">
     <div class="container">
       <div class="row align-items-center">
         <div class="col-md-6 mb-4 mb-md-0">
@@ -37,12 +38,12 @@
   </section>
 
   <!-- FEATURED BOOK & ART -->
-  <section class="py-5 fade-in-up">
+  <section class="py-5 fade-in-up sr-delay-3">
     <div class="container text-center">
       <h2 class="fw-bold mb-4">Featured Shop</h2>
       <div class="row justify-content-center">
-        <div class="col-md-4 mb-3">
-          <div class="card h-100 shadow fade-in-up">
+        <div class="col-md-4 mb-3 fade-in-up sr-delay-4">
+          <div class="card h-100 shadow">
             <img src="{% static 'images/book_cover.jpg' %}" class="card-img-top" alt="Before Me After Me">
             <div class="card-body">
               <h5 class="card-title">Before Me After Me</h5>
@@ -51,8 +52,8 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4 mb-3">
-          <div class="card h-100 shadow fade-in-up">
+        <div class="col-md-4 mb-3 fade-in-up sr-delay-5">
+          <div class="card h-100 shadow">
             <img src="{% static 'images/art_sample.jpg' %}" class="card-img-top" alt="Aluminum Artwork">
             <div class="card-body">
               <h5 class="card-title">Aluminum Prints</h5>
@@ -66,19 +67,19 @@
   </section>
 
   <!-- PORTFOLIO PREVIEW -->
-  <section class="py-5 bg-light fade-in-up">
+  <section class="py-5 bg-light fade-in-up sr-delay-6">
     <div class="container">
       <h2 class="text-center fw-bold mb-4">My Development Projects</h2>
       <div class="row text-center">
-        <div class="col-md-4 fade-in-up">
+        <div class="col-md-4 fade-in-up sr-delay-7">
           <h5 class="fw-bold">Art Mover App</h5>
           <p>Logistics tool for scheduling and invoicing art shipments.</p>
         </div>
-        <div class="col-md-4 fade-in-up">
+        <div class="col-md-4 fade-in-up sr-delay-8">
           <h5 class="fw-bold">Bookstore API</h5>
           <p>REST-powered Django API with authentication and rating system.</p>
         </div>
-        <div class="col-md-4 fade-in-up">
+        <div class="col-md-4 fade-in-up sr-delay-9">
           <h5 class="fw-bold">Fundraiser Website</h5>
           <p>Dynamic site with embedded video, donations, and blogging tools.</p>
         </div>
@@ -90,15 +91,15 @@
   </section>
 
   <!-- BLOG PREVIEW -->
-  <section class="py-5 fade-in-up">
+  <section class="py-5 fade-in-up sr-delay-10">
     <div class="container">
       <h2 class="text-center fw-bold mb-4">Recent Blog Posts</h2>
       <p class="lead text-center">My hilarious and entertaining videos paired with inspirational writing</p>
 
       <div class="row">
         {% for post in recent_posts %}
-          <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm fade-in-up">
+          <div class="col-md-4 mb-4 fade-in-up sr-delay-{{ forloop.counter }}">
+            <div class="card h-100 shadow-sm">
               {% if post.video %}
                 <div class="ratio ratio-16x9">
                   {% video post.video 'small' %}
@@ -130,7 +131,7 @@
   </section>
 
   <!-- CONNECT CTA -->
-  <section class="py-5 position-relative text-center fade-in-up" style="background-color: rgba(255, 248, 225, 0.85);">
+  <section class="py-5 position-relative text-center fade-in-up sr-delay-11" style="background-color: rgba(255, 248, 225, 0.85);">
     <div class="container text-dark">
       <h2 class="fw-bold">Let’s Connect</h2>
       <p class="mb-4">Got questions about my work? Need a website? Need an application? Need custom photography?</p>
