@@ -1,9 +1,9 @@
 from django import forms
 from django_recaptcha.fields import ReCaptchaField
-from django_recaptcha.widgets import ReCaptchaV2Checkbox
+from django_recaptcha.widgets import ReCaptchaV2Checkbox  # ✅ required!
 
 class ContactForm(forms.Form):
-    name = forms.CharField(max_length=100, label="Your Name")
-    email = forms.EmailField(label="Your Email")
-    message = forms.CharField(widget=forms.Textarea(attrs={'rows': 5}), label="Message")
+    name = forms.CharField(max_length=100)
+    email = forms.EmailField()
+    message = forms.CharField(widget=forms.Textarea)
     captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
