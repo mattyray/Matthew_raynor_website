@@ -3,9 +3,11 @@
 FROM python:3.10.4-slim-bullseye
 
 # Set environment variables
-ENV PIP_DISABLE_PIP_VERSION_CHECK 1
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+
 
 # Set work directory
 WORKDIR /code
@@ -26,11 +28,11 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8001:8000"  # External port 8001 maps to internal port 8000
-
-
     depends_on:
       db:
         condition: service_healthy  # Ensures DB is ready before Django starts
+    env_file:
+      - .env  # ✅ Loads your .env file into the container
     environment:
       - "DJANGO_DEBUG=True"
       - "DJANGO_SECURE_SSL_REDIRECT=False"
@@ -41,12 +43,12 @@ services:
       - "DJANGO_CSRF_COOKIE_SECURE=False"
       - "DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
     volumes:
-      - .:/code    # Mounts your project directory into the container
+      - .:/code  # Mounts your code into the container
     networks:
       - art_moving_network
 
   db:
-    image: postgres:15  # Upgraded to latest stable version
+    image: postgres:15  # Latest stable version
     container_name: matthew_raynor_db
     restart: always
     volumes:
@@ -54,8 +56,8 @@ services:
     environment:
       POSTGRES_DB: art_moving
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres  # ✅ Secure authentication
-    healthcheck:  # Ensures DB is ready before Django starts
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
       retries: 5
@@ -137,7 +139,9 @@ typing_extensions==4.13.0
 tzdata==2025.2
 whitenoise==6.9.0
 Pillow==10.0.0
-django-embed-video==1.4.10===== manage.py =====
+django-embed-video==1.4.10
+django-recaptcha==4.1.0
+===== manage.py =====
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
 import os
@@ -322,7 +326,25 @@ from django.db import models
 
 ===== pages/views.py =====
 from django.views.generic import TemplateView
-from blog.models import Post  # For recent blog posts on the homepage
+from blog.models import Post  
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.core.mail import send_mail
+from .forms import ContactForm
+
+
+def contact_view(request):
+    if request.method == "POST":
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            print("✅ Message sent:", form.cleaned_data)
+            messages.success(request, "Thanks for reaching out!")
+            return redirect("contact")
+    else:
+        form = ContactForm()
+    return render(request, "pages/contact.html", {"form": form})
+
+
 
 class HomePageView(TemplateView):
     template_name = 'home.html'
@@ -406,13 +428,26 @@ class PressPageView(TemplateView):
         return context
 
 
+===== pages/forms.py =====
+from django import forms
+from django_recaptcha.fields import ReCaptchaField
+from django_recaptcha.widgets import ReCaptchaV2Checkbox  # ✅ required!
+
+class ContactForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    email = forms.EmailField()
+    message = forms.CharField(widget=forms.Textarea)
+    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
+
+
 ===== pages/urls.py =====
 from django.urls import path
-from .views import HomePageView, PressPageView
+from .views import HomePageView, PressPageView, contact_view
 
 urlpatterns = [
     path("", HomePageView.as_view(), name="home"),  # Ensure this exists!
     path("press/", PressPageView.as_view(), name="press"),
+    path("contact/", contact_view, name="contact"),
     
     
     
@@ -782,6 +817,7 @@ DEBUG = env.bool("DJANGO_DEBUG", default=False)
 ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=[
     "localhost",
     "127.0.0.1",
+    "matthew-raynor-site-3d5f17c6a796.herokuapp.com",
 ])
 
 # ✅ Installed Apps
@@ -812,6 +848,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'embed_video',
+    'django_recaptcha',
 
 
 ]
@@ -933,6 +970,14 @@ ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = "/" 
+
+#Django recapctha
+
+SILENCED_SYSTEM_CHECKS = ['django_recaptcha.recaptcha_test_key_error']
+
+
+RECAPTCHA_PUBLIC_KEY = env("RECAPTCHA_PUBLIC_KEY")
+RECAPTCHA_PRIVATE_KEY = env("RECAPTCHA_PRIVATE_KEY")
 
 ===== django_project/urls.py =====
 from django.contrib import admin
@@ -1192,7 +1237,7 @@ application = get_wsgi_application()
           <li class="nav-item"><a class="nav-link" href="{% url 'post_list' %}">V/Blog</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'portfolio:index' %}">Portfolio</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'press' %}">Press</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
           <li class="nav-item store"><a class="nav-link" href="{% url 'store_overview' %}">Store</a></li>
         </ul>
         <form class="d-flex me-3">
@@ -1240,7 +1285,7 @@ application = get_wsgi_application()
         <li><a class="offcanvas-link" href="{% url 'post_list' %}">Blog</a></li>
         <li><a class="offcanvas-link" href="{% url 'portfolio:index' %}">Portfolio</a></li>
         <li><a class="offcanvas-link" href="{% url 'press' %}">Press</a></li>
-        <li><a class="offcanvas-link" href="#">Contact</a></li>
+        <li><a class="offcanvas-link" href="{% url 'contact' %}">Contact</a></li>
         <li class="divider">|</li>
         <li><a class="offcanvas-link" href="{% url 'store_overview' %}">Store</a></li>
       </ul>
@@ -1843,6 +1888,32 @@ application = get_wsgi_application()
     </div>
   </div>
 </section>
+{% endblock %}
+
+
+===== templates/pages/contact.html =====
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Contact - MatthewRaynor.com{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h1 class="fw-bold mb-4">Contact Me</h1>
+  <p class="lead">Got questions, feedback, or collaboration ideas? Drop me a message below.</p>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-primary mt-3">Send Message</button>
+  </form>
+</div>
 {% endblock %}
 
 
