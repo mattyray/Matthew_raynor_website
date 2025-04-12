@@ -1,5 +1,18 @@
 from django.views.generic import DetailView, TemplateView
 from .models import Product, Collection
+from django.shortcuts import render, redirect, get_object_or_404
+from .cart import Cart
+
+def add_to_cart(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    cart = Cart(request)
+    cart.add(product)
+    return redirect("cart_detail")
+
+def cart_detail(request):
+    cart = Cart(request)
+    return render(request, "store/cart_detail.html", {"cart": cart})
+
 
 class ProductDetailView(DetailView):
     model = Product
