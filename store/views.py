@@ -7,7 +7,8 @@ def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     cart = Cart(request)
     cart.add(product)
-    return redirect("cart_detail")
+    return redirect("store:cart_detail")
+
 
 def cart_detail(request):
     cart = Cart(request)
