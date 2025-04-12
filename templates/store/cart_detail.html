@@ -13,6 +13,6 @@
     {% endfor %}
   </ul>
   <h4>Total: ${{ cart.total }}</h4>
-  <a href="{% url 'checkout' %}" class="btn btn-primary">Proceed to Checkout</a>
+  <a href="{% url 'store:store_overview' %}" class="btn btn-primary">Proceed to Checkout</a>
 </div>
 {% endblock %}

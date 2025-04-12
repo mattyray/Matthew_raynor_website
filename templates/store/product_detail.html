@@ -16,13 +16,13 @@
       <p><strong>Stock:</strong> {{ product.stock }}</p>
       {% if product.product_type == 'artwork' and product.collection %}
         <p><strong>Collection:</strong> 
-          <a href="{% url 'collection_detail' product.collection.slug %}">
+          <a href="{% url 'store:collection_detail' product.collection.slug %}">
             {{ product.collection.name }}
           </a>
         </p>
       {% endif %}
-      <!-- Placeholder for "Add to Cart" functionality -->
-      <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success">Add to Cart</a>
+      <!-- Corrected Add to Cart -->
+      <a href="{% url 'store:add_to_cart' product.id %}" class="btn btn-success">Add to Cart</a>
     </div>
   </div>
 </div>

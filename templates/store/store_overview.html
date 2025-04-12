@@ -41,7 +41,7 @@
             <div class="card-body">
               <h5 class="card-title">{{ collection.name }}</h5>
               <p class="card-text">{{ collection.description|truncatewords:20 }}</p>
-              <a href="{% url 'collection_detail' collection.slug %}" class="btn btn-primary">View Collection</a>
+              <a href="{% url 'store:collection_detail' collection.slug %}" class="btn btn-primary">View Collection</a>
             </div>
           </div>
         </div>
