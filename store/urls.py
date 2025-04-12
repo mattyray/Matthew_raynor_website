@@ -7,6 +7,7 @@ from .views import (
     add_to_cart,
 )
 
+app_name = "store"
 
 
 urlpatterns = [

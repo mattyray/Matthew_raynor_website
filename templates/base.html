@@ -51,7 +51,8 @@
           <li class="nav-item"><a class="nav-link" href="{% url 'portfolio:index' %}">Portfolio</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'press' %}">Press</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
-          <li class="nav-item store"><a class="nav-link" href="{% url 'store_overview' %}">Store</a></li>
+          <li class="nav-item store"><a class="nav-link" href="{% url 'store:store_overview' %}">Store</a>
+          </li>
         </ul>
         <form class="d-flex me-3">
           <input class="form-control search-input" type="search" placeholder="Search" aria-label="Search">
@@ -100,8 +101,10 @@
         <li><a class="offcanvas-link" href="{% url 'press' %}">Press</a></li>
         <li><a class="offcanvas-link" href="{% url 'contact' %}">Contact</a></li>
         <li class="divider">|</li>
-        <li><a class="offcanvas-link" href="{% url 'store_overview' %}">Store</a></li>
-      </ul>
+        <li>
+          <a class="offcanvas-link" href="{% url 'store:store_overview' %}">Store</a>
+        </li>
+              </ul>
       <div class="mt-3">
         <form class="d-flex">
           <input class="form-control" type="search" placeholder="Search" aria-label="Search">
