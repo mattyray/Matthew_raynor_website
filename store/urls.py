@@ -7,6 +7,9 @@ from .views import (
     add_to_cart,
 )
 
+app_name = "store"
+
+
 urlpatterns = [
     # Store overview as the app homepage
     path('', StoreOverviewView.as_view(), name='store_overview'),
