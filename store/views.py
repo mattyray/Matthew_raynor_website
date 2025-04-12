@@ -13,6 +13,8 @@ def cart_detail(request):
     cart = Cart(request)
     return render(request, "store/cart_detail.html", {"cart": cart})
 
+#--
+
 
 class ProductDetailView(DetailView):
     model = Product
