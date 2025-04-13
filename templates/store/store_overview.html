@@ -20,7 +20,7 @@
 
   <!-- ARTWORK COLLECTIONS -->
   <section id="collections" class="mb-5">
-    <h2 class="fw-bold text-center mb-5 fade-in-up sr-delay-1">Artwork Collections</h2>
+    <h2 class="fw-bold text-center mb-4 fade-in-up sr-delay-1">Artwork Collections</h2>
 
     <div class="row justify-content-center">
       {% for collection in collections %}
@@ -33,6 +33,7 @@
           </div>
           <div class="card-body text-center">
             <h5 class="card-title fw-semibold">{{ collection.name }}</h5>
+            <p class="card-text text-muted">{{ collection.description|truncatewords:20 }}</p>
             <a href="{% url 'store:collection_detail' collection.slug %}" class="btn btn-outline-primary">View Collection</a>
           </div>
         </div>
