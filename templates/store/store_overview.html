@@ -16,20 +16,11 @@
   </div>
 </section>
 
-<!-- SCROLL PROMPT -->
-<div class="text-center text-muted bg-dark py-3">
-  <i class="fa-solid fa-angle-down fa-2x fade-in-up sr-delay-2 text-light"></i>
-  <p class="mt-2 text-light">Scroll to explore</p>
-</div>
-
 <div class="container py-5">
 
   <!-- ARTWORK COLLECTIONS -->
   <section id="collections" class="mb-5">
-    <h2 class="fw-bold text-center mb-4 fade-in-up sr-delay-1">Artwork Collections</h2>
-    <p class="lead text-center text-muted mb-5 fade-in-up sr-delay-2">
-      Each collection captures a chapter of my journey — from stillness to movement, from ocean to sky.
-    </p>
+    <h2 class="fw-bold text-center mb-5 fade-in-up sr-delay-1">Artwork Collections</h2>
 
     <div class="row justify-content-center">
       {% for collection in collections %}
@@ -42,7 +33,6 @@
           </div>
           <div class="card-body text-center">
             <h5 class="card-title fw-semibold">{{ collection.name }}</h5>
-            <p class="card-text text-muted">{{ collection.description|truncatewords:20 }}</p>
             <a href="{% url 'store:collection_detail' collection.slug %}" class="btn btn-outline-primary">View Collection</a>
           </div>
         </div>
