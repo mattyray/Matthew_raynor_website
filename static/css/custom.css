@@ -12358,4 +12358,15 @@ footer {
   margin-top: 1.25rem;
 }
 
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.animate-on-scroll.in-view {
+  opacity: 1;
+  transform: none;
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
 /*# sourceMappingURL=custom.css.map */

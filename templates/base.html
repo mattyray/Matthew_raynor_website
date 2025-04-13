@@ -77,7 +77,8 @@
           <img src="{% static 'images/icon.png' %}" alt="Site Icon" class="nav-icon">
           <span class="brand-text">Matthew Raynor</span>
         </a>
-        <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+        <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar"
+                aria-controls="offcanvasSidebar">
           Menu
         </button>
       </div>
@@ -150,25 +151,31 @@
 
   {% block extra_js %}{% endblock %}
 
-  <!-- Animate on Scroll -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const elements = document.querySelectorAll(".animate-on-scroll");
-
-      const observer = new IntersectionObserver((entries, obs) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("in-view");
-            obs.unobserve(entry.target);
-          }
-        });
-      }, {
-        threshold: 0.1
+      flatpickr(".datepicker", { dateFormat: "Y-m-d" });
+      document.querySelectorAll(".select2").forEach(el => {
+        $(el).select2({ width: "100%" });
       });
 
-      elements.forEach(el => observer.observe(el));
+      $('#ai-chatbot-toggle').click(function () {
+        $('#ai-chatbot').toggle();
+      });
+      $('#ai-chatbot-close').click(function () {
+        $('#ai-chatbot').hide();
+      });
+
+      ScrollReveal().reveal('.fade-in-up', {
+        distance: '20px',
+        duration: 600,
+        easing: 'ease-out',
+        origin: 'bottom',
+        opacity: 0,
+        interval: 100,
+        reset: false,
+        cleanup: true
+      });
     });
   </script>
-
 </body>
 </html>
