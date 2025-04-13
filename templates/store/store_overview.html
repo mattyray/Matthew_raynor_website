@@ -5,17 +5,17 @@
 <div class="container py-5">
 
   <!-- Intro Banner -->
-  <div class="text-center mb-5">
+  <div class="text-center mb-5 fade-in-up sr-delay-1">
     <h1 class="fw-bold">The Matthew Raynor Store</h1>
     <p class="lead text-muted">Art, resilience, and story — captured on page and print.</p>
   </div>
 
   <!-- Artwork Collections Section -->
-  <section class="mb-5">
+  <section class="mb-5 fade-in-up sr-delay-2">
     <h2 class="fw-bold mb-4 text-center">Artwork Collections</h2>
-    <div class="row">
+    <div class="row justify-content-center">
       {% for collection in collections %}
-        <div class="col-md-4 mb-4">
+        <div class="col-md-6 col-lg-4 mb-4 fade-in-up sr-delay-{{ forloop.counter }}">
           <div class="card shadow-sm hover-shadow h-100">
             <div class="ratio ratio-4x3">
               {% if collection.cover_image %}
@@ -37,12 +37,12 @@
 
   <!-- Featured Book Section -->
   {% if books %}
-  <section class="bg-light py-5 rounded">
+  <section class="bg-light py-5 rounded fade-in-up sr-delay-3">
     <h2 class="fw-bold text-center mb-4">Before Me After Me</h2>
     <p class="lead text-center mb-5">My memoir of resilience, technology, and transformation.</p>
     <div class="row justify-content-center">
       {% for book in books %}
-      <div class="col-md-6">
+      <div class="col-md-6 fade-in-up sr-delay-4">
         <div class="card shadow-lg hover-shadow h-100">
           <div class="ratio ratio-4x3">
             {% if book.image %}
