@@ -2,53 +2,64 @@
 {% block title %}Store Overview - MatthewRaynor.com{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-  <h2 class="mb-4">Store Overview</h2>
-  
-  <!-- Books Section -->
-  <section>
-    <h3>Books</h3>
-    <div class="row">
-      {% for book in books %}
-        <div class="col-md-4">
-          <div class="card mb-4">
-            {% if book.image %}
-              <img src="{{ book.image.url }}" class="card-img-top" alt="{{ book.title }}">
-            {% endif %}
-            <div class="card-body">
-              <h5 class="card-title">{{ book.title }}</h5>
-              <p class="card-text">${{ book.price }}</p>
-              <a href="{% url 'store:product_detail' book.slug %}" class="btn btn-primary">View Details</a>
-            </div>
-          </div>
-        </div>
-      {% empty %}
-        <p>No books available.</p>
-      {% endfor %}
-    </div>
-  </section>
-  
+<div class="container py-5">
+
+  <!-- Intro Banner -->
+  <div class="text-center mb-5">
+    <h1 class="fw-bold">The Matthew Raynor Store</h1>
+    <p class="lead text-muted">Art, resilience, and story — captured on page and print.</p>
+  </div>
+
   <!-- Artwork Collections Section -->
-  <section class="mt-5">
-    <h3>Artwork Collections</h3>
+  <section class="mb-5">
+    <h2 class="fw-bold mb-4 text-center">Artwork Collections</h2>
     <div class="row">
       {% for collection in collections %}
-        <div class="col-md-4">
-          <div class="card mb-4">
-            {% if collection.cover_image %}
-              <img src="{{ collection.cover_image.url }}" class="card-img-top" alt="{{ collection.name }}">
-            {% endif %}
-            <div class="card-body">
-              <h5 class="card-title">{{ collection.name }}</h5>
-              <p class="card-text">{{ collection.description|truncatewords:20 }}</p>
-              <a href="{% url 'store:collection_detail' collection.slug %}" class="btn btn-primary">View Collection</a>
+        <div class="col-md-4 mb-4">
+          <div class="card shadow-sm hover-shadow h-100">
+            <div class="ratio ratio-4x3">
+              {% if collection.cover_image %}
+                <img src="{{ collection.cover_image.url }}" class="card-img-top object-fit-cover" alt="{{ collection.name }}">
+              {% endif %}
+            </div>
+            <div class="card-body text-center">
+              <h5 class="card-title fw-semibold">{{ collection.name }}</h5>
+              <p class="card-text text-muted">{{ collection.description|truncatewords:20 }}</p>
+              <a href="{% url 'store:collection_detail' collection.slug %}" class="btn btn-outline-primary">View Collection</a>
             </div>
           </div>
         </div>
       {% empty %}
-        <p>No artwork collections available.</p>
+        <p class="text-center">No artwork collections available.</p>
       {% endfor %}
     </div>
   </section>
+
+  <!-- Featured Book Section -->
+  {% if books %}
+  <section class="bg-light py-5 rounded">
+    <h2 class="fw-bold text-center mb-4">Before Me After Me</h2>
+    <p class="lead text-center mb-5">My memoir of resilience, technology, and transformation.</p>
+    <div class="row justify-content-center">
+      {% for book in books %}
+      <div class="col-md-6">
+        <div class="card shadow-lg hover-shadow h-100">
+          <div class="ratio ratio-4x3">
+            {% if book.image %}
+              <img src="{{ book.image.url }}" class="card-img-top object-fit-cover" alt="{{ book.title }}">
+            {% endif %}
+          </div>
+          <div class="card-body text-center">
+            <h5 class="card-title">{{ book.title }}</h5>
+            <p class="card-text text-muted">${{ book.price }}</p>
+            <a href="{% url 'store:product_detail' book.slug %}" class="btn btn-primary btn-lg mt-2">Buy the Book</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
 </div>
 {% endblock %}
