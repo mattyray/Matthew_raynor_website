@@ -472,6 +472,19 @@ footer {
   margin: 0.25rem 0.5rem 0.25rem 0;
 }
 
+.object-fit-cover {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.hover-shadow:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  transform: translateY(-2px);
+  transition: all 0.2s ease-in-out;
+}
+
+
 
 
 
