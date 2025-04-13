@@ -481,40 +481,38 @@ footer {
 
 .store-hero-section {
   position: relative;
-  height: 75vh;
-  background: url('/static/images/store-hero.jpg') center center / cover no-repeat;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 55vh; // 🔽 Reduced height so animations below are visible
+  background: url('/static/images/hero.jpg') center center / cover no-repeat;
   color: white;
-  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
 .store-hero-overlay {
   position: absolute;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5); // dark overlay
+  background: rgba(0, 0, 0, 0.5); // ⬛️ Subtle dark overlay
   z-index: 1;
 }
 
 .store-hero-content {
   position: relative;
   z-index: 2;
-  background-color: rgba(0, 0, 0, 0.5); // glass effect
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background-color: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border-radius: 12px;
   padding: 2rem;
-  border-radius: 10px;
   max-width: 800px;
+  text-align: center;
 
   h1 {
+    font-size: 2.25rem;
     font-family: $font-heading;
-    font-size: 2.5rem;
-    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.6);
+    margin-bottom: 1rem;
   }
 
   p {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
     font-family: $font-sans;
   }
 
@@ -524,5 +522,3 @@ footer {
     margin-top: 1.25rem;
   }
 }
-
-
