@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Order Success{% endblock %}
+
+{% block content %}
+<div class="container mt-5 text-center">
+  <h1 class="fw-bold text-success">🎉 Thank you for your order!</h1>
+  <p class="lead mt-3">You'll receive a confirmation email shortly. Feel free to continue exploring.</p>
+  <a href="{% url 'store:store_overview' %}" class="btn btn-primary mt-4">Return to Store</a>
+</div>
+{% endblock %}
