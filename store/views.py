@@ -1,5 +1,5 @@
 from django.views.generic import DetailView, TemplateView
-from .models import Product, Collection
+from .models import Product, Collection, Order, OrderItem
 from django.shortcuts import render, redirect, get_object_or_404
 from .cart import Cart
 from django.contrib.auth.decorators import login_required
