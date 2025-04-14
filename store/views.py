@@ -2,6 +2,33 @@ from django.views.generic import DetailView, TemplateView
 from .models import Product, Collection
 from django.shortcuts import render, redirect, get_object_or_404
 from .cart import Cart
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+from django.contrib import messages
+
+@login_required
+@require_POST
+def checkout_view(request):
+    cart = Cart(request)
+    if not cart.items:
+        messages.error(request, "Your cart is empty.")
+        return redirect("store:cart_detail")
+
+    order = Order.objects.create(user=request.user)
+
+    for item in cart.items.values():
+        product = Product.objects.get(id=item["id"])
+        OrderItem.objects.create(
+            order=order,
+            product=product,
+            quantity=item["quantity"],
+            price=product.price,
+        )
+
+    cart.clear()
+    messages.success(request, "Your order has been placed successfully.")
+    return redirect("store:order_success")
+
 
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
