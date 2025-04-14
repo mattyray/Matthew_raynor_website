@@ -18,6 +18,8 @@ def checkout_view(request):
         return redirect("store:cart_detail")
 
     order = Order.objects.create(user=request.user)
+    print("DEBUG CART CONTENTS:", cart.cart)
+
 
     for item in cart.cart.values():
         product = Product.objects.get(id=item["product_id"])
