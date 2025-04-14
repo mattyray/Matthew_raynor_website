@@ -19,14 +19,15 @@ def checkout_view(request):
 
     order = Order.objects.create(user=request.user)
 
-    for item in cart.items.values():
-        product = Product.objects.get(id=item["id"])
+    for item in cart.cart.values():
+        product = Product.objects.get(id=item["product_id"])
         OrderItem.objects.create(
             order=order,
             product=product,
             quantity=item["quantity"],
             price=product.price,
         )
+
 
     cart.clear()
     messages.success(request, "Your order has been placed successfully.")
