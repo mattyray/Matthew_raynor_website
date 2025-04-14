@@ -6,6 +6,9 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 
+class OrderSuccessView(TemplateView):
+    template_name = "store/order_success.html"
+
 @login_required
 @require_POST
 def checkout_view(request):
