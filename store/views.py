@@ -13,16 +13,15 @@ class OrderSuccessView(TemplateView):
 @require_POST
 def checkout_view(request):
     cart = Cart(request)
-    if not cart.items:
+    if not cart.cart:
         messages.error(request, "Your cart is empty.")
         return redirect("store:cart_detail")
 
     order = Order.objects.create(user=request.user)
     print("DEBUG CART CONTENTS:", cart.cart)
 
-
-    for item in cart.cart.values():
-        product = Product.objects.get(id=item["product_id"])
+    for key, item in cart.cart.items():
+        product = Product.objects.get(id=key)
         OrderItem.objects.create(
             order=order,
             product=product,
@@ -30,11 +29,9 @@ def checkout_view(request):
             price=product.price,
         )
 
-
     cart.clear()
     messages.success(request, "Your order has been placed successfully.")
     return redirect("store:order_success")
-
 
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
@@ -42,13 +39,9 @@ def add_to_cart(request, product_id):
     cart.add(product)
     return redirect("store:cart_detail")
 
-
 def cart_detail(request):
     cart = Cart(request)
     return render(request, "store/cart_detail.html", {"cart": cart})
-
-#--
-
 
 class ProductDetailView(DetailView):
     model = Product
@@ -62,7 +55,6 @@ class CollectionDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Only include artwork products in this collection
         context['artworks'] = Product.objects.filter(
             product_type='artwork', 
             collection=self.object
@@ -74,8 +66,6 @@ class StoreOverviewView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Fetch books (products with product_type 'book')
         context['books'] = Product.objects.filter(product_type='book')
-        # Fetch all artwork collections
         context['collections'] = Collection.objects.all()
         return context
