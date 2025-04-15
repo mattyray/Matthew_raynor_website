@@ -20,11 +20,12 @@ class Cart:
             }
         self.save()
 
-    def remove(self, product):
-        product_id = str(product.id)
+    def remove(self, product_or_key):
+        product_id = str(product_or_key.id) if hasattr(product_or_key, 'id') else str(product_or_key)
         if product_id in self.cart:
             del self.cart[product_id]
             self.save()
+
 
     def clear(self):
         self.session["cart"] = {}
