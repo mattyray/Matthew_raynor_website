@@ -12318,9 +12318,15 @@ footer {
 .store-hero-section {
   position: relative;
   height: 55vh;
-  background: url("/static/images/hero.jpg") center center/cover no-repeat;
   color: white;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+.store-hero-section .store-hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
 }
 
 .store-hero-overlay {
