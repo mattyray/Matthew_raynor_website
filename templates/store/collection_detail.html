@@ -2,33 +2,43 @@
 {% block title %}{{ collection.name }} - MatthewRaynor.com{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-  <h2>{{ collection.name }}</h2>
-  {% if collection.cover_image %}
-    <img src="{{ collection.cover_image.url }}" class="img-fluid mb-4" alt="{{ collection.name }}">
-  {% endif %}
-  <p>{{ collection.description }}</p>
-  
-  <hr>
-  
-  <h3>Artwork in this Collection</h3>
-  <div class="row">
+
+<!-- Collection Hero Banner -->
+{% if collection.cover_image %}
+<section class="store-hero-section text-white d-flex align-items-center justify-content-center mb-5">
+  <div class="store-hero-overlay"></div>
+  <div class="store-hero-content text-center p-4 rounded">
+    <h1 class="display-4 fw-bold">{{ collection.name }}</h1>
+    {% if collection.description %}
+      <p class="lead">{{ collection.description }}</p>
+    {% endif %}
+  </div>
+</section>
+{% endif %}
+
+<!-- Artwork Thumbnails -->
+<div class="container">
+  <h3 class="text-center fw-bold mb-4 fade-in-up sr-delay-1">Artwork in this Collection</h3>
+  <div class="row justify-content-center">
     {% for artwork in artworks %}
-      <div class="col-md-4">
-        <div class="card mb-4">
-          {% if artwork.image %}
-            <img src="{{ artwork.image.url }}" class="card-img-top" alt="{{ artwork.title }}">
-          {% endif %}
-          <div class="card-body">
-            <h5 class="card-title">{{ artwork.title }}</h5>
-            <p class="card-text">${{ artwork.price }}</p>
-            <a href="{% url 'store:product_detail' artwork.slug %}" class="btn btn-primary">View Details</a>
+      <div class="col-md-6 col-lg-4 mb-4 fade-in-up sr-delay-{{ forloop.counter }}">
+        <div class="card shadow-sm hover-shadow h-100">
+          <div class="ratio ratio-4x3">
+            {% if artwork.image %}
+              <img src="{{ artwork.image.url }}" class="card-img-top object-fit-cover" alt="{{ artwork.title }}">
+            {% endif %}
+          </div>
+          <div class="card-body text-center">
+            <h5 class="card-title fw-semibold">{{ artwork.title }}</h5>
+            <p class="card-text text-muted">${{ artwork.price }}</p>
+            <a href="{% url 'store:product_detail' artwork.slug %}" class="btn btn-outline-primary">View Details</a>
           </div>
         </div>
       </div>
     {% empty %}
-      <p>No artworks available in this collection.</p>
+      <p class="text-center">No artworks available in this collection.</p>
     {% endfor %}
   </div>
 </div>
+
 {% endblock %}
