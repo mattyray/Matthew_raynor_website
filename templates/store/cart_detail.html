@@ -9,15 +9,22 @@
     <ul class="list-group mb-4">
       {% for key, item in cart.items %}
       <li class="list-group-item d-flex justify-content-between align-items-center">
-        {{ item.title }} (x{{ item.quantity }})
-        <strong>${{ item.price }}</strong>
+        <div>
+          {{ item.title }} (x{{ item.quantity }})
+        </div>
+        <div class="d-flex align-items-center">
+          <strong class="me-3">${{ item.price }}</strong>
+          <form action="{% url 'store:remove_from_cart' key %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+          </form>
+        </div>
       </li>
       {% endfor %}
     </ul>
 
     <h4 class="mb-4">Total: <span class="text-success">${{ cart.total }}</span></h4>
 
-    <!-- Checkout Form -->
     <form action="{% url 'store:checkout' %}" method="post">
       {% csrf_token %}
       <button type="submit" class="btn btn-primary btn-lg">Proceed to Checkout</button>
