@@ -3,22 +3,21 @@
 
 {% block content %}
 
-<!-- Collection Hero Banner -->
-{% if collection.cover_image %}
-<section class="store-hero-section text-white d-flex align-items-center justify-content-center mb-5">
-  <div class="store-hero-overlay"></div>
+<!-- HERO SECTION -->
+<section class="store-hero-section text-white d-flex align-items-center justify-content-center mb-4" style="height: 40vh;">
+  {% if collection.cover_image %}
+    <div class="store-hero-overlay"></div>
+    <div class="store-hero-bg" style="background-image: url('{{ collection.cover_image.url }}');"></div>
+  {% endif %}
   <div class="store-hero-content text-center p-4 rounded">
-    <h1 class="display-4 fw-bold">{{ collection.name }}</h1>
-    {% if collection.description %}
-      <p class="lead">{{ collection.description }}</p>
-    {% endif %}
+    <h1 class="display-5 fw-bold">{{ collection.name }}</h1>
+    <p class="lead">{{ collection.description }}</p>
   </div>
 </section>
-{% endif %}
 
-<!-- Artwork Thumbnails -->
+<!-- ARTWORK LIST -->
 <div class="container">
-  <h3 class="text-center fw-bold mb-4 fade-in-up sr-delay-1">Artwork in this Collection</h3>
+  <h3 class="fw-bold text-center mb-4 fade-in-up">Artworks in This Collection</h3>
   <div class="row justify-content-center">
     {% for artwork in artworks %}
       <div class="col-md-6 col-lg-4 mb-4 fade-in-up sr-delay-{{ forloop.counter }}">
@@ -30,7 +29,7 @@
           </div>
           <div class="card-body text-center">
             <h5 class="card-title fw-semibold">{{ artwork.title }}</h5>
-            <p class="card-text text-muted">${{ artwork.price }}</p>
+            <p class="card-text">${{ artwork.price }}</p>
             <a href="{% url 'store:product_detail' artwork.slug %}" class="btn btn-outline-primary">View Details</a>
           </div>
         </div>
@@ -40,5 +39,4 @@
     {% endfor %}
   </div>
 </div>
-
 {% endblock %}
