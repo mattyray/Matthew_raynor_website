@@ -9,6 +9,13 @@ from django.contrib import messages
 class OrderSuccessView(TemplateView):
     template_name = "store/order_success.html"
 
+@require_POST
+def remove_from_cart(request, key):
+    cart = Cart(request)
+    cart.remove(key)
+    messages.success(request, "Item removed from your cart.")
+    return redirect("store:cart_detail")
+
 @login_required
 @require_POST
 def checkout_view(request):
@@ -69,3 +76,5 @@ class StoreOverviewView(TemplateView):
         context['books'] = Product.objects.filter(product_type='book')
         context['collections'] = Collection.objects.all()
         return context
+    
+
