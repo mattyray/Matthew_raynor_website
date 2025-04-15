@@ -23,6 +23,8 @@ urlpatterns = [
     # Cart functionality
     path("cart/", cart_detail, name="cart_detail"),
     path("cart/add/<int:product_id>/", add_to_cart, name="add_to_cart"),
+    path("cart/", cart_detail, name="cart_detail"),  # <--- THIS is required
+
 
     path("checkout/", checkout_view, name="checkout"),
     path("order-success/", OrderSuccessView.as_view(), name="order_success"),
