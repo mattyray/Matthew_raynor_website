@@ -14,8 +14,7 @@
         </div>
         <div class="col-md-6">
             <h3>Account Settings</h3>
-    #      <p><a href="{% url 'account_change_password' %}">Change Password</a></p>
-            <!-- Additional account options can be added here -->
+            <!-- Future: Add change password or security options here -->
         </div>
     </div>
 
@@ -23,27 +22,34 @@
 
     <div class="row">
         <div class="col-md-6">
-            <h3>Order History</h3>
+            <h3>Recent Orders</h3>
             {% if orders %}
-                <ul>
-                {% for order in orders %}
-                    <li>Order #{{ order.id }}: {{ order.total_price }}</li>
-                {% endfor %}
+                <ul class="list-group mb-2">
+                    {% for order in orders|slice:":3" %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Order #{{ order.id }}
+                            <span class="badge bg-primary">${{ order.total_price }}</span>
+                        </li>
+                    {% endfor %}
                 </ul>
+                <a href="{% url 'store:order_history' %}" class="btn btn-outline-primary btn-sm">View Full Order History</a>
             {% else %}
-                <p>No orders yet.</p>
+                <p class="text-muted">You haven't placed any orders yet.</p>
             {% endif %}
         </div>
+
         <div class="col-md-6">
             <h3>Submitted Reviews</h3>
             {% if reviews %}
-                <ul>
-                {% for review in reviews %}
-                    <li>{{ review.product.name }}: {{ review.rating }} stars</li>
-                {% endfor %}
+                <ul class="list-group">
+                    {% for review in reviews %}
+                        <li class="list-group-item">
+                            <strong>{{ review.product.title }}</strong> – {{ review.rating }} ★
+                        </li>
+                    {% endfor %}
                 </ul>
             {% else %}
-                <p>No reviews submitted yet.</p>
+                <p class="text-muted">You haven't submitted any reviews yet.</p>
             {% endif %}
         </div>
     </div>
