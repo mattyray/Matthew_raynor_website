@@ -7,7 +7,8 @@ from .views import (
     add_to_cart,
     checkout_view,
     OrderSuccessView,
-    remove_from_cart  # make sure this is imported
+    remove_from_cart,
+    OrderHistoryView
 )
 
 app_name = "store"
@@ -24,4 +25,6 @@ urlpatterns = [
 
     path("checkout/", checkout_view, name="checkout"),
     path("order-success/", OrderSuccessView.as_view(), name="order_success"),
+    path('orders/history/', OrderHistoryView.as_view(), name='order_history'),
+   
 ]
