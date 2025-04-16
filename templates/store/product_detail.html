@@ -34,9 +34,9 @@
       {% if user.is_authenticated %}
         <form method="post">
           {% csrf_token %}
-          <div class="mb-3 star-rating">
+          <div class="mb-3 star-rating d-flex flex-row-reverse justify-content-start">
             {{ form.rating.label_tag }}
-            {% for subwidget in form.rating %}
+            {% for subwidget in form.rating.subwidgets reversed %}
               <input type="radio" name="{{ subwidget.name }}" value="{{ subwidget.choice_value }}" id="{{ subwidget.id_for_label }}" {% if subwidget.choice_value == form.rating.value|stringformat:"s" %}checked{% endif %}>
               <label for="{{ subwidget.id_for_label }}">&#9733;</label>
             {% endfor %}
@@ -87,7 +87,6 @@
         const allLabels = document.querySelectorAll('.star-rating label');
         allLabels.forEach(label => label.classList.remove('selected'));
 
-        // highlight stars up to selected one
         let selected = false;
         radios.forEach((r, i) => {
           const label = r.nextElementSibling;

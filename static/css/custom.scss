@@ -533,8 +533,8 @@ footer {
 
 // -------------------------------------
 // ⭐ Star Rating Styling
-// -------------------------------------
 .star-rating {
+  direction: rtl;
   display: flex;
   gap: 0.5rem;
 
@@ -547,6 +547,10 @@ footer {
     color: #ccc;
     cursor: pointer;
     transition: color 0.2s ease;
+
+    span {
+      display: inline; // the star stays visible
+    }
   }
 
   input[type="radio"]:checked ~ label,
@@ -555,14 +559,9 @@ footer {
     color: gold;
   }
 
-  // Keep clicked stars highlighted
+  // Fix: only highlight clicked and prior stars, not all future ones
   input[type="radio"]:checked + label,
   input[type="radio"]:checked + label ~ label {
     color: gold;
-  }
-
-  // Optional: Hide text labels
-  label span {
-    display: none;
   }
 }

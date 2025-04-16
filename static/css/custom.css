@@ -12364,6 +12364,7 @@ footer {
 
 .star-rating {
   display: flex;
+  flex-direction: row;
   gap: 0.5rem;
 }
 .star-rating input[type=radio] {
@@ -12375,10 +12376,11 @@ footer {
   cursor: pointer;
   transition: color 0.2s ease;
 }
-.star-rating input[type=radio]:checked ~ label,
-.star-rating label:hover,
-.star-rating label:hover ~ label {
+.star-rating label:hover, .star-rating label:hover ~ label {
   color: gold;
+}
+.star-rating input[type=radio]:checked ~ label {
+  color: #ccc;
 }
 .star-rating input[type=radio]:checked + label,
 .star-rating input[type=radio]:checked + label ~ label {
