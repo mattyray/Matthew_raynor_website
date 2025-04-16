@@ -215,16 +215,19 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 from django.views.generic.edit import UpdateView
 
+# ✅ Import models for dashboard data
+from store.models import Order, Review
+
 def custom_logout(request):
     """Logs out the user and redirects to the homepage."""
     print("🚀 custom_logout was called!")
-    request.session.flush()  # Clears session data manually
+    request.session.flush()
     logout(request)
-    return redirect("/")  # Redirect to the root URL explicitly
+    return redirect("/")
 
 class SignupPageView(generic.CreateView):
     form_class = CustomUserCreationForm
-    success_url = reverse_lazy("account_login")  # Redirect to login page after sign-up
+    success_url = reverse_lazy("account_login")
     template_name = "account/signup.html"
 
 class DashboardView(LoginRequiredMixin, TemplateView):
@@ -232,11 +235,10 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Example: Pass profile info, orders, and reviews
-        # context['orders'] = Order.objects.filter(user=self.request.user)
-        # context['reviews'] = Review.objects.filter(user=self.request.user)
+        # ✅ Add orders and reviews to dashboard context
+        context['orders'] = Order.objects.filter(user=self.request.user).order_by('-created_at')
+        context['reviews'] = Review.objects.filter(user=self.request.user).order_by('-created_at')
         return context
-
 
 class ProfileEditView(LoginRequiredMixin, UpdateView):
     model = get_user_model()
@@ -246,8 +248,6 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
 
     def get_object(self):
         return self.request.user
-
-
 
 
 ===== accounts/forms.py =====
@@ -794,6 +794,322 @@ from django.contrib import admin
 # Register your models here.
 
 
+===== store/models.py =====
+from django.db import models
+
+from django.db import models
+from django.conf import settings
+from django.utils.text import slugify
+
+User = settings.AUTH_USER_MODEL
+
+class Product(models.Model):
+    PRODUCT_TYPE_CHOICES = (
+         ('book', 'Book'),
+         ('artwork', 'Artwork'),
+    )
+    product_type = models.CharField(max_length=10, choices=PRODUCT_TYPE_CHOICES)
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    image = models.ImageField(upload_to='products/', null=True, blank=True)
+    stock = models.PositiveIntegerField(default=0)
+    slug = models.SlugField(unique=True, blank=True)
+    # Only relevant for artwork:
+    collection = models.ForeignKey(
+        'Collection', 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True,
+        related_name="products"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super(Product, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
+
+
+class Order(models.Model):
+    STATUS_CHOICES = [
+        ('P', 'Pending'),
+        ('C', 'Completed'),
+        ('F', 'Failed'),
+    ]
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
+
+    @property
+    def total_price(self):
+        return sum(item.total_price for item in self.items.all())
+
+    def __str__(self):
+        return f"Order {self.id} by {self.user}"
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    price = models.DecimalField(max_digits=10, decimal_places=2)  # Product price at time of order
+
+    @property
+    def total_price(self):
+        return self.price * self.quantity
+
+    def __str__(self):
+        return f"{self.quantity} x {self.product.title}"
+
+class Review(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rating = models.PositiveSmallIntegerField(default=5)
+    comment = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Review of {self.product.title} by {self.user}"
+    
+class Collection(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    cover_image = models.ImageField(upload_to='collections/', null=True, blank=True)
+    slug = models.SlugField(unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+
+
+===== store/views.py =====
+from django.views.generic import DetailView, TemplateView, ListView
+from .models import Product, Collection, Order, OrderItem
+from django.shortcuts import render, redirect, get_object_or_404
+from .cart import Cart
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+from django.contrib import messages
+from .forms import ReviewForm  # Make sure this is at the top
+from django.utils.decorators import method_decorator
+
+
+
+@method_decorator(login_required, name='dispatch')
+class OrderHistoryView(ListView):
+    model = Order
+    template_name = 'store/order_history.html'
+    context_object_name = 'orders'
+    ordering = ['-created_at']
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)
+
+
+class OrderSuccessView(TemplateView):
+    template_name = "store/order_success.html"
+
+@require_POST
+def remove_from_cart(request, key):
+    cart = Cart(request)
+    cart.remove(key)
+    messages.success(request, "Item removed from your cart.")
+    return redirect("store:cart_detail")
+
+@login_required
+@require_POST
+def checkout_view(request):
+    cart = Cart(request)
+    if not cart.cart:
+        messages.error(request, "Your cart is empty.")
+        return redirect("store:cart_detail")
+
+    order = Order.objects.create(user=request.user)
+    print("DEBUG CART CONTENTS:", cart.cart)
+
+    for key, item in cart.cart.items():
+        product = Product.objects.get(id=key)
+        OrderItem.objects.create(
+            order=order,
+            product=product,
+            quantity=item["quantity"],
+            price=product.price,
+        )
+
+    cart.clear()
+    messages.success(request, "Your order has been placed successfully.")
+    return redirect("store:order_success")
+
+def add_to_cart(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    cart = Cart(request)
+    cart.add(product)
+    return redirect("store:cart_detail")
+
+def cart_detail(request):
+    cart = Cart(request)
+    return render(request, "store/cart_detail.html", {"cart": cart})
+
+
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = "store/product_detail.html"
+    context_object_name = "product"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = self.get_object()
+        context['form'] = ReviewForm()
+        context['reviews'] = product.reviews.all()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.product = self.object
+            review.user = request.user
+            review.save()
+            messages.success(request, "Thank you for your review!")
+            return redirect("store:product_detail", slug=self.object.slug)
+        else:
+            context = self.get_context_data()
+            context['form'] = form
+            return self.render_to_response(context)
+
+class CollectionDetailView(DetailView):
+    model = Collection
+    template_name = "store/collection_detail.html"
+    context_object_name = "collection"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['artworks'] = Product.objects.filter(
+            product_type='artwork', 
+            collection=self.object
+        )
+        return context
+
+class StoreOverviewView(TemplateView):
+    template_name = "store/store_overview.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['books'] = Product.objects.filter(product_type='book')
+        context['collections'] = Collection.objects.all()
+        return context
+    
+
+
+
+===== store/forms.py =====
+from django import forms
+from .models import Review
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['rating', 'comment']
+        widgets = {
+            'comment': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 4,
+                'placeholder': 'Write your review here...'
+            }),
+        }
+
+    rating = forms.ChoiceField(
+        label='Rating',
+        choices=[(i, f'{i} Star{"s" if i > 1 else ""}') for i in range(5, 0, -1)],
+        widget=forms.RadioSelect(attrs={'class': 'star-rating'}),
+        initial=5
+    )
+
+
+===== store/urls.py =====
+from django.urls import path
+from .views import (
+    ProductDetailView,
+    CollectionDetailView,
+    StoreOverviewView,
+    cart_detail,
+    add_to_cart,
+    checkout_view,
+    OrderSuccessView,
+    remove_from_cart,
+    OrderHistoryView
+)
+
+app_name = "store"
+
+urlpatterns = [
+    path('', StoreOverviewView.as_view(), name='store_overview'),
+    path('products/<slug:slug>/', ProductDetailView.as_view(), name='product_detail'),
+    path('collections/<slug:slug>/', CollectionDetailView.as_view(), name='collection_detail'),
+
+    # Cart functionality
+    path("cart/", cart_detail, name="cart_detail"),
+    path("cart/add/<int:product_id>/", add_to_cart, name="add_to_cart"),
+    path("cart/remove/<str:key>/", remove_from_cart, name="remove_from_cart"),  # ✅ This line is key
+
+    path("checkout/", checkout_view, name="checkout"),
+    path("order-success/", OrderSuccessView.as_view(), name="order_success"),
+    path('orders/history/', OrderHistoryView.as_view(), name='order_history'),
+   
+]
+
+
+===== store/admin.py =====
+from django.contrib import admin
+from .models import Product, Collection, Order, OrderItem, Review
+
+# --------------------
+# PRODUCT ADMIN
+# --------------------
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('title', 'product_type', 'price', 'stock', 'created_at')
+    prepopulated_fields = {'slug': ('title',)}
+    search_fields = ('title', 'description')
+    list_filter = ('created_at',)
+
+# --------------------
+# COLLECTION ADMIN
+# --------------------
+@admin.register(Collection)
+class CollectionAdmin(admin.ModelAdmin):
+    list_display = ('name', 'created_at')
+    prepopulated_fields = {'slug': ('name',)}
+
+# --------------------
+# ORDER ADMIN
+# --------------------
+class OrderItemInline(admin.TabularInline):
+    model = OrderItem
+    extra = 0
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'status', 'created_at', 'total_price')
+    list_filter = ('status', 'created_at')
+    inlines = [OrderItemInline]
+
+# --------------------
+# REVIEW ADMIN
+# --------------------
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('product', 'user', 'rating', 'created_at')
+    list_filter = ('rating', 'created_at')
+    search_fields = ('comment',)
+
+
 ===== django_project/settings.py =====
 from environ import Env
 from pathlib import Path
@@ -987,17 +1303,17 @@ from django.conf import settings
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("accounts/", include("accounts.urls")),         # Custom signup and logout routes
-    path("accounts/", include("allauth.urls")),            # Django-allauth handles login, signup, etc.
-    path("blog/", include("blog.urls")),                   # Blog URLs
-    path("", include("pages.urls")),                       
+    path("accounts/", include("accounts.urls")),
+    path("accounts/", include("allauth.urls")),
+    path("blog/", include("blog.urls")),
+    path("", include("pages.urls")),
     path("store/", include("store.urls")),
     path("portfolio/", include("portfolio.urls")),
-
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 ===== django_project/asgi.py =====
@@ -1056,7 +1372,7 @@ application = get_wsgi_application()
       <div class="p-4 rounded-4 bg-dark bg-opacity-50 shadow-lg d-inline-block">
         <h1 class="display-4 fw-bold text-shadow">From Sea to Source Code</h1>
         <p class="lead">Writer • Developer • Artist • Entertainer</p>
-        <a href="{% url 'store_overview' %}" class="btn btn-primary btn-lg mt-3">Explore My Store</a>
+        <a href="{% url 'store:store_overview' %}" class="btn btn-primary btn-lg mt-3">Explore My Store</a>
         <a href="{% url 'post_list' %}" class="btn btn-outline-light btn-lg mt-3 ms-2">Check the V/Blog</a>
       </div>
     </div>
@@ -1089,7 +1405,7 @@ application = get_wsgi_application()
             <div class="card-body">
               <h5 class="card-title">Before Me After Me</h5>
               <p class="card-text">My memoir of resilience, technology, and transformation.</p>
-              <a href="{% url 'product_detail' 'before-me-after-me' %}" class="btn btn-primary">Buy the Book</a>
+              <a href="{% url 'store:product_detail' 'before-me-after-me' %}" class="btn btn-primary">Buy the Book</a>
             </div>
           </div>
         </div>
@@ -1099,7 +1415,7 @@ application = get_wsgi_application()
             <div class="card-body">
               <h5 class="card-title">Aluminum Prints</h5>
               <p class="card-text">Oceanic photography infused with strength and serenity.</p>
-              <a href="{% url 'store_overview' %}" class="btn btn-outline-primary">View Artwork</a>
+              <a href="{% url 'store:store_overview' %}" class="btn btn-outline-primary">View Artwork</a>
             </div>
           </div>
         </div>
@@ -1238,7 +1554,7 @@ application = get_wsgi_application()
           <li class="nav-item"><a class="nav-link" href="{% url 'portfolio:index' %}">Portfolio</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'press' %}">Press</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
-          <li class="nav-item store"><a class="nav-link" href="{% url 'store_overview' %}">Store</a></li>
+          <li class="nav-item store"><a class="nav-link" href="{% url 'store:store_overview' %}">Store</a></li>
         </ul>
         <form class="d-flex me-3">
           <input class="form-control search-input" type="search" placeholder="Search" aria-label="Search">
@@ -1251,10 +1567,16 @@ application = get_wsgi_application()
           {% else %}
             <li class="nav-item"><a class="nav-link" href="{% url 'account_login' %}">Login</a></li>
           {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'store:cart_detail' %}">
+              <i class="fas fa-shopping-cart me-1"></i> Cart
+            </a>
+          </li>
         </ul>
       </div>
     </div>
   </nav>
+  
 
   <!-- Mobile Navbar & Offcanvas -->
   <div class="d-lg-none">
@@ -1287,7 +1609,7 @@ application = get_wsgi_application()
         <li><a class="offcanvas-link" href="{% url 'press' %}">Press</a></li>
         <li><a class="offcanvas-link" href="{% url 'contact' %}">Contact</a></li>
         <li class="divider">|</li>
-        <li><a class="offcanvas-link" href="{% url 'store_overview' %}">Store</a></li>
+        <li><a class="offcanvas-link" href="{% url 'store:store_overview' %}">Store</a></li>
       </ul>
       <div class="mt-3">
         <form class="d-flex">
@@ -1297,12 +1619,25 @@ application = get_wsgi_application()
       </div>
       <div class="mt-3">
         {% if user.is_authenticated %}
-          <a class="btn btn-outline-light w-100" href="{% url 'dashboard' %}">Dashboard</a>
-          <a class="btn btn-outline-light w-100 mt-2" href="{% url 'logout' %}">Logout</a>
+          <a class="btn btn-outline-light w-100 mb-2" href="{% url 'dashboard' %}">
+            <i class="fas fa-user-circle me-2"></i> Dashboard
+          </a>
+          <a class="btn btn-outline-light w-100 mb-2" href="{% url 'store:cart_detail' %}">
+            <i class="fas fa-shopping-cart me-2"></i> Cart
+          </a>
+          <a class="btn btn-outline-light w-100" href="{% url 'logout' %}">
+            <i class="fas fa-sign-out-alt me-2"></i> Logout
+          </a>
         {% else %}
-          <a class="btn btn-outline-light w-100" href="{% url 'account_login' %}">Login</a>
+          <a class="btn btn-outline-light w-100 mb-2" href="{% url 'account_login' %}">
+            <i class="fas fa-sign-in-alt me-2"></i> Login
+          </a>
+          <a class="btn btn-outline-light w-100" href="{% url 'store:cart_detail' %}">
+            <i class="fas fa-shopping-cart me-2"></i> Cart
+          </a>
         {% endif %}
       </div>
+      
     </div>
   </div>
 
@@ -1336,12 +1671,6 @@ application = get_wsgi_application()
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   <script src="https://unpkg.com/scrollreveal"></script>
 
-
-
-  
-  
-  
-
   {% block extra_js %}{% endblock %}
 
   <script>
@@ -1350,15 +1679,14 @@ application = get_wsgi_application()
       document.querySelectorAll(".select2").forEach(el => {
         $(el).select2({ width: "100%" });
       });
-  
+
       $('#ai-chatbot-toggle').click(function () {
         $('#ai-chatbot').toggle();
       });
       $('#ai-chatbot-close').click(function () {
         $('#ai-chatbot').hide();
       });
-  
-      // 🔥 ScrollReveal animations
+
       ScrollReveal().reveal('.fade-in-up', {
         distance: '20px',
         duration: 600,
@@ -1369,9 +1697,8 @@ application = get_wsgi_application()
         reset: false,
         cleanup: true
       });
-  
+    });
   </script>
-  
 </body>
 </html>
 
@@ -1755,50 +2082,57 @@ application = get_wsgi_application()
 
 {% block content %}
 <div class="container mt-4">
-    <h2>Welcome, {{ user.email }}</h2>
-    <div class="row">
-        <div class="col-md-6">
-            <h3>Profile Information</h3>
-            <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
-            <p><strong>Email:</strong> {{ user.email }}</p>
-            <!-- Future: Include avatar if available -->
-            <a href="{% url 'profile_edit' %}" class="btn btn-secondary">Edit Profile</a>
-        </div>
-        <div class="col-md-6">
-            <h3>Account Settings</h3>
-    #      <p><a href="{% url 'account_change_password' %}">Change Password</a></p>
-            <!-- Additional account options can be added here -->
-        </div>
+  <h2>Welcome, {{ user.email }}</h2>
+
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <h3>Profile Information</h3>
+      <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <a href="{% url 'profile_edit' %}" class="btn btn-secondary">Edit Profile</a>
+    </div>
+    <div class="col-md-6">
+      <h3>Account Settings</h3>
+      <!-- Future settings can go here -->
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-md-6">
+      <h3>Recent Orders</h3>
+      {% if orders %}
+        <ul class="list-group mb-3">
+          {% for order in orders|slice:":3" %}
+            <li class="list-group-item">
+              Order #{{ order.id }} | {{ order.created_at|date:"F j, Y" }} | <strong>${{ order.total_price }}</strong>
+            </li>
+          {% endfor %}
+        </ul>
+        <a href="{% url 'store:order_history' %}" class="btn btn-sm btn-outline-primary">
+          <i class="fas fa-receipt me-1"></i> View Full Order History
+        </a>
+      {% else %}
+        <p>No orders yet.</p>
+      {% endif %}
     </div>
 
-    <hr>
-
-    <div class="row">
-        <div class="col-md-6">
-            <h3>Order History</h3>
-            {% if orders %}
-                <ul>
-                {% for order in orders %}
-                    <li>Order #{{ order.id }}: {{ order.total_price }}</li>
-                {% endfor %}
-                </ul>
-            {% else %}
-                <p>No orders yet.</p>
-            {% endif %}
-        </div>
-        <div class="col-md-6">
-            <h3>Submitted Reviews</h3>
-            {% if reviews %}
-                <ul>
-                {% for review in reviews %}
-                    <li>{{ review.product.name }}: {{ review.rating }} stars</li>
-                {% endfor %}
-                </ul>
-            {% else %}
-                <p>No reviews submitted yet.</p>
-            {% endif %}
-        </div>
+    <div class="col-md-6">
+      <h3>Submitted Reviews</h3>
+      {% if reviews %}
+        <ul class="list-group">
+          {% for review in reviews|slice:":3" %}
+            <li class="list-group-item">
+              {{ review.product.title }}: {{ review.rating }} stars
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No reviews submitted yet.</p>
+      {% endif %}
     </div>
+  </div>
 </div>
 {% endblock %}
 
@@ -1936,72 +2270,238 @@ application = get_wsgi_application()
       <p><strong>Stock:</strong> {{ product.stock }}</p>
       {% if product.product_type == 'artwork' and product.collection %}
         <p><strong>Collection:</strong> 
-          <a href="{% url 'collection_detail' product.collection.slug %}">
+          <a href="{% url 'store:collection_detail' product.collection.slug %}">
             {{ product.collection.name }}
           </a>
         </p>
       {% endif %}
-      <!-- Placeholder for "Add to Cart" functionality -->
-      <a href="#" class="btn btn-success">Add to Cart</a>
+      <a href="{% url 'store:add_to_cart' product.id %}" class="btn btn-success">Add to Cart</a>
     </div>
   </div>
+
+  <hr class="my-5">
+
+  <!-- ✅ Review Section -->
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h3 class="mb-4">Leave a Review</h3>
+      {% if user.is_authenticated %}
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-3 star-rating d-flex flex-row-reverse justify-content-start">
+            {{ form.rating.label_tag }}
+            {% for subwidget in form.rating.subwidgets reversed %}
+              <input type="radio" name="{{ subwidget.name }}" value="{{ subwidget.choice_value }}" id="{{ subwidget.id_for_label }}" {% if subwidget.choice_value == form.rating.value|stringformat:"s" %}checked{% endif %}>
+              <label for="{{ subwidget.id_for_label }}">&#9733;</label>
+            {% endfor %}
+          </div>
+          <div class="mb-3">
+            {{ form.comment.label_tag }}
+            {{ form.comment }}
+          </div>
+          <button type="submit" class="btn btn-primary">Submit Review</button>
+        </form>
+      {% else %}
+        <p><a href="{% url 'account_login' %}">Log in</a> to leave a review.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- ✅ Display Existing Reviews -->
+  {% if reviews %}
+    <div class="row mt-5">
+      <div class="col-md-8 offset-md-2">
+        <h4 class="mb-3">Customer Reviews</h4>
+        <ul class="list-group">
+          {% for review in reviews %}
+            <li class="list-group-item">
+              <strong>
+                {{ review.user.first_name|default:review.user.email }}
+              </strong>
+              - {{ review.rating }} ★
+              <br>
+              {{ review.comment }}
+              <br>
+              <small class="text-muted">{{ review.created_at|date:"F j, Y" }}</small>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const radios = document.querySelectorAll('.star-rating input[type="radio"]');
+    radios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        const allLabels = document.querySelectorAll('.star-rating label');
+        allLabels.forEach(label => label.classList.remove('selected'));
+
+        let selected = false;
+        radios.forEach((r, i) => {
+          const label = r.nextElementSibling;
+          if (!selected) label.classList.add('selected');
+          if (r.checked) selected = true;
+        });
+      });
+    });
+  });
+</script>
+{% endblock %}
+
+
+===== templates/store/cart_detail.html =====
+{% extends "base.html" %}
+{% block title %}Your Cart{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="fw-bold mb-4">Your Shopping Cart</h2>
+
+  {% if cart.items %}
+    <ul class="list-group mb-4">
+      {% for key, item in cart.items %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          {{ item.title }} (x{{ item.quantity }})
+        </div>
+        <div class="d-flex align-items-center">
+          <strong class="me-3">${{ item.price }}</strong>
+          <form action="{% url 'store:remove_from_cart' key %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+          </form>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <h4 class="mb-4">Total: <span class="text-success">${{ cart.total }}</span></h4>
+
+    <form action="{% url 'store:checkout' %}" method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-primary btn-lg">Proceed to Checkout</button>
+    </form>
+  {% else %}
+    <div class="alert alert-info">
+      Your cart is currently empty. <a href="{% url 'store:store_overview' %}">Browse the store</a> to add items.
+    </div>
+  {% endif %}
 </div>
 {% endblock %}
 
 
 ===== templates/store/store_overview.html =====
 {% extends "base.html" %}
-{% block title %}Store Overview - MatthewRaynor.com{% endblock %}
+{% load static %}
+
+{% block title %}Store - Matthew Raynor{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-  <h2 class="mb-4">Store Overview</h2>
-  
-  <!-- Books Section -->
-  <section>
-    <h3>Books</h3>
-    <div class="row">
-      {% for book in books %}
-        <div class="col-md-4">
-          <div class="card mb-4">
-            {% if book.image %}
-              <img src="{{ book.image.url }}" class="card-img-top" alt="{{ book.title }}">
-            {% endif %}
-            <div class="card-body">
-              <h5 class="card-title">{{ book.title }}</h5>
-              <p class="card-text">${{ book.price }}</p>
-              <a href="{% url 'product_detail' book.slug %}" class="btn btn-primary">View Details</a>
-            </div>
-          </div>
-        </div>
-      {% empty %}
-        <p>No books available.</p>
-      {% endfor %}
+
+<!-- HERO BANNER -->
+<!-- HERO SECTION for STORE OVERVIEW -->
+<section class="store-hero-section text-white d-flex align-items-center justify-content-center mb-4" style="height: 55vh;">
+  <div class="store-hero-overlay"></div>
+  <div class="store-hero-bg" style="background-image: url('{% static "images/store-hero.jpg" %}');"></div>
+  <div class="store-hero-content text-center p-4 rounded">
+    <h1 class="display-4 fw-bold">Where Vision Meets Resilience</h1>
+    <p class="lead">Welcome to Matt's Store.</p>
+    <div class="mt-4">
+      <a href="#collections" class="btn btn-primary btn-lg me-2">Explore Collections</a>
+      <a href="#book" class="btn btn-outline-light btn-lg">Discover the Book</a>
     </div>
-  </section>
-  
-  <!-- Artwork Collections Section -->
-  <section class="mt-5">
-    <h3>Artwork Collections</h3>
-    <div class="row">
+  </div>
+</section>
+
+
+<div class="container py-5">
+
+  <!-- ARTWORK COLLECTIONS -->
+  <section id="collections" class="mb-5">
+    <h2 class="fw-bold text-center mb-4 fade-in-up sr-delay-1">Artwork Collections</h2>
+
+    <div class="row justify-content-center">
       {% for collection in collections %}
-        <div class="col-md-4">
-          <div class="card mb-4">
+      <div class="col-md-6 col-lg-4 mb-4 fade-in-up sr-delay-{{ forloop.counter }}">
+        <div class="card shadow-sm hover-shadow h-100">
+          <div class="ratio ratio-4x3">
             {% if collection.cover_image %}
-              <img src="{{ collection.cover_image.url }}" class="card-img-top" alt="{{ collection.name }}">
+              <img src="{{ collection.cover_image.url }}" class="card-img-top object-fit-cover" alt="{{ collection.name }}">
             {% endif %}
-            <div class="card-body">
-              <h5 class="card-title">{{ collection.name }}</h5>
-              <p class="card-text">{{ collection.description|truncatewords:20 }}</p>
-              <a href="{% url 'collection_detail' collection.slug %}" class="btn btn-primary">View Collection</a>
-            </div>
+          </div>
+          <div class="card-body text-center">
+            <h5 class="card-title fw-semibold">{{ collection.name }}</h5>
+            <p class="card-text text-muted">{{ collection.description|truncatewords:20 }}</p>
+            <a href="{% url 'store:collection_detail' collection.slug %}" class="btn btn-outline-primary">View Collection</a>
           </div>
         </div>
+      </div>
       {% empty %}
-        <p>No artwork collections available.</p>
+        <p class="text-center">No artwork collections available yet.</p>
       {% endfor %}
     </div>
   </section>
+
+  <!-- BOOK SPOTLIGHT -->
+  {% if books %}
+  <section id="book" class="bg-light rounded py-5 px-3 fade-in-up sr-delay-4">
+    <div class="row align-items-center justify-content-center">
+      {% for book in books %}
+      <div class="col-md-5 mb-4 mb-md-0">
+        <div class="ratio ratio-4x3">
+          {% if book.image %}
+            <img src="{{ book.image.url }}" class="img-fluid object-fit-cover rounded shadow" alt="{{ book.title }}">
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-md-7">
+        <h2 class="fw-bold">{{ book.title }}</h2>
+        <p class="lead text-muted mb-3">A visual memoir of hope and resilience .</p>
+        <p>
+          This book isn’t just a collection of photographs — it's my story of transformation.
+          Shot from boats, aerial photos, and moments of hope, these images guided me back to myself.
+          No captions. No filters. Just the truth of my journey.
+        </p>
+        <blockquote class="blockquote mt-4">
+          <p class="mb-0">"These images helped me reclaim my life."</p>
+        </blockquote>
+        <a href="{% url 'store:product_detail' book.slug %}" class="btn btn-primary btn-lg mt-3">Buy the Book</a>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+</div>
+{% endblock %}
+
+
+===== templates/store/order_history.html =====
+{% extends "base.html" %}
+{% block title %}Order History{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="fw-bold mb-4">Your Orders</h2>
+
+  {% if orders %}
+    <div class="list-group">
+      {% for order in orders %}
+        <div class="list-group-item mb-3 shadow-sm rounded">
+          <h5 class="mb-1">Order #{{ order.id }} - {{ order.created_at|date:"F j, Y, g:i a" }}</h5>
+          <p class="mb-0"><strong>Status:</strong> {{ order.get_status_display }}</p>
+          <p class="mb-0"><strong>Total:</strong> ${{ order.total_price }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-muted">You haven't placed any orders yet.</p>
+  {% endif %}
 </div>
 {% endblock %}
 
@@ -2011,33 +2511,54 @@ application = get_wsgi_application()
 {% block title %}{{ collection.name }} - MatthewRaynor.com{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-  <h2>{{ collection.name }}</h2>
+
+<!-- HERO SECTION -->
+<section class="store-hero-section text-white d-flex align-items-center justify-content-center mb-4" style="height: 40vh;">
   {% if collection.cover_image %}
-    <img src="{{ collection.cover_image.url }}" class="img-fluid mb-4" alt="{{ collection.name }}">
+    <div class="store-hero-overlay"></div>
+    <div class="store-hero-bg" style="background-image: url('{{ collection.cover_image.url }}');"></div>
   {% endif %}
-  <p>{{ collection.description }}</p>
-  
-  <hr>
-  
-  <h3>Artwork in this Collection</h3>
-  <div class="row">
+  <div class="store-hero-content text-center p-4 rounded">
+    <h1 class="display-5 fw-bold">{{ collection.name }}</h1>
+    <p class="lead">{{ collection.description }}</p>
+  </div>
+</section>
+
+<!-- ARTWORK LIST -->
+<div class="container">
+  <h3 class="fw-bold text-center mb-4 fade-in-up">Artworks in This Collection</h3>
+  <div class="row justify-content-center">
     {% for artwork in artworks %}
-      <div class="col-md-4">
-        <div class="card mb-4">
-          {% if artwork.image %}
-            <img src="{{ artwork.image.url }}" class="card-img-top" alt="{{ artwork.title }}">
-          {% endif %}
-          <div class="card-body">
-            <h5 class="card-title">{{ artwork.title }}</h5>
+      <div class="col-md-6 col-lg-4 mb-4 fade-in-up sr-delay-{{ forloop.counter }}">
+        <div class="card shadow-sm hover-shadow h-100">
+          <div class="ratio ratio-4x3">
+            {% if artwork.image %}
+              <img src="{{ artwork.image.url }}" class="card-img-top object-fit-cover" alt="{{ artwork.title }}">
+            {% endif %}
+          </div>
+          <div class="card-body text-center">
+            <h5 class="card-title fw-semibold">{{ artwork.title }}</h5>
             <p class="card-text">${{ artwork.price }}</p>
-            <a href="{% url 'product_detail' artwork.slug %}" class="btn btn-primary">View Details</a>
+            <a href="{% url 'store:product_detail' artwork.slug %}" class="btn btn-outline-primary">View Details</a>
           </div>
         </div>
       </div>
     {% empty %}
-      <p>No artworks available in this collection.</p>
+      <p class="text-center">No artworks available in this collection.</p>
     {% endfor %}
   </div>
+</div>
+{% endblock %}
+
+
+===== templates/store/order_success.html =====
+{% extends "base.html" %}
+{% block title %}Order Success{% endblock %}
+
+{% block content %}
+<div class="container mt-5 text-center">
+  <h1 class="fw-bold text-success">🎉 Thank you for your order!</h1>
+  <p class="lead mt-3">You'll receive a confirmation email shortly. Feel free to continue exploring.</p>
+  <a href="{% url 'store:store_overview' %}" class="btn btn-primary mt-4">Return to Store</a>
 </div>
 {% endblock %}
