@@ -58,7 +58,9 @@
         <ul class="list-group">
           {% for review in reviews %}
             <li class="list-group-item">
-              <strong>{{ review.user.first_name|default:review.user.username }}</strong> 
+              <strong>
+                {{ review.user.first_name|default:review.user.email }}
+              </strong>
               - {{ review.rating }} ★
               <br>
               {{ review.comment }}
@@ -72,3 +74,22 @@
   {% endif %}
 </div>
 {% endblock %}
+{% block extra_js %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const stars = document.querySelectorAll('.star-rating input[type="radio"]');
+    stars.forEach(radio => {
+      radio.addEventListener('change', () => {
+        // Uncheck all siblings before checking current
+        stars.forEach(el => {
+          const label = el.nextElementSibling;
+          if (label) label.classList.remove('selected');
+        });
+        const label = radio.nextElementSibling;
+        if (label) label.classList.add('selected');
+      });
+    });
+  });
+</script>
+{% endblock %}
+

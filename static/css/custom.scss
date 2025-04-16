@@ -534,26 +534,35 @@ footer {
 // -------------------------------------
 // ⭐ Star Rating Styling
 // -------------------------------------
-
 .star-rating {
   display: flex;
-  flex-direction: row-reverse;
-  justify-content: flex-end;
+  gap: 0.5rem;
 
   input[type="radio"] {
     display: none;
   }
 
   label {
-    font-size: 1.5rem;
+    font-size: 2rem;
     color: #ccc;
     cursor: pointer;
-    margin-left: 5px;
+    transition: color 0.2s ease;
+  }
 
-    &:hover,
-    &:hover ~ label,
-    input[type="radio"]:checked ~ label {
-      color: #f5c518; // Gold star
-    }
+  input[type="radio"]:checked ~ label,
+  label:hover,
+  label:hover ~ label {
+    color: gold;
+  }
+
+  // Keep clicked stars highlighted
+  input[type="radio"]:checked + label,
+  input[type="radio"]:checked + label ~ label {
+    color: gold;
+  }
+
+  // Optional: Hide text labels
+  label span {
+    display: none;
   }
 }
