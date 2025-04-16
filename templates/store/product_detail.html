@@ -36,7 +36,10 @@
           {% csrf_token %}
           <div class="mb-3 star-rating">
             {{ form.rating.label_tag }}
-            {{ form.rating }}
+            {% for subwidget in form.rating %}
+              <input type="radio" name="{{ subwidget.name }}" value="{{ subwidget.choice_value }}" id="{{ subwidget.id_for_label }}" {% if subwidget.choice_value == form.rating.value|stringformat:"s" %}checked{% endif %}>
+              <label for="{{ subwidget.id_for_label }}">&#9733;</label>
+            {% endfor %}
           </div>
           <div class="mb-3">
             {{ form.comment.label_tag }}
@@ -74,22 +77,25 @@
   {% endif %}
 </div>
 {% endblock %}
+
 {% block extra_js %}
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    const stars = document.querySelectorAll('.star-rating input[type="radio"]');
-    stars.forEach(radio => {
+    const radios = document.querySelectorAll('.star-rating input[type="radio"]');
+    radios.forEach(radio => {
       radio.addEventListener('change', () => {
-        // Uncheck all siblings before checking current
-        stars.forEach(el => {
-          const label = el.nextElementSibling;
-          if (label) label.classList.remove('selected');
+        const allLabels = document.querySelectorAll('.star-rating label');
+        allLabels.forEach(label => label.classList.remove('selected'));
+
+        // highlight stars up to selected one
+        let selected = false;
+        radios.forEach((r, i) => {
+          const label = r.nextElementSibling;
+          if (!selected) label.classList.add('selected');
+          if (r.checked) selected = true;
         });
-        const label = radio.nextElementSibling;
-        if (label) label.classList.add('selected');
       });
     });
   });
 </script>
 {% endblock %}
-
