@@ -21,9 +21,54 @@
           </a>
         </p>
       {% endif %}
-      <!-- Corrected Add to Cart -->
       <a href="{% url 'store:add_to_cart' product.id %}" class="btn btn-success">Add to Cart</a>
     </div>
   </div>
+
+  <hr class="my-5">
+
+  <!-- ✅ Review Section -->
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h3 class="mb-4">Leave a Review</h3>
+      {% if user.is_authenticated %}
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-3 star-rating">
+            {{ form.rating.label_tag }}
+            {{ form.rating }}
+          </div>
+          <div class="mb-3">
+            {{ form.comment.label_tag }}
+            {{ form.comment }}
+          </div>
+          <button type="submit" class="btn btn-primary">Submit Review</button>
+        </form>
+      {% else %}
+        <p><a href="{% url 'account_login' %}">Log in</a> to leave a review.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- ✅ Display Existing Reviews -->
+  {% if reviews %}
+    <div class="row mt-5">
+      <div class="col-md-8 offset-md-2">
+        <h4 class="mb-3">Customer Reviews</h4>
+        <ul class="list-group">
+          {% for review in reviews %}
+            <li class="list-group-item">
+              <strong>{{ review.user.first_name|default:review.user.username }}</strong> 
+              - {{ review.rating }} ★
+              <br>
+              {{ review.comment }}
+              <br>
+              <small class="text-muted">{{ review.created_at|date:"F j, Y" }}</small>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  {% endif %}
 </div>
 {% endblock %}

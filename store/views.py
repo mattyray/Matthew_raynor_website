@@ -5,7 +5,7 @@ from .cart import Cart
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.contrib import messages
-
+from .forms import ReviewForm  # Make sure this is at the top
 from django.utils.decorators import method_decorator
 
 
@@ -65,10 +65,33 @@ def cart_detail(request):
     cart = Cart(request)
     return render(request, "store/cart_detail.html", {"cart": cart})
 
+
 class ProductDetailView(DetailView):
     model = Product
     template_name = "store/product_detail.html"
     context_object_name = "product"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = self.get_object()
+        context['form'] = ReviewForm()
+        context['reviews'] = product.reviews.all()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.product = self.object
+            review.user = request.user
+            review.save()
+            messages.success(request, "Thank you for your review!")
+            return redirect("store:product_detail", slug=self.object.slug)
+        else:
+            context = self.get_context_data()
+            context['form'] = form
+            return self.render_to_response(context)
 
 class CollectionDetailView(DetailView):
     model = Collection

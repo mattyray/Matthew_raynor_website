@@ -12362,4 +12362,23 @@ footer {
   margin-top: 1.25rem;
 }
 
+.star-rating {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+.star-rating input[type=radio] {
+  display: none;
+}
+.star-rating label {
+  font-size: 1.5rem;
+  color: #ccc;
+  cursor: pointer;
+  margin-left: 5px;
+}
+.star-rating label:hover, .star-rating label:hover ~ label,
+.star-rating label input[type=radio]:checked ~ label {
+  color: #f5c518;
+}
+
 /*# sourceMappingURL=custom.css.map */

@@ -530,3 +530,30 @@ footer {
     margin-top: 1.25rem;
   }
 }
+
+// -------------------------------------
+// ⭐ Star Rating Styling
+// -------------------------------------
+
+.star-rating {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+
+  input[type="radio"] {
+    display: none;
+  }
+
+  label {
+    font-size: 1.5rem;
+    color: #ccc;
+    cursor: pointer;
+    margin-left: 5px;
+
+    &:hover,
+    &:hover ~ label,
+    input[type="radio"]:checked ~ label {
+      color: #f5c518; // Gold star
+    }
+  }
+}
