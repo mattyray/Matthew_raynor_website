@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Order History{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="fw-bold mb-4">Your Orders</h2>
+
+  {% if orders %}
+    <div class="list-group">
+      {% for order in orders %}
+        <div class="list-group-item mb-3 shadow-sm rounded">
+          <h5 class="mb-1">Order #{{ order.id }} - {{ order.created_at|date:"F j, Y, g:i a" }}</h5>
+          <p class="mb-0"><strong>Status:</strong> {{ order.get_status_display }}</p>
+          <p class="mb-0"><strong>Total:</strong> ${{ order.total_price }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-muted">You haven't placed any orders yet.</p>
+  {% endif %}
+</div>
+{% endblock %}
