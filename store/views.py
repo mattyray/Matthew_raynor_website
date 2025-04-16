@@ -1,10 +1,23 @@
-from django.views.generic import DetailView, TemplateView
+from django.views.generic import DetailView, TemplateView, ListView
 from .models import Product, Collection, Order, OrderItem
 from django.shortcuts import render, redirect, get_object_or_404
 from .cart import Cart
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.contrib import messages
+
+from django.utils.decorators import method_decorator
+
+@method_decorator(login_required, name='dispatch')
+class OrderHistoryView(ListView):
+    model = Order
+    template_name = 'store/order_history.html'
+    context_object_name = 'orders'
+    ordering = ['-created_at']
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)
+
 
 class OrderSuccessView(TemplateView):
     template_name = "store/order_success.html"
