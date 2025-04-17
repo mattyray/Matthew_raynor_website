@@ -21,7 +21,10 @@ ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=[
     "localhost",
     "127.0.0.1",
     "matthew-raynor-site-3d5f17c6a796.herokuapp.com",
+    "matthewraynor.com",
+    "www.matthewraynor.com",
 ])
+
 
 # ✅ Installed Apps
 INSTALLED_APPS = [
