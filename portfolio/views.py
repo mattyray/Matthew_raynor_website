@@ -179,7 +179,7 @@ PROJECTS = [
     ],
     "build_notes": "<p>Chat interface built with Django Channels, using Redis for pub/sub communication. WebSocket connection gracefully handles disconnects and errors, and the OpenAI SDK 1.0+ interface ensures future-proof API usage.</p>",
     "github_url": "https://github.com/mattyray/ai_motivator_chatbot",
-    "live_url": "https://ai-motivator-chatbot.herokuapp.com"
+    "live_url": "#"
 }
 
 ]
