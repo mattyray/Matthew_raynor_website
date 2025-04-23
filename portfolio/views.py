@@ -180,7 +180,47 @@ PROJECTS = [
     "build_notes": "<p>Chat interface built with Django Channels, using Redis for pub/sub communication. WebSocket connection gracefully handles disconnects and errors, and the OpenAI SDK 1.0+ interface ensures future-proof API usage.</p>",
     "github_url": "https://github.com/mattyray/ai_motivator_chatbot",
     "live_url": "#"
-}
+},
+{
+    "title": "Lotus Path Learning Platform",
+    "slug": "lotus-path",
+    "hero_image": "images/projects/lotus-path.jpg",
+    "description": "An AI-powered learning platform offering custom tutorials, quizzes, and user-authenticated progress tracking.",
+    "overview": "An interactive web app that generates AI-written tutorials, hosts quizzes, and lets users track progress with a personalized dashboard. Built with Django, integrated with OpenAI, and deployed on Fly.io.",
+    "tech_stack": {
+        "backend": ["Django 5.1.6", "Python 3.10", "PostgreSQL", "Docker"],
+        "frontend": ["Bootstrap 5", "Crispy Forms"],
+        "deployment": ["Fly.io", "Docker Compose", "Whitenoise"],
+        "tools": ["django-environ", "OpenAI API", "CKEditor", "GitHub Actions"]
+    },
+    "problem": "Learners often struggle to find clear, custom-tailored explanations of programming topics and have no simple way to test themselves or track their growth.",
+    "solution": "The platform allows users to generate AI-driven tutorials on demand, take JavaScript quizzes, and store their learning history via user accounts. It’s optimized for accessibility and clarity.",
+    "special_features": [
+        "OpenAI-powered tutorial generation engine",
+        "JavaScript quiz module with Django views and templates",
+        "Authentication system with user dashboards and CSRF security",
+        "Styled using Bootstrap with reusable templates and layout blocks"
+    ],
+    "problems_solved": [
+        "Manual content creation bottlenecks",
+        "Lack of personalized study support",
+        "Difficulty integrating AI into a structured learning flow"
+    ],
+    "improvements": [
+        "Add real-time chat tutoring via OpenAI API",
+        "Allow users to bookmark and rate tutorials",
+        "Enable code submission and validation for interactive practice"
+    ],
+    "proud_of": [
+        "Integrated OpenAI API into a real Django application",
+        "Configured secure, production-ready deployment using Fly.io and Docker",
+        "Set up GitHub Actions for CI/CD with collectstatic and migrations"
+    ],
+    "build_notes": "<p>Deployed on Fly.io using Docker. Static files handled via Whitenoise. PostgreSQL database with `.env` integration via <code>django-environ</code>. Includes CKEditor for WYSIWYG content editing.</p>",
+    "github_url": "https://github.com/mattyray/news-root",
+    "live_url": "#"
+},
+
 
 ]
 
