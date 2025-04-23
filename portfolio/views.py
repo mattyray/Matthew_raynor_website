@@ -143,6 +143,45 @@ PROJECTS = [
         "github_url": "https://github.com/mattyray/ch4-bookstore",
         "live_url": ""  # Currently broken, noted in portfolio
     },
+    {
+    "title": "AI Motivational Chatbot",
+    "slug": "motivational-chatbot",
+    "hero_image": "images/projects/motivational-chatbot.jpg",
+    "description": "An AI-powered real-time chat interface built to uplift, motivate, and support users through guided messages and mindfulness prompts.",
+    "overview": "This web app features a real-time motivational chatbot using Django Channels and OpenAI's GPT-4 API. Designed with accessibility and emotional support in mind, it offers inspiring guidance with markdown-to-HTML formatting and secure WebSocket messaging.",
+    "tech_stack": {
+        "backend": ["Django 5.1.6", "Python 3.12", "PostgreSQL", "Docker"],
+        "frontend": ["Bootstrap 5", "Crispy Forms", "JavaScript WebSocket API"],
+        "deployment": ["Docker Compose", "Heroku", "Whitenoise"],
+        "tools": ["Channels", "OpenAI SDK (>=1.0.0)", "django-environ", "markdown"]
+    },
+    "problem": "Users lacked an uplifting, real-time interface to ask spiritual, emotional, or motivational questions and receive formatted responses that felt supportive.",
+    "solution": "Built a guided AI chatbot interface that handles live input, streams OpenAI GPT-4 responses, and uses markdown formatting for expressive feedback.",
+    "special_features": [
+        "Live WebSocket chat powered by Django Channels",
+        "OpenAI GPT-4 Turbo integration with markdown-to-HTML formatting",
+        "Responsive layout with accessibility-focused design choices"
+    ],
+    "problems_solved": [
+        "Enabled real-time motivational chat for users seeking support",
+        "Removed latency by using async communication and markdown rendering",
+        "Created a safe space for users to engage with uplifting messages"
+    ],
+    "improvements": [
+        "Add user accounts and saved conversation history",
+        "Integrate voice recognition and text-to-speech for accessibility",
+        "Implement streaming response instead of chunked delivery"
+    ],
+    "proud_of": [
+        "Successfully implemented real-time async chat with OpenAI GPT-4",
+        "Handled migration to OpenAI SDK 1.0+ and updated markdown rendering",
+        "Built with performance and spiritual value in mind"
+    ],
+    "build_notes": "<p>Chat interface built with Django Channels, using Redis for pub/sub communication. WebSocket connection gracefully handles disconnects and errors, and the OpenAI SDK 1.0+ interface ensures future-proof API usage.</p>",
+    "github_url": "https://github.com/mattyray/ai_motivator_chatbot",
+    "live_url": "https://ai-motivator-chatbot.herokuapp.com"
+}
+
 ]
 
 class PortfolioView(TemplateView):
