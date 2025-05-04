@@ -25,7 +25,6 @@ ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=[
     "www.matthewraynor.com",
 ])
 
-
 # ✅ Installed Apps
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -34,8 +33,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-   # 'django.contrib.sites',  
-
+    # Cloudinary storage must come right after staticfiles
+    'cloudinary_storage',    # django-cloudinary-storage backend
+    'cloudinary',            # Cloudinary core SDK
 
     # Custom apps
     'accounts.apps.AccountsConfig',
@@ -43,8 +43,6 @@ INSTALLED_APPS = [
     'store.apps.StoreConfig',
     'blog.apps.BlogConfig',
     'portfolio.apps.PortfolioConfig',
-
-
 
     # Third-party packages
     'crispy_forms',
@@ -55,10 +53,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'embed_video',
     'django_recaptcha',
-    'cloudinary',
-    'cloudinary_storage',
-
-
 ]
 
 # ✅ Middleware
@@ -73,7 +67,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
 
 # ✅ URL Configuration
 ROOT_URLCONF = 'django_project.urls'
@@ -103,7 +96,6 @@ DATABASES = {
     "default": env.db_url("DATABASE_URL")
 }
 
-
 # ✅ Authentication
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
@@ -121,17 +113,23 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]  # 👈 crucial for collectstatic to find non-app static files
+STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
-
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-
+# Media files – using Cloudinary for storage
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+# Cloudinary configuration
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': env('CLOUDINARY_CLOUD_NAME', default='dddye9wli'),
+    'API_KEY':    env('CLOUDINARY_API_KEY', default='713481757724629'),
+    'API_SECRET': env('CLOUDINARY_API_SECRET', default='vLFVqe19-sbQ5OEOjxYayhPiQwM'),
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # ✅ Default Primary Key
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -139,9 +137,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # ✅ Crispy Forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
-
-# ✅ Login & Logout
- 
 
 # ✅ Security Settings for Production
 if not DEBUG:
@@ -159,7 +154,7 @@ else:
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False
 
-
+# ✅ Staticfiles Finders
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
@@ -168,24 +163,15 @@ STATICFILES_FINDERS = [
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 SITE_ID = 1
 
-
+# Django-Allauth
 ACCOUNT_LOGIN_METHODS = {'email'}
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
 ACCOUNT_USER_MODEL_USERNAME_FIELD = "email"
-
-
-
-ACCOUNT_EMAIL_VERIFICATION = 'optional'  # or 'optional' based on your preference
-LOGIN_REDIRECT_URL = '/'  # or wherever you want to redirect after login
-ACCOUNT_LOGOUT_REDIRECT_URL = '/'
-
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
 LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = "/" 
+LOGOUT_REDIRECT_URL = "/"
 
-#Django recapctha
-
+# reCAPTCHA
 SILENCED_SYSTEM_CHECKS = ['django_recaptcha.recaptcha_test_key_error']
-
-
 RECAPTCHA_PUBLIC_KEY = env("RECAPTCHA_PUBLIC_KEY")
 RECAPTCHA_PRIVATE_KEY = env("RECAPTCHA_PRIVATE_KEY")
