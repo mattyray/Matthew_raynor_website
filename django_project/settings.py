@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'embed_video',
     'django_recaptcha',
+    'cloudinary',
+    'cloudinary_storage',
 
 
 ]
@@ -122,6 +124,9 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]  # 👈 crucial for collectstatic to find non-app static files
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
