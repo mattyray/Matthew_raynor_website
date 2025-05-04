@@ -22,3 +22,5 @@ whitenoise==6.9.0
 Pillow==10.0.0
 django-embed-video==1.4.10
 django-recaptcha==4.1.0
+cloudinary==1.44.0  
+django-cloudinary-storage==0.3.0
