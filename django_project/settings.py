@@ -123,12 +123,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 #MEDIA_URL = "/media/"
 #MEDIA_ROOT = BASE_DIR / "media"
 
-# Cloudinary configuration
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': env('CLOUDINARY_CLOUD_NAME', default='dddye9wli'),
-    'API_KEY':    env('CLOUDINARY_API_KEY', default='713481757724629'),
-    'API_SECRET': env('CLOUDINARY_API_SECRET', default='vLFVqe19-sbQ5OEOjxYayhPiQwM'),
-}
+
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # ✅ Default Primary Key
