@@ -76,7 +76,7 @@ def create_checkout_session(request):
             },
         ],
         mode='payment',
-        success_url=settings.DOMAIN + '/order-success/',
+        success_url=settings.DOMAIN + '/store/order_success/',
         cancel_url=settings.DOMAIN + '/store/',
         shipping_address_collection={'allowed_countries': ['US', 'CA']},
         metadata={'product_id': product.id, 'user_id': request.user.id}
@@ -134,7 +134,7 @@ def checkout_view(request):
         line_items=line_items,
         mode='payment',
         shipping_address_collection={'allowed_countries': ['US']},
-        success_url=request.build_absolute_uri('/order-success/'),
+        success_url=request.build_absolute_uri('/store/order_success/'),
         cancel_url=request.build_absolute_uri('/cart/'),
     )
 
