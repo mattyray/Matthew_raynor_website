@@ -47,7 +47,12 @@ class Order(models.Model):
         ('C', 'Completed'),
         ('F', 'Failed'),
     ]
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='orders', null=True, blank=True
+    )
+    customer_email = models.EmailField(null=True, blank=True)
+    shipping_address = models.JSONField(null=True, blank=True)
+    stripe_checkout_id = models.CharField(max_length=255, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
 
@@ -56,7 +61,8 @@ class Order(models.Model):
         return sum(item.total_price for item in self.items.all())
 
     def __str__(self):
-        return f"Order {self.id} by {self.user}"
+        return f"Order {self.id} ({self.customer_email or self.user})"
+
 
 
 class OrderItem(models.Model):

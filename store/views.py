@@ -21,18 +21,37 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 from django.core.mail import send_mail
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 @csrf_exempt
 def stripe_webhook(request):
-    print("🔥 Webhook hit!")  # This should show in docker logs
+    payload = request.body
+    sig_header = request.META.get("HTTP_STRIPE_SIGNATURE")
+    endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
 
-    if request.method == "POST":
-        try:
-            print("📦 Payload:", request.body.decode('utf-8'))
-        except Exception as e:
-            print("❌ Error decoding body:", str(e))
-            return HttpResponse(status=400)
+    try:
+        event = stripe.Webhook.construct_event(payload, sig_header, endpoint_secret)
+    except ValueError as e:
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError as e:
+        return HttpResponse(status=400)
 
-    return HttpResponse("pong", status=200)
+    if event["type"] == "checkout.session.completed":
+        session = event["data"]["object"]
+        email = session.get("customer_details", {}).get("email")
+        shipping = session.get("shipping", {}).get("address")
+        stripe_id = session.get("id")
+
+        Order.objects.create(
+            customer_email=email,
+            shipping_address=shipping,
+            stripe_checkout_id=stripe_id,
+            status='C'
+        )
+
+    return HttpResponse(status=200)
 
 
 
