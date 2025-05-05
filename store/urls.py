@@ -11,6 +11,7 @@ from .views import (
     remove_from_cart,
     OrderHistoryView,
     create_checkout_session,
+    stripe_webhook,
 )
 
 app_name = "store"
@@ -29,6 +30,8 @@ urlpatterns = [
     path("order-success/", OrderSuccessView.as_view(), name="order_success"),
     path('orders/history/', OrderHistoryView.as_view(), name='order_history'),
     path('create-checkout-session/', create_checkout_session, name='create_checkout_session'),
+    path("webhooks/stripe/", stripe_webhook, name="stripe_webhook"),
+
 
    
 ]

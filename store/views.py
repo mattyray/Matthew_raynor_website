@@ -7,6 +7,8 @@ from django.utils.decorators import method_decorator
 from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
+
 
 from .models import Product, Collection, Order, OrderItem
 from .cart import Cart
@@ -16,6 +18,8 @@ import stripe
 import json
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
+
+from django.core.mail import send_mail
 
 @csrf_exempt
 def stripe_webhook(request):
@@ -33,19 +37,23 @@ def stripe_webhook(request):
     if event['type'] == 'checkout.session.completed':
         session = event['data']['object']
         shipping = session.get('shipping')
-        user_id = session['metadata'].get('user_id')
-        product_id = session['metadata'].get('product_id')
+        email_body = f"""
+        ✅ New Order Completed!
 
-        # Optional: save to Order model
-        Order.objects.create(
-            user_id=user_id,
-            status='C',
+        Customer: {session.get('customer_email')}
+        Name: {shipping.get('name')}
+        Address: {shipping.get('address')}
+        """
+
+        send_mail(
+            subject="📦 New Order Received",
+            message=email_body,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[settings.DEFAULT_FROM_EMAIL],
         )
 
-        # You can also log or email the shipping info
-        print("📦 Shipping:", shipping)
-
     return HttpResponse(status=200)
+
 
 
 @csrf_exempt
