@@ -20,60 +20,21 @@ import json
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 from django.core.mail import send_mail
+
 @csrf_exempt
 def stripe_webhook(request):
-    import logging
-    logger = logging.getLogger(__name__)
-    print("🔥 Webhook view hit")  # This should print if the view is entered
-    logger.info("🔥 Webhook view hit")
+    print("🔥 Webhook hit!")  # This should show in docker logs
 
-    payload = request.body
-    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE', '')
-    endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
+    if request.method == "POST":
+        try:
+            print("📦 Payload:", request.body.decode('utf-8'))
+        except Exception as e:
+            print("❌ Error decoding body:", str(e))
+            return HttpResponse(status=400)
 
-    try:
-        event = stripe.Webhook.construct_event(
-            payload=payload,
-            sig_header=sig_header,
-            secret=endpoint_secret,
-        )
-    except ValueError as e:
-        print("❌ Invalid payload:", e)
-        logger.error("❌ Invalid payload: %s", str(e))
-        return HttpResponse(status=400)
-    except stripe.error.SignatureVerificationError as e:
-        print("❌ Signature verification failed:", e)
-        logger.error("❌ Signature verification failed: %s", str(e))
-        return HttpResponse(status=400)
+    return HttpResponse("pong", status=200)
 
-    print(f"✅ Received Stripe event: {event['type']}")
-    logger.info(f"✅ Received Stripe event: {event['type']}")
 
-    if event['type'] == 'checkout.session.completed':
-        session = event['data']['object']
-        customer_email = session.get('customer_email') or session.get("customer_details", {}).get("email")
-        shipping_name = session.get('shipping', {}).get('name') or session.get("customer_details", {}).get("name")
-        shipping_address = session.get('shipping', {}).get('address') or session.get("customer_details", {}).get("address")
-
-        email_body = f"""
-        ✅ New Order Completed!
-
-        Customer: {customer_email}
-        Name: {shipping_name}
-        Address: {shipping_address}
-        """
-
-        print(email_body)
-        logger.info(email_body)
-
-        send_mail(
-            subject="📦 New Order Received",
-            message=email_body,
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[settings.DEFAULT_FROM_EMAIL],
-        )
-
-    return HttpResponse(status=200)
 
 
 
