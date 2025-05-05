@@ -1,10 +1,20 @@
 from environ import Env
 from pathlib import Path
 import os
+import stripe
+
 
 # Initialize environment variables
 env = Env()
 Env.read_env()
+
+
+STRIPE_PUBLISHABLE_KEY = env('STRIPE_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY      = env('STRIPE_SECRET_KEY')
+
+# Initialize Stripe client
+stripe.api_key = STRIPE_SECRET_KEY
+
 
 # Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
