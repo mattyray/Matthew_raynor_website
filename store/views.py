@@ -16,30 +16,33 @@ import stripe
 import json
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
-
 @csrf_exempt
 def create_checkout_session(request):
-    data = json.loads(request.body)
-    product_id = data.get("product_id")
-    product = get_object_or_404(Product, id=product_id)
+    product_id = json.loads(request.body).get("product_id")
+    product = Product.objects.get(id=product_id)
 
     checkout_session = stripe.checkout.Session.create(
         payment_method_types=['card'],
-        line_items=[{
-            'price_data': {
-                'currency': 'usd',
-                'unit_amount': int(product.price * 100),  # Convert to cents
-                'product_data': {
-                    'name': product.title,
+        line_items=[
+            {
+                'price_data': {
+                    'currency': 'usd',
+                    'unit_amount': int(product.price * 100),
+                    'product_data': {
+                        'name': product.title,
+                    },
                 },
+                'quantity': 1,
             },
-            'quantity': 1,
-        }],
+        ],
         mode='payment',
-        success_url="https://www.matthewraynor.com/order-success/",
-        cancel_url=f"https://www.matthewraynor.com/products/{product.slug}/",
+        success_url=settings.DOMAIN + '/order-success/',
+        cancel_url=settings.DOMAIN + '/store/',
+        shipping_address_collection={'allowed_countries': ['US', 'CA']},
+        metadata={'product_id': product.id, 'user_id': request.user.id}
     )
     return JsonResponse({'id': checkout_session.id})
+
 
 
 @method_decorator(login_required, name='dispatch')
