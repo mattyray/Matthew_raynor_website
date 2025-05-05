@@ -20,9 +20,9 @@ import json
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 from django.core.mail import send_mail
-
 @csrf_exempt
 def stripe_webhook(request):
+    print("🔥 Webhook view hit")  # Debugging
     payload = request.body
     sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
     endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
@@ -31,18 +31,21 @@ def stripe_webhook(request):
         event = stripe.Webhook.construct_event(
             payload, sig_header, endpoint_secret
         )
-    except (ValueError, stripe.error.SignatureVerificationError):
+    except (ValueError, stripe.error.SignatureVerificationError) as e:
+        print("❌ Webhook signature invalid or event malformed", e)
         return HttpResponse(status=400)
 
     if event['type'] == 'checkout.session.completed':
+        print("✅ Stripe event: checkout.session.completed")
         session = event['data']['object']
-        shipping = session.get('shipping')
+        shipping = session.get('shipping_details') or {}
+
         email_body = f"""
         ✅ New Order Completed!
 
-        Customer: {session.get('customer_email')}
-        Name: {shipping.get('name')}
-        Address: {shipping.get('address')}
+        Customer: {session.get('customer_email', '[No Email]')}
+        Name: {shipping.get('name', '[No Name]')}
+        Address: {shipping.get('address', '[No Address]')}
         """
 
         send_mail(
@@ -53,6 +56,8 @@ def stripe_webhook(request):
         )
 
     return HttpResponse(status=200)
+
+
 
 
 

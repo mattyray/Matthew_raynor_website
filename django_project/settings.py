@@ -37,7 +37,7 @@ ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=[
     "matthew-raynor-site-3d5f17c6a796.herokuapp.com",
     "matthewraynor.com",
     "www.matthewraynor.com",
-    "ce91-75-127-164-90.ngrok-free.app",  # ✅ add your current ngrok domain
+    "8c29-75-127-164-90.ngrok-free.app",
 ])
 
 # ✅ Installed Apps
