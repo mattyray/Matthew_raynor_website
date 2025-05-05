@@ -24,3 +24,5 @@ django-embed-video==1.4.10
 django-recaptcha==4.1.0
 cloudinary==1.44.0  
 django-cloudinary-storage==0.3.0
+stripe==12.0.1
+
