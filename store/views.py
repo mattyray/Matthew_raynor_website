@@ -64,7 +64,6 @@ def remove_from_cart(request, key):
     messages.success(request, "Item removed from your cart.")
     return redirect("store:cart_detail")
 
-
 @login_required
 @require_POST
 def checkout_view(request):
@@ -73,20 +72,30 @@ def checkout_view(request):
         messages.error(request, "Your cart is empty.")
         return redirect("store:cart_detail")
 
-    order = Order.objects.create(user=request.user)
+    line_items = []
     for key, item in cart.cart.items():
         product = Product.objects.get(id=key)
-        OrderItem.objects.create(
-            order=order,
-            product=product,
-            quantity=item["quantity"],
-            price=product.price,
-        )
+        line_items.append({
+            'price_data': {
+                'currency': 'usd',
+                'unit_amount': int(float(product.price) * 100),  # price in cents
+                'product_data': {
+                    'name': product.title,
+                },
+            },
+            'quantity': item["quantity"],
+        })
 
-    cart.clear()
-    messages.success(request, "Your order has been placed successfully.")
-    return redirect("store:order_success")
+    checkout_session = stripe.checkout.Session.create(
+        payment_method_types=['card'],
+        line_items=line_items,
+        mode='payment',
+        shipping_address_collection={'allowed_countries': ['US']},
+        success_url=request.build_absolute_uri('/order-success/'),
+        cancel_url=request.build_absolute_uri('/cart/'),
+    )
 
+    return redirect(checkout_session.url)
 
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
