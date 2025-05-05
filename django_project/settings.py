@@ -32,9 +32,12 @@ DEBUG = env.bool("DJANGO_DEBUG", default=False)
 ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=[
     "localhost",
     "127.0.0.1",
+    "0.0.0.0",
+    "web",
     "matthew-raynor-site-3d5f17c6a796.herokuapp.com",
     "matthewraynor.com",
     "www.matthewraynor.com",
+    "ce91-75-127-164-90.ngrok-free.app",  # ✅ add your current ngrok domain
 ])
 
 # ✅ Installed Apps
