@@ -1,44 +1,45 @@
 from django.views.generic import DetailView, TemplateView, ListView
-from .models import Product, Collection, Order, OrderItem
 from django.shortcuts import render, redirect, get_object_or_404
-from .cart import Cart
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.contrib import messages
-from .forms import ReviewForm  # Make sure this is at the top
 from django.utils.decorators import method_decorator
+from django.conf import settings
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
+from .models import Product, Collection, Order, OrderItem
+from .cart import Cart
+from .forms import ReviewForm
 
 import stripe
-from django.conf import settings
-from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
+import json
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 @csrf_exempt
 def create_checkout_session(request):
-    YOUR_DOMAIN = "https://www.matthewraynor.com"
+    data = json.loads(request.body)
+    product_id = data.get("product_id")
+    product = get_object_or_404(Product, id=product_id)
+
     checkout_session = stripe.checkout.Session.create(
         payment_method_types=['card'],
-        line_items=[
-            {
-                'price_data': {
-                    'currency': 'usd',
-                    'unit_amount': 1000,  # 10.00 USD
-                    'product_data': {
-                        'name': 'Example Product',
-                    },
+        line_items=[{
+            'price_data': {
+                'currency': 'usd',
+                'unit_amount': int(product.price * 100),  # Convert to cents
+                'product_data': {
+                    'name': product.title,
                 },
-                'quantity': 1,
             },
-        ],
+            'quantity': 1,
+        }],
         mode='payment',
-        success_url=YOUR_DOMAIN + '/order-success/',
-        cancel_url=YOUR_DOMAIN + '/store/',
+        success_url="https://www.matthewraynor.com/order-success/",
+        cancel_url=f"https://www.matthewraynor.com/products/{product.slug}/",
     )
     return JsonResponse({'id': checkout_session.id})
-
 
 
 @method_decorator(login_required, name='dispatch')
@@ -55,12 +56,14 @@ class OrderHistoryView(ListView):
 class OrderSuccessView(TemplateView):
     template_name = "store/order_success.html"
 
+
 @require_POST
 def remove_from_cart(request, key):
     cart = Cart(request)
     cart.remove(key)
     messages.success(request, "Item removed from your cart.")
     return redirect("store:cart_detail")
+
 
 @login_required
 @require_POST
@@ -71,8 +74,6 @@ def checkout_view(request):
         return redirect("store:cart_detail")
 
     order = Order.objects.create(user=request.user)
-    print("DEBUG CART CONTENTS:", cart.cart)
-
     for key, item in cart.cart.items():
         product = Product.objects.get(id=key)
         OrderItem.objects.create(
@@ -86,11 +87,13 @@ def checkout_view(request):
     messages.success(request, "Your order has been placed successfully.")
     return redirect("store:order_success")
 
+
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     cart = Cart(request)
     cart.add(product)
     return redirect("store:cart_detail")
+
 
 def cart_detail(request):
     cart = Cart(request)
@@ -107,6 +110,7 @@ class ProductDetailView(DetailView):
         product = self.get_object()
         context['form'] = ReviewForm()
         context['reviews'] = product.reviews.all()
+        context['stripe_publishable_key'] = settings.STRIPE_PUBLISHABLE_KEY  # ✅ required for frontend JS
         return context
 
     def post(self, request, *args, **kwargs):
@@ -124,6 +128,7 @@ class ProductDetailView(DetailView):
             context['form'] = form
             return self.render_to_response(context)
 
+
 class CollectionDetailView(DetailView):
     model = Collection
     template_name = "store/collection_detail.html"
@@ -132,10 +137,11 @@ class CollectionDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['artworks'] = Product.objects.filter(
-            product_type='artwork', 
+            product_type='artwork',
             collection=self.object
         )
         return context
+
 
 class StoreOverviewView(TemplateView):
     template_name = "store/store_overview.html"
@@ -145,5 +151,3 @@ class StoreOverviewView(TemplateView):
         context['books'] = Product.objects.filter(product_type='book')
         context['collections'] = Collection.objects.all()
         return context
-    
-
