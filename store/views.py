@@ -22,31 +22,49 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 from django.core.mail import send_mail
 @csrf_exempt
 def stripe_webhook(request):
-    print("🔥 Webhook view hit")  # Debugging
+    import logging
+    logger = logging.getLogger(__name__)
+    print("🔥 Webhook view hit")  # This should print if the view is entered
+    logger.info("🔥 Webhook view hit")
+
     payload = request.body
-    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
+    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE', '')
     endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
 
     try:
         event = stripe.Webhook.construct_event(
-            payload, sig_header, endpoint_secret
+            payload=payload,
+            sig_header=sig_header,
+            secret=endpoint_secret,
         )
-    except (ValueError, stripe.error.SignatureVerificationError) as e:
-        print("❌ Webhook signature invalid or event malformed", e)
+    except ValueError as e:
+        print("❌ Invalid payload:", e)
+        logger.error("❌ Invalid payload: %s", str(e))
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError as e:
+        print("❌ Signature verification failed:", e)
+        logger.error("❌ Signature verification failed: %s", str(e))
         return HttpResponse(status=400)
 
+    print(f"✅ Received Stripe event: {event['type']}")
+    logger.info(f"✅ Received Stripe event: {event['type']}")
+
     if event['type'] == 'checkout.session.completed':
-        print("✅ Stripe event: checkout.session.completed")
         session = event['data']['object']
-        shipping = session.get('shipping_details') or {}
+        customer_email = session.get('customer_email') or session.get("customer_details", {}).get("email")
+        shipping_name = session.get('shipping', {}).get('name') or session.get("customer_details", {}).get("name")
+        shipping_address = session.get('shipping', {}).get('address') or session.get("customer_details", {}).get("address")
 
         email_body = f"""
         ✅ New Order Completed!
 
-        Customer: {session.get('customer_email', '[No Email]')}
-        Name: {shipping.get('name', '[No Name]')}
-        Address: {shipping.get('address', '[No Address]')}
+        Customer: {customer_email}
+        Name: {shipping_name}
+        Address: {shipping_address}
         """
+
+        print(email_body)
+        logger.info(email_body)
 
         send_mail(
             subject="📦 New Order Received",
@@ -56,8 +74,6 @@ def stripe_webhook(request):
         )
 
     return HttpResponse(status=200)
-
-
 
 
 

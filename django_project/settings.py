@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'embed_video',
     'django_recaptcha',
+    'django_extensions',
 ]
 
 # ✅ Middleware
