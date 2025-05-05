@@ -21,7 +21,10 @@
           </a>
         </p>
       {% endif %}
-      <a href="{% url 'store:add_to_cart' product.id %}" class="btn btn-success">Add to Cart</a>
+      <a href="{% url 'store:add_to_cart' product.id %}" class="btn btn-success me-3">Add to Cart</a>
+
+      <!-- ✅ Stripe Buy Button -->
+      <button id="checkout-button" class="btn btn-primary">Buy Now with Stripe</button>
     </div>
   </div>
 
@@ -79,8 +82,11 @@
 {% endblock %}
 
 {% block extra_js %}
+<!-- ✅ Stripe.js -->
+<script src="https://js.stripe.com/v3/"></script>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
+    // Stripe star rating
     const radios = document.querySelectorAll('.star-rating input[type="radio"]');
     radios.forEach(radio => {
       radio.addEventListener('change', () => {
@@ -93,6 +99,25 @@
           if (!selected) label.classList.add('selected');
           if (r.checked) selected = true;
         });
+      });
+    });
+
+    // Stripe checkout session
+    const stripe = Stripe("{{ stripe_publishable_key }}");
+    const checkoutButton = document.getElementById("checkout-button");
+    checkoutButton.addEventListener("click", () => {
+      fetch("{% url 'store:create_checkout_session' %}", {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": "{{ csrf_token }}",
+        },
+        body: JSON.stringify({
+          product_id: "{{ product.id }}"
+        }),
+      })
+      .then(res => res.json())
+      .then(data => {
+        return stripe.redirectToCheckout({ sessionId: data.id });
       });
     });
   });
