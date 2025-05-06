@@ -152,7 +152,6 @@ def cart_detail(request):
     cart = Cart(request)
     return render(request, "store/cart_detail.html", {"cart": cart})
 
-
 class ProductDetailView(DetailView):
     model = Product
     template_name = "store/product_detail.html"
@@ -163,11 +162,13 @@ class ProductDetailView(DetailView):
         product = self.get_object()
         context['form'] = ReviewForm()
         context['reviews'] = product.reviews.all()
-        context['stripe_publishable_key'] = settings.STRIPE_PUBLISHABLE_KEY  # ✅ required for frontend JS
+        context['stripe_publishable_key'] = settings.STRIPE_PUBLISHABLE_KEY
         return context
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
+        print("🚀 Review POST triggered for:", self.object.title)
+
         form = ReviewForm(request.POST)
         if form.is_valid():
             review = form.save(commit=False)
@@ -175,8 +176,10 @@ class ProductDetailView(DetailView):
             review.user = request.user
             review.save()
             messages.success(request, "Thank you for your review!")
+            print("✅ Review saved for:", self.object.title)
             return redirect("store:product_detail", slug=self.object.slug)
         else:
+            print("❌ Review form is invalid:", form.errors)
             context = self.get_context_data()
             context['form'] = form
             return self.render_to_response(context)
