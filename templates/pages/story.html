@@ -1,18 +1,54 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block title %}My Journey - Matthew Raynor{% endblock %}
 
 {% block content %}
 <div class="container py-5 fade-in-up">
   <div class="row justify-content-center">
-    <div class="col-lg-8">
-      <h1 class="fw-bold mb-4">My Journey</h1>
-      <p class="lead">Six years ago, I dove into shallow water and broke my neck. I was paralyzed from the chest down. Before that day, I was a commercial fisherman—working hard, living wild, and braving storms at sea. That day changed everything. What followed was pain, isolation, and a complete loss of control over my body and life.</p>
+    <div class="col-lg-8 text-center mb-5">
+      <h1 class="fw-bold">My Journey</h1>
+      <img src="{% static 'images/matthew_portrait.png' %}" class="img-fluid rounded shadow mt-4 mb-4" alt="Matthew Raynor Portrait">
+    </div>
 
-      <p>But that wasn't the end of my story. I taught myself how to use a computer with a stylus and voice commands. I learned to code, to build applications, to write, to create. I rebuilt my life from scratch. What began as survival became purpose: helping others through web development, writing, and art.</p>
+    <div class="col-lg-10">
+      <p class="lead">Six years ago, I dove into shallow water and broke my neck. I was paralyzed from the chest down. Before that day, I was a commercial fisherman—working grueling hours offshore, hauling gear, braving storms, and chasing the next big catch. I was strong, independent, and lived without fear. That day changed everything.</p>
 
-      <p>Today, I develop professional Django applications, create digital art, and share my journey of resilience. My story is proof that even in the darkest places, light can emerge — if we choose to create it.</p>
+      <p>The early months were the darkest of my life. I lost all physical control below my collarbone and faced isolation, depression, and addiction. But that wasn't the end of my story.</p>
 
-      <a href="{% url 'portfolio:index' %}" class="btn btn-primary mt-4">View My Work</a>
+      <div class="my-4 text-center">
+        <img src="{% static 'images/fisherman_days.png' %}" class="img-fluid rounded shadow" alt="Old Fisherman Days">
+      </div>
+
+      <p>In a nursing home room with almost nothing, I began again. I taught myself to use a computer with a stylus in each hand and voice commands. I learned to code — line by line — and found a new way to build. I created and deployed full-stack web applications using Django and React, including business systems for clients and a full personal portfolio website.</p>
+
+      <p>I also returned to art through drone photography and began selling my work. Today, I create visual art prints, a motivational book, and content to help others heal — especially those dealing with chronic illness, disability, and hopelessness.</p>
+
+      <div class="my-4 text-center">
+        <img src="{% static 'images/drone_shot_example.png' %}" class="img-fluid rounded shadow" alt="Drone Photography">
+      </div>
+
+      <p>I share humor and hope on TikTok and Instagram, posting short videos that resonate with people in hospitals, rehab, or stuck in their own pain. I’ve found purpose in turning struggle into service. Every app I build, video I post, or story I share is rooted in that commitment.</p>
+
+      <p class="fw-bold">You can view my latest work, writing, or videos — or reach out to collaborate.</p>
+
+      <div class="text-center mt-5">
+        <a href="{% url 'portfolio:index' %}" class="btn btn-primary me-2">View My Projects</a>
+        <a href="{% url 'post_list' %}" class="btn btn-outline-primary">Read the Blog</a>
+      </div>
+
+      <hr class="my-5">
+
+      <div class="text-center">
+        <h5>Contact & Social</h5>
+        <p>Email: <a href="mailto:mnraynor90@gmail.com">mnraynor90@gmail.com</a></p>
+        <p>
+          <a href="https://www.instagram.com/matthewraynorig/" target="_blank" class="me-3"><i class="fab fa-instagram fa-lg"></i> Instagram</a>
+          <a href="https://www.linkedin.com/in/matthew-raynor-2b3618200/" target="_blank" class="me-3"><i class="fab fa-linkedin fa-lg"></i> LinkedIn</a>
+          <a href="https://github.com/mattyray" target="_blank" class="me-3"><i class="fab fa-github fa-lg"></i> GitHub</a>
+          <a href="https://www.tiktok.com/@matttyrayna" target="_blank"><i class="fab fa-tiktok fa-lg"></i> TikTok</a>
+        </p>
+      </div>
     </div>
   </div>
 </div>
