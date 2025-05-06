@@ -17,6 +17,9 @@ def contact_view(request):
         form = ContactForm()
     return render(request, "pages/contact.html", {"form": form})
 
+class StoryPageView(TemplateView):
+    template_name = 'pages/story.html'
+
 
 
 class HomePageView(TemplateView):
