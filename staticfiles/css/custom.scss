@@ -481,11 +481,19 @@ footer {
 
 .store-hero-section {
   position: relative;
-  height: 55vh; // 🔽 Reduced height so animations below are visible
-  background: url('/static/images/hero.jpg') center center / cover no-repeat;
+  height: 55vh;
   color: white;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+
+  .store-hero-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
 }
+
 
 .store-hero-overlay {
   position: absolute;
@@ -520,5 +528,40 @@ footer {
     font-weight: bold;
     font-size: 1rem;
     margin-top: 1.25rem;
+  }
+}
+
+// -------------------------------------
+// ⭐ Star Rating Styling
+.star-rating {
+  direction: rtl;
+  display: flex;
+  gap: 0.5rem;
+
+  input[type="radio"] {
+    display: none;
+  }
+
+  label {
+    font-size: 2rem;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.2s ease;
+
+    span {
+      display: inline; // the star stays visible
+    }
+  }
+
+  input[type="radio"]:checked ~ label,
+  label:hover,
+  label:hover ~ label {
+    color: gold;
+  }
+
+  // Fix: only highlight clicked and prior stars, not all future ones
+  input[type="radio"]:checked + label,
+  input[type="radio"]:checked + label ~ label {
+    color: gold;
   }
 }

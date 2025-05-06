@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}My Journey - Matthew Raynor{% endblock %}
+
+{% block content %}
+<div class="container py-5 fade-in-up">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <h1 class="fw-bold mb-4">My Journey</h1>
+      <p class="lead">Six years ago, I dove into shallow water and broke my neck. I was paralyzed from the chest down. Before that day, I was a commercial fisherman—working hard, living wild, and braving storms at sea. That day changed everything. What followed was pain, isolation, and a complete loss of control over my body and life.</p>
+
+      <p>But that wasn't the end of my story. I taught myself how to use a computer with a stylus and voice commands. I learned to code, to build applications, to write, to create. I rebuilt my life from scratch. What began as survival became purpose: helping others through web development, writing, and art.</p>
+
+      <p>Today, I develop professional Django applications, create digital art, and share my journey of resilience. My story is proof that even in the darkest places, light can emerge — if we choose to create it.</p>
+
+      <a href="{% url 'portfolio:index' %}" class="btn btn-primary mt-4">View My Work</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

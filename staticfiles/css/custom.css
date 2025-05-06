@@ -12318,9 +12318,15 @@ footer {
 .store-hero-section {
   position: relative;
   height: 55vh;
-  background: url("/static/images/hero.jpg") center center/cover no-repeat;
   color: white;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+.store-hero-section .store-hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
 }
 
 .store-hero-overlay {
@@ -12354,6 +12360,34 @@ footer {
   font-weight: bold;
   font-size: 1rem;
   margin-top: 1.25rem;
+}
+
+.star-rating {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+.star-rating input[type=radio] {
+  display: none;
+}
+.star-rating label {
+  font-size: 2rem;
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.star-rating label:hover, .star-rating label:hover ~ label {
+  color: gold;
+}
+.star-rating input[type=radio]:checked ~ label {
+  color: #ccc;
+}
+.star-rating input[type=radio]:checked + label,
+.star-rating input[type=radio]:checked + label ~ label {
+  color: gold;
+}
+.star-rating label span {
+  display: none;
 }
 
 /*# sourceMappingURL=custom.css.map */
