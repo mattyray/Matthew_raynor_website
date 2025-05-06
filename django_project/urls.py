@@ -1,14 +1,16 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, reverse_lazy
 from django.conf.urls.static import static
 from django.conf import settings
+from django.views.generic import RedirectView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("accounts.urls")),
     path("accounts/", include("allauth.urls")),
     path("blog/", include("blog.urls")),
-    path("", include("pages.urls")),
+    path("", include("pages.urls")),  # This must come first so "pages:home" is registered
+    path("home/", RedirectView.as_view(url=reverse_lazy("pages:home"), permanent=False), name="home"),
     path("store/", include("store.urls")),
     path("portfolio/", include("portfolio.urls")),
 ]
