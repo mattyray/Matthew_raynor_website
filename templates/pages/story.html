@@ -5,49 +5,68 @@
 
 {% block content %}
 <div class="container py-5 fade-in-up">
-  <div class="row justify-content-center">
-    <div class="col-lg-8 text-center mb-5">
-      <h1 class="fw-bold">My Journey</h1>
-      <img src="{% static 'images/matthew_portrait.png' %}" class="img-fluid rounded shadow mt-4 mb-4" alt="Matthew Raynor Portrait">
+  <div class="row justify-content-center mb-5">
+    <div class="col-lg-8 text-center">
+      <h1 class="fw-bold mb-3">My Journey</h1>
+      <p class="lead">From the open sea to spinal cord injury — and from survival to service through art, code, and storytelling.</p>
     </div>
+  </div>
 
-    <div class="col-lg-10">
-      <p class="lead">Six years ago, I dove into shallow water and broke my neck. I was paralyzed from the chest down. Before that day, I was a commercial fisherman—working grueling hours offshore, hauling gear, braving storms, and chasing the next big catch. I was strong, independent, and lived without fear. That day changed everything.</p>
+  <!-- Image + About -->
+  <div class="row align-items-center mb-5">
+    <div class="col-md-6 mb-4 mb-md-0">
+      <img src="{% static 'images/matthew_portrait.png' %}" class="img-fluid rounded shadow" alt="Matthew Raynor Portrait">
+    </div>
+    <div class="col-md-6">
+      <h3 class="fw-bold">Who I Am</h3>
+      <p>I’m Matthew Raynor — once a commercial fisherman, now a quadriplegic full-stack developer, artist, and writer. Six years ago, I broke my neck diving into shallow water. I lost all function from the chest down, including use of my hands. The physical pain was immense — but so was the emotional isolation that followed.</p>
+      <p>Still, I refused to give up. I rebuilt my life using styluses and voice commands to operate a computer, and taught myself how to code.</p>
+    </div>
+  </div>
 
-      <p>The early months were the darkest of my life. I lost all physical control below my collarbone and faced isolation, depression, and addiction. But that wasn't the end of my story.</p>
+  <!-- What I Create -->
+  <div class="row mb-5">
+    <div class="col-lg-12">
+      <h3 class="fw-bold">What I Do</h3>
+      <p>I design and build full-stack Django web applications, often for small businesses. One of my major projects — <strong>EJ Art Mover</strong> — is a business management system for a professional art transport company. It handles logistics, invoices, scheduling, and client data in an elegant, mobile-friendly interface.</p>
+      <p>I also create and sell aluminum-mounted landscape photography and publish a visual memoir titled <strong>Before Me After Me</strong>, capturing my transformation through image alone. My work has been shown in galleries and featured in press outlets like <em>ABC 7, Newsday, The Southampton Press</em>, and more.</p>
+    </div>
+  </div>
 
-      <div class="my-4 text-center">
-        <img src="{% static 'images/fisherman_days.png' %}" class="img-fluid rounded shadow" alt="Old Fisherman Days">
-      </div>
+  <!-- Inspirational Work -->
+  <div class="row align-items-center mb-5">
+    <div class="col-md-6 order-md-2 mb-4 mb-md-0">
+      <img src="{% static 'images/matthew_digital_art.png' %}" class="img-fluid rounded shadow" alt="Matthew's Art">
+    </div>
+    <div class="col-md-6 order-md-1">
+      <h3 class="fw-bold">How I Inspire</h3>
+      <p>I speak honestly about pain, healing, and purpose. My <a href="https://www.tiktok.com/@matttyrayna" target="_blank">TikTok</a> and <a href="https://www.instagram.com/matthewraynorig/" target="_blank">Instagram</a> videos blend inspiration and humor for others facing hardship — especially those with disabilities or health conditions. I also run a <a href="https://substack.com/@mnraynor90" target="_blank">Substack</a> newsletter, where I write about recovery, mindset, spiritual practice, and self-compassion.</p>
+      <p>I even started an AA meeting in my nursing home — because service doesn’t require mobility. It requires heart.</p>
+    </div>
+  </div>
 
-      <p>In a nursing home room with almost nothing, I began again. I taught myself to use a computer with a stylus in each hand and voice commands. I learned to code — line by line — and found a new way to build. I created and deployed full-stack web applications using Django and React, including business systems for clients and a full personal portfolio website.</p>
-
-      <p>I also returned to art through drone photography and began selling my work. Today, I create visual art prints, a motivational book, and content to help others heal — especially those dealing with chronic illness, disability, and hopelessness.</p>
-
-      <div class="my-4 text-center">
-        <img src="{% static 'images/drone_shot_example.png' %}" class="img-fluid rounded shadow" alt="Drone Photography">
-      </div>
-
-      <p>I share humor and hope on TikTok and Instagram, posting short videos that resonate with people in hospitals, rehab, or stuck in their own pain. I’ve found purpose in turning struggle into service. Every app I build, video I post, or story I share is rooted in that commitment.</p>
-
-      <p class="fw-bold">You can view my latest work, writing, or videos — or reach out to collaborate.</p>
-
-      <div class="text-center mt-5">
-        <a href="{% url 'portfolio:index' %}" class="btn btn-primary me-2">View My Projects</a>
-        <a href="{% url 'post_list' %}" class="btn btn-outline-primary">Read the Blog</a>
-      </div>
-
-      <hr class="my-5">
-
-      <div class="text-center">
-        <h5>Contact & Social</h5>
-        <p>Email: <a href="mailto:mnraynor90@gmail.com">mnraynor90@gmail.com</a></p>
-        <p>
-          <a href="https://www.instagram.com/matthewraynorig/" target="_blank" class="me-3"><i class="fab fa-instagram fa-lg"></i> Instagram</a>
-          <a href="https://www.linkedin.com/in/matthew-raynor-2b3618200/" target="_blank" class="me-3"><i class="fab fa-linkedin fa-lg"></i> LinkedIn</a>
-          <a href="https://github.com/mattyray" target="_blank" class="me-3"><i class="fab fa-github fa-lg"></i> GitHub</a>
-          <a href="https://www.tiktok.com/@matttyrayna" target="_blank"><i class="fab fa-tiktok fa-lg"></i> TikTok</a>
-        </p>
+  <!-- Connect -->
+  <div class="row text-center mt-5">
+    <div class="col-lg-12">
+      <h4 class="fw-bold">Let’s Connect</h4>
+      <p class="mb-3">If you want to collaborate, ask questions, or just say hi — feel free to reach out!</p>
+      <p><strong>Email:</strong> <a href="mailto:mnraynor90@gmail.com">mnraynor90@gmail.com</a></p>
+      <div class="d-flex justify-content-center gap-3">
+        <a href="https://www.instagram.com/matthewraynorig/" class="btn btn-outline-secondary" target="_blank">
+          <i class="fab fa-instagram"></i> Instagram
+        </a>
+        <a href="https://www.tiktok.com/@matttyrayna" class="btn btn-outline-secondary" target="_blank">
+          <i class="fab fa-tiktok"></i> TikTok
+        </a>
+        <a href="https://github.com/mattyray" class="btn btn-outline-secondary" target="_blank">
+          <i class="fab fa-github"></i> GitHub
+        </a>
+        <a href="https://www.linkedin.com/in/matthew-raynor-2b3618200/" class="btn btn-outline-secondary" target="_blank">
+          <i class="fab fa-linkedin"></i> LinkedIn
+        </a>
+        <a href="https://substack.com/@mnraynor90" class="btn btn-outline-secondary" target="_blank">
+          <i class="fas fa-pen-nib"></i> Substack
+        </a>
       </div>
     </div>
   </div>
