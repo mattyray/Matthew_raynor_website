@@ -41,7 +41,7 @@
   <!-- Desktop Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-crunchy d-none d-lg-flex">
     <div class="container">
-      <a class="navbar-brand fw-bold" href="{% url 'home' %}">
+      <a class="navbar-brand fw-bold" href="{% url 'pages:home' %}">
         <img src="{% static 'images/icon.png' %}" alt="Site Icon" class="nav-icon">
         <span class="brand-text">Matthew Raynor</span>
       </a>
@@ -49,8 +49,8 @@
         <ul class="navbar-nav ms-3 me-auto">
           <li class="nav-item"><a class="nav-link" href="{% url 'post_list' %}">V/Blog</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'portfolio:index' %}">Portfolio</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'press' %}">Press</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'pages:press' %}">Press</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'pages:contact' %}">Contact</a></li>
           <li class="nav-item store"><a class="nav-link" href="{% url 'store:store_overview' %}">Store</a></li>
         </ul>
         <form class="d-flex me-3">
@@ -79,7 +79,7 @@
   <div class="d-lg-none">
     <nav class="navbar navbar-dark bg-crunchy">
       <div class="container">
-        <a class="navbar-brand fw-bold" href="{% url 'home' %}">
+        <a class="navbar-brand fw-bold" href="{% url 'pages:home' %}">
           <img src="{% static 'images/icon.png' %}" alt="Site Icon" class="nav-icon">
           <span class="brand-text">Matthew Raynor</span>
         </a>
@@ -103,8 +103,8 @@
       <ul class="list-unstyled">
         <li><a class="offcanvas-link" href="{% url 'post_list' %}">Blog</a></li>
         <li><a class="offcanvas-link" href="{% url 'portfolio:index' %}">Portfolio</a></li>
-        <li><a class="offcanvas-link" href="{% url 'press' %}">Press</a></li>
-        <li><a class="offcanvas-link" href="{% url 'contact' %}">Contact</a></li>
+        <li><a class="offcanvas-link" href="{% url 'pages:press' %}">Press</a></li>
+        <li><a class="offcanvas-link" href="{% url 'pages:contact' %}">Contact</a></li>
         <li class="divider">|</li>
         <li><a class="offcanvas-link" href="{% url 'store:store_overview' %}">Store</a></li>
       </ul>
@@ -134,7 +134,6 @@
           </a>
         {% endif %}
       </div>
-      
     </div>
   </div>
 
