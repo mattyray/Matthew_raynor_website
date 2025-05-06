@@ -4,25 +4,21 @@
 {% block title %}Portfolio - Matthew Raynor{% endblock %}
 
 {% block content %}
+
 <div class="container mt-5 case-section fade-in-up">
 
   <!-- Section Heading -->
-  <h1 class="fw-bold text-center mb-5">My Portfolio</h1>
+  <h1 class="fw-bold text-center mb-3">My Portfolio</h1>
+  <p class="lead text-center mb-5">Explore a selection of real-world projects I’ve built—from logistics systems to creative campaign sites. Each case study highlights how I use code to solve problems, streamline workflows, and bring ideas to life with purpose and precision.</p>
 
+  <!-- Project Cards -->
   <div class="row justify-content-center">
     {% for project in projects %}
     <div class="col-md-6 col-lg-4 mb-4 fade-in-up sr-delay-{{ forloop.counter0|add:"1" }}">
-
       <div class="card h-100 shadow-sm">
-
-        <!-- Thumbnail Image -->
         <div class="ratio ratio-4x3">
-          <img src="{% static project.hero_image %}"
-               class="card-img-top object-fit-cover"
-               alt="{{ project.title }}">
+          <img src="{% static project.hero_image %}" class="card-img-top object-fit-cover" alt="{{ project.title }}">
         </div>
-
-        <!-- Card Content -->
         <div class="card-body d-flex flex-column">
           <h5 class="card-title">{{ project.title }}</h5>
           <p class="card-text">{{ project.description|truncatewords:20 }}</p>
@@ -30,11 +26,25 @@
             <a href="{% url 'portfolio:project_detail' project.slug %}" class="btn btn-outline-primary w-100">View Project</a>
           </div>
         </div>
-        
       </div>
-
     </div>
     {% endfor %}
   </div>
+
+  <!-- Detailed Description Section -->
+  <div class="row align-items-center mt-5 fade-in-up sr-delay-7">
+    <div class="col-md-6 mb-4 mb-md-0">
+      <img src="{% static 'images/matthew_portrait.png' %}" class="img-fluid rounded shadow" alt="Matthew Raynor Portrait">
+    </div>
+    <div class="col-md-6">
+      <h3 class="fw-bold mb-3">What I Offer</h3>
+      <p>Whether you're a business owner in need of a custom web application or a company looking for a passionate developer, I build software that works in the real world.</p>
+      <p>I'm <strong>Matthew Raynor</strong>—a former commercial fisherman turned full-stack web developer after a life-changing spinal cord injury. I taught myself how to code without the use of my hands, learning Django and Python from scratch with a stylus and sheer determination. That same determination drives every project I build today.</p>
+      <p>I’ve developed a <strong>full-featured logistics and invoicing system for an art moving company</strong>, complete with client management, calendar-based job scheduling, PDF invoicing, and drag-and-drop UI. I’ve built an <strong>e-commerce store</strong>, a <strong>donation platform</strong> with blog and video integration, and an <strong>AI chatbot</strong> using OpenAI’s API for real-time support.</p>
+      <p>For <strong>clients</strong>, I create secure, scalable, and easy-to-use web apps tailored to your workflow. For <strong>employers</strong>, I bring production-level skills in Django, Docker, PostgreSQL, Stripe, and a lived perspective on problem-solving, perseverance, and accessibility. I build with both code and compassion—and I’m ready to add value from day one.</p>
+    </div>
+  </div>
+
 </div>
+
 {% endblock %}
