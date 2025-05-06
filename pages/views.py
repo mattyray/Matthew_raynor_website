@@ -4,15 +4,31 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.core.mail import send_mail
 from .forms import ContactForm
+from django.conf import settings
+
+
 
 
 def contact_view(request):
     if request.method == "POST":
         form = ContactForm(request.POST)
         if form.is_valid():
-            print("✅ Message sent:", form.cleaned_data)
-            messages.success(request, "Thanks for reaching out!")
-            return redirect("contact")
+            name = form.cleaned_data["name"]
+            email = form.cleaned_data["email"]
+            message = form.cleaned_data["message"]
+
+            full_message = f"New contact form submission:\n\nFrom: {name} <{email}>\n\nMessage:\n{message}"
+
+            send_mail(
+                subject="📩 New Contact Message - MatthewRaynor.com",
+                message=full_message,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[settings.DEFAULT_FROM_EMAIL],
+                fail_silently=False,
+            )
+
+            messages.success(request, "Thanks for reaching out! Your message was sent.")
+            return redirect("pages:contact")
     else:
         form = ContactForm()
     return render(request, "pages/contact.html", {"form": form})
