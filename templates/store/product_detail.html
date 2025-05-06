@@ -35,13 +35,11 @@
       {% if user.is_authenticated %}
         <form method="post">
           {% csrf_token %}
-          <div class="mb-3 star-rating d-flex">
+          <div class="mb-3">
             {{ form.rating.label_tag }}
-            {% for subwidget in form.rating.subwidgets reversed %}
-              <input type="radio" name="{{ subwidget.name }}" value="{{ subwidget.choice_value }}" id="{{ subwidget.id_for_label }}" {% if subwidget.choice_value == form.rating.value|stringformat:"s" %}checked{% endif %}>
-              <label for="{{ subwidget.id_for_label }}">&#9733;</label>
-            {% endfor %}
+            {{ form.rating }}
           </div>
+          
           <div class="mb-3">
             {{ form.comment.label_tag }}
             {{ form.comment }}
