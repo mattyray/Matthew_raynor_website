@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% load socialaccount %}  <!-- Add this -->
 
 {% block title %}Login{% endblock %}
 
@@ -12,6 +13,16 @@
         {{ form|crispy }}
         <button type="submit" class="btn btn-primary">Login</button>
     </form>
+
+    <hr>
+
+    <!-- 🔐 Google SSO button -->
+    <div class="mt-3">
+        <a href="{% provider_login_url 'google' %}" class="btn btn-outline-danger">
+            <i class="fab fa-google me-1"></i> Sign in with Google
+        </a>
+    </div>
+
     <p class="mt-3">Don't have an account? <a href="{% url 'signup' %}">Sign up here</a>.</p>
 </div>
 {% endblock %}
