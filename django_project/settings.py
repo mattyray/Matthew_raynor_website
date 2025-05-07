@@ -63,9 +63,16 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'import_export',
+
+    #google SSO
+    'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+
+
+    #,ore 3
     'embed_video',
     'django_recaptcha',
     'django_extensions',
