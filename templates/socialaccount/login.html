@@ -10,12 +10,16 @@
       <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo" width="40" class="mb-3" />
       <h2 class="h4 mb-3">Sign in with Google</h2>
       <p class="text-muted mb-4">Use your Google account to sign in to MatthewRaynor.com</p>
+
+      <!-- Real Google Sign-In Button -->
       <form method="post">
         {% csrf_token %}
-        <button type="submit" class="btn btn-outline-danger btn-lg w-100">
-          <i class="fab fa-google me-2"></i> Continue with Google
+        <button type="submit" class="btn btn-light border d-flex align-items-center justify-content-center w-100 shadow-sm" style="gap: 10px; height: 48px;">
+          <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" style="width:20px;">
+          <span class="fw-semibold">Continue with Google</span>
         </button>
       </form>
+
       <div class="mt-4">
         <a href="{% url 'account_login' %}" class="small text-muted">Back to login</a>
       </div>
