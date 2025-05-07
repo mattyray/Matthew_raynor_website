@@ -2,56 +2,82 @@
 {% block title %}Dashboard - MatthewRaynor.com{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-  <h2>Welcome, {{ user.email }}</h2>
+<div class="container py-5">
+  <div class="text-center mb-5">
+    <h2 class="fw-bold">Welcome back, {{ user.first_name|default:user.email }}</h2>
+    <p class="text-muted">Here’s a snapshot of your activity</p>
+  </div>
 
-  <div class="row mb-4">
+  <div class="row g-4 mb-5">
+    <!-- Profile Info -->
     <div class="col-md-6">
-      <h3>Profile Information</h3>
-      <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
-      <p><strong>Email:</strong> {{ user.email }}</p>
-      <a href="{% url 'profile_edit' %}" class="btn btn-secondary">Edit Profile</a>
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title mb-3"><i class="fas fa-user me-2"></i>Profile Information</h5>
+          <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+          <p><strong>Email:</strong> {{ user.email }}</p>
+          <a href="{% url 'profile_edit' %}" class="btn btn-outline-primary btn-sm">Edit Profile</a>
+        </div>
+      </div>
     </div>
+
+    <!-- Account Settings Placeholder -->
     <div class="col-md-6">
-      <h3>Account Settings</h3>
-      <!-- Future settings can go here -->
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title mb-3"><i class="fas fa-cog me-2"></i>Account Settings</h5>
+          <p class="text-muted">Settings coming soon...</p>
+        </div>
+      </div>
     </div>
   </div>
 
-  <hr>
-
-  <div class="row">
+  <div class="row g-4">
+    <!-- Orders -->
     <div class="col-md-6">
-      <h3>Recent Orders</h3>
-      {% if orders %}
-        <ul class="list-group mb-3">
-          {% for order in orders|slice:":3" %}
-            <li class="list-group-item">
-              Order #{{ order.id }} | {{ order.created_at|date:"F j, Y" }} | <strong>${{ order.total_price }}</strong>
-            </li>
-          {% endfor %}
-        </ul>
-        <a href="{% url 'store:order_history' %}" class="btn btn-sm btn-outline-primary">
-          <i class="fas fa-receipt me-1"></i> View Full Order History
-        </a>
-      {% else %}
-        <p>No orders yet.</p>
-      {% endif %}
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title mb-3"><i class="fas fa-box me-2"></i>Recent Orders</h5>
+          {% if orders %}
+            <ul class="list-group mb-3">
+              {% for order in orders|slice:":3" %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <div>
+                    <strong>#{{ order.id }}</strong> on {{ order.created_at|date:"F j, Y" }}
+                  </div>
+                  <span class="fw-semibold">${{ order.total_price }}</span>
+                </li>
+              {% endfor %}
+            </ul>
+            <a href="{% url 'store:order_history' %}" class="btn btn-outline-primary btn-sm w-100">
+              <i class="fas fa-receipt me-1"></i> View Full Order History
+            </a>
+          {% else %}
+            <p class="text-muted">You haven't placed any orders yet.</p>
+          {% endif %}
+        </div>
+      </div>
     </div>
 
+    <!-- Reviews -->
     <div class="col-md-6">
-      <h3>Submitted Reviews</h3>
-      {% if reviews %}
-        <ul class="list-group">
-          {% for review in reviews|slice:":3" %}
-            <li class="list-group-item">
-              {{ review.product.title }}: {{ review.rating }} stars
-            </li>
-          {% endfor %}
-        </ul>
-      {% else %}
-        <p>No reviews submitted yet.</p>
-      {% endif %}
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title mb-3"><i class="fas fa-star me-2"></i>Your Reviews</h5>
+          {% if reviews %}
+            <ul class="list-group">
+              {% for review in reviews|slice:":3" %}
+                <li class="list-group-item">
+                  <strong>{{ review.product.title }}</strong><br>
+                  <span class="text-muted">{{ review.rating }} stars</span>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p class="text-muted">No reviews submitted yet.</p>
+          {% endif %}
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -3,9 +3,12 @@ from django.urls import path, include, reverse_lazy
 from django.conf.urls.static import static
 from django.conf import settings
 from django.views.generic import RedirectView
+from accounts.views import DashboardView  # if not already imported
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("dashboard/", DashboardView.as_view(), name="dashboard"),  # ✅ Add this line
     path("accounts/", include("accounts.urls")),
     path("accounts/", include("allauth.urls")),
     path("blog/", include("blog.urls")),

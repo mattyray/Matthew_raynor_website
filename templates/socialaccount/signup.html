@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Complete Signup{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh; background-color: #f8f9fa;">
+  <div class="card shadow-lg border-0" style="width: 100%; max-width: 420px;">
+    <div class="card-body p-5 text-center">
+      <h2 class="h4 mb-3">Almost there...</h2>
+      <p class="text-muted mb-4">
+        Please confirm or complete the details below to finish signing up.
+      </p>
+
+      <form method="post" class="text-start">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary w-100 mt-3">Finish Signup</button>
+      </form>
+
+      <div class="mt-4">
+        <a href="{% url 'account_logout' %}" class="small text-muted">Cancel and return</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
