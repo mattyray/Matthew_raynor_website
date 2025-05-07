@@ -25,6 +25,8 @@ django-recaptcha==4.1.0
 cloudinary==1.44.0  
 django-cloudinary-storage==0.3.0
 stripe==12.0.1
+PyJWT==2.10.1
+cryptography==44.0.3
 django-extensions
 
 
