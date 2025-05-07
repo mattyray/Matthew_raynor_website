@@ -51,10 +51,10 @@ INSTALLED_APPS = [
     'portfolio.apps.PortfolioConfig',
 
     # Third-party
+    'django.contrib.sites',
     'crispy_forms',
     'crispy_bootstrap5',
     'import_export',
-    'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
