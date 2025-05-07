@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load socialaccount %}
+
+{% block title %}Connect Your Google Account{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow-sm p-4">
+        <h2 class="mb-3 text-center">Sign in with Google</h2>
+        <p class="text-muted text-center mb-4">You're about to connect your Google account to MatthewRaynor.com.</p>
+
+        <form method="post" class="text-center">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger btn-lg w-100">
+            <i class="fab fa-google me-2"></i> Connect with Google
+          </button>
+        </form>
+
+        <div class="text-center mt-3">
+          <a href="{% url 'account_login' %}" class="text-muted small">
+            ← Back to login
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
