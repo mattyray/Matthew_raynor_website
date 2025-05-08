@@ -2,6 +2,8 @@ from environ import Env
 from pathlib import Path
 import os
 import stripe
+print("💥 settings.py loaded from latest build")
+
 
 # Initialize environment variables
 env = Env()
