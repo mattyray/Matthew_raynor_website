@@ -5,7 +5,7 @@ build:
 release:
   image: web
   command:
-    - python manage.py migrate sites 0001_initial --fake
+    - python manage.py migrate --fake-initial
     - python manage.py migrate  # Runs database migrations
     - python manage.py collectstatic --noinput  # Collects static files
 
