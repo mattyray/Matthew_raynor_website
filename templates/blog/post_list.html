@@ -16,17 +16,23 @@
           <div class="row g-0 align-items-center">
             
             <!-- Media Column -->
+            <!-- Media Column -->
             <div class="col-md-4">
-              <div class="ratio ratio-16x9">
-                {% if post.video %}
+              {% if post.video %}
+                <div class="ratio ratio-16x9">
                   {% video post.video 'small' %}
-                {% elif post.image %}
-                  <img src="{{ post.image.url }}" class="img-fluid rounded-start" alt="{{ post.title }}">
-                {% else %}
-                  <img src="https://source.unsplash.com/400x250/?technology,writing" class="img-fluid rounded-start" alt="Default blog image">
-                {% endif %}
-              </div>
+                </div>
+              {% elif post.image %}
+                <div class="ratio ratio-16x9">
+                  <img src="{{ post.image.url }}" class="img-fluid rounded-start object-fit-cover" style="width: 100%; height: 100%;" alt="{{ post.title }}">
+                </div>
+              {% else %}
+                <div class="ratio ratio-16x9">
+                  <img src="https://source.unsplash.com/400x250/?technology,writing" class="img-fluid rounded-start object-fit-cover" style="width: 100%; height: 100%;" alt="Default blog image">
+                </div>
+              {% endif %}
             </div>
+
 
             <!-- Text Column -->
             <div class="col-md-8">
