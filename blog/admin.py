@@ -7,7 +7,8 @@ class PostAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     search_fields = ('title', 'content')
     list_filter = ('is_published', 'published_date')
-    fields = ('title', 'slug', 'content', 'video', 'author', 'is_published', 'published_date')
+    fields = ('title', 'slug', 'content', 'image', 'video', 'author', 'is_published', 'published_date')
+
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
