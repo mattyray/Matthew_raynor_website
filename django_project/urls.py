@@ -16,8 +16,10 @@ urlpatterns = [
     path("home/", RedirectView.as_view(url=reverse_lazy("pages:home"), permanent=False), name="home"),
     path("store/", include("store.urls")),
     path("portfolio/", include("portfolio.urls")),
+    path("ckeditor/", include("ckeditor_uploader.urls")),
+
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    #urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

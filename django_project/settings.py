@@ -64,6 +64,8 @@ INSTALLED_APPS = [
     'embed_video',
     'django_recaptcha',
     'django_extensions',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 # Middleware
@@ -206,3 +208,18 @@ IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 # Auto field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_IMAGE_BACKEND = "pillow"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Full',
+        'height': 300,
+        'width': 'auto',
+        'extraPlugins': ','.join([
+            'uploadimage', 'image2', 'embed', 'autoembed', 'codesnippet',
+        ]),
+    }
+}

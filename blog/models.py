@@ -1,15 +1,30 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
-from embed_video.fields import EmbedVideoField  # Import the embed video field
+from embed_video.fields import EmbedVideoField
+from ckeditor_uploader.fields import RichTextUploadingField  # ✅ for rich text
+from cloudinary_storage.storage import MediaCloudinaryStorage  # ✅ for Cloudinary upload
 
 User = get_user_model()
 
 class Post(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(unique=True, blank=True)
-    content = models.TextField()
-    video = EmbedVideoField(blank=True, null=True)  # New field for video embeds (e.g., TikTok)
+    
+    # ✅ Rich text content field
+    content = RichTextUploadingField()
+
+    # ✅ Optional YouTube/TikTok embed
+    video = EmbedVideoField(blank=True, null=True)
+
+    # ✅ Optional fallback image
+    image = models.ImageField(
+        upload_to='blog_images/',
+        storage=MediaCloudinaryStorage(),
+        null=True,
+        blank=True
+    )
+
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="blog_posts")
     is_published = models.BooleanField(default=False)
     published_date = models.DateTimeField(null=True, blank=True)
@@ -25,6 +40,7 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
