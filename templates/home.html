@@ -44,7 +44,7 @@
       <div class="row justify-content-center">
         <div class="col-md-4 mb-3 fade-in-up sr-delay-4">
           <div class="card h-100 shadow">
-            <img src="{% static 'images/book_cover.jpg' %}" class="card-img-top" alt="Before Me After Me">
+            <img src="{% static 'images/book_cover.jpg' %}" class="card-img-top" alt="Before Me After Me Book Cover">
             <div class="card-body">
               <h5 class="card-title">Before Me After Me</h5>
               <p class="card-text">My memoir of resilience, technology, and transformation.</p>
@@ -104,8 +104,10 @@
                 <div class="ratio ratio-16x9">
                   {% video post.video 'small' %}
                 </div>
+              {% elif post.image %}
+                <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
               {% else %}
-                <img src="https://source.unsplash.com/400x250/?technology,writing" class="card-img-top" alt="Blog Image">
+                <img src="https://source.unsplash.com/400x250/?technology,writing" class="card-img-top" alt="Fallback Blog Image">
               {% endif %}
               <div class="card-body">
                 <h5 class="card-title">
@@ -135,7 +137,7 @@
     <div class="container text-dark">
       <h2 class="fw-bold">Let’s Connect</h2>
       <p class="mb-4">Got questions about my work? Need a website? Need an application? Need custom photography?</p>
-      <a href="#" class="btn btn-primary btn-lg">Contact Me</a>
+      <a href="{% url 'pages:contact' %}" class="btn btn-primary btn-lg">Contact Me</a>
     </div>
   </section>
 
