@@ -116,7 +116,7 @@
                   </a>
                 </h5>
                 <p class="text-muted">Updated on {{ post.updated_date|date:"F d, Y" }}</p>
-                <p class="card-text">{{ post.content|truncatewords:25 }}</p>
+                <p>{{ post.content|truncatewords:30|safe }}</p>
                 <a href="{% url 'post_detail' post.slug %}" class="btn btn-outline-primary">Read More</a>
               </div>
             </div>
