@@ -43,8 +43,9 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["recent_posts"] = Post.objects.filter(is_published=True).order_by('-updated_date')[:3]
+        context["recent_posts"] = Post.objects.filter(is_published=True).order_by('-updated_date')[:6]
         return context
+
 
 
 class PressPageView(TemplateView):
