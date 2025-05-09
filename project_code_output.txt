@@ -6,6 +6,8 @@ FROM python:3.10.4-slim-bullseye
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV DJANGO_SETTINGS_MODULE=django_project.settings
+
 
 
 
@@ -144,6 +146,8 @@ django-recaptcha==4.1.0
 cloudinary==1.44.0  
 django-cloudinary-storage==0.3.0
 stripe==12.0.1
+PyJWT==2.10.1
+cryptography==44.0.3
 django-extensions
 
 
@@ -170,7 +174,7 @@ def main():
 
 if __name__ == '__main__':
     main()
--e 
+
 
 ===== accounts/models.py =====
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
@@ -208,7 +212,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
--e 
+
 
 ===== accounts/views.py =====
 from django.urls import reverse_lazy
@@ -254,7 +258,7 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
 
     def get_object(self):
         return self.request.user
--e 
+
 
 ===== accounts/forms.py =====
 from django.contrib.auth import get_user_model
@@ -269,7 +273,7 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = get_user_model()
         fields = ("email",)  # Remove 'username'
--e 
+
 
 ===== accounts/urls.py =====
 from django.urls import path, include
@@ -294,7 +298,7 @@ urlpatterns = [
         name='password_change_done'
     ),
 ]
--e 
+
 
 ===== accounts/admin.py =====
 from django.contrib import admin
@@ -322,13 +326,13 @@ class CustomUserAdmin(UserAdmin):
     )
 
 admin.site.register(CustomUser, CustomUserAdmin)
--e 
+
 
 ===== pages/models.py =====
 from django.db import models
 
 # Create your models here.
--e 
+
 
 ===== pages/views.py =====
 from django.views.generic import TemplateView
@@ -337,18 +341,37 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.core.mail import send_mail
 from .forms import ContactForm
+from django.conf import settings
+
+
 
 
 def contact_view(request):
     if request.method == "POST":
         form = ContactForm(request.POST)
         if form.is_valid():
-            print("✅ Message sent:", form.cleaned_data)
-            messages.success(request, "Thanks for reaching out!")
-            return redirect("contact")
+            name = form.cleaned_data["name"]
+            email = form.cleaned_data["email"]
+            message = form.cleaned_data["message"]
+
+            full_message = f"New contact form submission:\n\nFrom: {name} <{email}>\n\nMessage:\n{message}"
+
+            send_mail(
+                subject="📩 New Contact Message - MatthewRaynor.com",
+                message=full_message,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[settings.DEFAULT_FROM_EMAIL],
+                fail_silently=False,
+            )
+
+            messages.success(request, "Thanks for reaching out! Your message was sent.")
+            return redirect("pages:contact")
     else:
         form = ContactForm()
     return render(request, "pages/contact.html", {"form": form})
+
+class StoryPageView(TemplateView):
+    template_name = 'pages/story.html'
 
 
 
@@ -432,7 +455,7 @@ class PressPageView(TemplateView):
             },
         ]
         return context
--e 
+
 
 ===== pages/forms.py =====
 from django import forms
@@ -444,27 +467,32 @@ class ContactForm(forms.Form):
     email = forms.EmailField()
     message = forms.CharField(widget=forms.Textarea)
     captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
--e 
+
 
 ===== pages/urls.py =====
 from django.urls import path
 from .views import HomePageView, PressPageView, contact_view
+from . import views
+
+app_name = "pages"
 
 urlpatterns = [
     path("", HomePageView.as_view(), name="home"),  # Ensure this exists!
     path("press/", PressPageView.as_view(), name="press"),
     path("contact/", contact_view, name="contact"),
+    path('story/', views.StoryPageView.as_view(), name='story'),
+
     
     
     
 ]
--e 
+
 
 ===== pages/admin.py =====
 from django.contrib import admin
 
 # Register your models here.
--e 
+
 
 ===== blog/models.py =====
 from django.db import models
@@ -511,7 +539,7 @@ class Comment(models.Model):
         if self.user:
             return f"Comment by {self.user} on {self.post}"
         return f"Comment by {self.name} on {self.post}"
--e 
+
 
 ===== blog/views.py =====
 from django.urls import reverse
@@ -559,7 +587,7 @@ class PostDetailView(FormMixin, DetailView):
         comment.approved = True  # Automatically approve for now
         comment.save()
         return super().form_valid(form)
--e 
+
 
 ===== blog/forms.py =====
 from django import forms
@@ -574,7 +602,7 @@ class CommentForm(forms.ModelForm):
         widgets = {
             'content': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Leave a comment...'}),
         }
--e 
+
 
 ===== blog/urls.py =====
 from django.urls import path
@@ -584,7 +612,7 @@ urlpatterns = [
     path('', PostListView.as_view(), name='post_list'),
     path('<slug:slug>/', PostDetailView.as_view(), name='post_detail'),
 ]
--e 
+
 
 ===== blog/admin.py =====
 from django.contrib import admin
@@ -603,13 +631,13 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ('post', 'user', 'created_at', 'approved')
     list_filter = ('approved', 'created_at')
     search_fields = ('content',)
--e 
+
 
 ===== portfolio/models.py =====
 from django.db import models
 
 # Create your models here.
--e 
+
 
 ===== portfolio/views.py =====
 from django.views.generic import TemplateView
@@ -857,7 +885,7 @@ class ProjectDetailView(TemplateView):
             raise Http404("Project not found")
         context["project"] = project
         return context
--e 
+
 
 ===== portfolio/urls.py =====
 # portfolio/urls.py
@@ -871,13 +899,13 @@ urlpatterns = [
     path("", PortfolioView.as_view(), name="index"),
     path("<slug:slug>/", ProjectDetailView.as_view(), name="project_detail"),
 ]
--e 
+
 
 ===== portfolio/admin.py =====
 from django.contrib import admin
 
 # Register your models here.
--e 
+
 
 ===== store/models.py =====
 from django.db import models
@@ -986,7 +1014,7 @@ class Collection(models.Model):
 
     def __str__(self):
         return self.name
--e 
+
 
 ===== store/views.py =====
 from django.views.generic import DetailView, TemplateView, ListView
@@ -1143,7 +1171,6 @@ def cart_detail(request):
     cart = Cart(request)
     return render(request, "store/cart_detail.html", {"cart": cart})
 
-
 class ProductDetailView(DetailView):
     model = Product
     template_name = "store/product_detail.html"
@@ -1154,11 +1181,13 @@ class ProductDetailView(DetailView):
         product = self.get_object()
         context['form'] = ReviewForm()
         context['reviews'] = product.reviews.all()
-        context['stripe_publishable_key'] = settings.STRIPE_PUBLISHABLE_KEY  # ✅ required for frontend JS
+        context['stripe_publishable_key'] = settings.STRIPE_PUBLISHABLE_KEY
         return context
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
+        print("🚀 Review POST triggered for:", self.object.title)
+
         form = ReviewForm(request.POST)
         if form.is_valid():
             review = form.save(commit=False)
@@ -1166,8 +1195,10 @@ class ProductDetailView(DetailView):
             review.user = request.user
             review.save()
             messages.success(request, "Thank you for your review!")
+            print("✅ Review saved for:", self.object.title)
             return redirect("store:product_detail", slug=self.object.slug)
         else:
+            print("❌ Review form is invalid:", form.errors)
             context = self.get_context_data()
             context['form'] = form
             return self.render_to_response(context)
@@ -1195,7 +1226,7 @@ class StoreOverviewView(TemplateView):
         context['books'] = Product.objects.filter(product_type='book')
         context['collections'] = Collection.objects.all()
         return context
--e 
+
 
 ===== store/forms.py =====
 from django import forms
@@ -1219,7 +1250,7 @@ class ReviewForm(forms.ModelForm):
         widget=forms.RadioSelect(attrs={'class': 'star-rating'}),
         initial=5
     )
--e 
+
 
 ===== store/urls.py =====
 from django.urls import path
@@ -1259,7 +1290,7 @@ urlpatterns = [
 
    
 ]
--e 
+
 
 ===== store/admin.py =====
 from django.contrib import admin
@@ -1304,40 +1335,35 @@ class ReviewAdmin(admin.ModelAdmin):
     list_display = ('product', 'user', 'rating', 'created_at')
     list_filter = ('rating', 'created_at')
     search_fields = ('comment',)
--e 
+
 
 ===== django_project/settings.py =====
 from environ import Env
 from pathlib import Path
 import os
 import stripe
+print("💥 settings.py loaded from latest build")
 
 
 # Initialize environment variables
 env = Env()
 Env.read_env()
 
-
+# Stripe keys
 STRIPE_PUBLISHABLE_KEY = env('STRIPE_PUBLISHABLE_KEY')
-STRIPE_SECRET_KEY      = env('STRIPE_SECRET_KEY')
+STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
 STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET')
-
-
-# Initialize Stripe client
 stripe.api_key = STRIPE_SECRET_KEY
-
 
 # Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ✅ Security settings
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")  # Required for Heroku
-
-# Secret Key & Debug Mode
+# Security
 SECRET_KEY = env("DJANGO_SECRET_KEY", default="No Secret Key Found")
 DEBUG = env.bool("DJANGO_DEBUG", default=False)
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
-# ✅ Allowed Hosts
+# Allowed hosts
 ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=[
     "localhost",
     "127.0.0.1",
@@ -1346,10 +1372,9 @@ ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=[
     "matthew-raynor-site-3d5f17c6a796.herokuapp.com",
     "matthewraynor.com",
     "www.matthewraynor.com",
-    "8c29-75-127-164-90.ngrok-free.app",
 ])
 
-# ✅ Installed Apps
+# Installed apps
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -1357,9 +1382,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Cloudinary storage must come right after staticfiles
-    'cloudinary_storage',    # django-cloudinary-storage backend
-    'cloudinary',            # Cloudinary core SDK
+    'cloudinary_storage',
+    'cloudinary',
 
     # Custom apps
     'accounts.apps.AccountsConfig',
@@ -1368,24 +1392,26 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'portfolio.apps.PortfolioConfig',
 
-    # Third-party packages
+    # Third-party
+    'django.contrib.sites',
     'crispy_forms',
     'crispy_bootstrap5',
     'import_export',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     'embed_video',
     'django_recaptcha',
     'django_extensions',
 ]
 
-# ✅ Middleware
+# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'allauth.account.middleware.AccountMiddleware',  # Add this line
+    'allauth.account.middleware.AccountMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -1393,14 +1419,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# ✅ URL Configuration
+# URL config
 ROOT_URLCONF = 'django_project.urls'
 
-# ✅ Templates
+# Templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # Include custom templates
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -1413,18 +1439,46 @@ TEMPLATES = [
     },
 ]
 
-# ✅ WSGI Application
 WSGI_APPLICATION = 'django_project.wsgi.application'
 
-# ✅ Database Configuration
+# Database
 DATABASES = {
     "default": env.db_url("DATABASE_URL")
 }
 
-# ✅ Authentication
+# Authentication
 AUTH_USER_MODEL = 'accounts.CustomUser'
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 
-# ✅ Password Validation
+# Allauth settings
+SITE_ID = env.int("DJANGO_SITE_ID", default=1)
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USER_MODEL_USERNAME_FIELD = "email"
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_SIGNUP_REDIRECT_URL = '/dashboard/'
+LOGIN_REDIRECT_URL = '/accounts/dashboard/'
+LOGOUT_REDIRECT_URL = '/'
+
+# Google SSO credentials from .env
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': ['profile', 'email'],
+        'AUTH_PARAMS': {'access_type': 'online'},
+        'OAUTH_PKCE_ENABLED': True,
+        'APP': {
+            'client_id': env('GOOGLE_CLIENT_ID'),
+            'secret': env('GOOGLE_CLIENT_SECRET'),
+            'key': ''
+        }
+    }
+}
+
+# Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -1432,36 +1486,49 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# ✅ Localization
+# Localization
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
+# Static files
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# Media files – using Cloudinary for storage
-#MEDIA_URL = "/media/"
-#MEDIA_ROOT = BASE_DIR / "media"
-
-
+# Media (Cloudinary)
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-# ✅ Default Primary Key
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# Staticfiles finders
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
 
-# ✅ Crispy Forms
+# Crispy Forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
-# ✅ Security Settings for Production
+# reCAPTCHA
+SILENCED_SYSTEM_CHECKS = ['django_recaptcha.recaptcha_test_key_error']
+RECAPTCHA_PUBLIC_KEY = env("RECAPTCHA_PUBLIC_KEY")
+RECAPTCHA_PRIVATE_KEY = env("RECAPTCHA_PRIVATE_KEY")
+
+# Email
+EMAIL_BACKEND = env("EMAIL_BACKEND")
+EMAIL_HOST = env("EMAIL_HOST")
+EMAIL_PORT = env.int("EMAIL_PORT")
+EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS")
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
+
+# Production security
 if not DEBUG:
     SECURE_SSL_REDIRECT = env.bool("DJANGO_SECURE_SSL_REDIRECT", default=True)
-    SECURE_HSTS_SECONDS = env.int("DJANGO_SECURE_HSTS_SECONDS", default=2592000)  # 30 days
+    SECURE_HSTS_SECONDS = env.int("DJANGO_SECURE_HSTS_SECONDS", default=2592000)
     SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool("DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS", default=True)
     SECURE_HSTS_PRELOAD = env.bool("DJANGO_SECURE_HSTS_PRELOAD", default=True)
     SESSION_COOKIE_SECURE = env.bool("DJANGO_SESSION_COOKIE_SECURE", default=True)
@@ -1474,49 +1541,30 @@ else:
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False
 
-# ✅ Staticfiles Finders
-STATICFILES_FINDERS = [
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-]
-
+# Import-export
 IMPORT_EXPORT_USE_TRANSACTIONS = True
-SITE_ID = 1
 
-# Django-Allauth
-ACCOUNT_LOGIN_METHODS = {'email'}
-ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
-ACCOUNT_USER_MODEL_USERNAME_FIELD = "email"
-ACCOUNT_EMAIL_VERIFICATION = 'optional'
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = "/"
+# Auto field
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# reCAPTCHA
-SILENCED_SYSTEM_CHECKS = ['django_recaptcha.recaptcha_test_key_error']
-RECAPTCHA_PUBLIC_KEY = env("RECAPTCHA_PUBLIC_KEY")
-RECAPTCHA_PRIVATE_KEY = env("RECAPTCHA_PRIVATE_KEY")
-
-EMAIL_BACKEND = env("EMAIL_BACKEND")
-EMAIL_HOST = env("EMAIL_HOST")
-EMAIL_PORT = env.int("EMAIL_PORT")
-EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS")
-EMAIL_HOST_USER = env("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
-DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
--e 
 
 ===== django_project/urls.py =====
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, reverse_lazy
 from django.conf.urls.static import static
 from django.conf import settings
+from django.views.generic import RedirectView
+from accounts.views import DashboardView  # if not already imported
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("dashboard/", DashboardView.as_view(), name="dashboard"),  # ✅ Add this line
     path("accounts/", include("accounts.urls")),
     path("accounts/", include("allauth.urls")),
     path("blog/", include("blog.urls")),
-    path("", include("pages.urls")),
+    path("", include("pages.urls")),  # This must come first so "pages:home" is registered
+    path("home/", RedirectView.as_view(url=reverse_lazy("pages:home"), permanent=False), name="home"),
     path("store/", include("store.urls")),
     path("portfolio/", include("portfolio.urls")),
 ]
@@ -1524,7 +1572,7 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
--e 
+
 
 ===== django_project/asgi.py =====
 """
@@ -1543,7 +1591,7 @@ from django.core.asgi import get_asgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_project.settings')
 
 application = get_asgi_application()
--e 
+
 
 ===== django_project/wsgi.py =====
 """
@@ -1562,7 +1610,7 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_project.settings')
 
 application = get_wsgi_application()
--e 
+
 
 ===== templates/home.html =====
 {% extends "base.html" %}
@@ -1598,7 +1646,7 @@ application = get_wsgi_application()
         <div class="col-md-6">
           <h2 class="fw-bold">My Journey</h2>
           <p class="lead">Once a commercial fisherman, I became quadriplegic after a life-altering injury. But I turned pain into purpose, teaching myself to code with a stylus, building apps, and inspiring others through writing and art.</p>
-          <a href="{% url 'post_list' %}" class="btn btn-outline-primary">Read More</a>
+          <a href="{% url 'pages:story' %}" class="btn btn-outline-primary">Read More</a>
         </div>
       </div>
     </div>
@@ -1708,7 +1756,7 @@ application = get_wsgi_application()
 
 </div>
 {% endblock %}
--e 
+
 
 ===== templates/base.html =====
 {% load static %}
@@ -1754,16 +1802,16 @@ application = get_wsgi_application()
   <!-- Desktop Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-crunchy d-none d-lg-flex">
     <div class="container">
-      <a class="navbar-brand fw-bold" href="{% url 'home' %}">
+      <a class="navbar-brand fw-bold" href="{% url 'pages:home' %}">
         <img src="{% static 'images/icon.png' %}" alt="Site Icon" class="nav-icon">
         <span class="brand-text">Matthew Raynor</span>
       </a>
       <div class="collapse navbar-collapse" id="navbarDesktop">
         <ul class="navbar-nav ms-3 me-auto">
-          <li class="nav-item"><a class="nav-link" href="{% url 'post_list' %}">V/Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'pages:story' %}">Story</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'portfolio:index' %}">Portfolio</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'press' %}">Press</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'pages:press' %}">Press</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'pages:contact' %}">Contact</a></li>
           <li class="nav-item store"><a class="nav-link" href="{% url 'store:store_overview' %}">Store</a></li>
         </ul>
         <form class="d-flex me-3">
@@ -1792,7 +1840,7 @@ application = get_wsgi_application()
   <div class="d-lg-none">
     <nav class="navbar navbar-dark bg-crunchy">
       <div class="container">
-        <a class="navbar-brand fw-bold" href="{% url 'home' %}">
+        <a class="navbar-brand fw-bold" href="{% url 'pages:home' %}">
           <img src="{% static 'images/icon.png' %}" alt="Site Icon" class="nav-icon">
           <span class="brand-text">Matthew Raynor</span>
         </a>
@@ -1816,8 +1864,8 @@ application = get_wsgi_application()
       <ul class="list-unstyled">
         <li><a class="offcanvas-link" href="{% url 'post_list' %}">Blog</a></li>
         <li><a class="offcanvas-link" href="{% url 'portfolio:index' %}">Portfolio</a></li>
-        <li><a class="offcanvas-link" href="{% url 'press' %}">Press</a></li>
-        <li><a class="offcanvas-link" href="{% url 'contact' %}">Contact</a></li>
+        <li><a class="offcanvas-link" href="{% url 'pages:press' %}">Press</a></li>
+        <li><a class="offcanvas-link" href="{% url 'pages:contact' %}">Contact</a></li>
         <li class="divider">|</li>
         <li><a class="offcanvas-link" href="{% url 'store:store_overview' %}">Store</a></li>
       </ul>
@@ -1847,7 +1895,6 @@ application = get_wsgi_application()
           </a>
         {% endif %}
       </div>
-      
     </div>
   </div>
 
@@ -1857,11 +1904,33 @@ application = get_wsgi_application()
   </main>
 
   <!-- Footer -->
-  <footer class="mt-4 bg-crunchy text-white text-center py-3">
+  <!-- Footer -->
+  <footer class="mt-4 bg-crunchy text-white text-center py-4">
     <div class="container">
-      <p class="mb-0">&copy; {% now "Y" %} MatthewRaynor.com V5.0</p>
+      <p class="mb-3">&copy; {% now "Y" %} MatthewRaynor.com V6.0</p>
+      <div class="mb-2">
+        <a href="https://www.tiktok.com/@matttyrayna" target="_blank" class="text-white me-3">
+          <i class="fab fa-tiktok fa-lg"></i>
+        </a>
+        <a href="https://www.instagram.com/matthewraynorig/" target="_blank" class="text-white me-3">
+          <i class="fab fa-instagram fa-lg"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/matthew-raynor-2b3618200/" target="_blank" class="text-white me-3">
+          <i class="fab fa-linkedin fa-lg"></i>
+        </a>
+        <a href="https://github.com/mattyray" target="_blank" class="text-white me-3">
+          <i class="fab fa-github fa-lg"></i>
+        </a>
+        <a href="https://substack.com/@mnraynor90" target="_blank" class="text-white text-decoration-none me-3">
+          <i class="fas fa-book-open fa-lg"></i>
+        </a>
+      </div>
+      <p class="mb-0">Email: <a href="mailto:mnraynor90@gmail.com" class="text-white">mnraynor90@gmail.com</a></p>
     </div>
   </footer>
+  
+  </footer>
+
 
   <!-- AI Chatbot -->
   <div id="ai-chatbot" class="chat-widget">
@@ -1911,7 +1980,69 @@ application = get_wsgi_application()
   </script>
 </body>
 </html>
--e 
+
+
+===== templates/socialaccount/login.html =====
+{% extends "base.html" %}
+{% load socialaccount %}
+
+{% block title %}Continue with Google{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh; background-color: #f8f9fa;">
+  <div class="card shadow-lg border-0" style="width: 100%; max-width: 420px;">
+    <div class="card-body p-5 text-center">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo" width="40" class="mb-3" />
+      <h2 class="h4 mb-3">Sign in with Google</h2>
+      <p class="text-muted mb-4">Use your Google account to sign in to MatthewRaynor.com</p>
+
+      <!-- Real Google Sign-In Button -->
+      <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-light border d-flex align-items-center justify-content-center w-100 shadow-sm" style="gap: 10px; height: 48px;">
+          <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" style="width:20px;">
+          <span class="fw-semibold">Continue with Google</span>
+        </button>
+      </form>
+
+      <div class="mt-4">
+        <a href="{% url 'account_login' %}" class="small text-muted">Back to login</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+===== templates/socialaccount/signup.html =====
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Complete Signup{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh; background-color: #f8f9fa;">
+  <div class="card shadow-lg border-0" style="width: 100%; max-width: 420px;">
+    <div class="card-body p-5 text-center">
+      <h2 class="h4 mb-3">Almost there...</h2>
+      <p class="text-muted mb-4">
+        Please confirm or complete the details below to finish signing up.
+      </p>
+
+      <form method="post" class="text-start">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary w-100 mt-3">Finish Signup</button>
+      </form>
+
+      <div class="mt-4">
+        <a href="{% url 'account_logout' %}" class="small text-muted">Cancel and return</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
 
 ===== templates/blog/post_list.html =====
 {% extends 'base.html' %}
@@ -1963,7 +2094,7 @@ application = get_wsgi_application()
   </div>
 </div>
 {% endblock %}
--e 
+
 
 ===== templates/blog/post_detail.html =====
 {% extends 'base.html' %}
@@ -2025,7 +2156,7 @@ application = get_wsgi_application()
 
 </div>
 {% endblock %}
--e 
+
 
 ===== templates/portfolio/index.html =====
 {% extends "base.html" %}
@@ -2034,25 +2165,21 @@ application = get_wsgi_application()
 {% block title %}Portfolio - Matthew Raynor{% endblock %}
 
 {% block content %}
+
 <div class="container mt-5 case-section fade-in-up">
 
   <!-- Section Heading -->
-  <h1 class="fw-bold text-center mb-5">My Portfolio</h1>
+  <h1 class="fw-bold text-center mb-3">My Portfolio</h1>
+  <p class="lead text-center mb-5">Explore a selection of real-world projects I’ve built—from logistics systems to creative campaign sites. Each case study highlights how I use code to solve problems, streamline workflows, and bring ideas to life with purpose and precision.</p>
 
+  <!-- Project Cards -->
   <div class="row justify-content-center">
     {% for project in projects %}
     <div class="col-md-6 col-lg-4 mb-4 fade-in-up sr-delay-{{ forloop.counter0|add:"1" }}">
-
       <div class="card h-100 shadow-sm">
-
-        <!-- Thumbnail Image -->
         <div class="ratio ratio-4x3">
-          <img src="{% static project.hero_image %}"
-               class="card-img-top object-fit-cover"
-               alt="{{ project.title }}">
+          <img src="{% static project.hero_image %}" class="card-img-top object-fit-cover" alt="{{ project.title }}">
         </div>
-
-        <!-- Card Content -->
         <div class="card-body d-flex flex-column">
           <h5 class="card-title">{{ project.title }}</h5>
           <p class="card-text">{{ project.description|truncatewords:20 }}</p>
@@ -2060,15 +2187,29 @@ application = get_wsgi_application()
             <a href="{% url 'portfolio:project_detail' project.slug %}" class="btn btn-outline-primary w-100">View Project</a>
           </div>
         </div>
-        
       </div>
-
     </div>
     {% endfor %}
   </div>
+
+  <!-- Detailed Description Section -->
+  <div class="row align-items-center mt-5 fade-in-up sr-delay-7">
+    <div class="col-md-6 mb-4 mb-md-0">
+      <img src="{% static 'images/matt-fowlers.jpeg' %}" class="img-fluid rounded shadow" alt="Matthew Raynor Portrait">
+    </div>
+    <div class="col-md-6">
+      <h3 class="fw-bold mb-3">What I Offer</h3>
+      <p>Whether you're a business owner in need of a custom web application or a company looking for a passionate developer, I build software that works in the real world.</p>
+      <p>I'm <strong>Matthew Raynor</strong>—a former commercial fisherman turned full-stack web developer after a life-changing spinal cord injury. I taught myself how to code without the use of my hands, learning Django and Python from scratch with a stylus and sheer determination. That same determination drives every project I build today.</p>
+      <p>I’ve developed a <strong>full-featured logistics and invoicing system for an art moving company</strong>, complete with client management, calendar-based job scheduling, PDF invoicing, and drag-and-drop UI. I’ve built an <strong>e-commerce store</strong>, a <strong>donation platform</strong> with blog and video integration, and an <strong>AI chatbot</strong> using OpenAI’s API for real-time support.</p>
+      <p>For <strong>clients</strong>, I create secure, scalable, and easy-to-use web apps tailored to your workflow. For <strong>employers</strong>, I bring production-level skills in Django, Docker, PostgreSQL, React, and a lived perspective on problem-solving, perseverance, and accessibility. I build with both code and compassion—and I’m ready to add value from day one.</p>
+    </div>
+  </div>
+
 </div>
+
 {% endblock %}
--e 
+
 
 ===== templates/portfolio/detail.html =====
 {% extends "base.html" %}
@@ -2244,7 +2385,30 @@ application = get_wsgi_application()
 
 </div>
 {% endblock %}
--e 
+
+
+===== templates/account/password_reset_done.html =====
+{% extends "base.html" %}
+
+{% block title %}Reset Link Sent{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh; background-color: #f8f9fa;">
+  <div class="card shadow-lg border-0" style="width: 100%; max-width: 420px;">
+    <div class="card-body p-5 text-center">
+      <h2 class="h4 mb-3">Check Your Email</h2>
+      <p class="text-muted">
+        If an account with that email exists, we’ve sent a password reset link to your inbox.
+      </p>
+
+      <div class="mt-4">
+        <a href="{% url 'account_login' %}" class="btn btn-primary w-100">Back to Login</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
 
 ===== templates/account/profile_edit.html =====
 {% extends "base.html" %}
@@ -2263,89 +2427,168 @@ application = get_wsgi_application()
     <p class="mt-3"><a href="{% url 'dashboard' %}">Back to Dashboard</a></p>
 </div>
 {% endblock %}
--e 
+
+
+===== templates/account/password_reset.html =====
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Reset Password{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh; background-color: #f8f9fa;">
+  <div class="card shadow-lg border-0" style="width: 100%; max-width: 420px;">
+    <div class="card-body p-5 text-center">
+      <h2 class="h4 mb-3">Forgot Your Password?</h2>
+      <p class="text-muted mb-4">Enter your email and we'll send you a link to reset your password.</p>
+
+      <form method="post" class="text-start">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary w-100 mt-3">Send Reset Link</button>
+      </form>
+
+      <div class="mt-4">
+        <a href="{% url 'account_login' %}" class="small text-muted">Back to login</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
 
 ===== templates/account/login.html =====
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% load socialaccount %}
 
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>Login</h2>
-    <p>Debug: Login Template Loaded</p>
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh; background-color: #f8f9fa;">
+  <div class="card shadow-lg border-0" style="width: 100%; max-width: 420px;">
+    <div class="card-body p-5 text-center">
 
-    <form method="post">
+      <h2 class="h4 mb-3">Log in to MatthewRaynor.com</h2>
+      <p class="text-muted mb-4">Use your email or Google account</p>
+
+      <!-- Email/Password Login Form -->
+      <form method="post" class="mb-3 text-start">
         {% csrf_token %}
         {{ form|crispy }}
-        <button type="submit" class="btn btn-primary">Login</button>
-    </form>
-    <p class="mt-3">Don't have an account? <a href="{% url 'signup' %}">Sign up here</a>.</p>
+        <button type="submit" class="btn btn-primary w-100 mt-3">Login</button>
+      </form>
+
+      <div class="text-muted mb-3">or</div>
+
+      <!-- Google SSO Button -->
+      <a href="{% provider_login_url 'google' %}" class="btn btn-light border d-flex align-items-center justify-content-center w-100 shadow-sm" style="gap: 10px; height: 48px;">
+        <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" style="width:20px;">
+        <span class="fw-semibold">Continue with Google</span>
+      </a>
+
+      <div class="mt-4">
+        <p class="small text-muted mb-1">
+          Don't have an account?
+          <a href="{% url 'signup' %}" class="fw-semibold">Sign up here</a>.
+        </p>
+        <p class="small text-muted">
+          <a href="{% url 'account_reset_password' %}">Forgot your password?</a>
+        </p>
+      </div>
+
+    </div>
+  </div>
 </div>
 {% endblock %}
--e 
+
 
 ===== templates/account/dashboard.html =====
 {% extends "base.html" %}
 {% block title %}Dashboard - MatthewRaynor.com{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-  <h2>Welcome, {{ user.email }}</h2>
+<div class="container py-5">
+  <div class="text-center mb-5">
+    <h2 class="fw-bold">Welcome back, {{ user.first_name|default:user.email }}</h2>
+    <p class="text-muted">Here’s a snapshot of your activity</p>
+  </div>
 
-  <div class="row mb-4">
+  <div class="row g-4 mb-5">
+    <!-- Profile Info -->
     <div class="col-md-6">
-      <h3>Profile Information</h3>
-      <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
-      <p><strong>Email:</strong> {{ user.email }}</p>
-      <a href="{% url 'profile_edit' %}" class="btn btn-secondary">Edit Profile</a>
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title mb-3"><i class="fas fa-user me-2"></i>Profile Information</h5>
+          <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+          <p><strong>Email:</strong> {{ user.email }}</p>
+          <a href="{% url 'profile_edit' %}" class="btn btn-outline-primary btn-sm">Edit Profile</a>
+        </div>
+      </div>
     </div>
+
+    <!-- Account Settings Placeholder -->
     <div class="col-md-6">
-      <h3>Account Settings</h3>
-      <!-- Future settings can go here -->
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title mb-3"><i class="fas fa-cog me-2"></i>Account Settings</h5>
+          <p class="text-muted">Settings coming soon...</p>
+        </div>
+      </div>
     </div>
   </div>
 
-  <hr>
-
-  <div class="row">
+  <div class="row g-4">
+    <!-- Orders -->
     <div class="col-md-6">
-      <h3>Recent Orders</h3>
-      {% if orders %}
-        <ul class="list-group mb-3">
-          {% for order in orders|slice:":3" %}
-            <li class="list-group-item">
-              Order #{{ order.id }} | {{ order.created_at|date:"F j, Y" }} | <strong>${{ order.total_price }}</strong>
-            </li>
-          {% endfor %}
-        </ul>
-        <a href="{% url 'store:order_history' %}" class="btn btn-sm btn-outline-primary">
-          <i class="fas fa-receipt me-1"></i> View Full Order History
-        </a>
-      {% else %}
-        <p>No orders yet.</p>
-      {% endif %}
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title mb-3"><i class="fas fa-box me-2"></i>Recent Orders</h5>
+          {% if orders %}
+            <ul class="list-group mb-3">
+              {% for order in orders|slice:":3" %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <div>
+                    <strong>#{{ order.id }}</strong> on {{ order.created_at|date:"F j, Y" }}
+                  </div>
+                  <span class="fw-semibold">${{ order.total_price }}</span>
+                </li>
+              {% endfor %}
+            </ul>
+            <a href="{% url 'store:order_history' %}" class="btn btn-outline-primary btn-sm w-100">
+              <i class="fas fa-receipt me-1"></i> View Full Order History
+            </a>
+          {% else %}
+            <p class="text-muted">You haven't placed any orders yet.</p>
+          {% endif %}
+        </div>
+      </div>
     </div>
 
+    <!-- Reviews -->
     <div class="col-md-6">
-      <h3>Submitted Reviews</h3>
-      {% if reviews %}
-        <ul class="list-group">
-          {% for review in reviews|slice:":3" %}
-            <li class="list-group-item">
-              {{ review.product.title }}: {{ review.rating }} stars
-            </li>
-          {% endfor %}
-        </ul>
-      {% else %}
-        <p>No reviews submitted yet.</p>
-      {% endif %}
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title mb-3"><i class="fas fa-star me-2"></i>Your Reviews</h5>
+          {% if reviews %}
+            <ul class="list-group">
+              {% for review in reviews|slice:":3" %}
+                <li class="list-group-item">
+                  <strong>{{ review.product.title }}</strong><br>
+                  <span class="text-muted">{{ review.rating }} stars</span>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p class="text-muted">No reviews submitted yet.</p>
+          {% endif %}
+        </div>
+      </div>
     </div>
   </div>
 </div>
 {% endblock %}
--e 
+
 
 ===== templates/account/password_change_done.html =====
 {% extends "base.html" %}
@@ -2359,7 +2602,7 @@ application = get_wsgi_application()
     <p>Your password has been updated. You may now <a href="{% url 'dashboard' %}">return to your dashboard</a> or continue browsing.</p>
 </div>
 {% endblock %}
--e 
+
 
 ===== templates/account/password_change.html =====
 {% extends "base.html" %}
@@ -2378,26 +2621,48 @@ application = get_wsgi_application()
     <p class="mt-3"><a href="{% url 'dashboard' %}">Back to Dashboard</a></p>
 </div>
 {% endblock %}
--e 
+
 
 ===== templates/account/signup.html =====
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% load socialaccount %}
 
 {% block title %}Sign Up{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>Sign Up</h2>
-    <form method="post">
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh; background-color: #f8f9fa;">
+  <div class="card shadow-lg border-0" style="width: 100%; max-width: 420px;">
+    <div class="card-body p-5 text-center">
+      <h2 class="h4 mb-3">Create Your Account</h2>
+      <p class="text-muted mb-4">Join MatthewRaynor.com using your email or Google</p>
+
+      <!-- Sign-Up Form -->
+      <form method="post" class="text-start">
         {% csrf_token %}
         {{ form|crispy }}
-        <button type="submit" class="btn btn-primary">Sign Up</button>
-    </form>
-    <p class="mt-3">Already have an account? <a href="{% url 'account_login' %}">Login here</a>.</p>
+        <button type="submit" class="btn btn-primary w-100 mt-3">Sign Up</button>
+      </form>
+
+      <div class="text-muted mt-3 mb-2">or</div>
+
+      <!-- Google SSO Button -->
+      <a href="{% provider_login_url 'google' process='signup' %}" class="btn btn-light border d-flex align-items-center justify-content-center w-100 shadow-sm" style="gap: 10px; height: 48px;">
+        <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" style="width:20px;">
+        <span class="fw-semibold">Sign up with Google</span>
+      </a>
+
+      <div class="mt-4">
+        <p class="small text-muted mb-0">
+          Already have an account?
+          <a href="{% url 'account_login' %}" class="fw-semibold">Log in here</a>.
+        </p>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
--e 
+
 
 ===== templates/pages/press.html =====
 {% extends "base.html" %}
@@ -2433,7 +2698,7 @@ application = get_wsgi_application()
   </div>
 </section>
 {% endblock %}
--e 
+
 
 ===== templates/pages/contact.html =====
 {% extends "base.html" %}
@@ -2444,7 +2709,7 @@ application = get_wsgi_application()
 {% block content %}
 <div class="container mt-5">
   <h1 class="fw-bold mb-4">Contact Me</h1>
-  <p class="lead">Got questions, feedback, or collaboration ideas? Drop me a message below.</p>
+  <p class="lead">Got questions? Need a Website/Application? Need Drone Photos? Drop me a message below.</p>
 
   {% if messages %}
     {% for message in messages %}
@@ -2459,7 +2724,90 @@ application = get_wsgi_application()
   </form>
 </div>
 {% endblock %}
--e 
+
+
+===== templates/pages/story.html =====
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Story - Matthew Raynor{% endblock %}
+
+{% block content %}
+<div class="container py-5 fade-in-up">
+
+  <!-- WHO YOU ARE -->
+  <div class="row mb-5 align-items-center">
+    <div class="col-md-6 mb-4 mb-md-0">
+      <img src="{% static 'images/fisherman.jpeg' %}" class="img-fluid rounded shadow" alt="Matthew as Fisherman">
+    </div>
+    <div class="col-md-6">
+      <h2 class="fw-bold">Who I Am & What I’ve Been Through</h2>
+      <p class="lead">I’m Matthew Raynor — a quadriplegic full-stack developer, artist, and writer who survived a catastrophic diving accident that left me paralyzed from the chest down.</p>
+      <p>Before that day, I was a commercial fisherman working off the coast of Montauk, living wild and braving storms. A dive meant to ease tendonitis ended my mobility — but began my rebirth. I taught myself how to use a computer with two styluses and voice commands. From that place of near-total limitation, I rebuilt my life with code, creativity, and spiritual grit.</p>
+    </div>
+  </div>
+
+  <!-- ART, WRITING, PRESS -->
+  <div class="row mb-5 align-items-center flex-md-row-reverse">
+    <div class="col-md-6 mb-4 mb-md-0">
+      <img src="{% static 'images/artwork.jpeg' %}" class="img-fluid rounded shadow" alt="Art and Memoir">
+    </div>
+    <div class="col-md-6">
+      <h2 class="fw-bold">What I Do – Art, Writing & Press</h2>
+      <p>I’m a multidisciplinary creator. My drone and landscape photography becomes fine art prints. My memoir, <em>Before Me After Me</em>, documents my physical and spiritual transformation. My work has been shown in local art shows and featured in the press — ABC7 News, Newsday, The Southampton Press, and more — not just for surviving, but for creating beauty in the aftermath.</p>
+    </div>
+  </div>
+
+  <!-- PROGRAMMING -->
+  <div class="row mb-5 align-items-center">
+    <div class="col-md-6 mb-4 mb-md-0">
+      <img src="{% static 'images/drone.jpeg' %}" class="img-fluid rounded shadow" alt="Coding Projects">
+    </div>
+    <div class="col-md-6">
+      <h2 class="fw-bold">What I Build – Programming Projects</h2>
+      <p>I’m a self-taught full-stack developer specializing in Django and Python. I built:</p>
+      <ul>
+        <li>A logistics system for an art moving company (EJ Art Mover)</li>
+        <li>A full e-commerce store for selling my book and artwork</li>
+        <li>A motivational AI chatbot trained on my writing</li>
+      </ul>
+      <p>All this with zero hand function. Just styluses, voice commands, and unstoppable determination.</p>
+    </div>
+  </div>
+
+  <!-- MOTIVATIONAL WORK -->
+  <div class="row mb-5 align-items-center flex-md-row-reverse">
+    <div class="col-md-6 mb-4 mb-md-0">
+      <img src="{% static 'images/sign.jpeg' %}" class="img-fluid rounded shadow" alt="Inspirational Work">
+    </div>
+    <div class="col-md-6">
+      <h2 class="fw-bold">What I Inspire – Motivational Work</h2>
+      <p>My mission is to inspire others who are in dark places. I share raw reflections on disability, recovery, and faith through Substack, TikTok, and YouTube. I’ve hosted AA meetings in a nursing home and write honestly about Buddhism, trauma, spiritual growth, and the power of discipline. I mix humor and heart to help others find their light — because I had to find mine the hard way.</p>
+    </div>
+  </div>
+
+  <!-- SOCIAL PRESENCE -->
+  <div class="row mb-5 align-items-center">
+    <div class="col-md-6 mb-4 mb-md-0">
+      <img src="{% static 'images/book.jpeg' %}" class="img-fluid rounded shadow" alt="Social Media">
+    </div>
+    <div class="col-md-6">
+      <h2 class="fw-bold">Where I Show Up – Online</h2>
+      <p>Across platforms, I share stories of resilience, code, art, and laughter. Find me at:</p>
+      <ul class="list-unstyled">
+        <li><i class="fab fa-tiktok me-2"></i><a href="https://www.tiktok.com/@matttyrayna" target="_blank">TikTok – @matttyrayna</a></li>
+        <li><i class="fab fa-instagram me-2"></i><a href="https://www.instagram.com/matthewraynorig/" target="_blank">Instagram – @matthewraynorig</a></li>
+        <li><i class="fab fa-linkedin me-2"></i><a href="https://www.linkedin.com/in/matthew-raynor-2b3618200/" target="_blank">LinkedIn – Matthew Raynor</a></li>
+        <li><i class="fab fa-github me-2"></i><a href="https://github.com/mattyray" target="_blank">GitHub – @mattyray</a></li>
+        <li><i class="fa fa-envelope me-2"></i><a href="mailto:mnraynor90@gmail.com">mnraynor90@gmail.com</a></li>
+        <li><i class="fas fa-book-open me-2"></i><a href="https://substack.com/@mnraynor90" target="_blank">Substack – Reflections & Essays</a></li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
 
 ===== templates/store/product_detail.html =====
 {% extends "base.html" %}
@@ -2499,13 +2847,11 @@ application = get_wsgi_application()
       {% if user.is_authenticated %}
         <form method="post">
           {% csrf_token %}
-          <div class="mb-3 star-rating d-flex">
+          <div class="mb-3">
             {{ form.rating.label_tag }}
-            {% for subwidget in form.rating.subwidgets reversed %}
-              <input type="radio" name="{{ subwidget.name }}" value="{{ subwidget.choice_value }}" id="{{ subwidget.id_for_label }}" {% if subwidget.choice_value == form.rating.value|stringformat:"s" %}checked{% endif %}>
-              <label for="{{ subwidget.id_for_label }}">&#9733;</label>
-            {% endfor %}
+            {{ form.rating }}
           </div>
+          
           <div class="mb-3">
             {{ form.comment.label_tag }}
             {{ form.comment }}
@@ -2585,7 +2931,7 @@ application = get_wsgi_application()
   });
 </script>
 {% endblock %}
--e 
+
 
 ===== templates/store/cart_detail.html =====
 {% extends "base.html" %}
@@ -2626,7 +2972,7 @@ application = get_wsgi_application()
   {% endif %}
 </div>
 {% endblock %}
--e 
+
 
 ===== templates/store/store_overview.html =====
 {% extends "base.html" %}
@@ -2712,7 +3058,7 @@ application = get_wsgi_application()
 
 </div>
 {% endblock %}
--e 
+
 
 ===== templates/store/order_history.html =====
 {% extends "base.html" %}
@@ -2737,7 +3083,7 @@ application = get_wsgi_application()
   {% endif %}
 </div>
 {% endblock %}
--e 
+
 
 ===== templates/store/collection_detail.html =====
 {% extends "base.html" %}
@@ -2782,7 +3128,7 @@ application = get_wsgi_application()
   </div>
 </div>
 {% endblock %}
--e 
+
 
 ===== templates/store/order_success.html =====
 {% extends "base.html" %}
