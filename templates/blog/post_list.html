@@ -2,7 +2,7 @@
 {% load static %} 
 {% load embed_video_tags %}
 
-{% block title %}Blog - Updates & Stories{% endblock %}
+{% block title %}Blog – Updates & Stories{% endblock %}
 
 {% block content %}
 <div class="container mt-5 fade-in-up">
@@ -11,38 +11,42 @@
 
   <div class="row">
     {% for post in posts %}
-    <div class="col-md-12 mb-4 fade-in-up sr-delay-{{ forloop.counter }}">
-      <div class="card shadow-sm">
-        <div class="row g-0 align-items-center">
-          <!-- Video Section -->
-          <div class="col-md-4">
-            <div class="ratio ratio-16x9">
-              {% if post.video %}
-                {% video post.video 'small' %}
-              {% else %}
-                <img src="https://source.unsplash.com/400x250/?technology,writing" class="img-fluid rounded-start" alt="Blog Image">
-              {% endif %}
+      <div class="col-md-12 mb-4 fade-in-up sr-delay-{{ forloop.counter }}">
+        <div class="card shadow-sm">
+          <div class="row g-0 align-items-center">
+            
+            <!-- Media Column -->
+            <div class="col-md-4">
+              <div class="ratio ratio-16x9">
+                {% if post.video %}
+                  {% video post.video 'small' %}
+                {% elif post.image %}
+                  <img src="{{ post.image.url }}" class="img-fluid rounded-start" alt="{{ post.title }}">
+                {% else %}
+                  <img src="https://source.unsplash.com/400x250/?technology,writing" class="img-fluid rounded-start" alt="Default blog image">
+                {% endif %}
+              </div>
             </div>
-          </div>
 
-          <!-- Blog Info Section -->
-          <div class="col-md-8">
-            <div class="card-body">
-              <h4 class="card-title">
-                <a href="{% url 'post_detail' post.slug %}" class="text-dark text-decoration-none fw-bold">
-                  {{ post.title }}
-                </a>
-              </h4>
-              <p class="text-muted">Published on {{ post.created_at|date:"F d, Y" }}</p>
-              <p>{{ post.content|truncatewords:30 }}</p>
-              <a href="{% url 'post_detail' post.slug %}" class="btn btn-outline-primary">Read More</a>
+            <!-- Text Column -->
+            <div class="col-md-8">
+              <div class="card-body">
+                <h4 class="card-title">
+                  <a href="{% url 'post_detail' post.slug %}" class="text-dark text-decoration-none fw-bold">
+                    {{ post.title }}
+                  </a>
+                </h4>
+                <p class="text-muted">Published on {{ post.published_date|date:"F d, Y" }}</p>
+                <p>{{ post.content|truncatewords:30 }}</p>
+                <a href="{% url 'post_detail' post.slug %}" class="btn btn-outline-primary">Read More</a>
+              </div>
             </div>
+
           </div>
         </div>
       </div>
-    </div>
     {% empty %}
-    <p class="text-center">No blog posts yet. Stay tuned!</p>
+      <p class="text-center">No blog posts yet. Stay tuned!</p>
     {% endfor %}
   </div>
 </div>
