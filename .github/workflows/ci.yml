@@ -26,10 +26,13 @@ jobs:
           --health-retries 5
 
     env:
-      DATABASE_URL: postgres://postgres:postgres@localhost:5432/art_moving
-      DJANGO_SETTINGS_MODULE: django_project.settings.test
-      PYTHONUNBUFFERED: 1
-      STRIPE_PUBLISHABLE_KEY: dummy-key-for-tests  
+        DATABASE_URL: postgres://postgres:postgres@localhost:5432/art_moving
+        DJANGO_SETTINGS_MODULE: django_project.settings.test
+        PYTHONUNBUFFERED: 1
+        STRIPE_PUBLISHABLE_KEY: dummy-key-for-tests
+        STRIPE_SECRET_KEY: dummy-secret-for-tests
+        STRIPE_WEBHOOK_SECRET: dummy-webhook-for-tests
+
 
     steps:
     - uses: actions/checkout@v4
