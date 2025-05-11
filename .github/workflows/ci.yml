@@ -29,6 +29,7 @@ jobs:
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/art_moving
       DJANGO_SETTINGS_MODULE: django_project.settings
       PYTHONUNBUFFERED: 1
+      STRIPE_PUBLISHABLE_KEY: dummy-key-for-tests  
 
     steps:
     - uses: actions/checkout@v4

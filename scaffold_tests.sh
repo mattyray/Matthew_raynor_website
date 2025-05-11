@@ -13,7 +13,7 @@ apps=(
 for app in "${apps[@]}"; do
   dir="$app/tests"
   mkdir -p "$dir"
-  file="$dir/test_models.py"
+  file="$dir/test_forms.py"
   if [ ! -f "$file" ]; then
     # Capitalize first letter of app name
     first="$(echo "${app:0:1}" | tr '[:lower:]' '[:upper:]')"
