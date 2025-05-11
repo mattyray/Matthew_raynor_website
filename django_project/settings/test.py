@@ -20,3 +20,10 @@ DATABASES = {
 EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
 RECAPTCHA_PUBLIC_KEY = "test"
 RECAPTCHA_PRIVATE_KEY = "test"
+
+# Add to test.py
+GOOGLE_CLIENT_ID = "test-client-id"
+GOOGLE_CLIENT_SECRET = "test-client-secret"
+
+SOCIALACCOUNT_PROVIDERS['google']['APP']['client_id'] = GOOGLE_CLIENT_ID
+SOCIALACCOUNT_PROVIDERS['google']['APP']['secret'] = GOOGLE_CLIENT_SECRET
