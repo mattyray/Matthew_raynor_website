@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from accounts.models import CustomUser
-from store.models import Order, Review
+from store.models import Order, Review, Product
 
 User = get_user_model()
 
@@ -32,7 +32,7 @@ class LogoutViewTest(TestCase):
         self.assertRedirects(resp, '/')
         # now anonymous
         resp2 = self.client.get(reverse('dashboard'))
-        self.assertRedirects(resp2, '/accounts/login/?next=/dashboard/')
+        self.assertRedirects(resp2, '/accounts/login/?next=/accounts/dashboard/')
 
 class DashboardViewTest(TestCase):
     def setUp(self):
@@ -40,7 +40,16 @@ class DashboardViewTest(TestCase):
         self.client.login(email='dash@user.com', password='dash123')
         # create some orders and reviews
         Order.objects.create(customer_email='dash@user.com', status='P')
-        Review.objects.create(user=self.user, product=None, comment='ok', rating=5)
+
+        product = Product.objects.create(
+            product_type='book',
+            title='Test Product',
+            description='Test description',
+            price=10.00,
+            stock=5
+        )
+
+        Review.objects.create(user=self.user, product=product, comment='ok', rating=5)
 
     def test_dashboard_context(self):
         resp = self.client.get(reverse('dashboard'))
