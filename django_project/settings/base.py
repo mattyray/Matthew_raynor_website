@@ -134,11 +134,12 @@ SOCIALACCOUNT_PROVIDERS = {
         'OAUTH_PKCE_ENABLED': True,
         'APP': {
             'client_id': env('GOOGLE_CLIENT_ID', default='dummy-google-client-id'),
-            'secret': env('GOOGLE_CLIENT_SECRET', default='dummy-google-secret'),
+            'secret': env('GOOGLE_CLIENT_SECRET', default='dummy-google-client-secret'),
             'key': ''
         }
     }
 }
+
 
 
 # Password validation
