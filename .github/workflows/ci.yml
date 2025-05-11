@@ -33,6 +33,24 @@ jobs:
         STRIPE_SECRET_KEY: dummy-secret-for-tests
         STRIPE_WEBHOOK_SECRET: dummy-webhook-for-tests
 
+        RECAPTCHA_PUBLIC_KEY: test
+        RECAPTCHA_PRIVATE_KEY: test
+
+        EMAIL_BACKEND: django.core.mail.backends.locmem.EmailBackend
+        EMAIL_HOST: smtp.test.com
+        EMAIL_PORT: 587
+        EMAIL_USE_TLS: true
+        EMAIL_HOST_USER: test@test.com
+        EMAIL_HOST_PASSWORD: testpassword
+        DEFAULT_FROM_EMAIL: noreply@test.com
+
+        GOOGLE_CLIENT_ID: test-google-client-id
+        GOOGLE_CLIENT_SECRET: test-google-client-secret
+
+        CLOUDINARY_CLOUD_NAME: dummy_cloud
+        CLOUDINARY_API_KEY: dummy_key
+        CLOUDINARY_API_SECRET: dummy_secret
+
 
     steps:
     - uses: actions/checkout@v4
