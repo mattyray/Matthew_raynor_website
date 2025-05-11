@@ -12,15 +12,18 @@ apps=(
 
 for app in "${apps[@]}"; do
   dir="$app/tests"
-  # Ensure the tests/ directory exists
   mkdir -p "$dir"
   file="$dir/test_models.py"
-  # Only write if the file doesn't already exist
   if [ ! -f "$file" ]; then
+    # Capitalize first letter of app name
+    first="$(echo "${app:0:1}" | tr '[:lower:]' '[:upper:]')"
+    rest="${app:1}"
+    className="${first}${rest}ModelsSmokeTest"
+
     cat > "$file" <<EOF
 from django.test import TestCase
 
-class ${app^}ModelsSmokeTest(TestCase):
+class ${className}(TestCase):
     def test_smoke(self):
         # trivial test to verify ${app} app loads
         self.assertTrue(True)
