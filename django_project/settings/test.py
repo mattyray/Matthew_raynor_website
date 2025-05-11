@@ -8,6 +8,17 @@ STRIPE_SECRET_KEY = "sk_test_dummy"
 STRIPE_WEBHOOK_SECRET = "whsec_dummy"
 stripe.api_key = STRIPE_SECRET_KEY
 
+
+
+EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
+EMAIL_HOST = "localhost"
+EMAIL_PORT = 1025
+EMAIL_USE_TLS = False
+EMAIL_HOST_USER = ""
+EMAIL_HOST_PASSWORD = ""
+DEFAULT_FROM_EMAIL = "test@example.com"
+
+
 # In-memory test DB
 DATABASES = {
     "default": {
@@ -16,7 +27,6 @@ DATABASES = {
     }
 }
 
-EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
 RECAPTCHA_PUBLIC_KEY = "test"
 RECAPTCHA_PRIVATE_KEY = "test"
 
@@ -33,3 +43,10 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+SECURE_SSL_REDIRECT = False
+SECURE_HSTS_SECONDS = 0
+SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+SECURE_HSTS_PRELOAD = False
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
