@@ -127,19 +127,7 @@ LOGIN_REDIRECT_URL = '/accounts/dashboard/'
 LOGOUT_REDIRECT_URL = '/'
 
 # Google SSO credentials from .env
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': ['profile', 'email'],
-        'AUTH_PARAMS': {'access_type': 'online'},
-        'OAUTH_PKCE_ENABLED': True,
-        'APP': {
-            'client_id': env('GOOGLE_CLIENT_ID', default='dummy-google-client-id'),
-            'secret': env('GOOGLE_CLIENT_SECRET', default='dummy-google-client-secret'),
-            'key': ''
-        }
-    }
-}
-
+SOCIALACCOUNT_PROVIDERS = {}
 
 
 # Password validation
