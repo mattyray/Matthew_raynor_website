@@ -10,9 +10,10 @@ env = Env()
 Env.read_env()
 
 # Stripe keys
-STRIPE_PUBLISHABLE_KEY = env('STRIPE_PUBLISHABLE_KEY')
-STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
-STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET')
+STRIPE_PUBLISHABLE_KEY = env('STRIPE_PUBLISHABLE_KEY', default='pk_test_dummy')
+STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY', default='sk_test_dummy')
+STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET', default='whsec_dummy')
+
 stripe.api_key = STRIPE_SECRET_KEY
 
 # Base directory
@@ -88,7 +89,7 @@ ROOT_URLCONF = 'django_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [BASE_DIR.parent / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -133,12 +134,13 @@ SOCIALACCOUNT_PROVIDERS = {
         'AUTH_PARAMS': {'access_type': 'online'},
         'OAUTH_PKCE_ENABLED': True,
         'APP': {
-            'client_id': env('GOOGLE_CLIENT_ID'),
-            'secret': env('GOOGLE_CLIENT_SECRET'),
+            'client_id': env('GOOGLE_CLIENT_ID', default='test-client-id'),
+            'secret': env('GOOGLE_CLIENT_SECRET', default='test-secret'),
             'key': ''
         }
     }
 }
+
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -175,17 +177,19 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # reCAPTCHA
 SILENCED_SYSTEM_CHECKS = ['django_recaptcha.recaptcha_test_key_error']
-RECAPTCHA_PUBLIC_KEY = env("RECAPTCHA_PUBLIC_KEY")
-RECAPTCHA_PRIVATE_KEY = env("RECAPTCHA_PRIVATE_KEY")
+RECAPTCHA_PUBLIC_KEY = env("RECAPTCHA_PUBLIC_KEY", default="test")
+RECAPTCHA_PRIVATE_KEY = env("RECAPTCHA_PRIVATE_KEY", default="test")
+
 
 # Email
-EMAIL_BACKEND = env("EMAIL_BACKEND")
-EMAIL_HOST = env("EMAIL_HOST")
-EMAIL_PORT = env.int("EMAIL_PORT")
-EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS")
-EMAIL_HOST_USER = env("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
-DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
+EMAIL_BACKEND = env("EMAIL_BACKEND", default="django.core.mail.backends.locmem.EmailBackend")
+EMAIL_HOST = env("EMAIL_HOST", default="smtp.test.com")
+EMAIL_PORT = env.int("EMAIL_PORT", default=587)
+EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=True)
+EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="test@test.com")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="testpassword")
+DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="noreply@test.com")
+
 
 # Production security
 if not DEBUG:
