@@ -15,7 +15,7 @@ urlpatterns = [
     path("", include("pages.urls")),  # This must come first so "pages:home" is registered
     path("home/", RedirectView.as_view(url=reverse_lazy("pages:home"), permanent=False), name="home"),
     path("store/", include("store.urls")),
-    path("portfolio/", include("portfolio.urls")),
+    path("portfolio/", include(("portfolio.urls", "portfolio"), namespace="portfolio")),
     path("ckeditor/", include("ckeditor_uploader.urls")),
 
 ]
