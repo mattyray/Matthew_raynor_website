@@ -24,5 +24,5 @@ class ProjectDetailViewTest(TestCase):
         self.assertEqual(response.context["project"]["slug"], project["slug"])
 
     def test_invalid_project_slug_raises_404(self):
-        response = self.client.get(reverse("portfolio:detail", args=["non-existent"]))
+        response = self.client.get(reverse("portfolio:project_detail", args=["non-existent"]))
         self.assertEqual(response.status_code, 404)
