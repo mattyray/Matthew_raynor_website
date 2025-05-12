@@ -1,0 +1,10 @@
+-r requirements.txt
+
+flake8==7.2.0
+flake8-bandit==4.1.1
+mypy==1.15.0
+mypy_extensions==1.1.0
+pytest==8.3.5
+pytest-django==4.11.1
+safety==3.5.0
+safety-schemas==0.0.14
