@@ -17,7 +17,7 @@ class PortfolioViewTest(TestCase):
 class ProjectDetailViewTest(TestCase):
     def test_valid_project_detail_view(self):
         project = PROJECTS[0]  # Use the first project in the list
-        response = self.client.get(reverse("portfolio:detail", args=[project["slug"]]))
+        response = self.client.get(reverse("portfolio:project_detail", args=[project["slug"]]))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "portfolio/detail.html")
         self.assertIn("project", response.context)
