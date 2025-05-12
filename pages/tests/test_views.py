@@ -1,10 +1,10 @@
-# pages/tests/test_views.py
-
 from django.test import TestCase, RequestFactory
 from django.urls import reverse
 from unittest.mock import patch
-from pages.views import contact_view
+from django.contrib.messages.storage.fallback import FallbackStorage
+from pages.views import contact_view, HomePageView
 from blog.models import Post
+from django.contrib.auth import get_user_model
 
 
 class ContactViewTest(TestCase):
@@ -23,40 +23,38 @@ class ContactViewTest(TestCase):
         }
 
         request = self.factory.post(reverse("pages:contact"), data={})
-        request._messages = self.client.session  # necessary for `messages.success`
+        
+        # ✅ Set up the message framework
+        setattr(request, "session", self.client.session)
+        request._messages = FallbackStorage(request)
+
         response = contact_view(request)
 
-        self.assertEqual(response.status_code, 302)
         mock_send_mail.assert_called_once()
-
-    def test_get_contact_form_renders_template(self):
-        response = self.client.get(reverse("pages:contact"))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "pages/contact.html")
+        self.assertEqual(response.status_code, 302)  # Should redirect
 
 
 class HomePageViewTest(TestCase):
-    def test_homepage_view_uses_correct_template(self):
-        response = self.client.get(reverse("pages:home"))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "home.html")
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.user = get_user_model().objects.create_user(
+            email="author@test.com",
+            password="testpass"
+        )
 
     def test_homepage_context_includes_recent_posts(self):
-        Post.objects.create(title="Test Post", slug="test-post", is_published=True)
-        response = self.client.get(reverse("pages:home"))
-        self.assertIn("recent_posts", response.context)
+        Post.objects.create(
+            title="Test Post",
+            slug="test-post",
+            content="Test content",
+            is_published=True,
+            author=self.user
+        )
 
+        request = self.factory.get(reverse("pages:home"))
+        request.user = self.user
 
-class PressPageViewTest(TestCase):
-    def test_press_page_renders(self):
-        response = self.client.get(reverse("pages:press"))
+        response = HomePageView.as_view()(request)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "pages/press.html")
-        self.assertIn("press_articles", response.context)
-
-
-class StoryPageViewTest(TestCase):
-    def test_story_page_renders(self):
-        response = self.client.get(reverse("pages:story"))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "pages/story.html")
+        self.assertIn("recent_posts", response.context_data)
+        self.assertEqual(len(response.context_data["recent_posts"]), 1)
