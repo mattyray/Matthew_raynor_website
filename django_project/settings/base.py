@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'store.apps.StoreConfig',
     'blog.apps.BlogConfig',
     'portfolio.apps.PortfolioConfig',
+    'chat.apps.ChatConfig',
 
     # Third-party
     'django.contrib.sites',
