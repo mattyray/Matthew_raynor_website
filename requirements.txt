@@ -29,5 +29,6 @@ PyJWT==2.10.1
 cryptography==44.0.3
 django-ckeditor==6.7.2
 django-extensions
+openai==0.23.1
 
 
