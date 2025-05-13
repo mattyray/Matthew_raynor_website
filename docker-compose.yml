@@ -9,15 +9,7 @@ services:
         condition: service_healthy  # Ensures DB is ready before Django starts
     env_file:
       - .env  # ✅ Loads your .env file into the container
-    environment:
-      - "DJANGO_DEBUG=True"
-      - "DJANGO_SECURE_SSL_REDIRECT=False"
-      - "DJANGO_SECURE_HSTS_SECONDS=0"
-      - "DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=False"
-      - "DJANGO_SECURE_HSTS_PRELOAD=False"
-      - "DJANGO_SESSION_COOKIE_SECURE=False"
-      - "DJANGO_CSRF_COOKIE_SECURE=False"
-      - "DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
+
     volumes:
       - .:/code  # Mounts your code into the container
     networks:
@@ -29,10 +21,7 @@ services:
     restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-    environment:
-      POSTGRES_DB: art_moving
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
