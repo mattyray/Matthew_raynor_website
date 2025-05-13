@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}AI Assistant{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">💬 AI Assistant</h5>
+    </div>
+    <div class="card-body">
+      <div id="chat-log" class="mb-3" style="height: 300px; overflow-y: scroll; background-color: #f8f9fa; padding: 1rem; border-radius: 5px;">
+        <div><strong>Bot:</strong> Hi! How can I help you today?</div>
+      </div>
+      <form id="chat-form">
+        <div class="input-group">
+          <input type="text" class="form-control" id="user-input" placeholder="Ask me anything..." autocomplete="off" />
+          <button class="btn btn-primary" type="submit">Send</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("chat-form");
+  const input = document.getElementById("user-input");
+  const log = document.getElementById("chat-log");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const userText = input.value.trim();
+    if (!userText) return;
+
+    log.innerHTML += `<div><strong>You:</strong> ${userText}</div>`;
+    input.value = "";
+
+    // Simulate bot response (placeholder)
+    setTimeout(() => {
+      log.innerHTML += `<div><strong>Bot:</strong> Thanks for your message. (This is a placeholder response.)</div>`;
+      log.scrollTop = log.scrollHeight;
+    }, 500);
+  });
+});
+</script>
+{% endblock %}

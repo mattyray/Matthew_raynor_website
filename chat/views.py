@@ -1,3 +1,4 @@
-from django.shortcuts import render
+from django.views.generic import TemplateView
 
-# Create your views here.
+class ChatInterfaceView(TemplateView):
+    template_name = "chat/chat_interface.html"
