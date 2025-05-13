@@ -1,6 +1,6 @@
 # MatthewRaynor.com
 
-![CI](https://github.com/mattyray/matthew_raynor_website/actions/workflows/tests.yml/badge.svg)
+![CI](https://github.com/mattyray/matthew_raynor_website/actions/workflows/ci.yml/badge.svg)
 
 A personal full-stack web platform for Matthew Raynor — a quadriplegic self-taught developer, artist, and motivational creator — featuring a blog, portfolio, online store, press hub, and AI chatbot.
 
