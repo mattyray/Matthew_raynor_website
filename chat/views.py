@@ -1,33 +1,38 @@
 from django.views.generic import TemplateView
 import openai
-from django.conf import settings
-from django.views.decorators.csrf import csrf_exempt
+import os
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from django.views import View
 import json
 
-@csrf_exempt
-def chat_api_view(request):
-    if request.method == "POST":
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+@method_decorator(csrf_exempt, name='dispatch')
+class ChatAPIView(View):
+    def post(self, request, *args, **kwargs):
         try:
             data = json.loads(request.body)
-            user_message = data.get("message", "")
+            user_input = data.get("message", "").strip()
 
-            response = openai.ChatCompletion.create(
+            if not user_input:
+                return JsonResponse({"error": "No input provided."}, status=400)
+
+            response = openai.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
-                    {"role": "system", "content": "You are an AI assistant for MatthewRaynor.com. Help visitors understand who Matthew is, his journey, how to contact him, what services he offers (web development, drone photography), and how to donate or support his mission to leave the nursing home."},
-                    {"role": "user", "content": user_message},
+                    {"role": "system", "content": "You are a helpful assistant trained on Matthew Raynor's story, web development, photography, and recovery journey."},
+                    {"role": "user", "content": user_input},
                 ],
-                temperature=0.7,
-                max_tokens=300,
             )
 
-            reply = response["choices"][0]["message"]["content"]
+            reply = response.choices[0].message.content.strip()
             return JsonResponse({"reply": reply})
+
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)
 
-    return JsonResponse({"error": "Invalid request"}, status=400)
 
 
 class ChatInterfaceView(TemplateView):

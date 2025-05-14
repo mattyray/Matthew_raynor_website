@@ -201,8 +201,29 @@
       $('#ai-chatbot-toggle').click(function () {
         $('#ai-chatbot').toggle();
       });
+
       $('#ai-chatbot-close').click(function () {
         $('#ai-chatbot').hide();
+      });
+
+      $('#ai-chatbot-input input').keypress(function (e) {
+        if (e.which === 13 && this.value.trim() !== "") {
+          const message = this.value;
+          this.value = "";
+          $('#ai-chatbot-body').append(`<p><strong>You:</strong> ${message}</p>`);
+
+          fetch("/chat/api/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: message })
+          })
+          .then(response => response.json())
+          .then(data => {
+            const reply = data.reply || data.error || "Sorry, something went wrong.";
+            $('#ai-chatbot-body').append(`<p><strong>AI:</strong> ${reply}</p>`);
+            $('#ai-chatbot-body').scrollTop($('#ai-chatbot-body')[0].scrollHeight);
+          });
+        }
       });
 
       ScrollReveal().reveal('.fade-in-up', {
@@ -216,6 +237,7 @@
         cleanup: true
       });
     });
+
   </script>
 </body>
 </html>
