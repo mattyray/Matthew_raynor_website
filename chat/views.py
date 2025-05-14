@@ -1,39 +1,39 @@
 from django.views.generic import TemplateView
-import openai
-import os
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
+from openai import OpenAI
+from django.conf import settings
 from django.views import View
+from django.http import JsonResponse
 import json
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
-@method_decorator(csrf_exempt, name='dispatch')
 class ChatAPIView(View):
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         try:
             data = json.loads(request.body)
-            user_input = data.get("message", "").strip()
+            message = data.get("message", "")
 
-            if not user_input:
-                return JsonResponse({"error": "No input provided."}, status=400)
-
-            response = openai.chat.completions.create(
-                model="gpt-3.5-turbo",
-                messages=[
-                    {"role": "system", "content": "You are a helpful assistant trained on Matthew Raynor's story, web development, photography, and recovery journey."},
-                    {"role": "user", "content": user_input},
-                ],
+            # Add context
+            system_prompt = (
+                "You are a helpful assistant on MatthewRaynor.com. "
+                "Matthew Raynor is a quadriplegic artist, developer, and author. "
+                "He lives in a nursing home and is working toward independence. "
+                "He offers web development services, custom drone photography, and motivational content. "
+                "People can support him by donating or sharing his story. "
+                "If someone asks about his injury, needs, projects, or how to help, explain warmly and clearly."
             )
 
-            reply = response.choices[0].message.content.strip()
+            chat_response = client.chat.completions.create(
+                model="gpt-4",
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": message}
+                ]
+            )
+            reply = chat_response.choices[0].message.content.strip()
             return JsonResponse({"reply": reply})
-
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)
-
-
 
 class ChatInterfaceView(TemplateView):
     template_name = "chat/chat_interface.html"
