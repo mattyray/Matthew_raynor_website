@@ -1,0 +1,46 @@
+{
+    "project": {
+      "id": "work_orders_app",
+      "title": "React + Django Work Orders Management System",
+      "short_description": "A full-stack application for creating, scheduling, and tracking work orders using Django REST API and a modern React frontend.",
+      "detailed_description": "This is a professional full-stack Work Order Management System built using Django 5.1.6 and Django REST Framework on the backend, and React 19 with Vite and Tailwind CSS on the frontend. The system enables small businesses to create, schedule, and manage job orders with associated events, attachments, and notes. It supports nested event scheduling, file uploads, admin control, and calendar visualization. It is Dockerized and deployed via Heroku's container stack with secure production settings.",
+      "features": [
+        "Create, edit, view, and delete work orders with client name, job description, and status",
+        "Add nested scheduled events to each work order (pickup, wrap, install, dropoff)",
+        "Attach files and add internal notes to orders",
+        "RESTful API endpoints for all entities using Django REST Framework",
+        "Responsive UI with React Router and component-based structure",
+        "Tailwind CSS styling and Vite development environment",
+        "Calendar display using FullCalendar",
+        "Secure production deployment with Gunicorn, Whitenoise, and Heroku container stack",
+        "Docker support for development and production environments"
+      ],
+      "tech_stack": {
+        "frontend": ["React 19", "Vite", "Tailwind CSS", "FullCalendar"],
+        "backend": ["Django 5.1.6", "Django REST Framework", "django-environ", "gunicorn", "whitenoise"],
+        "database": ["PostgreSQL"],
+        "devops": ["Docker", "docker-compose", "Heroku (heroku.yml + container stack)"],
+        "other": ["axios", "React Router", "eslint", "CORS"]
+      },
+      "deployment": {
+        "platform": "Heroku",
+        "method": "Docker container with heroku.yml",
+        "security": [
+          "HTTPS with Secure Proxy SSL Header",
+          "HSTS settings in production",
+          "Whitenoise for static files"
+        ]
+      },
+      "tags": [
+        "full_stack",
+        "django_rest",
+        "react_vite_tailwind",
+        "dockerized_app",
+        "calendar_scheduler",
+        "heroku_deployment",
+        "portfolio_project"
+      ],
+      "status": "live"
+    }
+  }
+  

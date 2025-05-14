@@ -32,7 +32,7 @@
     cat django_project/$file
   done
 
-  for app in accounts pages blog portfolio store; do
+  for app in accounts pages blog portfolio store chat; do
     echo -e "\n\n===== APP: $app ====="
     for file in models.py views.py forms.py urls.py admin.py; do
       if [ -f $app/$file ]; then
@@ -53,6 +53,22 @@
 
     echo -e "\n== $app/migrations (filenames only) =="
     find $app/migrations -type f -name "*.py" | grep -v "__init__" || echo "None"
+  done
+
+  # === Include special chat app files ===
+  echo -e "\n\n===== chat/utils.py ====="
+  cat chat/utils.py
+
+  echo -e "\n\n===== chat/openai_utils.py ====="
+  cat chat/openai_utils.py
+
+  echo -e "\n\n===== chat/knowledge_base.py ====="
+  cat chat/knowledge_base.py
+
+  echo -e "\n\n===== chat/data/*.json ====="
+  find chat/data -type f -name "*.json" | while read jsonfile; do
+    echo -e "\n===== $jsonfile ====="
+    cat "$jsonfile"
   done
 
   echo -e "\n\n===== Templates ====="

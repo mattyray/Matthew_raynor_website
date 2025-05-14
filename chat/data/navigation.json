@@ -1,0 +1,141 @@
+{
+    "site": "MatthewRaynor.com",
+    "description": "Official website of Matthew Raynor — artist, developer, and storyteller. Explore his journey, portfolio, shop, and more.",
+    "navigation": [
+      {
+        "label": "Home",
+        "url": "/"
+      },
+      {
+        "label": "Press",
+        "url": "/pages/press"
+      },
+      {
+        "label": "My Journey",
+        "submenu": [
+          {
+            "label": "My Story",
+            "url": "/pages/my-story"
+          },
+          {
+            "label": "Blog",
+            "url": "/blogs/jonathan-go-fund-me-update-june"
+          }
+        ]
+      },
+      {
+        "label": "Images",
+        "url": "/collections/all"
+      },
+      {
+        "label": "Events",
+        "submenu": [
+          {
+            "label": "Exhibit at Craig and Peter's",
+            "url": "/collections/exhibit-at-craig-and-peters"
+          },
+          {
+            "label": "Events",
+            "url": "/pages/events"
+          }
+        ]
+      },
+      {
+        "label": "Services & Info",
+        "submenu": [
+          {
+            "label": "Real Estate And Commission Work",
+            "url": "/pages/real-estate-and-commission-work"
+          },
+          {
+            "label": "Accepted Payments",
+            "url": "/pages/accepted-payments"
+          },
+          {
+            "label": "Shipping and Return Policy",
+            "url": "/pages/shipping-and-return-policy"
+          },
+          {
+            "label": "Product Descriptions and Sizing",
+            "url": "/pages/product-descriptions-and-sizing"
+          },
+          {
+            "label": "Contact Information",
+            "url": "/pages/contact-information"
+          }
+        ]
+      }
+    ],
+    "portfolio": {
+      "title": "My Portfolio",
+      "description": "Explore a selection of real-world projects I’ve built—from logistics systems to creative campaign sites.",
+      "projects": [
+        {
+          "title": "EJ Art Moving App",
+          "description": "A sleek logistics dashboard for managing clients, work orders, and invoices.",
+          "url": "/portfolio/ej-art-moving-app"
+        },
+        {
+          "title": "Matt’s Freedom Fundraiser",
+          "description": "A donation-based campaign platform with embedded video, blog, and outreach.",
+          "url": "/portfolio/matts-freedom-fundraiser"
+        },
+        {
+          "title": "MatthewRaynor.com",
+          "description": "My flagship website combining my story, blog, art store, and technical portfolio.",
+          "url": "/portfolio/matthewraynor-com"
+        },
+        {
+          "title": "Matt’s Bookstore API",
+          "description": "A Django REST API bookstore project with Google SSO, reviews, and deployment.",
+          "url": "/portfolio/matts-bookstore-api"
+        },
+        {
+          "title": "AI Motivational Chatbot",
+          "description": "An AI-powered real-time chat interface built to uplift, motivate, and support users.",
+          "url": "/portfolio/ai-motivational-chatbot"
+        },
+        {
+          "title": "Lotus Path Learning Platform",
+          "description": "An AI-powered learning platform offering custom tutorials, quizzes, and progress tracking.",
+          "url": "/portfolio/lotus-path-learning-platform"
+        }
+      ]
+    },
+    "store": {
+      "products": [
+        {
+          "name": "Before Me After Me – A Visual Journey of Resilience and Transformation",
+          "description": "A powerful visual memoir following Matthew Raynor’s journey from life as a commercial fisherman to a life-altering diving accident that left him paralyzed.",
+          "price": "$35.00",
+          "url": "/products/before-me-after-me"
+        },
+        {
+          "name": "10 x 20 Headless Porgy",
+          "description": "Premium aluminum print featured at Craig & Peter's.",
+          "price": "$600.00",
+          "url": "/products/10-x-20-headless-porgy"
+        },
+        {
+          "name": "11 x 17 Church",
+          "description": "Premium aluminum print featured at Craig & Peter's.",
+          "price": "$560.00",
+          "url": "/products/11-x-17-church"
+        }
+      ],
+      "policies": {
+        "accepted_payments": "/pages/accepted-payments",
+        "shipping_and_return": "/pages/shipping-and-return-policy",
+        "product_descriptions_and_sizing": "/pages/product-descriptions-and-sizing"
+      }
+    },
+    "contact": {
+      "email": "mnraynor90@gmail.com",
+      "contact_page": "/pages/contact-information"
+    },
+    "chatbot": {
+      "greeting": "Hi there! I'm here to help you explore Matthew Raynor's journey, portfolio, and shop. How can I assist you today?",
+      "fallback": "I'm sorry, I didn't understand that. Could you please rephrase your question or try a different query?"
+    }
+  }
+  

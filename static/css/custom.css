@@ -12126,6 +12126,24 @@ h4, .h4 {
   background-color: #222222;
 }
 
+.chat-widget {
+  width: 400px;
+  height: 500px;
+}
+.chat-widget .chat-body p {
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+.chat-widget .chat-message.ai {
+  background-color: rgba(255, 255, 255, 0.08);
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  color: #FFFFFF;
+  font-size: 0.95rem;
+  white-space: pre-line;
+}
+
 footer {
   background-color: #111111;
   color: #FFFFFF;
@@ -12363,8 +12381,8 @@ footer {
 }
 
 .star-rating {
+  direction: rtl;
   display: flex;
-  flex-direction: row;
   gap: 0.5rem;
 }
 .star-rating input[type=radio] {
@@ -12376,18 +12394,17 @@ footer {
   cursor: pointer;
   transition: color 0.2s ease;
 }
-.star-rating label:hover, .star-rating label:hover ~ label {
-  color: gold;
+.star-rating label span {
+  display: inline;
 }
-.star-rating input[type=radio]:checked ~ label {
-  color: #ccc;
+.star-rating input[type=radio]:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color: gold;
 }
 .star-rating input[type=radio]:checked + label,
 .star-rating input[type=radio]:checked + label ~ label {
   color: gold;
-}
-.star-rating label span {
-  display: none;
 }
 
 /*# sourceMappingURL=custom.css.map */

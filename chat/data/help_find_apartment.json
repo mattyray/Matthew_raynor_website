@@ -1,0 +1,64 @@
+{
+    "topic": "How to Help Matt Find an Apartment",
+    "purpose": "Guide for friends, family, or volunteers to assist Matt Raynor in locating suitable housing",
+    "contact": {
+      "name": "Matt Raynor",
+      "phone": "631-431-2019",
+      "email": "mnraynor90@gmail.com"
+    },
+    "search_criteria": {
+      "wheelchair_accessible": true,
+      "max_rent": 2250,
+      "location_radius_miles": 30,
+      "exclude_regions": ["Connecticut"],
+      "preferred_locations": ["Riverhead, NY", "Southampton, NY"],
+      "subsidy": "Olmstead Housing Subsidy (OHS)",
+      "floor_preferences": ["ground floor", "elevator access"],
+      "amenities": ["accessible bathroom", "no stairs", "laundry on-site", "roll-in shower", "room for caregivers"]
+    },
+    "approved_sites": [
+      {
+        "name": "Apartments.com",
+        "url": "https://www.apartments.com"
+      },
+      {
+        "name": "Zillow Rentals",
+        "url": "https://www.zillow.com"
+      },
+      {
+        "name": "SocialServe",
+        "url": "https://www.socialserve.com/"
+      },
+      {
+        "name": "AffordableHousing.com",
+        "url": "https://www.affordablehousing.com/"
+      },
+      {
+        "name": "MyHousingSearch.com",
+        "url": "https://www.myhousingsearch.com/"
+      },
+      {
+        "name": "Craigslist Housing",
+        "url": "https://newyork.craigslist.org/d/apartments-housing-for-rent/search/apa"
+      },
+      {
+        "name": "Facebook Marketplace",
+        "url": "https://www.facebook.com/marketplace"
+      }
+    ],
+    "what_to_check": [
+      "Is the unit wheelchair accessible?",
+      "Does it accept housing subsidies (Olmstead or Section 8)?",
+      "Is the rent at or below $2,250/month?",
+      "Is the location within 30 miles of Riverhead or Southampton?",
+      "Is there accessible entry and bathroom?",
+      "Is there on-site laundry or a roll-in shower?",
+      "Is there a phone number or email to contact the landlord?"
+    ],
+    "how_to_share_listings": {
+      "instructions": "Copy/paste the link or take a screenshot and send it to Matt",
+      "methods": ["text", "email"]
+    },
+    "why_it_matters": "Matt is a quadriplegic web developer and artist ready to move out of a nursing home. He needs safe, accessible housing to continue living independently and working remotely."
+  }
+  

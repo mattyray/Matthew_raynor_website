@@ -190,7 +190,7 @@
   <script src="https://unpkg.com/scrollreveal"></script>
 
   {% block extra_js %}{% endblock %}
-  
+  <!--script indent-->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       flatpickr(".datepicker", { dateFormat: "Y-m-d" });
@@ -206,11 +206,8 @@
         $('#ai-chatbot').hide();
       });
   
-      // ✅ Updated: more reliable Enter detection and logging for debugging
       const $input = $('#ai-chatbot-input input');
       if ($input.length) {
-        console.log("✅ Chatbot input field found");
-  
         $input.on('keydown', function (e) {
           if (e.key === "Enter" && this.value.trim() !== "") {
             const message = this.value;
@@ -220,18 +217,18 @@
             fetch("/chat/api/", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ message: message })
+              body: JSON.stringify({ message })
             })
             .then(response => response.json())
             .then(data => {
               const reply = data.reply || data.error || "Sorry, something went wrong.";
-              $('#ai-chatbot-body').append(`<p><strong>AI:</strong> ${reply}</p>`);
+              const paragraphs = reply.split(/\n\s*\n/);
+              const formattedReply = paragraphs.map(p => `<p>${p.trim()}</p>`).join("");
+              $('#ai-chatbot-body').append(`<div class="chat-message ai">${formattedReply}</div>`);
               $('#ai-chatbot-body').scrollTop($('#ai-chatbot-body')[0].scrollHeight);
             });
           }
         });
-      } else {
-        console.warn("⚠️ Could not find chatbot input field!");
       }
   
       ScrollReveal().reveal('.fade-in-up', {

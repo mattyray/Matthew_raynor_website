@@ -1,0 +1,52 @@
+{
+    "fundraiser": {
+      "title": "Matt’s Freedom Fundraiser",
+      "description": "Matt’s Freedom Fundraiser is about helping me, Matt Raynor, a C5 quadriplegic, transition from life in a nursing home into independent living after a year and a half of institutional care. I’ve secured a housing subsidy but am currently searching for an accessible apartment that can accommodate my needs. Until then, I’m raising funds to cover essential living expenses so I can safely and sustainably move out.",
+      "goals": [
+        "Cover out-of-pocket caregiver costs during coverage gaps",
+        "Pay for rent, groceries, utilities, and personal care supplies",
+        "Purchase and maintain medical essentials like catheters and gloves",
+        "Set up a Special Needs Trust to protect Medicaid eligibility",
+        "Fund transportation and accessibility needs during apartment search"
+      ],
+      "creator": {
+        "name": "Matt Raynor",
+        "condition": "C5 quadriplegic",
+        "skills": [
+          "Python",
+          "Django",
+          "Web development",
+          "Bootstrap",
+          "Digital storytelling"
+        ],
+        "goal": "Regain independence and dignity through housing and self-employment"
+      },
+      "status": {
+        "housing": "Currently searching for accessible apartment",
+        "care": "Receiving Medicaid-funded long-term care, gaps in coverage exist",
+        "income": "Not currently employed; seeking sustainable freelance/remote work"
+      },
+      "links": {
+        "website": "https://www.mattsfreedomfundraiser.com",
+        "gofundme": "https://tinyurl.com/yrmf3u7d",
+        "instagram": "https://www.instagram.com/mattsfreedomfundraiser/",
+        "facebook": "https://www.facebook.com/MattsFreedomFundraiser"
+      },
+      "media": {
+        "video": "Promotional video explaining fundraiser and journey",
+        "flyer": "Printable campaign flyer available",
+        "images": [
+          "Group photo with Buddhist sangha",
+          "Laptop-in-lap photo from nursing home"
+        ]
+      },
+      "how_to_help": [
+        "Donate via GoFundMe",
+        "Share the fundraiser on social media",
+        "Suggest accessible apartments on Long Island",
+        "Refer reliable CDPAP caregivers",
+        "Invite media or local press contacts to feature Matt's story"
+      ]
+    }
+  }
+  

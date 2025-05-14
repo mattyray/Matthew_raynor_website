@@ -6,10 +6,6 @@ FROM python:3.10.4-slim-bullseye
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-ENV DJANGO_SETTINGS_MODULE=django_project.settings
-
-
-
 
 # Set work directory
 WORKDIR /code
@@ -21,8 +17,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy project files
 COPY . .
 
-# Run Gunicorn
-CMD ["sh", "-c", "gunicorn django_project.wsgi --bind 0.0.0.0:${PORT:-8000}"]
+# Run Gunicorn by default
+CMD ["gunicorn", "django_project.wsgi", "--bind", "0.0.0.0:${PORT:-8000}"]
 
 services:
   web:
@@ -35,15 +31,7 @@ services:
         condition: service_healthy  # Ensures DB is ready before Django starts
     env_file:
       - .env  # ✅ Loads your .env file into the container
-    environment:
-      - "DJANGO_DEBUG=True"
-      - "DJANGO_SECURE_SSL_REDIRECT=False"
-      - "DJANGO_SECURE_HSTS_SECONDS=0"
-      - "DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=False"
-      - "DJANGO_SECURE_HSTS_PRELOAD=False"
-      - "DJANGO_SESSION_COOKIE_SECURE=False"
-      - "DJANGO_CSRF_COOKIE_SECURE=False"
-      - "DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
+
     volumes:
       - .:/code  # Mounts your code into the container
     networks:
@@ -55,10 +43,7 @@ services:
     restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-    environment:
-      POSTGRES_DB: art_moving
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
@@ -81,16 +66,18 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    env_file:
+      - .env  # ✅ Load all secrets from .env
     environment:
       - "DJANGO_DEBUG=False"
       - "DJANGO_SECURE_SSL_REDIRECT=True"
-      - "DJANGO_SECURE_HSTS_SECONDS=2592000"  # 30 days
+      - "DJANGO_SECURE_HSTS_SECONDS=2592000"
       - "DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=True"
       - "DJANGO_SECURE_HSTS_PRELOAD=True"
       - "DJANGO_SESSION_COOKIE_SECURE=True"
       - "DJANGO_CSRF_COOKIE_SECURE=True"
-      - "PORT=8000"  # Needed for Heroku
-      - "DATABASE_URL=${DATABASE_URL}"
+      - "PORT=8000"
+
   db:
     image: postgres:15
     volumes:
@@ -124,39 +111,62 @@ web: gunicorn django_project.wsgi --log-file -
 
 
 ===== Requirements =====
+annotated-types==0.7.0
+anyio==4.9.0
 asgiref==3.8.1
+certifi==2025.4.26
+cffi==1.17.1
+charset-normalizer==3.4.2
+cloudinary==1.44.0
 crispy-bootstrap5==2024.10
+cryptography==44.0.3
 diff-match-patch==20241021
+distro==1.9.0
 Django==5.1.6
 django-allauth==65.6.0
+django-ckeditor==6.7.2
+django-cloudinary-storage==0.3.0
 django-crispy-forms==2.3
+django-embed-video==1.4.10
 django-environ==0.12.0
+django-extensions==4.1
 django-import-export==4.3.7
+django-js-asset==3.1.2
+django-recaptcha==4.1.0
+et_xmlfile==2.0.0
+exceptiongroup==1.3.0
 gunicorn==23.0.0
+h11==0.16.0
+httpcore==1.0.9
+httpx==0.28.1
+idna==3.10
+jiter==0.9.0
 numpy==2.2.4
+openai==1.78.1
+openpyxl==3.1.5
 packaging==24.2
 pandas==2.2.3
+pandas-stubs==2.2.3.250308
+Pillow==10.0.0
 psycopg2-binary==2.9.10
+pycparser==2.22
+pydantic>=2.6,<2.10
+PyJWT==2.10.1
 python-dateutil==2.9.0.post0
 pytz==2025.2
+requests==2.32.3
 six==1.17.0
+sniffio==1.3.1
 sqlparse==0.5.3
+stripe==12.0.1
 tablib==3.8.0
+tqdm==4.67.1
+types-pytz==2025.2.0.20250326
+typing-inspection==0.4.0
 typing_extensions==4.13.0
 tzdata==2025.2
+urllib3==2.4.0
 whitenoise==6.9.0
-Pillow==10.0.0
-django-embed-video==1.4.10
-django-recaptcha==4.1.0
-cloudinary==1.44.0  
-django-cloudinary-storage==0.3.0
-stripe==12.0.1
-PyJWT==2.10.1
-cryptography==44.0.3
-django-ckeditor==6.7.2
-django-extensions
-
-
 
 -r requirements.txt
 
@@ -216,6 +226,9 @@ STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET', default='whsec_dummy')
 
 stripe.api_key = STRIPE_SECRET_KEY
 
+OPENAI_API_KEY = env("OPENAI_API_KEY", default="")
+
+
 # Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -252,6 +265,7 @@ INSTALLED_APPS = [
     'store.apps.StoreConfig',
     'blog.apps.BlogConfig',
     'portfolio.apps.PortfolioConfig',
+    'chat.apps.ChatConfig',
 
     # Third-party
     'django.contrib.sites',
@@ -358,8 +372,8 @@ USE_TZ = True
 
 # Static files
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_DIRS = [BASE_DIR.parent / "static"]
+STATIC_ROOT = BASE_DIR.parent / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Media (Cloudinary)
@@ -530,6 +544,8 @@ urlpatterns = [
     path("store/", include("store.urls")),
     path("portfolio/", include(("portfolio.urls", "portfolio"), namespace="portfolio")),
     path("ckeditor/", include("ckeditor_uploader.urls")),
+    path("chat/", include("chat.urls", namespace="chat")),  # 👈 Add this line
+
 
 ]
 
@@ -2094,6 +2110,861 @@ store/migrations/0001_initial.py
 store/migrations/0003_order_customer_email_order_shipping_address_and_more.py
 
 
+===== APP: chat =====
+
+===== chat/models.py =====
+from django.db import models
+
+# Create your models here.
+
+===== chat/views.py =====
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import TemplateView
+from openai import OpenAI
+from django.conf import settings
+from django.views import View
+from django.http import JsonResponse
+import json
+from .utils import load_combined_context  # 👈 add this import
+
+
+client = OpenAI(api_key=settings.OPENAI_API_KEY)
+
+
+class ChatAPIView(View):
+    def post(self, request):
+        try:
+            data = json.loads(request.body)
+            message = data.get("message", "")
+            full_context = load_combined_context()  # 👈 now uses both blog + KB
+
+            chat_response = client.chat.completions.create(
+                model="gpt-4",
+                messages=[
+                    {"role": "system", "content": full_context},
+                    {"role": "user", "content": message}
+                ]
+            )
+            reply = chat_response.choices[0].message.content.strip()
+            return JsonResponse({"reply": reply})
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+
+
+class ChatInterfaceView(TemplateView):
+    template_name = "chat/chat_interface.html"
+
+===== chat/urls.py =====
+from django.urls import path
+from .views import ChatInterfaceView, ChatAPIView
+from django.views.decorators.csrf import csrf_exempt
+
+app_name = "chat"
+
+urlpatterns = [
+    path("", ChatInterfaceView.as_view(), name="interface"),
+    path("api/", csrf_exempt(ChatAPIView.as_view()), name="api"),  # ✅ FIXED HERE
+]
+
+===== chat/admin.py =====
+from django.contrib import admin
+
+# Register your models here.
+
+===== chat/tests.py =====
+from django.test import TestCase
+
+# Create your tests here.
+
+===== chat/tests/__init__.py =====
+
+===== chat/tests/test_views.py =====
+from django.test import TestCase
+from django.urls import reverse
+
+class ChatInterfaceViewTest(TestCase):
+    def test_chat_interface_loads(self):
+        response = self.client.get(reverse("chat:interface"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "AI Assistant")
+
+== chat/migrations (filenames only) ==
+None
+
+
+===== chat/utils.py =====
+# chat/utils.py
+
+from blog.models import Post
+from .knowledge_base import KNOWLEDGE_BASE
+
+def load_combined_context():
+    posts = Post.objects.filter(is_published=True).order_by("-updated_date")[:5]
+    blog_snippets = "\n\n".join(
+        f"Title: {post.title}\n{post.content[:500]}..." for post in posts
+    )
+    return KNOWLEDGE_BASE + "\n\nRecent Blog Posts:\n" + blog_snippets
+
+
+===== chat/openai_utils.py =====
+import json
+import os
+from django.conf import settings
+from openai import OpenAI
+
+client = OpenAI(api_key=settings.OPENAI_API_KEY)
+
+# Load all knowledge base files in chat/data
+def load_knowledge_base():
+    base_path = os.path.join(settings.BASE_DIR, "chat", "data")
+    knowledge = []
+
+    for filename in os.listdir(base_path):
+        if filename.endswith(".json"):
+            with open(os.path.join(base_path, filename), "r") as f:
+                try:
+                    data = json.load(f)
+                    if isinstance(data, list):
+                        knowledge.extend(data)
+                    elif isinstance(data, dict):
+                        knowledge.append(data)
+                except Exception as e:
+                    print(f"Error loading {filename}: {e}")
+    return knowledge
+
+# Build system prompt with injected knowledge base
+def get_openai_response(user_message):
+    context_blocks = load_knowledge_base()
+    system_content = "You are a helpful assistant on MatthewRaynor.com. Use the following context when answering questions:\n\n"
+
+    for block in context_blocks:
+        system_content += f"- {block.get('title', '')}: {block.get('content', '')}\n"
+
+    response = client.chat.completions.create(
+        model="gpt-4",
+        messages=[
+            {"role": "system", "content": system_content},
+            {"role": "user", "content": user_message}
+        ]
+    )
+    return response.choices[0].message.content.strip()
+
+
+===== chat/knowledge_base.py =====
+# chat/knowledge_base.py
+
+KNOWLEDGE_BASE = """
+About Matthew:
+- Matthew Raynor is a C5–C6 quadriplegic living in a nursing home, working toward independent living.
+- He’s a former deep-sea fisherman turned web developer, author, and artist.
+- He offers services including: custom website development, drone photography, and motivational content.
+
+Web Development:
+- Matthew builds full-stack apps using Django, React, PostgreSQL, and Docker.
+- Visit the Portfolio to see his projects and the Store to buy his visual memoir.
+
+Drone Services:
+- Matthew offers custom drone photography and aerial video shoots.
+- Ideal for real estate, landscapes, art installations, and events.
+
+Support:
+- Users can support Matthew by donating to his fundraiser, sharing his story, or helping him find housing and caregiving.
+- Visit the Contact page to get in touch.
+
+Using the Website:
+- Log in or sign up with email or Google.
+- Visit the Store to view and purchase artwork or his book.
+- Use the Contact form for questions or project inquiries.
+- The blog contains reflections, updates, and inspirational writing.
+
+AI Assistant:
+- This assistant can help answer questions about Matthew, his journey, services, store, or how to help.
+"""
+
+
+===== chat/data/*.json =====
+
+===== chat/data/navigation.json =====
+{
+    "site": "MatthewRaynor.com",
+    "description": "Official website of Matthew Raynor — artist, developer, and storyteller. Explore his journey, portfolio, shop, and more.",
+    "navigation": [
+      {
+        "label": "Home",
+        "url": "/"
+      },
+      {
+        "label": "Press",
+        "url": "/pages/press"
+      },
+      {
+        "label": "My Journey",
+        "submenu": [
+          {
+            "label": "My Story",
+            "url": "/pages/my-story"
+          },
+          {
+            "label": "Blog",
+            "url": "/blogs/jonathan-go-fund-me-update-june"
+          }
+        ]
+      },
+      {
+        "label": "Images",
+        "url": "/collections/all"
+      },
+      {
+        "label": "Events",
+        "submenu": [
+          {
+            "label": "Exhibit at Craig and Peter's",
+            "url": "/collections/exhibit-at-craig-and-peters"
+          },
+          {
+            "label": "Events",
+            "url": "/pages/events"
+          }
+        ]
+      },
+      {
+        "label": "Services & Info",
+        "submenu": [
+          {
+            "label": "Real Estate And Commission Work",
+            "url": "/pages/real-estate-and-commission-work"
+          },
+          {
+            "label": "Accepted Payments",
+            "url": "/pages/accepted-payments"
+          },
+          {
+            "label": "Shipping and Return Policy",
+            "url": "/pages/shipping-and-return-policy"
+          },
+          {
+            "label": "Product Descriptions and Sizing",
+            "url": "/pages/product-descriptions-and-sizing"
+          },
+          {
+            "label": "Contact Information",
+            "url": "/pages/contact-information"
+          }
+        ]
+      }
+    ],
+    "portfolio": {
+      "title": "My Portfolio",
+      "description": "Explore a selection of real-world projects I’ve built—from logistics systems to creative campaign sites.",
+      "projects": [
+        {
+          "title": "EJ Art Moving App",
+          "description": "A sleek logistics dashboard for managing clients, work orders, and invoices.",
+          "url": "/portfolio/ej-art-moving-app"
+        },
+        {
+          "title": "Matt’s Freedom Fundraiser",
+          "description": "A donation-based campaign platform with embedded video, blog, and outreach.",
+          "url": "/portfolio/matts-freedom-fundraiser"
+        },
+        {
+          "title": "MatthewRaynor.com",
+          "description": "My flagship website combining my story, blog, art store, and technical portfolio.",
+          "url": "/portfolio/matthewraynor-com"
+        },
+        {
+          "title": "Matt’s Bookstore API",
+          "description": "A Django REST API bookstore project with Google SSO, reviews, and deployment.",
+          "url": "/portfolio/matts-bookstore-api"
+        },
+        {
+          "title": "AI Motivational Chatbot",
+          "description": "An AI-powered real-time chat interface built to uplift, motivate, and support users.",
+          "url": "/portfolio/ai-motivational-chatbot"
+        },
+        {
+          "title": "Lotus Path Learning Platform",
+          "description": "An AI-powered learning platform offering custom tutorials, quizzes, and progress tracking.",
+          "url": "/portfolio/lotus-path-learning-platform"
+        }
+      ]
+    },
+    "store": {
+      "products": [
+        {
+          "name": "Before Me After Me – A Visual Journey of Resilience and Transformation",
+          "description": "A powerful visual memoir following Matthew Raynor’s journey from life as a commercial fisherman to a life-altering diving accident that left him paralyzed.",
+          "price": "$35.00",
+          "url": "/products/before-me-after-me"
+        },
+        {
+          "name": "10 x 20 Headless Porgy",
+          "description": "Premium aluminum print featured at Craig & Peter's.",
+          "price": "$600.00",
+          "url": "/products/10-x-20-headless-porgy"
+        },
+        {
+          "name": "11 x 17 Church",
+          "description": "Premium aluminum print featured at Craig & Peter's.",
+          "price": "$560.00",
+          "url": "/products/11-x-17-church"
+        }
+      ],
+      "policies": {
+        "accepted_payments": "/pages/accepted-payments",
+        "shipping_and_return": "/pages/shipping-and-return-policy",
+        "product_descriptions_and_sizing": "/pages/product-descriptions-and-sizing"
+      }
+    },
+    "contact": {
+      "email": "mnraynor90@gmail.com",
+      "contact_page": "/pages/contact-information"
+    },
+    "chatbot": {
+      "greeting": "Hi there! I'm here to help you explore Matthew Raynor's journey, portfolio, and shop. How can I assist you today?",
+      "fallback": "I'm sorry, I didn't understand that. Could you please rephrase your question or try a different query?"
+    }
+  }
+  
+===== chat/data/ejartmover.json =====
+{
+    "project_name": "EJ Art Mover – Art Moving Business Management System",
+    "summary": "A full-stack Django web application built to manage the operations of a small art moving business, including clients, work orders, scheduled job events, and invoicing. It centralizes scheduling and billing while providing an interactive dashboard and calendar system.",
+    "features": {
+      "user_authentication": {
+        "description": "Login/logout using Django auth with dynamic navbar and conditional sidebar for authenticated users."
+      },
+      "dashboard": {
+        "description": "A clean landing page with greeting, quick access buttons, and an embedded FullCalendar showing current work orders and invoices."
+      },
+      "calendar_system": {
+        "views": ["month", "week", "day"],
+        "data_sources": [
+          "/workorders/calendar-data/workorders/",
+          "/invoices/calendar-data/invoices/"
+        ],
+        "color_coding": {
+          "work_orders": "unique per job",
+          "invoices": {
+            "paid": "green",
+            "unpaid": "red",
+            "overdue": "yellow"
+          }
+        },
+        "interactions": ["click day → view detail", "click event → go to detail page", "print day view"]
+      },
+      "work_order_management": {
+        "statuses": ["Pending", "Scheduled", "Completed"],
+        "features": [
+          "Inline formsets for event scheduling",
+          "File attachments and job notes",
+          "PDF export of work order",
+          "Job status updates"
+        ]
+      },
+      "invoicing_system": {
+        "categories": ["Unpaid", "Paid", "Overdue"],
+        "features": [
+          "Invoice tied to client and work order",
+          "Select2 client search with AJAX",
+          "Flatpickr for due dates",
+          "Invoice status badge system",
+          "Invoice edit, print, and delete options",
+          "Update paid date via modal"
+        ]
+      },
+      "ui_ux": {
+        "stack": ["Bootstrap 5", "Bootstrap Icons", "Select2", "Flatpickr", "FullCalendar"],
+        "layout": "Responsive card-based layout with consistent headers, colors, and interactions.",
+        "sidebar": "Offcanvas design with authenticated user display and section-based navigation"
+      },
+      "pdf_generation": {
+        "tool": "WeasyPrint",
+        "template": "Custom printable work order including client info, job description, events, and notes."
+      }
+    },
+    "technical_stack": {
+      "backend": ["Django 5.1.6", "PostgreSQL", "Docker", "Gunicorn", "Whitenoise"],
+      "frontend": ["HTML/CSS", "Bootstrap 5", "JavaScript", "FullCalendar", "Select2", "Flatpickr"],
+      "tools": ["WeasyPrint", "Crispy Forms", "Docker Compose", "Heroku"],
+      "libraries": ["Select2", "Flatpickr", "FullCalendar", "Bootstrap Icons"]
+    },
+    "custom_features": [
+      "Dynamic inline formsets for scheduling multiple events per work order",
+      "AJAX-based Select2 client picker with live filtering",
+      "Work order status logic based on event dates",
+      "Color-coded calendar integration for both jobs and invoices",
+      "Print-friendly pages for both invoices and daily schedules",
+      "Interactive week view with day-header click routing"
+    ],
+    "problems_solved": [
+      "Centralized work order tracking and coordination",
+      "Improved scheduling through calendar and status logic",
+      "Simplified client and job lookup with AJAX search",
+      "Streamlined invoice creation and tracking",
+      "Improved field team access with mobile-friendly interface",
+      "Quick daily planning with printable day schedules"
+    ],
+    "improvements": [
+      "Add user role support for workers vs managers",
+      "Enable drag-and-drop calendar rescheduling",
+      "Add Google Calendar integration",
+      "Implement email or SMS reminders for jobs and invoices",
+      "Export invoices or work orders to CSV",
+      "Add analytics dashboard with revenue and job summaries"
+    ],
+    "portfolio_highlights": [
+      "Demonstrates full-stack Django capability with modern frontend JS integrations",
+      "Business-focused design based on real-world workflow",
+      "Responsive layout with calendar planning and event logic",
+      "PDF export, dynamic forms, and AJAX interactivity show advanced Django skills",
+      "Clean code, logical structure, and feature completeness suitable for production use"
+    ]
+  }
+  
+===== chat/data/help_find_apartment.json =====
+{
+    "topic": "How to Help Matt Find an Apartment",
+    "purpose": "Guide for friends, family, or volunteers to assist Matt Raynor in locating suitable housing",
+    "contact": {
+      "name": "Matt Raynor",
+      "phone": "631-431-2019",
+      "email": "mnraynor90@gmail.com"
+    },
+    "search_criteria": {
+      "wheelchair_accessible": true,
+      "max_rent": 2250,
+      "location_radius_miles": 30,
+      "exclude_regions": ["Connecticut"],
+      "preferred_locations": ["Riverhead, NY", "Southampton, NY"],
+      "subsidy": "Olmstead Housing Subsidy (OHS)",
+      "floor_preferences": ["ground floor", "elevator access"],
+      "amenities": ["accessible bathroom", "no stairs", "laundry on-site", "roll-in shower", "room for caregivers"]
+    },
+    "approved_sites": [
+      {
+        "name": "Apartments.com",
+        "url": "https://www.apartments.com"
+      },
+      {
+        "name": "Zillow Rentals",
+        "url": "https://www.zillow.com"
+      },
+      {
+        "name": "SocialServe",
+        "url": "https://www.socialserve.com/"
+      },
+      {
+        "name": "AffordableHousing.com",
+        "url": "https://www.affordablehousing.com/"
+      },
+      {
+        "name": "MyHousingSearch.com",
+        "url": "https://www.myhousingsearch.com/"
+      },
+      {
+        "name": "Craigslist Housing",
+        "url": "https://newyork.craigslist.org/d/apartments-housing-for-rent/search/apa"
+      },
+      {
+        "name": "Facebook Marketplace",
+        "url": "https://www.facebook.com/marketplace"
+      }
+    ],
+    "what_to_check": [
+      "Is the unit wheelchair accessible?",
+      "Does it accept housing subsidies (Olmstead or Section 8)?",
+      "Is the rent at or below $2,250/month?",
+      "Is the location within 30 miles of Riverhead or Southampton?",
+      "Is there accessible entry and bathroom?",
+      "Is there on-site laundry or a roll-in shower?",
+      "Is there a phone number or email to contact the landlord?"
+    ],
+    "how_to_share_listings": {
+      "instructions": "Copy/paste the link or take a screenshot and send it to Matt",
+      "methods": ["text", "email"]
+    },
+    "why_it_matters": "Matt is a quadriplegic web developer and artist ready to move out of a nursing home. He needs safe, accessible housing to continue living independently and working remotely."
+  }
+  
+===== chat/data/matthew_raynor_portfolio.json =====
+{
+  "project": "MatthewRaynor.com",
+  "summary": "MatthewRaynor.com is a full-stack Django-based personal website built by Matthew Raynor, a quadriplegic full-stack developer. It combines e-commerce, blogging, AI chatbot integration, press coverage, and a developer portfolio into one cohesive site.",
+  "tech_stack": {
+    "frontend": [
+      "HTML5",
+      "SCSS (Sass)",
+      "Bootstrap 5",
+      "Flatpickr",
+      "Select2",
+      "FullCalendar",
+      "ScrollReveal.js",
+      "CKEditor",
+      "Cloudinary",
+      "JavaScript",
+      "jQuery"
+    ],
+    "backend": [
+      "Django 5.1",
+      "PostgreSQL",
+      "Django REST Framework",
+      "Django Allauth",
+      "Whitenoise",
+      "Gunicorn",
+      "WeasyPrint",
+      "OpenAI SDK"
+    ],
+    "devops": [
+      "Docker",
+      "Docker Compose",
+      "Heroku",
+      "GitHub Actions",
+      "django-environ"
+    ]
+  },
+  "features": {
+    "ai_chat_widget": "Floating chatbot integrated with OpenAI API. Context-aware and styled to match the site branding.",
+    "store": "E-commerce store with Stripe checkout, product catalog for prints and memoir, custom emails, product reviews.",
+    "blog": "Rich text blog with video and image support, comments, and fallback logic using CKEditor and Cloudinary.",
+    "portfolio": "Case study-style project pages with structured sections and ScrollReveal animations.",
+    "press": "Dynamically rendered press articles with image, summary, and external links.",
+    "contact": "SMTP-enabled contact form with Gmail and reCAPTCHA integration.",
+    "authentication": "Custom user model with email login and Google SSO, profile/dashboard, password management."
+  },
+  "problems_solved": [
+    "Accessible navigation and layout",
+    "Production-grade deployment with Docker and Heroku",
+    "Client-friendly interfaces with contact and chatbot tools",
+    "Income generation through product sales",
+    "SEO-ready press and story pages for visibility"
+  ],
+  "special_features": [
+    "Custom floating AI assistant",
+    "ScrollReveal animation system",
+    "Stripe Checkout integration with shipping",
+    "Rich text editor with image/video support",
+    "Case study-based portfolio",
+    "Glass blur hero banners and custom SCSS theme"
+  ],
+  "improvements": [
+    "Add chatbot memory and personalization",
+    "Integrate Google Analytics or PostHog",
+    "Perform full accessibility audit",
+    "Add blog search and tagging system",
+    "Enable Enter key and multiline input for chatbot"
+  ],
+  "proud_of": [
+    "Self-taught Django, Docker, and frontend development with no hand function",
+    "Complete full-stack production site independently built",
+    "Powerful integrations across Stripe, OpenAI, SSO, and more",
+    "Clear and inspiring storytelling combined with technical polish"
+  ],
+  "build_notes": [
+    "Theme inspired by Crunchyroll, implemented in SCSS",
+    "Reusable animation classes and delay system in _reveal.scss",
+    "Graceful fallback for blog media",
+    "Deployment via Heroku container stack with heroku.yml",
+    "Environment variables handled with django-environ"
+  ]
+}
+===== chat/data/react_workorders.json =====
+{
+    "project": {
+      "id": "work_orders_app",
+      "title": "React + Django Work Orders Management System",
+      "short_description": "A full-stack application for creating, scheduling, and tracking work orders using Django REST API and a modern React frontend.",
+      "detailed_description": "This is a professional full-stack Work Order Management System built using Django 5.1.6 and Django REST Framework on the backend, and React 19 with Vite and Tailwind CSS on the frontend. The system enables small businesses to create, schedule, and manage job orders with associated events, attachments, and notes. It supports nested event scheduling, file uploads, admin control, and calendar visualization. It is Dockerized and deployed via Heroku's container stack with secure production settings.",
+      "features": [
+        "Create, edit, view, and delete work orders with client name, job description, and status",
+        "Add nested scheduled events to each work order (pickup, wrap, install, dropoff)",
+        "Attach files and add internal notes to orders",
+        "RESTful API endpoints for all entities using Django REST Framework",
+        "Responsive UI with React Router and component-based structure",
+        "Tailwind CSS styling and Vite development environment",
+        "Calendar display using FullCalendar",
+        "Secure production deployment with Gunicorn, Whitenoise, and Heroku container stack",
+        "Docker support for development and production environments"
+      ],
+      "tech_stack": {
+        "frontend": ["React 19", "Vite", "Tailwind CSS", "FullCalendar"],
+        "backend": ["Django 5.1.6", "Django REST Framework", "django-environ", "gunicorn", "whitenoise"],
+        "database": ["PostgreSQL"],
+        "devops": ["Docker", "docker-compose", "Heroku (heroku.yml + container stack)"],
+        "other": ["axios", "React Router", "eslint", "CORS"]
+      },
+      "deployment": {
+        "platform": "Heroku",
+        "method": "Docker container with heroku.yml",
+        "security": [
+          "HTTPS with Secure Proxy SSL Header",
+          "HSTS settings in production",
+          "Whitenoise for static files"
+        ]
+      },
+      "tags": [
+        "full_stack",
+        "django_rest",
+        "react_vite_tailwind",
+        "dockerized_app",
+        "calendar_scheduler",
+        "heroku_deployment",
+        "portfolio_project"
+      ],
+      "status": "live"
+    }
+  }
+  
+===== chat/data/about_matt.json =====
+{
+    "title": "Who Is Matthew Raynor?",
+    "summary": "Matthew Raynor is a quadriplegic artist, web developer, writer, and spiritual seeker who transformed trauma into purpose. He lives at the intersection of sobriety, creativity, and compassion, offering technical skill and soul-deep wisdom.",
+    "biography": {
+      "former_life": "Deep-sea commercial fisherman and shellfish harvester in Shinnecock, NY.",
+      "accident": "Suffered a spinal cord injury in a diving accident and became quadriplegic.",
+      "recovery": "Overcame addiction, shame, and despair. Member of AA since age 26.",
+      "self_reinvention": "Taught himself web development using styluses, voice commands, and hotkeys.",
+      "current_mission": "Creates digital tools, art, and stories that help others navigate suffering and discover hope."
+    },
+    "spiritual_identity": [
+      "SGI Nichiren Buddhist",
+      "Taoist (Tao Te Ching, Hua Hu Ching)",
+      "Student of Zen and Stoicism",
+      "Sober member of Alcoholics Anonymous"
+    ],
+    "daily_practice": [
+      "Chanting Nam-myoho-renge-kyo (SGI Buddhism)",
+      "Reading Taoist texts and Stoic reflections",
+      "Silent meditation and breathwork",
+      "Gratitude journaling and mantra repetition",
+      "Affirmations like: 'Do your work, then step back.' and 'Even tired, I am whole.'"
+    ],
+    "core_beliefs": [
+      "Love is the highest power — God is love.",
+      "Suffering is a teacher, not an enemy.",
+      "You can build and grow without clinging to the outcome.",
+      "Presence is deeper than performance or progress.",
+      "True integrity matters more than fame or validation.",
+      "Purpose is found in helping others rise."
+    ],
+    "values": [
+      "Presence over performance",
+      "Sincerity over perfection",
+      "Healing through truth",
+      "Growth without attachment",
+      "Joyful creation over proving worth",
+      "Spiritual freedom through emotional alignment"
+    ],
+    "current_work": {
+      "developer": "Full-stack developer (Django + React) with production-level experience",
+      "projects": [
+        "Art Moving Business Management System",
+        "E-commerce platform (store for book/art)",
+        "AI-powered motivational chatbot",
+        "Personal website MatthewRaynor.com"
+      ],
+      "storyteller": "Publishes essays on sobriety, compassion, and growth on Substack and TikTok",
+      "artist": "Exhibits drone and seascape photography; sells aluminum art prints",
+      "mentor": "Uplifts others through his digital presence and one-on-one recovery work"
+    },
+    "transformation": {
+      "from": "Addiction, despair, immobility, shame",
+      "to": "Sobriety, clarity, technical mastery, emotional healing",
+      "message": "He rebuilt everything from nothing. Not a victim — a creator and guide."
+    },
+    "support_options": [
+      "Share Matt’s story on social media",
+      "Hire him for web development or drone photography",
+      "Buy his book or art prints",
+      "Donate to his fundraiser to support housing and care needs",
+      "Send words of encouragement — every message matters",
+      "Offer help with his documentary project"
+    ],
+    "tone": "Grounded, wise, compassionate, resilient"
+  }
+  
+===== chat/data/fundraiser.json =====
+{
+    "fundraiser": {
+      "title": "Matt’s Freedom Fundraiser",
+      "description": "Matt’s Freedom Fundraiser is about helping me, Matt Raynor, a C5 quadriplegic, transition from life in a nursing home into independent living after a year and a half of institutional care. I’ve secured a housing subsidy but am currently searching for an accessible apartment that can accommodate my needs. Until then, I’m raising funds to cover essential living expenses so I can safely and sustainably move out.",
+      "goals": [
+        "Cover out-of-pocket caregiver costs during coverage gaps",
+        "Pay for rent, groceries, utilities, and personal care supplies",
+        "Purchase and maintain medical essentials like catheters and gloves",
+        "Set up a Special Needs Trust to protect Medicaid eligibility",
+        "Fund transportation and accessibility needs during apartment search"
+      ],
+      "creator": {
+        "name": "Matt Raynor",
+        "condition": "C5 quadriplegic",
+        "skills": [
+          "Python",
+          "Django",
+          "Web development",
+          "Bootstrap",
+          "Digital storytelling"
+        ],
+        "goal": "Regain independence and dignity through housing and self-employment"
+      },
+      "status": {
+        "housing": "Currently searching for accessible apartment",
+        "care": "Receiving Medicaid-funded long-term care, gaps in coverage exist",
+        "income": "Not currently employed; seeking sustainable freelance/remote work"
+      },
+      "links": {
+        "website": "https://www.mattsfreedomfundraiser.com",
+        "gofundme": "https://tinyurl.com/yrmf3u7d",
+        "instagram": "https://www.instagram.com/mattsfreedomfundraiser/",
+        "facebook": "https://www.facebook.com/MattsFreedomFundraiser"
+      },
+      "media": {
+        "video": "Promotional video explaining fundraiser and journey",
+        "flyer": "Printable campaign flyer available",
+        "images": [
+          "Group photo with Buddhist sangha",
+          "Laptop-in-lap photo from nursing home"
+        ]
+      },
+      "how_to_help": [
+        "Donate via GoFundMe",
+        "Share the fundraiser on social media",
+        "Suggest accessible apartments on Long Island",
+        "Refer reliable CDPAP caregivers",
+        "Invite media or local press contacts to feature Matt's story"
+      ]
+    }
+  }
+  
+===== chat/data/care_needs.json =====
+{
+    "care_needs": {
+      "primary": "Daily suppository administration to ensure regular bowel movements.",
+      "additional": [
+        "Transfers and positioning",
+        "Dressing, hygiene, and grooming",
+        "Meal preparation and feeding",
+        "Medication reminders",
+        "Wheelchair charging and setup",
+        "Assistance with computer and adaptive tech",
+        "Monitoring for skin integrity and health"
+      ]
+    },
+    "eligible_caretakers": {
+      "can_be": [
+        "Friends",
+        "Extended family",
+        "Roommates",
+        "Neighbors",
+        "Community members"
+      ],
+      "cannot_be": [
+        "Spouses",
+        "Parents of minors"
+      ],
+      "notes": "No medical license or certification is required. Caretakers are trained and supervised by Matt directly through CDPAP."
+    },
+    "responsibilities": [
+      "Assist with suppository insertion and cleanup",
+      "Help with daily hygiene tasks like bathing and grooming",
+      "Provide physical support (e.g., Hoyer lift transfers)",
+      "Prepare meals and assist with eating if needed",
+      "Assist with basic cleaning and daily tasks",
+      "Support use of technology and daily routines"
+    ],
+    "registration_process": {
+      "step_1": {
+        "description": "Matt undergoes an assessment with a Medicaid nurse via TBI/NHTD waiver or MLTC plan.",
+        "outcome": "Determines weekly authorized care hours."
+      },
+      "step_2": {
+        "description": "Matt selects a Fiscal Intermediary (FI) to manage payroll and timesheets.",
+        "examples": ["FreedomCare", "Concepts of Independence", "StellaFi"]
+      },
+      "step_3": {
+        "description": "Caretaker applies through the FI with required documentation.",
+        "requirements": [
+          "Government-issued ID",
+          "Social Security Number",
+          "Physical exam with TB test",
+          "Signed employment paperwork",
+          "Training in electronic visit verification (EVV)"
+        ]
+      },
+      "step_4": {
+        "description": "Caretaker begins work and is paid directly by the FI.",
+        "notes": "Caretaker is a W-2 employee. Pay ranges from $16–$21/hr depending on location and agency."
+      }
+    },
+    "additional_notes": {
+      "backup_caregivers": "Matt can register backup caregivers in case the primary is unavailable.",
+      "independence": "The caretaker is directed by Matt, not by a nurse or agency.",
+      "tech_support": "Caretakers should be comfortable helping set up devices and communication tools if needed."
+    }
+  }
+  
+===== chat/data/assistance.json =====
+{
+    "title": "Matt Raynor – Assistance Overview",
+    "last_updated": "May 2025",
+    "summary": "Matt is a talented, self-taught full-stack web developer and quadriplegic (C5–C6) who is transitioning out of a nursing home. He is actively seeking employment, independent housing with appropriate subsidies, and consistent personal care to live and work autonomously.",
+    "job_search": {
+      "goals": [
+        "Secure a remote-friendly full-time or freelance web development role",
+        "Avoid live coding/whiteboard interviews due to his disability",
+        "Highlight his adaptive tech usage (styluses, AI tools)"
+      ],
+      "skills_stack": {
+        "backend": ["Django", "Django REST Framework", "PostgreSQL", "Docker", "Heroku", "Stripe", "OpenAI"],
+        "frontend": ["React (1 month)", "Bootstrap", "Tailwind", "CKEditor", "Cloudinary"],
+        "devops": ["Docker", "Git", "GitHub CI", "deployment automation"],
+        "content": ["Substack", "YouTube/TikTok embedding", "custom blog CMS", "AI chatbot widget"]
+      },
+      "portfolio": {
+        "matthewraynor": "https://www.matthewraynor.com",
+        "art_moving_app": "https://art-moving-buisness-0a734245a61f.herokuapp.com",
+        "bookstore": "https://mattsbookstore-c15521949514.herokuapp.com",
+        "fundraiser": "Live version TBD"
+      },
+      "barriers": [
+        "Discriminatory interviews favoring memorization",
+        "Needs value shown through portfolio, not trivia",
+        "Workflow flexibility required"
+      ],
+      "ideal_roles": [
+        "Startups hiring based on portfolio",
+        "Backend/frontend roles without live testing",
+        "Remote-first environments"
+      ]
+    },
+    "housing_search": {
+      "goal": "Move into independent subsidized housing with 24/7 care",
+      "status": "Approved for Olmstead Housing Subsidy (OHS)",
+      "details": {
+        "amount": "$2,250/month",
+        "coordination": ["SILO", "Medicaid"],
+        "barriers": ["Waitlists", "Accessibility", "Landlord education"]
+      }
+    },
+    "caregiving_support": {
+      "needs": [
+        "Daily support with ADLs",
+        "Bowel program, hygiene, transfers, feeding"
+      ],
+      "support_options": ["CDPAP", "TBI Waiver", "Medicaid Service Coordinators"],
+      "barriers": [
+        "Inconsistent aides",
+        "Needs aide skilled in tech and independent living"
+      ]
+    },
+    "why_help": [
+      "Overcame injury, addiction, and nursing home life",
+      "Self-taught developer and content creator",
+      "Helping others through blogs, chatbot, and videos"
+    ]
+  }
+  
+
 ===== Templates =====
 
 ===== templates/home.html =====
@@ -2244,6 +3115,53 @@ store/migrations/0003_order_customer_email_order_shipping_address_and_more.py
 
 </div>
 {% endblock %}
+
+===== templates/chat/chat_interface.html =====
+{% extends "base.html" %}
+
+{% block title %}AI Chat Assistant{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <h2 class="text-center mb-4">AI Assistant</h2>
+  <div id="chat-box" class="border rounded p-3 mb-3" style="height: 300px; overflow-y: auto; background: #f9f9f9;">
+    <p><strong>AI:</strong> Hello! How can I assist you today?</p>
+  </div>
+  <form id="chat-form">
+    <div class="input-group">
+      <input type="text" id="user-input" class="form-control" placeholder="Type your message...">
+      <button class="btn btn-primary" type="submit">Send</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById("chat-form").addEventListener("submit", async function(event) {
+  event.preventDefault();
+  const input = document.getElementById("user-input");
+  const message = input.value.trim();
+  if (!message) return;
+
+  const chatBox = document.getElementById("chat-box");
+  chatBox.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
+  input.value = "";
+
+  // Send to backend (to be implemented)
+  const response = await fetch("/chat/api/message/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-CSRFToken": "{{ csrf_token }}" },
+    body: JSON.stringify({ message })
+  });
+  const data = await response.json();
+  chatBox.innerHTML += `<p><strong>AI:</strong> ${data.reply}</p>`;
+  chatBox.scrollTop = chatBox.scrollHeight;
+});
+</script>
+{% endblock %}
+
+===== templates/chat/chat_widget.html =====
 
 ===== templates/base.html =====
 {% load static %}
@@ -2438,21 +3356,50 @@ store/migrations/0003_order_customer_email_order_shipping_address_and_more.py
   <script src="https://unpkg.com/scrollreveal"></script>
 
   {% block extra_js %}{% endblock %}
-
+  
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       flatpickr(".datepicker", { dateFormat: "Y-m-d" });
       document.querySelectorAll(".select2").forEach(el => {
         $(el).select2({ width: "100%" });
       });
-
+  
       $('#ai-chatbot-toggle').click(function () {
         $('#ai-chatbot').toggle();
       });
+  
       $('#ai-chatbot-close').click(function () {
         $('#ai-chatbot').hide();
       });
-
+  
+      // ✅ Updated: more reliable Enter detection and logging for debugging
+      const $input = $('#ai-chatbot-input input');
+      if ($input.length) {
+        console.log("✅ Chatbot input field found");
+  
+        $input.on('keydown', function (e) {
+          if (e.key === "Enter" && this.value.trim() !== "") {
+            const message = this.value;
+            this.value = "";
+            $('#ai-chatbot-body').append(`<p><strong>You:</strong> ${message}</p>`);
+  
+            fetch("/chat/api/", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ message: message })
+            })
+            .then(response => response.json())
+            .then(data => {
+              const reply = data.reply || data.error || "Sorry, something went wrong.";
+              $('#ai-chatbot-body').append(`<p><strong>AI:</strong> ${reply}</p>`);
+              $('#ai-chatbot-body').scrollTop($('#ai-chatbot-body')[0].scrollHeight);
+            });
+          }
+        });
+      } else {
+        console.warn("⚠️ Could not find chatbot input field!");
+      }
+  
       ScrollReveal().reveal('.fade-in-up', {
         distance: '20px',
         duration: 600,
@@ -2465,9 +3412,7 @@ store/migrations/0003_order_customer_email_order_shipping_address_and_more.py
       });
     });
   </script>
-</body>
-</html>
-
+  
 ===== templates/socialaccount/login.html =====
 {% extends "base.html" %}
 {% load socialaccount %}
@@ -4269,5 +5214,65 @@ footer {
 }
 
 ===== README.md =====
-# art_moving_buisness
-# Matthew_raynor_website
+# MatthewRaynor.com
+
+![CI](https://github.com/mattyray/matthew_raynor_website/actions/workflows/ci.yml/badge.svg)
+
+A personal full-stack web platform for Matthew Raynor — a quadriplegic self-taught developer, artist, and motivational creator — featuring a blog, portfolio, online store, press hub, and AI chatbot.
+
+## 🧠 Project Purpose
+
+This website showcases:
+- Inspirational blog posts and Substack content
+- A portfolio of Django and React projects
+- An online store for artwork and Matthew's book
+- Press/media features
+- A motivational AI-powered chatbot
+- Accessible UX for users with disabilities
+
+## ⚙️ Tech Stack
+
+**Backend**: Django 5.1.6, PostgreSQL, Docker, Gunicorn  
+**Frontend**: Bootstrap 5, SCSS, ScrollReveal  
+**Features**: Google SSO, Stripe Checkout, Cloudinary image hosting, Whitenoise, reCAPTCHA  
+**Deployment**: Heroku with Docker  
+**CI/CD**: GitHub Actions
+
+## 🚀 Installation (Dev)
+
+```bash
+# Clone the repo
+git clone https://github.com/mattyray/matthew_raynor_website.git
+cd matthew_raynor_website
+
+# Copy and edit .env file
+cp .env.example .env  # (You’ll need to manually add real keys)
+
+# Run Docker
+docker-compose up --build
+
+App will be available at http://localhost:8001
+
+# Enter web container
+docker-compose exec web bash
+
+# Run migrations
+python manage.py migrate
+
+# Create superuser
+python manage.py createsuperuser
+
+# Collect static files
+python manage.py collectstatic --noinput
+
+docker-compose exec web python manage.py test
+
+#deploy
+
+heroku container:login
+heroku container:push web --app matthew-raynor-site
+heroku container:release web --app matthew-raynor-site
+
+Created by Matthew Raynor
+GitHub: @mattyray
+Email: mnraynor90@gmail.com

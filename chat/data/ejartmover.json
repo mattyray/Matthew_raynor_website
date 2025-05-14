@@ -1,0 +1,95 @@
+{
+    "project_name": "EJ Art Mover – Art Moving Business Management System",
+    "summary": "A full-stack Django web application built to manage the operations of a small art moving business, including clients, work orders, scheduled job events, and invoicing. It centralizes scheduling and billing while providing an interactive dashboard and calendar system.",
+    "features": {
+      "user_authentication": {
+        "description": "Login/logout using Django auth with dynamic navbar and conditional sidebar for authenticated users."
+      },
+      "dashboard": {
+        "description": "A clean landing page with greeting, quick access buttons, and an embedded FullCalendar showing current work orders and invoices."
+      },
+      "calendar_system": {
+        "views": ["month", "week", "day"],
+        "data_sources": [
+          "/workorders/calendar-data/workorders/",
+          "/invoices/calendar-data/invoices/"
+        ],
+        "color_coding": {
+          "work_orders": "unique per job",
+          "invoices": {
+            "paid": "green",
+            "unpaid": "red",
+            "overdue": "yellow"
+          }
+        },
+        "interactions": ["click day → view detail", "click event → go to detail page", "print day view"]
+      },
+      "work_order_management": {
+        "statuses": ["Pending", "Scheduled", "Completed"],
+        "features": [
+          "Inline formsets for event scheduling",
+          "File attachments and job notes",
+          "PDF export of work order",
+          "Job status updates"
+        ]
+      },
+      "invoicing_system": {
+        "categories": ["Unpaid", "Paid", "Overdue"],
+        "features": [
+          "Invoice tied to client and work order",
+          "Select2 client search with AJAX",
+          "Flatpickr for due dates",
+          "Invoice status badge system",
+          "Invoice edit, print, and delete options",
+          "Update paid date via modal"
+        ]
+      },
+      "ui_ux": {
+        "stack": ["Bootstrap 5", "Bootstrap Icons", "Select2", "Flatpickr", "FullCalendar"],
+        "layout": "Responsive card-based layout with consistent headers, colors, and interactions.",
+        "sidebar": "Offcanvas design with authenticated user display and section-based navigation"
+      },
+      "pdf_generation": {
+        "tool": "WeasyPrint",
+        "template": "Custom printable work order including client info, job description, events, and notes."
+      }
+    },
+    "technical_stack": {
+      "backend": ["Django 5.1.6", "PostgreSQL", "Docker", "Gunicorn", "Whitenoise"],
+      "frontend": ["HTML/CSS", "Bootstrap 5", "JavaScript", "FullCalendar", "Select2", "Flatpickr"],
+      "tools": ["WeasyPrint", "Crispy Forms", "Docker Compose", "Heroku"],
+      "libraries": ["Select2", "Flatpickr", "FullCalendar", "Bootstrap Icons"]
+    },
+    "custom_features": [
+      "Dynamic inline formsets for scheduling multiple events per work order",
+      "AJAX-based Select2 client picker with live filtering",
+      "Work order status logic based on event dates",
+      "Color-coded calendar integration for both jobs and invoices",
+      "Print-friendly pages for both invoices and daily schedules",
+      "Interactive week view with day-header click routing"
+    ],
+    "problems_solved": [
+      "Centralized work order tracking and coordination",
+      "Improved scheduling through calendar and status logic",
+      "Simplified client and job lookup with AJAX search",
+      "Streamlined invoice creation and tracking",
+      "Improved field team access with mobile-friendly interface",
+      "Quick daily planning with printable day schedules"
+    ],
+    "improvements": [
+      "Add user role support for workers vs managers",
+      "Enable drag-and-drop calendar rescheduling",
+      "Add Google Calendar integration",
+      "Implement email or SMS reminders for jobs and invoices",
+      "Export invoices or work orders to CSV",
+      "Add analytics dashboard with revenue and job summaries"
+    ],
+    "portfolio_highlights": [
+      "Demonstrates full-stack Django capability with modern frontend JS integrations",
+      "Business-focused design based on real-world workflow",
+      "Responsive layout with calendar planning and event logic",
+      "PDF export, dynamic forms, and AJAX interactivity show advanced Django skills",
+      "Clean code, logical structure, and feature completeness suitable for production use"
+    ]
+  }
+  
