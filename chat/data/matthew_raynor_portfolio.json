@@ -1,0 +1,80 @@
+{
+  "project": "MatthewRaynor.com",
+  "summary": "MatthewRaynor.com is a full-stack Django-based personal website built by Matthew Raynor, a quadriplegic full-stack developer. It combines e-commerce, blogging, AI chatbot integration, press coverage, and a developer portfolio into one cohesive site.",
+  "tech_stack": {
+    "frontend": [
+      "HTML5",
+      "SCSS (Sass)",
+      "Bootstrap 5",
+      "Flatpickr",
+      "Select2",
+      "FullCalendar",
+      "ScrollReveal.js",
+      "CKEditor",
+      "Cloudinary",
+      "JavaScript",
+      "jQuery"
+    ],
+    "backend": [
+      "Django 5.1",
+      "PostgreSQL",
+      "Django REST Framework",
+      "Django Allauth",
+      "Whitenoise",
+      "Gunicorn",
+      "WeasyPrint",
+      "OpenAI SDK"
+    ],
+    "devops": [
+      "Docker",
+      "Docker Compose",
+      "Heroku",
+      "GitHub Actions",
+      "django-environ"
+    ]
+  },
+  "features": {
+    "ai_chat_widget": "Floating chatbot integrated with OpenAI API. Context-aware and styled to match the site branding.",
+    "store": "E-commerce store with Stripe checkout, product catalog for prints and memoir, custom emails, product reviews.",
+    "blog": "Rich text blog with video and image support, comments, and fallback logic using CKEditor and Cloudinary.",
+    "portfolio": "Case study-style project pages with structured sections and ScrollReveal animations.",
+    "press": "Dynamically rendered press articles with image, summary, and external links.",
+    "contact": "SMTP-enabled contact form with Gmail and reCAPTCHA integration.",
+    "authentication": "Custom user model with email login and Google SSO, profile/dashboard, password management."
+  },
+  "problems_solved": [
+    "Accessible navigation and layout",
+    "Production-grade deployment with Docker and Heroku",
+    "Client-friendly interfaces with contact and chatbot tools",
+    "Income generation through product sales",
+    "SEO-ready press and story pages for visibility"
+  ],
+  "special_features": [
+    "Custom floating AI assistant",
+    "ScrollReveal animation system",
+    "Stripe Checkout integration with shipping",
+    "Rich text editor with image/video support",
+    "Case study-based portfolio",
+    "Glass blur hero banners and custom SCSS theme"
+  ],
+  "improvements": [
+    "Add chatbot memory and personalization",
+    "Integrate Google Analytics or PostHog",
+    "Perform full accessibility audit",
+    "Add blog search and tagging system",
+    "Enable Enter key and multiline input for chatbot"
+  ],
+  "proud_of": [
+    "Self-taught Django, Docker, and frontend development with no hand function",
+    "Complete full-stack production site independently built",
+    "Powerful integrations across Stripe, OpenAI, SSO, and more",
+    "Clear and inspiring storytelling combined with technical polish"
+  ],
+  "build_notes": [
+    "Theme inspired by Crunchyroll, implemented in SCSS",
+    "Reusable animation classes and delay system in _reveal.scss",
+    "Graceful fallback for blog media",
+    "Deployment via Heroku container stack with heroku.yml",
+    "Environment variables handled with django-environ"
+  ]
+}
