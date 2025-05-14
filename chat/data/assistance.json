@@ -1,0 +1,60 @@
+{
+    "title": "Matt Raynor – Assistance Overview",
+    "last_updated": "May 2025",
+    "summary": "Matt is a talented, self-taught full-stack web developer and quadriplegic (C5–C6) who is transitioning out of a nursing home. He is actively seeking employment, independent housing with appropriate subsidies, and consistent personal care to live and work autonomously.",
+    "job_search": {
+      "goals": [
+        "Secure a remote-friendly full-time or freelance web development role",
+        "Avoid live coding/whiteboard interviews due to his disability",
+        "Highlight his adaptive tech usage (styluses, AI tools)"
+      ],
+      "skills_stack": {
+        "backend": ["Django", "Django REST Framework", "PostgreSQL", "Docker", "Heroku", "Stripe", "OpenAI"],
+        "frontend": ["React (1 month)", "Bootstrap", "Tailwind", "CKEditor", "Cloudinary"],
+        "devops": ["Docker", "Git", "GitHub CI", "deployment automation"],
+        "content": ["Substack", "YouTube/TikTok embedding", "custom blog CMS", "AI chatbot widget"]
+      },
+      "portfolio": {
+        "matthewraynor": "https://www.matthewraynor.com",
+        "art_moving_app": "https://art-moving-buisness-0a734245a61f.herokuapp.com",
+        "bookstore": "https://mattsbookstore-c15521949514.herokuapp.com",
+        "fundraiser": "Live version TBD"
+      },
+      "barriers": [
+        "Discriminatory interviews favoring memorization",
+        "Needs value shown through portfolio, not trivia",
+        "Workflow flexibility required"
+      ],
+      "ideal_roles": [
+        "Startups hiring based on portfolio",
+        "Backend/frontend roles without live testing",
+        "Remote-first environments"
+      ]
+    },
+    "housing_search": {
+      "goal": "Move into independent subsidized housing with 24/7 care",
+      "status": "Approved for Olmstead Housing Subsidy (OHS)",
+      "details": {
+        "amount": "$2,250/month",
+        "coordination": ["SILO", "Medicaid"],
+        "barriers": ["Waitlists", "Accessibility", "Landlord education"]
+      }
+    },
+    "caregiving_support": {
+      "needs": [
+        "Daily support with ADLs",
+        "Bowel program, hygiene, transfers, feeding"
+      ],
+      "support_options": ["CDPAP", "TBI Waiver", "Medicaid Service Coordinators"],
+      "barriers": [
+        "Inconsistent aides",
+        "Needs aide skilled in tech and independent living"
+      ]
+    },
+    "why_help": [
+      "Overcame injury, addiction, and nursing home life",
+      "Self-taught developer and content creator",
+      "Helping others through blogs, chatbot, and videos"
+    ]
+  }
+  
