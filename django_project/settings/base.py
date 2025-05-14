@@ -16,6 +16,9 @@ STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET', default='whsec_dummy')
 
 stripe.api_key = STRIPE_SECRET_KEY
 
+OPENAI_API_KEY = env("OPENAI_API_KEY", default="")
+
+
 # Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -52,6 +55,7 @@ INSTALLED_APPS = [
     'store.apps.StoreConfig',
     'blog.apps.BlogConfig',
     'portfolio.apps.PortfolioConfig',
+    'chat.apps.ChatConfig',
 
     # Third-party
     'django.contrib.sites',

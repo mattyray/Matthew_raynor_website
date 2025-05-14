@@ -17,6 +17,8 @@ urlpatterns = [
     path("store/", include("store.urls")),
     path("portfolio/", include(("portfolio.urls", "portfolio"), namespace="portfolio")),
     path("ckeditor/", include("ckeditor_uploader.urls")),
+    path("chat/", include("chat.urls", namespace="chat")),  # 👈 Add this line
+
 
 ]
 
