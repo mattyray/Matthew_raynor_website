@@ -35,5 +35,6 @@ class ChatAPIView(View):
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)
 
+
 class ChatInterfaceView(TemplateView):
     template_name = "chat/chat_interface.html"
