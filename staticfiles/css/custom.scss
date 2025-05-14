@@ -252,6 +252,27 @@ h4 { font-size: 1.5rem; }
   }
 }
 
+// ✅ Enhancements for readability and formatting
+.chat-widget {
+  width: 400px; // increase size
+  height: 500px;
+
+  .chat-body p {
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .chat-message.ai {
+    background-color: rgba(255, 255, 255, 0.08);
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    color: $text-light;
+    font-size: 0.95rem;
+    white-space: pre-line;
+  }
+}
+
 // -----------------------------------------------------
 // Footer Styling
 // -----------------------------------------------------
