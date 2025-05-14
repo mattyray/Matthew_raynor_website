@@ -11,7 +11,6 @@ from .utils import load_combined_context  # 👈 add this import
 client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
 
-@csrf_exempt
 class ChatAPIView(View):
     def post(self, request):
         try:
