@@ -1,0 +1,66 @@
+{
+    "care_needs": {
+      "primary": "Daily suppository administration to ensure regular bowel movements.",
+      "additional": [
+        "Transfers and positioning",
+        "Dressing, hygiene, and grooming",
+        "Meal preparation and feeding",
+        "Medication reminders",
+        "Wheelchair charging and setup",
+        "Assistance with computer and adaptive tech",
+        "Monitoring for skin integrity and health"
+      ]
+    },
+    "eligible_caretakers": {
+      "can_be": [
+        "Friends",
+        "Extended family",
+        "Roommates",
+        "Neighbors",
+        "Community members"
+      ],
+      "cannot_be": [
+        "Spouses",
+        "Parents of minors"
+      ],
+      "notes": "No medical license or certification is required. Caretakers are trained and supervised by Matt directly through CDPAP."
+    },
+    "responsibilities": [
+      "Assist with suppository insertion and cleanup",
+      "Help with daily hygiene tasks like bathing and grooming",
+      "Provide physical support (e.g., Hoyer lift transfers)",
+      "Prepare meals and assist with eating if needed",
+      "Assist with basic cleaning and daily tasks",
+      "Support use of technology and daily routines"
+    ],
+    "registration_process": {
+      "step_1": {
+        "description": "Matt undergoes an assessment with a Medicaid nurse via TBI/NHTD waiver or MLTC plan.",
+        "outcome": "Determines weekly authorized care hours."
+      },
+      "step_2": {
+        "description": "Matt selects a Fiscal Intermediary (FI) to manage payroll and timesheets.",
+        "examples": ["FreedomCare", "Concepts of Independence", "StellaFi"]
+      },
+      "step_3": {
+        "description": "Caretaker applies through the FI with required documentation.",
+        "requirements": [
+          "Government-issued ID",
+          "Social Security Number",
+          "Physical exam with TB test",
+          "Signed employment paperwork",
+          "Training in electronic visit verification (EVV)"
+        ]
+      },
+      "step_4": {
+        "description": "Caretaker begins work and is paid directly by the FI.",
+        "notes": "Caretaker is a W-2 employee. Pay ranges from $16–$21/hr depending on location and agency."
+      }
+    },
+    "additional_notes": {
+      "backup_caregivers": "Matt can register backup caregivers in case the primary is unavailable.",
+      "independence": "The caretaker is directed by Matt, not by a nurse or agency.",
+      "tech_support": "Caretakers should be comfortable helping set up devices and communication tools if needed."
+    }
+  }
+  
