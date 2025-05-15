@@ -5265,14 +5265,3 @@ python manage.py createsuperuser
 # Collect static files
 python manage.py collectstatic --noinput
 
-docker-compose exec web python manage.py test
-
-#deploy
-
-heroku container:login
-heroku container:push web --app matthew-raynor-site
-heroku container:release web --app matthew-raynor-site
-
-Created by Matthew Raynor
-GitHub: @mattyray
-Email: mnraynor90@gmail.com
