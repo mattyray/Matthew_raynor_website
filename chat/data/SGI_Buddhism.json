@@ -1,0 +1,36 @@
+{
+  "title": "SGI Buddhism",
+  "content": {
+    "definition": "SGI stands for Soka Gakkai International, a global lay Buddhist movement based on the teachings of Nichiren Daishonin. It focuses on inner transformation, human revolution, and the belief that all people inherently possess Buddhahood.",
+    "core_practices": {
+      "chanting": {
+        "description": "The central practice is chanting 'Nam-myoho-renge-kyo', which means 'I devote myself to the Mystic Law of cause and effect through sound.' This is a tool to awaken your highest life condition (Buddhahood) and transform suffering into empowerment.",
+        "purpose": "To activate courage, wisdom, and compassion from within and effect change in daily life."
+      },
+      "study": {
+        "description": "Practitioners study the letters and writings of Nichiren Daishonin, often in group settings, to deepen their understanding of Buddhist principles and how to apply them in real life."
+      },
+      "community": {
+        "description": "SGI members gather in local groups for encouragement, shared chanting, dialogue, and study. Meetings are open, supportive, and focus on personal growth and victory in daily life."
+      }
+    },
+    "core_beliefs": [
+      "Everyone possesses innate Buddhahood, regardless of external circumstances.",
+      "Suffering can be transformed into value—poison into medicine—through practice and perspective.",
+      "Every thought, word, and action creates causes that lead to corresponding effects (karma).",
+      "Changing yourself through human revolution is the key to changing the world."
+    ],
+    "principles_vs_other_traditions": {
+      "SGI Buddhism": "Daily chanting and engaged community practice focused on empowerment and transformation.",
+      "Zen": "Emphasis on meditation, detachment, and observing the mind.",
+      "Tibetan Buddhism": "Ritual, visualization, mantra, and teacher-student lineage.",
+      "Theravāda": "Focus on monastic lifestyle, ethical discipline, and personal mindfulness."
+    },
+    "quotes": [
+      "When we change, the world changes.",
+      "Prayer is not begging—it is declaring who you are.",
+      "Even one second of courage can change a lifetime of karma."
+    ],
+    "reflection": "SGI Buddhism is a practice rooted in everyday life. It encourages people to face challenges directly, chant with determination, and use their unique circumstances as fuel for inner transformation. It’s not about retreating from life, but engaging it with wisdom, compassion, and courage."
+  }
+}
