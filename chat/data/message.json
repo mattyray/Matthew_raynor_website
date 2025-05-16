@@ -1,44 +1,44 @@
 [
   {
-    "title": "Matthew's Core Message",
-    "content": "No matter how dark life gets, you can create light from it — and shine that light on others.\n\nYou’ve been to the depths. Paralyzed, addicted, abandoned, humiliated, isolated — yet you turned toward life. You clawed your way back with nothing but willpower, styluses, code, and chanting. You built yourself.\n\nYou didn’t wait for someone to save you.\nYou became the person you needed.\nYou now help others do the same.",
-    "topic": "personal_message",
-    "keywords": ["resilience", "light", "adversity", "healing", "redemption", "recovery"]
+    "title": "Matt’s Core Message",
+    "content": "No matter how dark life gets, Matt believes you can create light from it — and shine that light on others. He’s been to the depths: paralyzed, addicted, abandoned, humiliated, and isolated. But he turned toward life. With nothing but willpower, styluses, code, and chanting, he rebuilt himself. He didn’t wait to be saved. He became the person he needed — and now helps others do the same.",
+    "topic": "core_message",
+    "keywords": ["resilience", "light", "healing", "adversity", "inspiration", "willpower"]
   },
   {
     "title": "Spiritual Message",
-    "content": "Suffering doesn’t disqualify you — it’s the path to transformation.",
+    "content": "Matt believes that suffering doesn’t disqualify anyone — it’s the path to transformation. Spiritually, he sees pain as sacred fuel. His experience taught him to use hardship as a stepping stone toward awakening.",
     "topic": "spirituality",
-    "keywords": ["spiritual growth", "transformation", "suffering", "buddhism", "meaning"]
+    "keywords": ["suffering", "transformation", "spiritual path", "awakening"]
   },
   {
     "title": "Technical Message",
-    "content": "Even if you can barely move your body, you can still build beautiful things.",
+    "content": "Even though Matt is a quadriplegic, he proves every day that you can build beautiful things — even if you can barely move. He developed his own adaptive typing system and taught himself to code using styluses. Now he builds real tools that serve real people.",
     "topic": "technology",
-    "keywords": ["coding", "accessibility", "web development", "creativity", "adaptive technology"]
+    "keywords": ["coding", "accessibility", "adaptive technology", "quadriplegic", "web development"]
   },
   {
     "title": "Emotional Message",
-    "content": "Even if you feel broken, even if you’ve made mistakes — you are not unlovable.",
-    "topic": "emotional_healing",
-    "keywords": ["emotions", "self-worth", "healing", "forgiveness", "acceptance"]
+    "content": "Matt knows what it’s like to feel broken — and to believe that brokenness means being unlovable. He now sees clearly: being imperfect doesn’t make you unworthy. Everyone deserves love and dignity, no matter their past or pain.",
+    "topic": "emotions",
+    "keywords": ["self-worth", "brokenness", "emotional healing", "dignity", "acceptance"]
   },
   {
     "title": "Philosophical Message",
-    "content": "The present moment is the only place with real power. Live here, return here.",
+    "content": "Matt believes that the present moment is the only place with real power. He lives by it. Instead of getting trapped in fear or regret, he returns to now — through breath, chanting, reflection, or writing.",
     "topic": "philosophy",
-    "keywords": ["presence", "mindfulness", "now", "philosophy", "power"]
+    "keywords": ["present", "mindfulness", "now", "power", "Tao", "Buddhism"]
   },
   {
     "title": "Relational Message",
-    "content": "Be kind. Be real. Let people in. Let love in.",
+    "content": "Matt believes in being kind, being real, and letting people in. He leads with warmth and vulnerability. He knows love is what heals — and he invites others to open their hearts, too.",
     "topic": "relationships",
-    "keywords": ["kindness", "authenticity", "connection", "love", "relationships"]
+    "keywords": ["connection", "vulnerability", "kindness", "realness", "love"]
   },
   {
     "title": "One-Line Summary",
-    "content": "I went from abandoned to awakened — and now I help others find their light, too.",
+    "content": "Matt went from abandoned to awakened — and now he helps others find their light, too. He’s living proof that you don’t need to be perfect, healed, or even fully mobile to be powerful, impactful, and deeply needed.",
     "topic": "summary",
-    "keywords": ["awakening", "purpose", "light", "journey", "healing"]
+    "keywords": ["abandonment", "awakening", "light", "impact", "purpose", "hope"]
   }
 ]
