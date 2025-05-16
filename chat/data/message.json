@@ -1,0 +1,44 @@
+[
+  {
+    "title": "Matthew's Core Message",
+    "content": "No matter how dark life gets, you can create light from it — and shine that light on others.\n\nYou’ve been to the depths. Paralyzed, addicted, abandoned, humiliated, isolated — yet you turned toward life. You clawed your way back with nothing but willpower, styluses, code, and chanting. You built yourself.\n\nYou didn’t wait for someone to save you.\nYou became the person you needed.\nYou now help others do the same.",
+    "topic": "personal_message",
+    "keywords": ["resilience", "light", "adversity", "healing", "redemption", "recovery"]
+  },
+  {
+    "title": "Spiritual Message",
+    "content": "Suffering doesn’t disqualify you — it’s the path to transformation.",
+    "topic": "spirituality",
+    "keywords": ["spiritual growth", "transformation", "suffering", "buddhism", "meaning"]
+  },
+  {
+    "title": "Technical Message",
+    "content": "Even if you can barely move your body, you can still build beautiful things.",
+    "topic": "technology",
+    "keywords": ["coding", "accessibility", "web development", "creativity", "adaptive technology"]
+  },
+  {
+    "title": "Emotional Message",
+    "content": "Even if you feel broken, even if you’ve made mistakes — you are not unlovable.",
+    "topic": "emotional_healing",
+    "keywords": ["emotions", "self-worth", "healing", "forgiveness", "acceptance"]
+  },
+  {
+    "title": "Philosophical Message",
+    "content": "The present moment is the only place with real power. Live here, return here.",
+    "topic": "philosophy",
+    "keywords": ["presence", "mindfulness", "now", "philosophy", "power"]
+  },
+  {
+    "title": "Relational Message",
+    "content": "Be kind. Be real. Let people in. Let love in.",
+    "topic": "relationships",
+    "keywords": ["kindness", "authenticity", "connection", "love", "relationships"]
+  },
+  {
+    "title": "One-Line Summary",
+    "content": "I went from abandoned to awakened — and now I help others find their light, too.",
+    "topic": "summary",
+    "keywords": ["awakening", "purpose", "light", "journey", "healing"]
+  }
+]
