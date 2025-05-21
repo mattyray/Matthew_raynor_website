@@ -193,18 +193,19 @@ h4 { font-size: 1.5rem; }
 }
 
 // -----------------------------------------------------
-// Chat Widget Styling (Enhanced UI + Matching Theme)
+// Chat Widget Styling (Responsive UI + Matching Theme)
 // -----------------------------------------------------
 .chat-widget {
   position: fixed;
   bottom: 80px;
   right: 20px;
   width: 400px;
+  max-width: 90vw;
   height: 500px;
   background-color: $nav-bg;
   border: 1px solid $nav-hover;
   border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
   display: none;
   z-index: 1000;
   overflow: hidden;
@@ -240,7 +241,7 @@ h4 { font-size: 1.5rem; }
       border-radius: 6px;
       max-width: 100%;
       word-wrap: break-word;
-      animation: fadeIn 0.3s ease-in-out;
+      font-size: 0.95rem;
 
       &.user {
         align-self: flex-end;
@@ -269,6 +270,10 @@ h4 { font-size: 1.5rem; }
 
         .dot:nth-child(2) { animation-delay: 0.2s; }
         .dot:nth-child(3) { animation-delay: 0.4s; }
+      }
+
+      &.fade-in {
+        animation: fadeIn 0.3s ease-in-out;
       }
     }
   }
@@ -300,9 +305,7 @@ h4 { font-size: 1.5rem; }
   }
 }
 
-// ----------------------------
 // Animations
-// ----------------------------
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }

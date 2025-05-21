@@ -12078,6 +12078,7 @@ h4, .h4 {
   bottom: 80px;
   right: 20px;
   width: 400px;
+  max-width: 90vw;
   height: 500px;
   background-color: #111111;
   border: 1px solid #222222;
@@ -12116,7 +12117,7 @@ h4, .h4 {
   border-radius: 6px;
   max-width: 100%;
   word-wrap: break-word;
-  animation: fadeIn 0.3s ease-in-out;
+  font-size: 0.95rem;
 }
 .chat-widget .chat-body .chat-message.user {
   align-self: flex-end;
@@ -12145,6 +12146,9 @@ h4, .h4 {
 }
 .chat-widget .chat-body .chat-message.system.typing .dot:nth-child(3) {
   animation-delay: 0.4s;
+}
+.chat-widget .chat-body .chat-message.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
 }
 .chat-widget .chat-input {
   padding: 10px;
