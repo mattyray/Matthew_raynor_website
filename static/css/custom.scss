@@ -191,16 +191,14 @@ h4 { font-size: 1.5rem; }
     color: #777;
   }
 }
-
 // -----------------------------------------------------
 // Chat Widget Styling (Responsive UI + Matching Theme)
 // -----------------------------------------------------
 .chat-widget {
   position: fixed;
-  bottom: 80px;
+  bottom: 70px; // above the toggle button
   right: 20px;
   width: 400px;
-  max-width: 90vw;
   height: 500px;
   background-color: $nav-bg;
   border: 1px solid $nav-hover;
@@ -209,6 +207,14 @@ h4 { font-size: 1.5rem; }
   display: none;
   z-index: 1000;
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    right: 10px;
+    left: 10px;
+    width: auto;
+    height: 80vh;
+    bottom: 80px;
+  }
 
   .chat-header {
     background-color: $primary;

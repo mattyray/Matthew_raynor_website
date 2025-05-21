@@ -12075,10 +12075,9 @@ h4, .h4 {
 
 .chat-widget {
   position: fixed;
-  bottom: 80px;
+  bottom: 70px;
   right: 20px;
   width: 400px;
-  max-width: 90vw;
   height: 500px;
   background-color: #111111;
   border: 1px solid #222222;
@@ -12087,6 +12086,15 @@ h4, .h4 {
   display: none;
   z-index: 1000;
   overflow: hidden;
+}
+@media (max-width: 768px) {
+  .chat-widget {
+    right: 10px;
+    left: 10px;
+    width: auto;
+    height: 80vh;
+    bottom: 80px;
+  }
 }
 .chat-widget .chat-header {
   background-color: #4CAF50;
