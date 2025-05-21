@@ -169,15 +169,47 @@
   </footer>
 
 
+    <!-- AI Chatbot -->
   <!-- AI Chatbot -->
-  <div id="ai-chatbot" class="chat-widget">
-    <div id="ai-chatbot-header" class="chat-header">AI Assistant <span id="ai-chatbot-close" class="chat-close">&times;</span></div>
-    <div id="ai-chatbot-body" class="chat-body"><p>Hello! How can I assist you today?</p></div>
+  <div id="ai-chatbot"
+      class="chat-widget"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="ai-chatbot-header"
+      aria-describedby="ai-chatbot-body"
+      tabindex="-1">
+    <div id="ai-chatbot-header" class="chat-header">
+      <span>Matt Raynor's AI Assistant</span>
+      <button id="ai-chatbot-close" class="chat-close" aria-label="Close chat" title="Close chat" type="button">
+        <i class="fas fa-times"></i>
+      </button>
+
+    </div>
+    <div id="ai-chatbot-body" class="chat-body">
+      <div class="chat-message ai fade-in">Hello! How can I assist you today?</div>
+    </div>
     <div id="ai-chatbot-input" class="chat-input">
-      <input type="text" placeholder="Type your message..." class="form-control">
+      <label for="chatbot-input-field" class="visually-hidden">Type your message</label>
+      <input id="chatbot-input-field"
+            type="text"
+            placeholder="Type your message..."
+            class="form-control"
+            aria-label="Chat message input"
+            autocomplete="off">
     </div>
   </div>
-  <button id="ai-chatbot-toggle" class="btn chat-toggle">Chat</button>
+
+  <!-- Chat Toggle Button -->
+  <button id="ai-chatbot-toggle"
+          class="btn chat-toggle attention"
+          aria-haspopup="dialog"
+          aria-controls="ai-chatbot"
+          aria-expanded="false"
+          aria-label="Open chat assistant">
+    Chat
+  </button>
+
+
 
   <!-- JS Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -188,30 +220,56 @@
   <script src="https://unpkg.com/scrollreveal"></script>
 
   {% block extra_js %}{% endblock %}
-  <!--script indent-->
+
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       flatpickr(".datepicker", { dateFormat: "Y-m-d" });
       document.querySelectorAll(".select2").forEach(el => {
         $(el).select2({ width: "100%" });
       });
-  
-      $('#ai-chatbot-toggle').click(function () {
-        $('#ai-chatbot').toggle();
+
+      const $chatToggle = $('#ai-chatbot-toggle');
+      const $chatWidget = $('#ai-chatbot');
+      const $chatInput = $('#ai-chatbot-input input');
+      const $chatBody = $('#ai-chatbot-body');
+
+      // Toggle chat widget visibility
+      $chatToggle.on('click', function () {
+        $chatWidget.toggle();
+        const isOpen = $chatWidget.is(':visible');
+        $chatToggle.attr('aria-expanded', isOpen);
+        $chatToggle.removeClass('attention');
+        if (isOpen) {
+          $chatInput.focus();
+        }
       });
-  
-      $('#ai-chatbot-close').click(function () {
-        $('#ai-chatbot').hide();
+
+      $('#ai-chatbot-close').on('click', function () {
+        $chatWidget.hide();
+        $chatToggle.attr('aria-expanded', 'false');
       });
-  
-      const $input = $('#ai-chatbot-input input');
-      if ($input.length) {
-        $input.on('keydown', function (e) {
+
+      if ($chatInput.length) {
+        $chatInput.on('keydown', function (e) {
           if (e.key === "Enter" && this.value.trim() !== "") {
             const message = this.value;
             this.value = "";
-            $('#ai-chatbot-body').append(`<p><strong>You:</strong> ${message}</p>`);
-  
+
+            $chatBody.append(`<div class="chat-message user fade-in">${message}</div>`);
+
+            const loadingHTML = `
+              <div class="chat-message system typing" id="chatbot-typing">
+                Skynet is thinking<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>
+              </div>`;
+            $chatBody.append(loadingHTML);
+            $chatBody.scrollTop($chatBody[0].scrollHeight);
+
+            const timeoutId = setTimeout(() => {
+              $('#chatbot-typing').remove();
+              $chatBody.append(`<div class="chat-message ai fade-in">⚠️ Timeout: The assistant didn’t respond. Try again.</div>`);
+              $chatBody.scrollTop($chatBody[0].scrollHeight);
+            }, 15000);
+
             fetch("/chat/api/", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -219,16 +277,38 @@
             })
             .then(response => response.json())
             .then(data => {
+              clearTimeout(timeoutId);
+              $('#chatbot-typing').remove();
               const reply = data.reply || data.error || "Sorry, something went wrong.";
               const paragraphs = reply.split(/\n\s*\n/);
               const formattedReply = paragraphs.map(p => `<p>${p.trim()}</p>`).join("");
-              $('#ai-chatbot-body').append(`<div class="chat-message ai">${formattedReply}</div>`);
-              $('#ai-chatbot-body').scrollTop($('#ai-chatbot-body')[0].scrollHeight);
+              $chatBody.append(`<div class="chat-message ai fade-in">${formattedReply}</div>`);
+              $chatBody.scrollTop($chatBody[0].scrollHeight);
+            })
+            .catch(err => {
+              clearTimeout(timeoutId);
+              $('#chatbot-typing').remove();
+              $chatBody.append(`<div class="chat-message ai fade-in">⚠️ Error: ${err.message}</div>`);
+              $chatBody.scrollTop($chatBody[0].scrollHeight);
             });
           }
         });
+
+        // Keyboard accessibility: open with "/" and close with Esc
+        document.addEventListener('keydown', function (e) {
+          if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+            e.preventDefault();
+            $chatWidget.show();
+            $chatToggle.attr('aria-expanded', 'true').removeClass('attention');
+            $chatInput.focus();
+          } else if (e.key === 'Escape') {
+            $chatWidget.hide();
+            $chatToggle.attr('aria-expanded', 'false');
+          }
+        });
       }
-  
+
+      // ScrollReveal animation
       ScrollReveal().reveal('.fade-in-up', {
         distance: '20px',
         duration: 600,
@@ -241,4 +321,3 @@
       });
     });
   </script>
-  
