@@ -210,38 +210,48 @@
       });
 
       const $input = $('#ai-chatbot-input input');
+      const $chatWidget = $('#ai-chatbot');
+
       if ($input.length) {
         $input.on('keydown', function (e) {
           if (e.key === "Enter" && this.value.trim() !== "") {
             const message = this.value;
             this.value = "";
 
-            // Append user message
             $('#ai-chatbot-body').append(`<div class="chat-message user fade-in">${message}</div>`);
 
-            // Append loading indicator
             const loadingHTML = `
               <div class="chat-message system typing" id="chatbot-typing">
-                AI is thinking<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>
+                Skynet is thinking<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>
               </div>`;
             $('#ai-chatbot-body').append(loadingHTML);
             $('#ai-chatbot-body').scrollTop($('#ai-chatbot-body')[0].scrollHeight);
 
-            // Fetch AI response
             fetch("/chat/api/", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ message: message })
+              body: JSON.stringify({ message })
             })
             .then(response => response.json())
             .then(data => {
-              $('#chatbot-typing').remove(); // Remove loading
+              $('#chatbot-typing').remove();
               const reply = data.reply || data.error || "Sorry, something went wrong.";
               const paragraphs = reply.split(/\n\s*\n/);
               const formattedReply = paragraphs.map(p => `<p>${p.trim()}</p>`).join("");
               $('#ai-chatbot-body').append(`<div class="chat-message ai fade-in">${formattedReply}</div>`);
               $('#ai-chatbot-body').scrollTop($('#ai-chatbot-body')[0].scrollHeight);
             });
+          }
+        });
+
+        // ✅ Phase 4: Keyboard Shortcuts
+        document.addEventListener('keydown', function (e) {
+          if (e.key === '/') {
+            e.preventDefault();
+            $chatWidget.show();
+            $input.focus();
+          } else if (e.key === 'Escape') {
+            $chatWidget.hide();
           }
         });
       }
@@ -258,6 +268,3 @@
       });
     });
   </script>
-
-
-  
