@@ -227,6 +227,13 @@
             $('#ai-chatbot-body').append(loadingHTML);
             $('#ai-chatbot-body').scrollTop($('#ai-chatbot-body')[0].scrollHeight);
 
+            // Timeout failsafe
+            const timeoutId = setTimeout(() => {
+              $('#chatbot-typing').remove();
+              $('#ai-chatbot-body').append(`<div class="chat-message ai fade-in">⚠️ Timeout: The assistant didn’t respond. Try again.</div>`);
+              $('#ai-chatbot-body').scrollTop($('#ai-chatbot-body')[0].scrollHeight);
+            }, 15000); // 15 seconds
+
             fetch("/chat/api/", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -234,17 +241,24 @@
             })
             .then(response => response.json())
             .then(data => {
+              clearTimeout(timeoutId);
               $('#chatbot-typing').remove();
               const reply = data.reply || data.error || "Sorry, something went wrong.";
               const paragraphs = reply.split(/\n\s*\n/);
               const formattedReply = paragraphs.map(p => `<p>${p.trim()}</p>`).join("");
               $('#ai-chatbot-body').append(`<div class="chat-message ai fade-in">${formattedReply}</div>`);
               $('#ai-chatbot-body').scrollTop($('#ai-chatbot-body')[0].scrollHeight);
+            })
+            .catch(err => {
+              clearTimeout(timeoutId);
+              $('#chatbot-typing').remove();
+              $('#ai-chatbot-body').append(`<div class="chat-message ai fade-in">⚠️ Error: ${err.message}</div>`);
+              $('#ai-chatbot-body').scrollTop($('#ai-chatbot-body')[0].scrollHeight);
             });
           }
         });
 
-        // ✅ Phase 4: Keyboard Shortcuts
+        // Keyboard shortcuts
         document.addEventListener('keydown', function (e) {
           if (e.key === '/') {
             e.preventDefault();
@@ -268,3 +282,4 @@
       });
     });
   </script>
+
