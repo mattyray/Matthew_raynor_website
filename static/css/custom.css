@@ -12211,6 +12211,25 @@ h4, .h4 {
     opacity: 1;
   }
 }
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.chat-toggle.attention {
+  animation: pulse 1.2s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
 footer {
   background-color: #111111;
   color: #FFFFFF;

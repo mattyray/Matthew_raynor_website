@@ -201,13 +201,14 @@
 
   <!-- Chat Toggle Button -->
   <button id="ai-chatbot-toggle"
-          class="btn chat-toggle"
+          class="btn chat-toggle attention"
           aria-haspopup="dialog"
           aria-controls="ai-chatbot"
           aria-expanded="false"
           aria-label="Open chat assistant">
     Chat
   </button>
+
 
 
   <!-- JS Libraries -->
@@ -227,38 +228,47 @@
         $(el).select2({ width: "100%" });
       });
 
-      $('#ai-chatbot-toggle').click(function () {
-        $('#ai-chatbot').toggle();
-      });
-
-      $('#ai-chatbot-close').click(function () {
-        $('#ai-chatbot').hide();
-      });
-
-      const $input = $('#ai-chatbot-input input');
+      const $chatToggle = $('#ai-chatbot-toggle');
       const $chatWidget = $('#ai-chatbot');
+      const $chatInput = $('#ai-chatbot-input input');
+      const $chatBody = $('#ai-chatbot-body');
 
-      if ($input.length) {
-        $input.on('keydown', function (e) {
+      // Toggle chat widget visibility
+      $chatToggle.on('click', function () {
+        $chatWidget.toggle();
+        const isOpen = $chatWidget.is(':visible');
+        $chatToggle.attr('aria-expanded', isOpen);
+        $chatToggle.removeClass('attention');
+        if (isOpen) {
+          $chatInput.focus();
+        }
+      });
+
+      $('#ai-chatbot-close').on('click', function () {
+        $chatWidget.hide();
+        $chatToggle.attr('aria-expanded', 'false');
+      });
+
+      if ($chatInput.length) {
+        $chatInput.on('keydown', function (e) {
           if (e.key === "Enter" && this.value.trim() !== "") {
             const message = this.value;
             this.value = "";
 
-            $('#ai-chatbot-body').append(`<div class="chat-message user fade-in">${message}</div>`);
+            $chatBody.append(`<div class="chat-message user fade-in">${message}</div>`);
 
             const loadingHTML = `
               <div class="chat-message system typing" id="chatbot-typing">
                 Skynet is thinking<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>
               </div>`;
-            $('#ai-chatbot-body').append(loadingHTML);
-            $('#ai-chatbot-body').scrollTop($('#ai-chatbot-body')[0].scrollHeight);
+            $chatBody.append(loadingHTML);
+            $chatBody.scrollTop($chatBody[0].scrollHeight);
 
-            // Timeout failsafe
             const timeoutId = setTimeout(() => {
               $('#chatbot-typing').remove();
-              $('#ai-chatbot-body').append(`<div class="chat-message ai fade-in">⚠️ Timeout: The assistant didn’t respond. Try again.</div>`);
-              $('#ai-chatbot-body').scrollTop($('#ai-chatbot-body')[0].scrollHeight);
-            }, 15000); // 15 seconds
+              $chatBody.append(`<div class="chat-message ai fade-in">⚠️ Timeout: The assistant didn’t respond. Try again.</div>`);
+              $chatBody.scrollTop($chatBody[0].scrollHeight);
+            }, 15000);
 
             fetch("/chat/api/", {
               method: "POST",
@@ -272,30 +282,33 @@
               const reply = data.reply || data.error || "Sorry, something went wrong.";
               const paragraphs = reply.split(/\n\s*\n/);
               const formattedReply = paragraphs.map(p => `<p>${p.trim()}</p>`).join("");
-              $('#ai-chatbot-body').append(`<div class="chat-message ai fade-in">${formattedReply}</div>`);
-              $('#ai-chatbot-body').scrollTop($('#ai-chatbot-body')[0].scrollHeight);
+              $chatBody.append(`<div class="chat-message ai fade-in">${formattedReply}</div>`);
+              $chatBody.scrollTop($chatBody[0].scrollHeight);
             })
             .catch(err => {
               clearTimeout(timeoutId);
               $('#chatbot-typing').remove();
-              $('#ai-chatbot-body').append(`<div class="chat-message ai fade-in">⚠️ Error: ${err.message}</div>`);
-              $('#ai-chatbot-body').scrollTop($('#ai-chatbot-body')[0].scrollHeight);
+              $chatBody.append(`<div class="chat-message ai fade-in">⚠️ Error: ${err.message}</div>`);
+              $chatBody.scrollTop($chatBody[0].scrollHeight);
             });
           }
         });
 
-        // Keyboard shortcuts
+        // Keyboard accessibility: open with "/" and close with Esc
         document.addEventListener('keydown', function (e) {
-          if (e.key === '/') {
+          if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
             e.preventDefault();
             $chatWidget.show();
-            $input.focus();
+            $chatToggle.attr('aria-expanded', 'true').removeClass('attention');
+            $chatInput.focus();
           } else if (e.key === 'Escape') {
             $chatWidget.hide();
+            $chatToggle.attr('aria-expanded', 'false');
           }
         });
       }
 
+      // ScrollReveal animation
       ScrollReveal().reveal('.fade-in-up', {
         distance: '20px',
         duration: 600,
@@ -308,4 +321,3 @@
       });
     });
   </script>
-
