@@ -190,7 +190,9 @@ h4 { font-size: 1.5rem; }
     padding: 0.5rem 0;
     color: #777;
   }
-}// -----------------------------------------------------
+}
+
+// -----------------------------------------------------
 // Chat Widget Styling (Enhanced UI + Matching Theme)
 // -----------------------------------------------------
 .chat-widget {
@@ -238,11 +240,12 @@ h4 { font-size: 1.5rem; }
       border-radius: 6px;
       max-width: 100%;
       word-wrap: break-word;
+      animation: fadeIn 0.3s ease-in-out;
 
       &.user {
         align-self: flex-end;
         background-color: lighten($primary, 20%);
-        color: $text-dark; 
+        color: $text-dark;
       }
 
       &.ai {
@@ -263,12 +266,9 @@ h4 { font-size: 1.5rem; }
           margin-left: 3px;
           font-weight: bold;
         }
+
         .dot:nth-child(2) { animation-delay: 0.2s; }
         .dot:nth-child(3) { animation-delay: 0.4s; }
-      }
-
-      &.fade-in {
-        animation: fadeIn 0.3s ease-in-out;
       }
     }
   }

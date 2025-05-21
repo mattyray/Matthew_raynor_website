@@ -12116,6 +12116,7 @@ h4, .h4 {
   border-radius: 6px;
   max-width: 100%;
   word-wrap: break-word;
+  animation: fadeIn 0.3s ease-in-out;
 }
 .chat-widget .chat-body .chat-message.user {
   align-self: flex-end;
@@ -12144,9 +12145,6 @@ h4, .h4 {
 }
 .chat-widget .chat-body .chat-message.system.typing .dot:nth-child(3) {
   animation-delay: 0.4s;
-}
-.chat-widget .chat-body .chat-message.fade-in {
-  animation: fadeIn 0.3s ease-in-out;
 }
 .chat-widget .chat-input {
   padding: 10px;
