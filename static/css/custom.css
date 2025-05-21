@@ -12107,8 +12107,19 @@ h4, .h4 {
   align-items: center;
 }
 .chat-widget .chat-header .chat-close {
-  font-size: 1.2rem;
-  cursor: pointer;
+  background: transparent;
+  border: none;
+  color: #FFFFFF;
+  font-size: 1.25rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+.chat-widget .chat-header .chat-close i {
+  pointer-events: none;
+}
+.chat-widget .chat-header .chat-close:hover {
+  color: white;
 }
 .chat-widget .chat-body {
   padding: 12px;

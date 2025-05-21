@@ -171,18 +171,44 @@
 
     <!-- AI Chatbot -->
   <!-- AI Chatbot -->
-  <div id="ai-chatbot" class="chat-widget">
+  <div id="ai-chatbot"
+      class="chat-widget"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="ai-chatbot-header"
+      aria-describedby="ai-chatbot-body"
+      tabindex="-1">
     <div id="ai-chatbot-header" class="chat-header">
-      Matt Raynor's AI Assistant<span id="ai-chatbot-close" class="chat-close">&times;</span>
+      <span>Matt Raynor's AI Assistant</span>
+      <button id="ai-chatbot-close" class="chat-close" aria-label="Close chat" title="Close chat" type="button">
+        <i class="fas fa-times"></i>
+      </button>
+
     </div>
     <div id="ai-chatbot-body" class="chat-body">
-      <div class="chat-message ai">Hello! How can I assist you today?</div>
+      <div class="chat-message ai fade-in">Hello! How can I assist you today?</div>
     </div>
     <div id="ai-chatbot-input" class="chat-input">
-      <input type="text" placeholder="Type your message..." class="form-control">
+      <label for="chatbot-input-field" class="visually-hidden">Type your message</label>
+      <input id="chatbot-input-field"
+            type="text"
+            placeholder="Type your message..."
+            class="form-control"
+            aria-label="Chat message input"
+            autocomplete="off">
     </div>
   </div>
-  <button id="ai-chatbot-toggle" class="btn chat-toggle">Chat</button>
+
+  <!-- Chat Toggle Button -->
+  <button id="ai-chatbot-toggle"
+          class="btn chat-toggle"
+          aria-haspopup="dialog"
+          aria-controls="ai-chatbot"
+          aria-expanded="false"
+          aria-label="Open chat assistant">
+    Chat
+  </button>
+
 
   <!-- JS Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
