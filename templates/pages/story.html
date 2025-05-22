@@ -15,29 +15,35 @@
       <h2 class="fw-bold">Who I Am & What I’ve Been Through</h2>
       <p class="lead">I’m Matthew Raynor — a quadriplegic full-stack developer, artist, and writer who survived a catastrophic diving accident that left me paralyzed from the chest down.</p>
       <p>Before that day, I was a commercial fisherman working off the coast of Montauk, living wild and braving storms. A dive meant to ease tendonitis ended my mobility — but began my rebirth. I taught myself how to use a computer with two styluses and voice commands. From that place of near-total limitation, I rebuilt my life with code, creativity, and spiritual grit.</p>
+
+      <p>I share raw, reflective writing on recovery, disability, and personal growth. You can read more on:</p>
+      <div class="d-flex flex-wrap gap-2 mt-2">
+        <a href="https://substack.com/@mnraynor90" target="_blank" class="btn btn-outline-secondary fw-bold">My Substack – Essays & Memoir</a>
+        <a href="{% url 'post_list' %}" class="btn btn-secondary fw-bold">My Blog – Life, Code & Creativity</a>
+      </div>
     </div>
   </div>
 
-  <!-- ART, WRITING, PRESS -->
+  </div>
+
+  <!-- ART, WRITING, PRESS + PHOTOGRAPHY & ART -->
   <div class="row mb-5 align-items-center flex-md-row-reverse">
     <div class="col-md-6 mb-4 mb-md-0">
       <img src="{% static 'images/artwork.jpeg' %}" class="img-fluid rounded shadow" alt="Art and Memoir">
     </div>
     <div class="col-md-6">
       <h2 class="fw-bold">What I Do – Art, Writing & Press</h2>
-      <p>I’m a multidisciplinary creator. My drone and landscape photography becomes fine art prints. My memoir, <em>Before Me After Me</em>, documents my physical and spiritual transformation. My work has been shown in local art shows and featured in the press — ABC7 News, Newsday, The Southampton Press, and more — not just for surviving, but for creating beauty in the aftermath.</p>
-      
-      <p>Before my accident, I took photos from fishing boats and during my travels — capturing wild seascapes and distant places. After I became paralyzed, I adapted through drone photography. Aerial shots gave me a way to keep creating — and a way to rise above.</p>
-      
-      <p>I’ve shown my work in pop-up art fairs and galleries across Long Island. Now, I offer custom drone photography and aluminum prints.</p>
-      
-      <p>Want something unique?<br>
-        <a href="{% url 'pages:contact' %}" class="fw-bold text-decoration-underline">Reach out here</a> or  
-        <a href="/store/" class="fw-bold text-decoration-underline">visit my store</a> to browse my work.
-      </p>
+      <p>I’m a multidisciplinary creator. My drone and landscape photography becomes fine art prints. My memoir, <em>Before Me After Me</em>, documents my physical and spiritual transformation. My work has been shown in local art shows and featured in the press — National Fisherman, The James Lane Post, The Southampton Press, and more — not just for surviving, but for creating beauty in the aftermath.</p>
+
+      <h2 class="fw-bold mt-4">Photography & Art – Before and After</h2>
+      <p>Before my accident, I took photos from fishing boats and during my travels — capturing wild seascapes and distant places. After I became paralyzed, I adapted through drone photography.</p>
+      <p>Aerial shots gave me a way to keep creating — and a way to rise above. I’ve shown my work in pop-up art fairs and galleries across Long Island. Now, I offer custom drone photography and aluminum prints.</p>
+      <div class="d-flex flex-wrap gap-2 mt-3">
+        <a href="{% url 'pages:contact' %}" class="btn btn-primary fw-bold">Contact Me for Custom Work</a>
+        <a href="/store/" class="btn btn-outline-primary fw-bold">Browse My Aluminum Prints</a>
+      </div>
     </div>
   </div>
-
 
 
   <!-- PROGRAMMING -->
@@ -50,10 +56,10 @@
       <p>I’m a self-taught full-stack developer specializing in Django and Python. I built:</p>
       <ul>
         <li>A logistics system for an art moving company (EJ Art Mover)</li>
-        <li>A full e-commerce store for selling my book and artwork</li>
-        <li>A motivational AI chatbot trained on my writing</li>
+        <li>A full e-commerce store for selling my book and artwork with an AI chatbot</li>
+        <li>A fundraiser website to raise money so I can transition from a nursing home</li>
       </ul>
-      <p>All this with zero hand function. Just styluses, voice commands, and unstoppable determination.</p>
+      <p>All this with zero hand function. Just styluses, voice commands, and unstoppable determination. Feel free to contact me if you need a custom application for your business or even a simple website</p>
     </div>
   </div>
 
