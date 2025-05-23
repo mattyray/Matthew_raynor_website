@@ -8,7 +8,7 @@ from openai import OpenAI
 client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
 def load_knowledge_base():
-    base_path = os.path.join(settings.BASE_DIR, "chatwidget", "data")
+    base_path = os.path.join(os.path.dirname(__file__), "data")
     knowledge = []
 
     if not os.path.exists(base_path):
