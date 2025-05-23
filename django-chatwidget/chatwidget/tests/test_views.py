@@ -1,16 +1,14 @@
-# chatwidget/tests/test_views.py
-
 from django.test import TestCase
 from django.urls import reverse
-from django.conf import settings
-import json
+from unittest.mock import patch
 
 class ChatWidgetTests(TestCase):
-    def test_api_returns_200(self):
+    @patch("chatwidget.views.get_openai_response", return_value="Hello from mock!")
+    def test_api_returns_200(self, mock_get_openai_response):
         response = self.client.post(
             reverse("chatwidget:api"),
             data=json.dumps({"message": "Hello"}),
             content_type="application/json"
         )
         self.assertEqual(response.status_code, 200)
-        self.assertIn("reply", response.json())
+        self.assertEqual(response.json()["reply"], "Hello from mock!")
