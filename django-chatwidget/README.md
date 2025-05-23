@@ -69,11 +69,7 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 ## 🧠 How to Train the Chatbot
 
-To teach your AI assistant custom knowledge:
-
-- Place `.json` files inside `chatwidget/data/`
-- Each should be a list or dict with a `title` and `content`
-- These are automatically loaded at server start
+Add `.json` files inside `chatwidget/data/`. Each should have:
 
 ```json
 [
@@ -88,11 +84,18 @@ To teach your AI assistant custom knowledge:
 ]
 ```
 
-🧠 These become part of the assistant’s context. Ask things like:
+These files will be automatically loaded into the system prompt and used by the assistant.
 
-- “Who is Matt Raynor?”
-- “How do I install this chatbot?”
-- “Tell me about Matt’s portfolio.”
+---
+
+## 🎨 Required CSS Framework
+
+This widget uses Bootstrap 5 classes such as `form-control` and `btn`. You must include Bootstrap 5 in your base template for correct styling:
+
+```html
+<!-- Add to your base.html <head> -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+```
 
 ---
 
@@ -104,11 +107,7 @@ To test:
 python manage.py runserver
 ```
 
-Then visit:
-
-```txt
-http://localhost:8000/test-chatwidget/
-```
+Visit `http://localhost:8000/chatwidget/` or wherever you embed the widget.
 
 ---
 
