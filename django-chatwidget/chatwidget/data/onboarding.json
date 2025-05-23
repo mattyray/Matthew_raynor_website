@@ -1,0 +1,10 @@
+[
+  {
+    "title": "Training the Chatbot",
+    "content": "To train this chatbot, add .json files to `chatwidget/data/`. Each should have a `title` and `content` field. These files will be loaded into the system prompt and used to answer questions."
+  },
+  {
+    "title": "Example File",
+    "content": "[{\"title\": \"About\", \"content\": \"This is a test chatbot for your website.\"}]"
+  }
+]
