@@ -69,7 +69,11 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 ## 🧠 How to Train the Chatbot
 
-Add `.json` files inside `chatwidget/data/`. Each should have:
+To teach your AI assistant custom knowledge:
+
+- Place `.json` files inside `chatwidget/data/`
+- Each should be a list or dict with a `title` and `content`
+- These are automatically loaded at server start
 
 ```json
 [
@@ -84,7 +88,11 @@ Add `.json` files inside `chatwidget/data/`. Each should have:
 ]
 ```
 
-These files will be automatically loaded into the system prompt and used by the assistant.
+🧠 These become part of the assistant’s context. Ask things like:
+
+- “Who is Matt Raynor?”
+- “How do I install this chatbot?”
+- “Tell me about Matt’s portfolio.”
 
 ---
 
@@ -96,7 +104,11 @@ To test:
 python manage.py runserver
 ```
 
-Visit `http://localhost:8000/chatwidget/` or wherever you embed the widget.
+Then visit:
+
+```txt
+http://localhost:8000/test-chatwidget/
+```
 
 ---
 
