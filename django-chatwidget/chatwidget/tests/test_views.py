@@ -1,6 +1,8 @@
 from django.test import TestCase
 from django.urls import reverse
 from unittest.mock import patch
+import json
+
 
 class ChatWidgetTests(TestCase):
     @patch("chatwidget.views.get_openai_response", return_value="Hello from mock!")
