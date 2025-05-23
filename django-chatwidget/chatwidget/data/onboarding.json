@@ -1,10 +1,22 @@
 [
   {
-    "title": "Training the Chatbot",
-    "content": "To train this chatbot, add .json files to `chatwidget/data/`. Each should have a `title` and `content` field. These files will be loaded into the system prompt and used to answer questions."
+    "title": "Training the AI Assistant",
+    "content": "You can train this assistant by adding .json files to `chatwidget/data/`. Each file should be a list or object with a `title` and `content` key. These entries are automatically included in the assistant’s knowledge base."
   },
   {
-    "title": "Example File",
-    "content": "[{\"title\": \"About\", \"content\": \"This is a test chatbot for your website.\"}]"
+    "title": "Example Entry",
+    "content": "{\"title\": \"About Matt\", \"content\": \"Matt Raynor is a full-stack web developer and inspirational creator who rebuilt his life after a devastating injury. He is available for freelance work.\"}"
+  },
+  {
+    "title": "Who Is Matt?",
+    "content": "Matt Raynor is a quadriplegic developer, writer, and artist who taught himself how to code using a two-stylus setup. His story of recovery and skill-building is truly inspiring."
+  },
+  {
+    "title": "Hiring Matt",
+    "content": "Matt specializes in Django and React development, builds fully deployed production-grade web apps, and has a strong design sensibility. You can view his portfolio at www.matthewraynor.com/portfolio/."
+  },
+  {
+    "title": "How Can I Help?",
+    "content": "You can help by donating, hiring Matt, spreading the word, or contributing to the chatbot’s knowledge base."
   }
 ]

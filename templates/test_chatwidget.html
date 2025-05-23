@@ -1,11 +1,37 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Test New Chat Widget</title>
   {% include "chatwidget/widget.html" %}
+  <style>
+    body { font-family: sans-serif; padding: 2rem; }
+    .instructions {
+      max-width: 700px;
+      background: #f8f9fa;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+  </style>
 </head>
 <body>
+  <div class="instructions">
+    <h2>🧪 Chatbot Test & Setup Guide</h2>
+    <p>This is a demo of the AI Chat Widget powered by OpenAI and trained using `.json` files from <code>chatwidget/data/</code>.</p>
+    <p><strong>To train it:</strong> add JSON files with a <code>title</code> and <code>content</code>. These files become part of the assistant’s knowledge base.</p>
+    <p>Try asking:</p>
+    <ul>
+      <li>"How do I train this chatbot?"</li>
+      <li>"Who is Matt Raynor?"</li>
+      <li>"How can I hire Matt?"</li>
+      <li>"Tell me about Matt's portfolio."</li>
+    </ul>
+    <p>🔗 Learn more or hire Matt at <a href="https://www.matthewraynor.com/portfolio/" target="_blank">matthewraynor.com</a></p>
+  </div>
+
   <h1>This is a safe test of the new widget.</h1>
 </body>
 </html>
