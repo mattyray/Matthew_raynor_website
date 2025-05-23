@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include, reverse_lazy
 from django.conf.urls.static import static
 from django.conf import settings
-from django.views.generic import RedirectView
+from django.views.generic import RedirectView, TemplateView
 from accounts.views import DashboardView  # if not already imported
 
 
@@ -19,6 +19,8 @@ urlpatterns = [
     path("ckeditor/", include("ckeditor_uploader.urls")),
     path("chat/", include("chat.urls", namespace="chat")),  # 👈 Add this line
     path("chatwidget/", include("chatwidget.urls")),
+    path("test-chatwidget/", TemplateView.as_view(template_name="test_chatwidget.html")),
+
 
 
 
