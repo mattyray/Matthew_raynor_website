@@ -2,27 +2,15 @@
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
-[metadata]
-name = django-chatwidget
-version = 0.1.0
-author = Matthew Raynor
-description = A reusable, pip-installable Django AI chat widget powered by OpenAI and JSON knowledge bases.
-long_description = file: README.md
-long_description_content_type = text/markdown
-url = https://github.com/mattyray/django-chatwidget
-classifiers =
-    Framework :: Django
-    Programming Language :: Python :: 3
-    License :: OSI Approved :: MIT License
-    Operating System :: OS Independent
-
-[options]
-packages = find:
-include_package_data = true
-python_requires = >=3.8
-install_requires =
-    django>=3.2
-    openai
-    whitenoise
-    django-crispy-forms
-    crispy-bootstrap5
+[project]
+name = "django-chatwidget"
+version = "0.1.0"
+description = "A reusable Django AI chat widget powered by OpenAI and JSON knowledge bases."
+authors = [{name = "Matthew Raynor", email = "mnraynor90@gmail.com"}]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "django>=3.2",
+    "openai>=1.0.0"
+]
