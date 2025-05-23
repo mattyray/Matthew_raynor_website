@@ -18,6 +18,8 @@ urlpatterns = [
     path("portfolio/", include(("portfolio.urls", "portfolio"), namespace="portfolio")),
     path("ckeditor/", include("ckeditor_uploader.urls")),
     path("chat/", include("chat.urls", namespace="chat")),  # 👈 Add this line
+    path("chatwidget/", include("chatwidget.urls")),
+
 
 
 ]
