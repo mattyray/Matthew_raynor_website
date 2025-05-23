@@ -8,28 +8,54 @@
   <style>
     body { font-family: sans-serif; padding: 2rem; }
     .instructions {
-      max-width: 700px;
+      max-width: 720px;
       background: #f8f9fa;
       padding: 1.5rem;
       border-radius: 8px;
       margin-bottom: 2rem;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
+    .instructions code {
+      background: #eee;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+    .instructions h2 {
+      margin-top: 0;
+    }
   </style>
 </head>
 <body>
   <div class="instructions">
-    <h2>🧪 Chatbot Test & Setup Guide</h2>
-    <p>This is a demo of the AI Chat Widget powered by OpenAI and trained using `.json` files from <code>chatwidget/data/</code>.</p>
-    <p><strong>To train it:</strong> add JSON files with a <code>title</code> and <code>content</code>. These files become part of the assistant’s knowledge base.</p>
-    <p>Try asking:</p>
+    <h2>🧪 Chatbot Test & Training Guide</h2>
+    <p>This is a test of a custom Django-based AI chat widget created by <strong>Matt Raynor</strong>.</p>
+
+    <h4>📁 How does it work?</h4>
+    <p>The assistant is powered by OpenAI, but <strong>you control what it knows</strong> by placing <code>.json</code> files in:</p>
+    <pre><code>django-chatwidget/chatwidget/data/</code></pre>
+    <p>Each file should contain one or more entries like:</p>
+    <pre><code>[
+  {"title": "About Matt", "content": "Matt is a quadriplegic developer and creator."},
+  {"title": "Hiring", "content": "You can hire Matt for freelance web development."}
+]</code></pre>
+
+    <h4>💡 What kind of content can you add?</h4>
+    <ul>
+      <li>FAQs about your site</li>
+      <li>Info about your services or story</li>
+      <li>Troubleshooting steps</li>
+      <li>Anything you want the chatbot to say</li>
+    </ul>
+
+    <h4>🤖 Ask it things like:</h4>
     <ul>
       <li>"How do I train this chatbot?"</li>
       <li>"Who is Matt Raynor?"</li>
-      <li>"How can I hire Matt?"</li>
-      <li>"Tell me about Matt's portfolio."</li>
+      <li>"How do I add a knowledge file?"</li>
+      <li>"Can I hire Matt?"</li>
     </ul>
-    <p>🔗 Learn more or hire Matt at <a href="https://www.matthewraynor.com/portfolio/" target="_blank">matthewraynor.com</a></p>
+
+    <p>🔗 <strong>Learn more or hire Matt at</strong> <a href="https://www.matthewraynor.com/portfolio/" target="_blank">matthewraynor.com</a></p>
   </div>
 
   <h1>This is a safe test of the new widget.</h1>

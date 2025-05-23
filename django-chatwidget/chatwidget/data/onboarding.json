@@ -1,8 +1,9 @@
 [
-  {
-    "title": "Training the AI Assistant",
-    "content": "You can train this assistant by adding .json files to `chatwidget/data/`. Each file should be a list or object with a `title` and `content` key. These entries are automatically included in the assistant’s knowledge base."
-  },
+    {
+    "title": "How do I train this chatbot?",
+    "content": "To train this assistant, just add .json files into the `chatwidget/data/` directory in your Django project. Each file should be a list or dictionary with a `title` and `content`. These entries will automatically be read and included in the assistant’s knowledge base the next time the server reloads."
+    },
+
   {
     "title": "Example Entry",
     "content": "{\"title\": \"About Matt\", \"content\": \"Matt Raynor is a full-stack web developer and inspirational creator who rebuilt his life after a devastating injury. He is available for freelance work.\"}"
