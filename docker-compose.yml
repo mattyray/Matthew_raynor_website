@@ -12,6 +12,8 @@ services:
 
     volumes:
       - .:/code  # Mounts your code into the container
+      - ./django-chatwidget:/code/django-chatwidget  # ✅ Add this
+
     networks:
       - art_moving_network
 

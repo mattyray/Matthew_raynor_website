@@ -9,8 +9,12 @@ ENV PYTHONUNBUFFERED=1
 # Set work directory
 WORKDIR /code
 
+COPY ./django-chatwidget ./django-chatwidget
+
 # Install dependencies
 COPY ./requirements.txt .
+
+
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy project files
