@@ -1,0 +1,3 @@
+[submodule "django-chatwidget"]
+	path = django-chatwidget
+	url = https://github.com/mattyray/django-chatwidget.git
