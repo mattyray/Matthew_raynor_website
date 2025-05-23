@@ -1,0 +1,23 @@
+{# chatwidget/templates/chatwidget/widget.html #}
+{% load static %}
+
+<!-- Chat Widget UI -->
+<link rel="stylesheet" href="{% static 'chatwidget/css/chat.css' %}">
+<div id="ai-chatbot" class="chat-widget" role="dialog" aria-modal="true" aria-labelledby="ai-chatbot-header" tabindex="-1">
+  <div id="ai-chatbot-header" class="chat-header">
+    <span>AI Assistant</span>
+    <button id="ai-chatbot-close" class="chat-close" aria-label="Close chat"><i class="fas fa-times"></i></button>
+  </div>
+  <div id="ai-chatbot-body" class="chat-body">
+    <div class="chat-message ai fade-in">Hello! How can I help?</div>
+  </div>
+  <div id="ai-chatbot-input" class="chat-input">
+    <input type="text" placeholder="Type your message..." class="form-control" autocomplete="off" />
+  </div>
+</div>
+
+<button id="ai-chatbot-toggle" class="btn chat-toggle" aria-label="Open chat assistant">
+  Chat
+</button>
+
+<script src="{% static 'chatwidget/js/chat.js' %}"></script>
