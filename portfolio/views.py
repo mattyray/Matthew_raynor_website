@@ -40,6 +40,42 @@ PROJECTS = [
         "live_url": "https://art-moving-buisness-0a734245a61f.herokuapp.com"
     },
     {
+    "title": "AI Chat Widget (Open Source)",
+    "slug": "chat-widget",
+    "hero_image": "images/django-chatwidget.jpeg",  # Add an image here
+    "description": "A pip-installable Django package that adds a floating OpenAI-powered chat widget to any site.",
+    "overview": "Built for storytelling and onboarding, this widget is fully open-source, customizable, and bundled with Twine for PyPI distribution. It's designed to help others create AI-enhanced web experiences.",
+    "tech_stack": {
+        "backend": ["Django", "Python", "OpenAI SDK", "Docker"],
+        "frontend": ["Bootstrap 5", "JavaScript"],
+        "deployment": ["Heroku", "Docker"],
+        "tools": ["Twine", "Markdown", "JSON knowledge base"]
+    },
+    "problem": "I needed an easy way to share my story and resources interactively through an AI assistant embedded on my site.",
+    "solution": "Created a floating chat widget backed by OpenAI, styled with Bootstrap, and deployed via PyPI as a reusable Django app.",
+    "special_features": [
+        "OpenAI API integration",
+        "Floating widget UI with knowledge base",
+        "Markdown support and chat history handling"
+    ],
+    "problems_solved": [
+        "Enabled interactive onboarding and storytelling",
+        "Offered a reusable template for AI-enhanced web UX"
+    ],
+    "improvements": [
+        "Add persistence via user sessions or Firebase",
+        "Enable audio output with text-to-speech"
+    ],
+    "proud_of": [
+        "Published as a PyPI package with clean setup",
+        "Useful as both a teaching tool and real product"
+    ],
+    "build_notes": "<p>Packaged with <code>twine</code>, includes JSON knowledge base ingestion and OpenAI GPT integration. Currently being tested in multiple live environments.</p>",
+    "github_url": "https://github.com/mattyray/django-chatwidget",
+    "live_url": "https://mattsfreedomfundraiser.com"  # optional demo site if you make one
+    },
+
+    {
         "title": "Matt’s Freedom Fundraiser",
         "slug": "fundraiser",
         "hero_image": "images/projects/fundraiser.jpg",
@@ -73,6 +109,42 @@ PROJECTS = [
         "github_url": "https://github.com/mattyray/fundraiser-website",
         "live_url": "https://www.mattfreedomfundraiser.com"
     },
+    {
+    "title": "Work Order Manager (React + Django)",
+    "slug": "workorder-app",
+    "hero_image": "images/react-workorders.jpeg",  # Add a real screenshot
+    "description": "A modern React + Django app for managing work orders, scheduling, and client jobs.",
+    "overview": "A fully decoupled frontend and backend application for tracking work orders in real time, built with Django REST Framework and React using Vite + Tailwind CSS.",
+    "tech_stack": {
+        "backend": ["Django 5.1.6", "DRF", "PostgreSQL", "Docker"],
+        "frontend": ["React", "Vite", "Tailwind CSS", "Axios"],
+        "deployment": ["Heroku (API)", "Netlify (Frontend)", "Docker Compose"],
+        "tools": ["WeasyPrint", "FullCalendar", "environs"]
+    },
+    "problem": "Managing client jobs and scheduling was inefficient and required a responsive, modern interface.",
+    "solution": "Built a responsive single-page React frontend with REST API integration, dynamic work order creation, scheduling calendar, and PDF generation.",
+    "special_features": [
+        "Separate React + Django architecture",
+        "PDF generation for work orders (WeasyPrint)",
+        "Tailwind UI and dynamic event syncing"
+    ],
+    "problems_solved": [
+        "Improved job tracking and scheduling",
+        "Streamlined client communication with printable summaries"
+    ],
+    "improvements": [
+        "Add notifications for due dates",
+        "Integrate role-based permissions and team accounts"
+    ],
+    "proud_of": [
+        "Seamless full-stack pipeline from UI to PDF export",
+        "Smooth React-to-DRF integration with token auth"
+    ],
+    "build_notes": "<p>Backend on Heroku using Docker. Frontend on Netlify with Vite build. Axios used for API communication, and PDF output handled via WeasyPrint on the backend.</p>",
+    "github_url": "https://github.com/mattyray/django-react-workorders",
+    "live_url": "#"  # add live links if available
+    },
+
     {
         "title": "MatthewRaynor.com",
         "slug": "matthew-raynor",
