@@ -10,8 +10,12 @@ ENV PYTHONUNBUFFERED=1
 # Set work directory
 WORKDIR /code
 
+COPY ./django-chatwidget ./django-chatwidget
+
 # Install dependencies
 COPY ./requirements.txt .
+
+
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy project files
@@ -34,6 +38,8 @@ services:
 
     volumes:
       - .:/code  # Mounts your code into the container
+      - ./django-chatwidget:/code/django-chatwidget  # ✅ Add this
+
     networks:
       - art_moving_network
 
@@ -168,6 +174,8 @@ tzdata==2025.2
 urllib3==2.4.0
 whitenoise==6.9.0
 
+git+https://github.com/mattyray/django-chatwidget.git#egg=django-chatwidget
+
 -r requirements.txt
 
 flake8==7.2.0
@@ -281,6 +289,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'ckeditor',
     'ckeditor_uploader',
+    "chatwidget",
+
 ]
 
 # Middleware
@@ -529,7 +539,7 @@ from django.contrib import admin
 from django.urls import path, include, reverse_lazy
 from django.conf.urls.static import static
 from django.conf import settings
-from django.views.generic import RedirectView
+from django.views.generic import RedirectView, TemplateView
 from accounts.views import DashboardView  # if not already imported
 
 
@@ -545,6 +555,10 @@ urlpatterns = [
     path("portfolio/", include(("portfolio.urls", "portfolio"), namespace="portfolio")),
     path("ckeditor/", include("ckeditor_uploader.urls")),
     path("chat/", include("chat.urls", namespace="chat")),  # 👈 Add this line
+    path("chatwidget/", include("chatwidget.urls")),
+    path("test-chatwidget/", TemplateView.as_view(template_name="test_chatwidget.html")),
+
+
 
 
 ]
@@ -2179,6 +2193,7 @@ from django.test import TestCase
 ===== chat/tests/__init__.py =====
 
 ===== chat/tests/test_views.py =====
+#chat/tests/test_views.py
 from django.test import TestCase
 from django.urls import reverse
 
@@ -2207,6 +2222,8 @@ def load_combined_context():
 
 
 ===== chat/openai_utils.py =====
+
+#chat/openai_utils.py
 import json
 import os
 from django.conf import settings
@@ -2836,6 +2853,29 @@ AI Assistant:
     }
   }
   
+===== chat/data/taoism.json =====
+{
+  "title": "Taoism in Matthew's Life",
+  "content": {
+    "narrative": "Taoism didn’t crash into Matthew’s life like a revelation. It seeped in—softly, quietly—like water finding the cracks in stone. After his accident, after addiction, after the unraveling of everything he thought defined him, he didn’t need a system to explain the universe. He needed a way to exist without forcing, without needing to prove, without needing to chase or justify pain. That’s when the Tao began to speak—not with doctrine, but with presence.",
+    "themes": [
+      "Non-striving",
+      "Acceptance",
+      "Inner alignment",
+      "Peace in uncertainty",
+      "Returning to self"
+    ],
+    "observations": [
+      "Matthew stopped measuring his worth by productivity or praise.",
+      "He learned to breathe through fear instead of trying to outthink it.",
+      "He began to see setbacks as part of the spiral of growth, not failures.",
+      "He embraced simplicity and quiet truth over perfection and performance."
+    ],
+    "quote_style_summary": "He wasn’t striving to become someone new. He was remembering who he had been all along.",
+    "takeaway": "Taoism in Matthew’s life isn’t a belief system—it’s a quiet, ongoing return. A way to live gently, to create without clinging, and to meet the unknown without fear."
+  }
+}
+
 ===== chat/data/care_needs.json =====
 {
     "care_needs": {
@@ -2903,6 +2943,96 @@ AI Assistant:
     }
   }
   
+===== chat/data/SGI_Buddhism.json =====
+{
+  "title": "SGI Buddhism",
+  "content": {
+    "definition": "SGI stands for Soka Gakkai International, a global lay Buddhist movement based on the teachings of Nichiren Daishonin. It focuses on inner transformation, human revolution, and the belief that all people inherently possess Buddhahood.",
+    "core_practices": {
+      "chanting": {
+        "description": "The central practice is chanting 'Nam-myoho-renge-kyo', which means 'I devote myself to the Mystic Law of cause and effect through sound.' This is a tool to awaken your highest life condition (Buddhahood) and transform suffering into empowerment.",
+        "purpose": "To activate courage, wisdom, and compassion from within and effect change in daily life."
+      },
+      "study": {
+        "description": "Practitioners study the letters and writings of Nichiren Daishonin, often in group settings, to deepen their understanding of Buddhist principles and how to apply them in real life."
+      },
+      "community": {
+        "description": "SGI members gather in local groups for encouragement, shared chanting, dialogue, and study. Meetings are open, supportive, and focus on personal growth and victory in daily life."
+      }
+    },
+    "core_beliefs": [
+      "Everyone possesses innate Buddhahood, regardless of external circumstances.",
+      "Suffering can be transformed into value—poison into medicine—through practice and perspective.",
+      "Every thought, word, and action creates causes that lead to corresponding effects (karma).",
+      "Changing yourself through human revolution is the key to changing the world."
+    ],
+    "principles_vs_other_traditions": {
+      "SGI Buddhism": "Daily chanting and engaged community practice focused on empowerment and transformation.",
+      "Zen": "Emphasis on meditation, detachment, and observing the mind.",
+      "Tibetan Buddhism": "Ritual, visualization, mantra, and teacher-student lineage.",
+      "Theravāda": "Focus on monastic lifestyle, ethical discipline, and personal mindfulness."
+    },
+    "quotes": [
+      "When we change, the world changes.",
+      "Prayer is not begging—it is declaring who you are.",
+      "Even one second of courage can change a lifetime of karma."
+    ],
+    "reflection": "SGI Buddhism is a practice rooted in everyday life. It encourages people to face challenges directly, chant with determination, and use their unique circumstances as fuel for inner transformation. It’s not about retreating from life, but engaging it with wisdom, compassion, and courage."
+  }
+}
+
+===== chat/data/buddhism_taoism.json =====
+[
+  {
+    "title": "How Buddhism and Taoism Changed Matt",
+    "content": "Buddhism and Taoism didn’t just influence Matt’s life — they reshaped the way he sees the world, relates to others, and treats himself. These traditions gave him the language for transformation, tools for healing, and a spiritual home he could carry within — even through paralysis, illness, and institutionalization.",
+    "topic": "spirituality",
+    "keywords": ["Buddhism", "Taoism", "transformation", "healing", "faith", "spiritual home"]
+  },
+  {
+    "title": "Strength in Surrender",
+    "content": "From Taoism, Matt learned the power of surrender: 'Do your work, then step back.' He began letting go of control — no longer fighting his injury, the system, or the past. Instead, he flowed with life. He still works hard, but no longer grips outcomes with desperation. He returns to center, again and again.",
+    "topic": "taoism",
+    "keywords": ["surrender", "Taoism", "flow", "acceptance", "control", "center"]
+  },
+  {
+    "title": "Compassion for Self and Others",
+    "content": "Buddhism taught Matt: 'All beings suffer. All beings can awaken.' He softened his inner critic, learned to meet his pain with patience, and began treating himself with gentleness. This inner compassion now extends outward — to caregivers, residents, and friends who are still struggling. He sees Buddhahood in everyone — even when it's buried deep.",
+    "topic": "buddhism",
+    "keywords": ["compassion", "Buddhism", "self-kindness", "awakening", "patience"]
+  },
+  {
+    "title": "Understanding Desire Through Non-Attachment",
+    "content": "Matt’s relationship with desire changed radically. He no longer lets it drag him through suffering. He observes it, knowing, 'Desire is a contract I make with myself to be unhappy until I get what I want.' He still longs for things — love, freedom, a home — but with grace and patience, not desperation.",
+    "topic": "non-attachment",
+    "keywords": ["desire", "non-attachment", "mindfulness", "Taoism", "suffering", "patience"]
+  },
+  {
+    "title": "Purpose Through Service",
+    "content": "Taoism and Buddhism showed Matt that leadership means service. Taoism says: 'The master leads by emptying minds and filling hearts.' Buddhism introduced the bodhisattva path — helping others awaken even while healing himself. Matt lives this daily: through uplifting TikToks, empowering code, and his steady presence in AA.",
+    "topic": "service",
+    "keywords": ["service", "bodhisattva", "AA", "TikTok", "purpose", "leadership"]
+  },
+  {
+    "title": "Living in the Now",
+    "content": "Before spiritual practice, Matt lived in fear of the future: 'What if I never get out?' 'What if I lose everything again?' Now he lives by the mantra: 'The future is made of present moments stacked well.' He finds peace in the now — with food, love, purpose — and trusts that it’s enough.",
+    "topic": "mindfulness",
+    "keywords": ["present", "mindfulness", "now", "acceptance", "Tao", "Buddhism"]
+  },
+  {
+    "title": "How Matt Treats Others Now",
+    "content": "Matt leads with compassion, humility, and presence. Even when others are unkind, he responds with gentleness. He listens deeply instead of rushing to speak. He models change without forcing it. He shines light in dark places — and uplifts others not by preaching, but by being real.",
+    "topic": "relationships",
+    "keywords": ["compassion", "humility", "listening", "presence", "gentleness", "modeling"]
+  },
+  {
+    "title": "Spiritual Summary",
+    "content": "Buddhism gave Matt compassion. Taoism gave him peace. Together, they taught him how to be — not just how to survive. He doesn’t pretend to be a guru. He’s a man doing his best to live with integrity, love well, and help others do the same. That’s what draws people in — not perfection, but presence.",
+    "topic": "summary",
+    "keywords": ["Buddhism", "Taoism", "spiritual path", "presence", "compassion", "realness"]
+  }
+]
+
 ===== chat/data/assistance.json =====
 {
     "title": "Matt Raynor – Assistance Overview",
@@ -2964,6 +3094,104 @@ AI Assistant:
     ]
   }
   
+===== chat/data/beliefs.json =====
+[
+  {
+    "title": "Love is the Highest Power",
+    "content": "Matt believes God is love — not a distant deity or abstract dogma, but the presence of compassion, connection, and care. Whether it’s through the Tao, the Gohonzon, an AA fellowship, or a kind smile in a hallway, he recognizes love as sacred. He seeks it. He creates it.\n\n“If there is a God, it is the force that moves through human kindness.”",
+    "topic": "beliefs",
+    "keywords": ["love", "God", "connection", "compassion", "Tao", "SGI", "AA"]
+  },
+  {
+    "title": "The Present Moment is Sacred",
+    "content": "Matt believes that the now is where life happens. When his mind drifts to fear or regret, he grounds himself through chanting, breath, mantra, or reflection. Mindfulness isn’t just a belief — it’s a survival tool.\n\n“The future is made out of present moments stacked well.”",
+    "topic": "beliefs",
+    "keywords": ["presence", "mindfulness", "now", "breath", "mantra", "reflection"]
+  },
+  {
+    "title": "Transformation is Possible",
+    "content": "Matt believes people can change — because he did. From addiction, despair, and isolation to sobriety, clarity, and creativity. He doesn’t glamorize pain, but he believes it can be alchemized into strength.\n\n“Pain doesn’t mean you're broken. It means you're being shaped.”",
+    "topic": "beliefs",
+    "keywords": ["change", "healing", "addiction", "sobriety", "transformation"]
+  },
+  {
+    "title": "Simplicity is Strength",
+    "content": "Taoism taught Matt the power of humility, non-attachment, and non-striving. By doing his work sincerely and stepping back, he creates space for life to meet him. He no longer chases — he shines.\n\n“Don’t chase. Just shine.”",
+    "topic": "beliefs",
+    "keywords": ["Taoism", "simplicity", "non-attachment", "humility", "effortless action"]
+  },
+  {
+    "title": "Sincerity and Authenticity Matter",
+    "content": "Matt believes in showing up raw, real, and imperfect. He values emotional honesty — crying in therapy, owning mistakes, and telling the truth even when it’s hard. He’s not a saint or a victim. He’s just a man doing his best.\n\n“Tell the truth. Let it be enough.”",
+    "topic": "beliefs",
+    "keywords": ["authenticity", "truth", "imperfection", "honesty", "self-expression"]
+  },
+  {
+    "title": "We Exist to Serve",
+    "content": "Matt believes his purpose is to uplift others — especially those in the dark: the bed-bound, the addict, the anxious, the forgotten. Whether through his programming, writing, humor, or fundraising, he’s committed to service.\n\n“I’ve been there. Let me show you the way out.”",
+    "topic": "beliefs",
+    "keywords": ["service", "purpose", "uplift", "bed-bound", "addiction", "compassion"]
+  },
+  {
+    "title": "You Are Not Your Thoughts",
+    "content": "Matt believes that thoughts are not identity — they’re like weather systems. He’s learned to observe them, question them, and return to stillness beneath the noise.\n\n“I am not my worry. I am the stillness beneath it.”",
+    "topic": "beliefs",
+    "keywords": ["thoughts", "identity", "awareness", "stillness", "mindfulness"]
+  },
+  {
+    "title": "Belief Summary",
+    "content": "Matt believes in recovery. He believes in presence. He believes in love. He believes in humility. He believes in creating meaning from pain. He believes in serving others — with his light, his scars, and his strength. And he believes — quietly but fiercely — that his life is meant for something greater. And he’s right.",
+    "topic": "beliefs_summary",
+    "keywords": ["beliefs", "values", "recovery", "presence", "love", "service", "meaning"]
+  }
+]
+
+===== chat/data/message.json =====
+[
+  {
+    "title": "Matt’s Core Message",
+    "content": "No matter how dark life gets, Matt believes you can create light from it — and shine that light on others. He’s been to the depths: paralyzed, addicted, abandoned, humiliated, and isolated. But he turned toward life. With nothing but willpower, styluses, code, and chanting, he rebuilt himself. He didn’t wait to be saved. He became the person he needed — and now helps others do the same.",
+    "topic": "core_message",
+    "keywords": ["resilience", "light", "healing", "adversity", "inspiration", "willpower"]
+  },
+  {
+    "title": "Spiritual Message",
+    "content": "Matt believes that suffering doesn’t disqualify anyone — it’s the path to transformation. Spiritually, he sees pain as sacred fuel. His experience taught him to use hardship as a stepping stone toward awakening.",
+    "topic": "spirituality",
+    "keywords": ["suffering", "transformation", "spiritual path", "awakening"]
+  },
+  {
+    "title": "Technical Message",
+    "content": "Even though Matt is a quadriplegic, he proves every day that you can build beautiful things — even if you can barely move. He developed his own adaptive typing system and taught himself to code using styluses. Now he builds real tools that serve real people.",
+    "topic": "technology",
+    "keywords": ["coding", "accessibility", "adaptive technology", "quadriplegic", "web development"]
+  },
+  {
+    "title": "Emotional Message",
+    "content": "Matt knows what it’s like to feel broken — and to believe that brokenness means being unlovable. He now sees clearly: being imperfect doesn’t make you unworthy. Everyone deserves love and dignity, no matter their past or pain.",
+    "topic": "emotions",
+    "keywords": ["self-worth", "brokenness", "emotional healing", "dignity", "acceptance"]
+  },
+  {
+    "title": "Philosophical Message",
+    "content": "Matt believes that the present moment is the only place with real power. He lives by it. Instead of getting trapped in fear or regret, he returns to now — through breath, chanting, reflection, or writing.",
+    "topic": "philosophy",
+    "keywords": ["present", "mindfulness", "now", "power", "Tao", "Buddhism"]
+  },
+  {
+    "title": "Relational Message",
+    "content": "Matt believes in being kind, being real, and letting people in. He leads with warmth and vulnerability. He knows love is what heals — and he invites others to open their hearts, too.",
+    "topic": "relationships",
+    "keywords": ["connection", "vulnerability", "kindness", "realness", "love"]
+  },
+  {
+    "title": "One-Line Summary",
+    "content": "Matt went from abandoned to awakened — and now he helps others find their light, too. He’s living proof that you don’t need to be perfect, healed, or even fully mobile to be powerful, impactful, and deeply needed.",
+    "topic": "summary",
+    "keywords": ["abandonment", "awakening", "light", "impact", "purpose", "hope"]
+  }
+]
+
 
 ===== Templates =====
 
@@ -2979,7 +3207,7 @@ AI Assistant:
 
   <!-- HERO SECTION -->
   <section class="hero text-white text-center d-flex align-items-center position-relative fade-in-up sr-delay-1"
-           style="background: url('{% static 'images/hero.png' %}') center/cover no-repeat; height: 90vh;">
+           style="background: url('{% static 'images/hero-1.jpg' %}') center/cover no-repeat; height: 90vh;">
     <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0, 0, 0, 0.5); z-index: 1;"></div>
     <div class="container position-relative z-2">
       <div class="p-4 rounded-4 bg-dark bg-opacity-50 shadow-lg d-inline-block">
@@ -3116,6 +3344,71 @@ AI Assistant:
 </div>
 {% endblock %}
 
+===== templates/test_chatwidget.html =====
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test New Chat Widget</title>
+  {% include "chatwidget/widget.html" %}
+  <style>
+    body { font-family: sans-serif; padding: 2rem; }
+    .instructions {
+      max-width: 720px;
+      background: #f8f9fa;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .instructions code {
+      background: #eee;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+    .instructions h2 {
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="instructions">
+    <h2>🧪 Chatbot Test & Training Guide</h2>
+    <p>This is a test of a custom Django-based AI chat widget created by <strong>Matt Raynor</strong>.</p>
+
+    <h4>📁 How does it work?</h4>
+    <p>The assistant is powered by OpenAI, but <strong>you control what it knows</strong> by placing <code>.json</code> files in:</p>
+    <pre><code>django-chatwidget/chatwidget/data/</code></pre>
+    <p>Each file should contain one or more entries like:</p>
+    <pre><code>[
+  {"title": "About Matt", "content": "Matt is a quadriplegic developer and creator."},
+  {"title": "Hiring", "content": "You can hire Matt for freelance web development."}
+]</code></pre>
+
+    <h4>💡 What kind of content can you add?</h4>
+    <ul>
+      <li>FAQs about your site</li>
+      <li>Info about your services or story</li>
+      <li>Troubleshooting steps</li>
+      <li>Anything you want the chatbot to say</li>
+    </ul>
+
+    <h4>🤖 Ask it things like:</h4>
+    <ul>
+      <li>"How do I train this chatbot?"</li>
+      <li>"Who is Matt Raynor?"</li>
+      <li>"How do I add a knowledge file?"</li>
+      <li>"Can I hire Matt?"</li>
+    </ul>
+
+    <p>🔗 <strong>Learn more or hire Matt at</strong> <a href="https://www.matthewraynor.com/portfolio/" target="_blank">matthewraynor.com</a></p>
+  </div>
+
+  <h1>This is a safe test of the new widget.</h1>
+</body>
+</html>
+
 ===== templates/chat/chat_interface.html =====
 {% extends "base.html" %}
 
@@ -3191,8 +3484,6 @@ document.getElementById("chat-form").addEventListener("submit", async function(e
   <!-- Select2 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-  <!-- Optional Additional Styles -->
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
   {% block extra_css %}
   <style>
@@ -3338,14 +3629,45 @@ document.getElementById("chat-form").addEventListener("submit", async function(e
 
 
   <!-- AI Chatbot -->
-  <div id="ai-chatbot" class="chat-widget">
-    <div id="ai-chatbot-header" class="chat-header">AI Assistant <span id="ai-chatbot-close" class="chat-close">&times;</span></div>
-    <div id="ai-chatbot-body" class="chat-body"><p>Hello! How can I assist you today?</p></div>
+  <div id="ai-chatbot"
+      class="chat-widget"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="ai-chatbot-header"
+      aria-describedby="ai-chatbot-body"
+      tabindex="-1">
+    <div id="ai-chatbot-header" class="chat-header">
+      <span>Matt Raynor's AI Assistant</span>
+      <button id="ai-chatbot-close" class="chat-close" aria-label="Close chat" title="Close chat" type="button">
+        <i class="fas fa-times"></i>
+      </button>
+
+    </div>
+    <div id="ai-chatbot-body" class="chat-body">
+      <div class="chat-message ai fade-in">Hello! How can I assist you today?</div>
+    </div>
     <div id="ai-chatbot-input" class="chat-input">
-      <input type="text" placeholder="Type your message..." class="form-control">
+      <label for="chatbot-input-field" class="visually-hidden">Type your message</label>
+      <input id="chatbot-input-field"
+            type="text"
+            placeholder="Type your message..."
+            class="form-control"
+            aria-label="Chat message input"
+            autocomplete="off">
     </div>
   </div>
-  <button id="ai-chatbot-toggle" class="btn chat-toggle">Chat</button>
+
+  <!-- Chat Toggle Button -->
+  <button id="ai-chatbot-toggle"
+          class="btn chat-toggle attention"
+          aria-haspopup="dialog"
+          aria-controls="ai-chatbot"
+          aria-expanded="false"
+          aria-label="Open chat assistant">
+    Chat
+  </button>
+
+
 
   <!-- JS Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -3356,50 +3678,95 @@ document.getElementById("chat-form").addEventListener("submit", async function(e
   <script src="https://unpkg.com/scrollreveal"></script>
 
   {% block extra_js %}{% endblock %}
-  
+
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       flatpickr(".datepicker", { dateFormat: "Y-m-d" });
       document.querySelectorAll(".select2").forEach(el => {
         $(el).select2({ width: "100%" });
       });
-  
-      $('#ai-chatbot-toggle').click(function () {
-        $('#ai-chatbot').toggle();
+
+      const $chatToggle = $('#ai-chatbot-toggle');
+      const $chatWidget = $('#ai-chatbot');
+      const $chatInput = $('#ai-chatbot-input input');
+      const $chatBody = $('#ai-chatbot-body');
+
+      // Toggle chat widget visibility
+      $chatToggle.on('click', function () {
+        $chatWidget.toggle();
+        const isOpen = $chatWidget.is(':visible');
+        $chatToggle.attr('aria-expanded', isOpen);
+        $chatToggle.removeClass('attention');
+        if (isOpen) {
+          $chatInput.focus();
+        }
       });
-  
-      $('#ai-chatbot-close').click(function () {
-        $('#ai-chatbot').hide();
+
+      $('#ai-chatbot-close').on('click', function () {
+        $chatWidget.hide();
+        $chatToggle.attr('aria-expanded', 'false');
       });
-  
-      // ✅ Updated: more reliable Enter detection and logging for debugging
-      const $input = $('#ai-chatbot-input input');
-      if ($input.length) {
-        console.log("✅ Chatbot input field found");
-  
-        $input.on('keydown', function (e) {
+
+      if ($chatInput.length) {
+        $chatInput.on('keydown', function (e) {
           if (e.key === "Enter" && this.value.trim() !== "") {
             const message = this.value;
             this.value = "";
-            $('#ai-chatbot-body').append(`<p><strong>You:</strong> ${message}</p>`);
-  
+
+            $chatBody.append(`<div class="chat-message user fade-in">${message}</div>`);
+
+            const loadingHTML = `
+              <div class="chat-message system typing" id="chatbot-typing">
+                Skynet is thinking<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>
+              </div>`;
+            $chatBody.append(loadingHTML);
+            $chatBody.scrollTop($chatBody[0].scrollHeight);
+
+            const timeoutId = setTimeout(() => {
+              $('#chatbot-typing').remove();
+              $chatBody.append(`<div class="chat-message ai fade-in">⚠️ Timeout: The assistant didn’t respond. Try again.</div>`);
+              $chatBody.scrollTop($chatBody[0].scrollHeight);
+            }, 15000);
+
             fetch("/chat/api/", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ message: message })
+              body: JSON.stringify({ message })
             })
             .then(response => response.json())
             .then(data => {
+              clearTimeout(timeoutId);
+              $('#chatbot-typing').remove();
               const reply = data.reply || data.error || "Sorry, something went wrong.";
-              $('#ai-chatbot-body').append(`<p><strong>AI:</strong> ${reply}</p>`);
-              $('#ai-chatbot-body').scrollTop($('#ai-chatbot-body')[0].scrollHeight);
+              const paragraphs = reply.split(/\n\s*\n/);
+              const formattedReply = paragraphs.map(p => `<p>${p.trim()}</p>`).join("");
+              $chatBody.append(`<div class="chat-message ai fade-in">${formattedReply}</div>`);
+              $chatBody.scrollTop($chatBody[0].scrollHeight);
+            })
+            .catch(err => {
+              clearTimeout(timeoutId);
+              $('#chatbot-typing').remove();
+              $chatBody.append(`<div class="chat-message ai fade-in">⚠️ Error: ${err.message}</div>`);
+              $chatBody.scrollTop($chatBody[0].scrollHeight);
             });
           }
         });
-      } else {
-        console.warn("⚠️ Could not find chatbot input field!");
+
+        // Keyboard accessibility: open with "/" and close with Esc
+        document.addEventListener('keydown', function (e) {
+          if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+            e.preventDefault();
+            $chatWidget.show();
+            $chatToggle.attr('aria-expanded', 'true').removeClass('attention');
+            $chatInput.focus();
+          } else if (e.key === 'Escape') {
+            $chatWidget.hide();
+            $chatToggle.attr('aria-expanded', 'false');
+          }
+        });
       }
-  
+
+      // ScrollReveal animation
       ScrollReveal().reveal('.fade-in-up', {
         distance: '20px',
         duration: 600,
@@ -3412,7 +3779,7 @@ document.getElementById("chat-form").addEventListener("submit", async function(e
       });
     });
   </script>
-  
+
 ===== templates/socialaccount/login.html =====
 {% extends "base.html" %}
 {% load socialaccount %}
@@ -4166,7 +4533,7 @@ document.getElementById("chat-form").addEventListener("submit", async function(e
 {% block content %}
 <div class="container py-5 fade-in-up">
 
-  <!-- WHO YOU ARE -->
+  <!-- WHO I AM -->
   <div class="row mb-5 align-items-center">
     <div class="col-md-6 mb-4 mb-md-0">
       <img src="{% static 'images/fisherman.jpeg' %}" class="img-fluid rounded shadow" alt="Matthew as Fisherman">
@@ -4175,17 +4542,30 @@ document.getElementById("chat-form").addEventListener("submit", async function(e
       <h2 class="fw-bold">Who I Am & What I’ve Been Through</h2>
       <p class="lead">I’m Matthew Raynor — a quadriplegic full-stack developer, artist, and writer who survived a catastrophic diving accident that left me paralyzed from the chest down.</p>
       <p>Before that day, I was a commercial fisherman working off the coast of Montauk, living wild and braving storms. A dive meant to ease tendonitis ended my mobility — but began my rebirth. I taught myself how to use a computer with two styluses and voice commands. From that place of near-total limitation, I rebuilt my life with code, creativity, and spiritual grit.</p>
+      <p>Want to dive deeper into my story? Explore my writing on my blog and Substack:</p>
+      <div class="d-flex flex-wrap gap-2 mt-3">
+        <a href="{% url 'post_list' %}" class="btn btn-primary fw-bold">Blog</a>
+        <a href="https://substack.com/@mnraynor90" target="_blank" class="btn btn-outline-primary fw-bold">Substack</a>
+      </div>
     </div>
   </div>
 
-  <!-- ART, WRITING, PRESS -->
+  <!-- ART, WRITING, PRESS + PHOTOGRAPHY & ART -->
   <div class="row mb-5 align-items-center flex-md-row-reverse">
     <div class="col-md-6 mb-4 mb-md-0">
       <img src="{% static 'images/artwork.jpeg' %}" class="img-fluid rounded shadow" alt="Art and Memoir">
     </div>
     <div class="col-md-6">
       <h2 class="fw-bold">What I Do – Art, Writing & Press</h2>
-      <p>I’m a multidisciplinary creator. My drone and landscape photography becomes fine art prints. My memoir, <em>Before Me After Me</em>, documents my physical and spiritual transformation. My work has been shown in local art shows and featured in the press — ABC7 News, Newsday, The Southampton Press, and more — not just for surviving, but for creating beauty in the aftermath.</p>
+      <p>I’m a multidisciplinary creator. My drone and landscape photography becomes fine art prints. My memoir, <em>Before Me After Me</em>, documents my physical and spiritual transformation. My work has been shown in local art shows and featured in the press — including <em>National Fisherman</em>, <em>The James Lane Post</em>, <em>The Southampton Press</em>, and more — not just for surviving, but for creating beauty in the aftermath.</p>
+
+      <h2 class="fw-bold mt-4">Photography & Art – Before and After</h2>
+      <p>Before my accident, I took photos from fishing boats and during my travels — capturing wild seascapes and distant places. After I became paralyzed, I adapted through drone photography.</p>
+      <p>Aerial shots gave me a way to keep creating — and a way to rise above. I’ve shown my work in pop-up art fairs and galleries across Long Island. Now, I offer custom drone photography and aluminum prints.</p>
+      <div class="d-flex flex-wrap gap-2 mt-3">
+        <a href="{% url 'pages:contact' %}" class="btn btn-primary fw-bold">Contact Me for Custom Work</a>
+        <a href="/store/" class="btn btn-outline-primary fw-bold">Browse My Aluminum Prints</a>
+      </div>
     </div>
   </div>
 
@@ -4199,10 +4579,13 @@ document.getElementById("chat-form").addEventListener("submit", async function(e
       <p>I’m a self-taught full-stack developer specializing in Django and Python. I built:</p>
       <ul>
         <li>A logistics system for an art moving company (EJ Art Mover)</li>
-        <li>A full e-commerce store for selling my book and artwork</li>
-        <li>A motivational AI chatbot trained on my writing</li>
+        <li>A full e-commerce store for selling my book and artwork with an AI chatbot</li>
+        <li>A fundraiser website to raise money so I can transition from a nursing home</li>
       </ul>
-      <p>All this with zero hand function. Just styluses, voice commands, and unstoppable determination.</p>
+      <p>All this with zero hand function. Just styluses, voice commands, and unstoppable determination. If you need a custom application for your business — or even a simple website — I’d love to help.</p>
+      <div class="mt-3">
+        <a href="https://www.matthewraynor.com/portfolio/" target="_blank" class="btn btn-primary fw-bold">View My Portfolio</a>
+      </div>
     </div>
   </div>
 
@@ -4213,7 +4596,11 @@ document.getElementById("chat-form").addEventListener("submit", async function(e
     </div>
     <div class="col-md-6">
       <h2 class="fw-bold">What I Inspire – Motivational Work</h2>
-      <p>My mission is to inspire others who are in dark places. I share raw reflections on disability, recovery, and faith through Substack, TikTok, and YouTube. I’ve hosted AA meetings in a nursing home and write honestly about Buddhism, trauma, spiritual growth, and the power of discipline. I mix humor and heart to help others find their light — because I had to find mine the hard way.</p>
+      <p>My mission is to inspire others who are in dark places. I share raw reflections on disability, recovery, and faith through Substack, TikTok, and YouTube. I’ve hosted recovery meetings in a nursing home and write honestly about Buddhism, trauma, spiritual growth, and the power of discipline. I mix humor and heart to help others find their light — because I had to find mine the hard way, too.</p>
+      <p>For funny and motivational videos, check out my TikTok:</p>
+      <div class="mt-2">
+        <a href="https://www.tiktok.com/@matttyrayna" target="_blank" class="btn btn-primary fw-bold">Visit My TikTok</a>
+      </div>
     </div>
   </div>
 
@@ -4226,12 +4613,12 @@ document.getElementById("chat-form").addEventListener("submit", async function(e
       <h2 class="fw-bold">Where I Show Up – Online</h2>
       <p>Across platforms, I share stories of resilience, code, art, and laughter. Find me at:</p>
       <ul class="list-unstyled">
-        <li><i class="fab fa-tiktok me-2"></i><a href="https://www.tiktok.com/@matttyrayna" target="_blank">TikTok – @matttyrayna</a></li>
-        <li><i class="fab fa-instagram me-2"></i><a href="https://www.instagram.com/matthewraynorig/" target="_blank">Instagram – @matthewraynorig</a></li>
-        <li><i class="fab fa-linkedin me-2"></i><a href="https://www.linkedin.com/in/matthew-raynor-2b3618200/" target="_blank">LinkedIn – Matthew Raynor</a></li>
-        <li><i class="fab fa-github me-2"></i><a href="https://github.com/mattyray" target="_blank">GitHub – @mattyray</a></li>
-        <li><i class="fa fa-envelope me-2"></i><a href="mailto:mnraynor90@gmail.com">mnraynor90@gmail.com</a></li>
-        <li><i class="fas fa-book-open me-2"></i><a href="https://substack.com/@mnraynor90" target="_blank">Substack – Reflections & Essays</a></li>
+        <li><i class="fab fa-tiktok me-2"></i><a href="https://www.tiktok.com/@matttyrayna" target="_blank"><strong>TikTok</strong> – Funny & Motivational Clips</a></li>
+        <li><i class="fab fa-instagram me-2"></i><a href="https://www.instagram.com/matthewraynorig/" target="_blank"><strong>Instagram</strong> – Visual Art & Daily Life</a></li>
+        <li><i class="fab fa-linkedin me-2"></i><a href="https://www.linkedin.com/in/matthew-raynor-2b3618200/" target="_blank"><strong>LinkedIn</strong> – Professional Profile</a></li>
+        <li><i class="fab fa-github me-2"></i><a href="https://github.com/mattyray" target="_blank"><strong>GitHub</strong> – Code & Projects</a></li>
+        <li><i class="fa fa-envelope me-2"></i><a href="mailto:mnraynor90@gmail.com"><strong>Email</strong> – mnraynor90@gmail.com</a></li>
+        <li><i class="fas fa-book-open me-2"></i><a href="https://substack.com/@mnraynor90" target="_blank"><strong>Substack</strong> – Reflections & Essays</a></li>
       </ul>
     </div>
   </div>
@@ -4414,7 +4801,7 @@ document.getElementById("chat-form").addEventListener("submit", async function(e
 <!-- HERO SECTION for STORE OVERVIEW -->
 <section class="store-hero-section text-white d-flex align-items-center justify-content-center mb-4" style="height: 55vh;">
   <div class="store-hero-overlay"></div>
-  <div class="store-hero-bg" style="background-image: url('{% static "images/store-hero.jpg" %}');"></div>
+  <div class="store-hero-bg" style="background-image: url('{% static "images/store-hero-1.jpg" %}');"></div>
   <div class="store-hero-content text-center p-4 rounded">
     <h1 class="display-4 fw-bold">Where Vision Meets Resilience</h1>
     <p class="lead">Welcome to Matt's Store.</p>
@@ -4579,7 +4966,9 @@ $secondary: #FFF8E1;       // Soft Cream background
 $nav-bg: #111111;          // Deep black for navigation background
 $nav-hover: #222222;       // Slightly lighter black on hover
 $nav-text: #CCCCCC;        // Off-white/grey for nav text
-$text-light: #FFFFFF;      // White for highlighted text
+$text-light: #FFFFFF;
+$text-dark: #3E3E3E;
+      // White for highlighted text
 
 // Additional theme colors
 $deep-ocean-blue: #003049;
@@ -4762,45 +5151,115 @@ h4 { font-size: 1.5rem; }
     color: #777;
   }
 }
-
 // -----------------------------------------------------
-// Chat Widget Styling (Matching Navigation Theme)
+// Chat Widget Styling (Responsive UI + Matching Theme)
 // -----------------------------------------------------
 .chat-widget {
   position: fixed;
-  bottom: 80px;
+  bottom: 70px; // above the toggle button
   right: 20px;
-  width: 320px;
-  height: 400px;
+  width: 400px;
+  height: 500px;
   background-color: $nav-bg;
   border: 1px solid $nav-hover;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
   display: none;
   z-index: 1000;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    right: 10px;
+    left: 10px;
+    width: auto;
+    height: 80vh;
+    bottom: 80px;
+  }
 
   .chat-header {
     background-color: $primary;
     color: $text-light;
-    padding: 10px;
+    padding: 12px 16px;
     font-weight: bold;
-    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     .chat-close {
-      float: right;
-      cursor: pointer;
+      background: transparent;
+      border: none;
+      color: $text-light;
+      font-size: 1.25rem;
+      padding: 0;
+      display: flex;
+      align-items: center;
+
+      i {
+        pointer-events: none;
+      }
+
+      &:hover {
+        color: lighten($text-light, 20%);
+      }
     }
   }
 
   .chat-body {
-    padding: 10px;
+    padding: 12px;
     height: calc(100% - 120px);
     overflow-y: auto;
     color: $text-light;
+    display: flex;
+    flex-direction: column;
+
+    .chat-message {
+      margin-bottom: 0.75rem;
+      line-height: 1.5;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      max-width: 100%;
+      word-wrap: break-word;
+      font-size: 0.95rem;
+
+      &.user {
+        align-self: flex-end;
+        background-color: lighten($primary, 20%);
+        color: $text-dark;
+      }
+
+      &.ai {
+        align-self: flex-start;
+        background-color: rgba(255, 255, 255, 0.08);
+        color: $text-light;
+        white-space: pre-line;
+      }
+
+      &.system.typing {
+        font-style: italic;
+        color: $text-light;
+        display: flex;
+        align-items: center;
+
+        .dot {
+          animation: blink 1.4s infinite;
+          margin-left: 3px;
+          font-weight: bold;
+        }
+
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+      }
+
+      &.fade-in {
+        animation: fadeIn 0.3s ease-in-out;
+      }
+    }
   }
 
   .chat-input {
     padding: 10px;
+    background-color: $secondary;
 
     input.form-control {
       background-color: $secondary;
@@ -4824,6 +5283,30 @@ h4 { font-size: 1.5rem; }
     background-color: $nav-hover;
   }
 }
+
+// Animations
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes blink {
+  0%, 80%, 100% { opacity: 0; }
+  40% { opacity: 1; }
+}
+
+@keyframes pulse {
+  0%   { transform: scale(1); opacity: 1; }
+  50%  { transform: scale(1.1); opacity: 0.85; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.chat-toggle.attention {
+  animation: pulse 1.2s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+
 
 // -----------------------------------------------------
 // Footer Styling
@@ -5265,3 +5748,14 @@ python manage.py createsuperuser
 # Collect static files
 python manage.py collectstatic --noinput
 
+docker-compose exec web python manage.py test
+
+#deploy
+
+heroku container:login
+heroku container:push web --app matthew-raynor-site
+heroku container:release web --app matthew-raynor-site
+
+Created by Matthew Raynor
+GitHub: @mattyray
+Email: mnraynor90@gmail.com
