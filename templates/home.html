@@ -67,10 +67,11 @@
   </section>
 
   <!-- PORTFOLIO PREVIEW -->
+  <!-- PORTFOLIO PREVIEW -->
   <section class="py-5 bg-light fade-in-up sr-delay-6">
     <div class="container">
       <h2 class="text-center fw-bold mb-4">My Development Projects</h2>
-      
+
       <p class="lead text-center mb-5">
         I’m a self-taught full-stack developer specializing in Django, Python, and modern frontend tools like React and Tailwind.  
         I build custom web applications for small businesses, artists, and mission-driven projects — including logistics dashboards, e-commerce tools, and interactive storytelling sites.
@@ -78,25 +79,42 @@
         If you're looking for a developer who understands real-world problems and brings heart, design, and determination to the build — let's talk.
       </p>
 
-      <div class="row text-center">
-        <div class="col-md-4 fade-in-up sr-delay-7">
-          <h5 class="fw-bold">Art Mover App</h5>
-          <p>Logistics tool for scheduling and invoicing art shipments.</p>
+      <div class="row g-4 text-center">
+        <div class="col-md-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <i class="fas fa-shipping-fast fa-2x text-primary mb-3"></i>
+              <h5 class="card-title fw-bold">Art Mover App</h5>
+              <p class="card-text">A scheduling and invoicing tool built for a fine art moving business.</p>
+            </div>
+          </div>
         </div>
-        <div class="col-md-4 fade-in-up sr-delay-8">
-          <h5 class="fw-bold">Bookstore API</h5>
-          <p>REST-powered Django API with authentication and rating system.</p>
+        <div class="col-md-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <i class="fas fa-book-open fa-2x text-primary mb-3"></i>
+              <h5 class="card-title fw-bold">Bookstore API</h5>
+              <p class="card-text">A Django REST API with user auth, review features, and custom ratings.</p>
+            </div>
+          </div>
         </div>
-        <div class="col-md-4 fade-in-up sr-delay-9">
-          <h5 class="fw-bold">Fundraiser Website</h5>
-          <p>Dynamic site with embedded video, donations, and blogging tools.</p>
+        <div class="col-md-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <i class="fas fa-hand-holding-heart fa-2x text-primary mb-3"></i>
+              <h5 class="card-title fw-bold">Fundraiser Website</h5>
+              <p class="card-text">Donation-based site with blogging, video embeds, and contact forms.</p>
+            </div>
+          </div>
         </div>
       </div>
+
       <div class="text-center mt-4">
         <a href="{% url 'portfolio:index' %}" class="btn btn-outline-dark">View Full Portfolio</a>
       </div>
     </div>
-</section>
+  </section>
+
 
   <!-- BLOG PREVIEW -->
   <section class="py-5 fade-in-up sr-delay-10">
