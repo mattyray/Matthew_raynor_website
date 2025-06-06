@@ -21,8 +21,8 @@
 
       <div class="text-muted mb-3">or</div>
 
-      <!-- Google SSO Button -->
-      <a href="{% provider_login_url 'google' %}" class="btn btn-light border d-flex align-items-center justify-content-center w-100 shadow-sm" style="gap: 10px; height: 48px;">
+      <!-- Google SSO Button (force login flow) -->
+      <a href="{% provider_login_url 'google' process='login' %}" class="btn btn-light border d-flex align-items-center justify-content-center w-100 shadow-sm" style="gap: 10px; height: 48px;">
         <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" style="width:20px;">
         <span class="fw-semibold">Continue with Google</span>
       </a>
