@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load embed_video_tags %}
 
 {% block title %}Portfolio - Matthew Raynor{% endblock %}
 
@@ -21,7 +22,7 @@
                 frameborder="0"></iframe>
       </div>
       <div class="text-muted text-center px-3" style="max-width: 800px; margin: 0 auto;">
-        <p>I’m Matthew Raynor—a former commercial fisherman turned full-stack web developer after a life-changing spinal cord injury. With no use of my hands, I taught myself Python and Django using a stylus and sheer determination. Today, I design production-grade systems with a focus on real-world utility, compassion, and accessibility.</p>
+        <p>I'm Matthew Raynor—a former commercial fisherman turned full-stack web developer after a life-changing spinal cord injury. With no use of my hands, I taught myself Python and Django using a stylus and sheer determination. Today, I design production-grade systems with a focus on real-world utility, compassion, and accessibility.</p>
       </div>
     </div>
   </div>
@@ -32,7 +33,11 @@
     <div class="col-md-6 col-lg-4 mb-4 fade-in-up sr-delay-{{ forloop.counter0|add:"1" }}">
       <div class="card h-100 shadow-sm">
         <div class="ratio ratio-4x3">
-          <img src="{% static project.hero_image %}" class="card-img-top object-fit-cover" alt="{{ project.title }}">
+          {% if project.hero_video %}
+            {% video project.hero_video 'small' %}
+          {% elif project.hero_image %}
+            <img src="{% static project.hero_image %}" class="card-img-top object-fit-cover" alt="{{ project.title }}">
+          {% endif %}
         </div>
         <div class="card-body d-flex flex-column">
           <h5 class="card-title">{{ project.title }}</h5>
@@ -55,8 +60,8 @@
       <h3 class="fw-bold mb-3">What I Offer</h3>
       <p>Whether you're a business owner in need of a custom web application or a company looking for a passionate developer, I build software that works in the real world.</p>
       <p>I'm <strong>Matthew Raynor</strong>—a former commercial fisherman turned full-stack web developer after a life-changing spinal cord injury. I taught myself how to code without the use of my hands, learning Django and Python from scratch with a stylus and sheer determination. That same determination drives every project I build today.</p>
-      <p>I’ve developed a <strong>full-featured logistics and invoicing system for an art moving company</strong>, complete with client management, calendar-based job scheduling, PDF invoicing, and drag-and-drop UI. I’ve built an <strong>e-commerce store</strong>, a <strong>donation platform</strong> with blog and video integration, and an <strong>AI chatbot</strong> using OpenAI’s API for real-time support.</p>
-      <p>For <strong>clients</strong>, I create secure, scalable, and easy-to-use web apps tailored to your workflow. For <strong>employers</strong>, I bring production-level skills in Django, Docker, PostgreSQL, React, and a lived perspective on problem-solving, perseverance, and accessibility. I build with both code and compassion—and I’m ready to add value from day one.</p>
+      <p>I've developed a <strong>full-featured logistics and invoicing system for an art moving company</strong>, complete with client management, calendar-based job scheduling, PDF invoicing, and drag-and-drop UI. I've built an <strong>e-commerce store</strong>, a <strong>donation platform</strong> with blog and video integration, and an <strong>AI chatbot</strong> using OpenAI's API for real-time support.</p>
+      <p>For <strong>clients</strong>, I create secure, scalable, and easy-to-use web apps tailored to your workflow. For <strong>employers</strong>, I bring production-level skills in Django, Docker, PostgreSQL, React, and a lived perspective on problem-solving, perseverance, and accessibility. I build with both code and compassion—and I'm ready to add value from day one.</p>
     </div>
   </div>
 
