@@ -7,6 +7,7 @@ PROJECTS = [
         "title": "EJ Art Moving App",
         "slug": "art-mover",
         "hero_image": "images/projects/art-mover.jpg",
+        "hero_video": "https://youtu.be/xWtrO4F0In4",  # 👈 NEW VIDEO FIELD
         "description": "A sleek logistics dashboard for managing clients, work orders, and invoices.",
         "overview": "A production-grade business dashboard for an art moving company, complete with scheduling, PDF invoicing, and a dynamic calendar.",
         "tech_stack": {
@@ -35,9 +36,9 @@ PROJECTS = [
             "Overcame circular model dependencies",
             "Built a real-time calendar with interactive event links"
         ],
-        "build_notes": "<p>Containerized with Docker, deployed using Heroku's container stack. PostgreSQL health checks ensure app doesn’t launch before DB is ready.</p>",
+        "build_notes": "<p>Containerized with Docker, deployed using Heroku's container stack. PostgreSQL health checks ensure app doesn't launch before DB is ready.</p>",
         "github_url": "https://github.com/mattyray/art_moving_buisness",
-        "live_url": "https://art-moving-buisness-0a734245a61f.herokuapp.com"
+        "live_url": ""
     },
     {
     "title": "AI Chat Widget (Open Source)",

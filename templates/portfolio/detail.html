@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load embed_video_tags %}
 
 {% block title %}{{ project.title }} – Portfolio{% endblock %}
 
@@ -23,12 +24,16 @@
     </div>
   </div>
 
-  <!-- HERO IMAGE -->
-  {% if project.hero_image %}
+  <!-- HERO MEDIA: Video first, then fallback to image -->
   <div class="text-center mb-5 case-section fade-in-up">
-    <img src="{% static project.hero_image %}" class="img-fluid rounded shadow-sm" alt="{{ project.title }}" style="max-height: 400px; object-fit: cover; width: 100%; max-width: 960px;">
+    {% if project.hero_video %}
+      <div class="ratio ratio-16x9" style="max-width: 960px; margin: 0 auto;">
+        {% video project.hero_video 'large' %}
+      </div>
+    {% elif project.hero_image %}
+      <img src="{% static project.hero_image %}" class="img-fluid rounded shadow-sm" alt="{{ project.title }}" style="max-height: 400px; object-fit: cover; width: 100%; max-width: 960px;">
+    {% endif %}
   </div>
-  {% endif %}
 
   <!-- OVERVIEW -->
   {% if project.overview %}
