@@ -4,10 +4,59 @@ from django.http import Http404
 
 PROJECTS = [
     {
+        "title": "HistoryFace AI - Face Swap SaaS",
+        "slug": "historyface-ai",
+        "hero_image": "images/projects/historyface-ai.jpg",
+        "description": "An AI-powered SaaS app that transforms your face into historical figures using facial recognition and HuggingFace AI models.",
+        "overview": "HistoryFace is a production-grade SaaS application that uses advanced facial recognition to match users with historical figures, then applies AI face-swapping technology to create realistic transformations. Built with a complete freemium business model, external AI integrations, and smart cost management.",
+        "tech_stack": {
+            "backend": ["Django 5.1.6", "Django REST Framework", "PostgreSQL", "Redis", "Celery"],
+            "frontend": ["React 18", "TypeScript", "Tailwind CSS", "Axios"],
+            "ai_integration": ["HuggingFace Spaces", "FaceFusion Model", "dlib", "face-recognition", "OpenCV"],
+            "deployment": ["Docker", "Fly.io", "Netlify", "Cloudinary"],
+            "business": ["Stripe API", "Google OAuth", "Session Tracking", "Usage Limits"]
+        },
+        "problem": "Creating a viral AI face-swapping app requires complex facial recognition, expensive GPU processing, smart cost management, and a sustainable monetization strategy - all while maintaining fast user experience.",
+        "solution": "Built a complete SaaS architecture integrating HuggingFace AI models with custom facial recognition, implemented freemium usage tracking, automated cost controls, and real-time API processing for seamless user experience.",
+        "special_features": [
+            "Advanced facial recognition using dlib and cosine similarity matching",
+            "Real-time API integration with HuggingFace Spaces GPU infrastructure", 
+            "Smart freemium model with session-based usage tracking",
+            "Automated Cloudinary storage cleanup to control costs",
+            "Google OAuth authentication with unlimited access for registered users",
+            "Responsive React frontend with live processing updates",
+            "Stripe payment integration for subscription monetization"
+        ],
+        "problems_solved": [
+            "Cost-effective AI model integration without running own GPU infrastructure",
+            "Real-time face swapping with 25-30 second processing pipeline",
+            "Sustainable business model balancing free trials with paid conversions",
+            "Scalable architecture ready for thousands of concurrent users",
+            "Automated resource cleanup preventing runaway cloud costs"
+        ],
+        "improvements": [
+            "Implement background job processing with Celery for better scaling",
+            "Add more historical figure options and categories",
+            "Create mobile app version with React Native",
+            "Integrate additional AI models for different transformation styles",
+            "Add social sharing features and user galleries"
+        ],
+        "proud_of": [
+            "Successfully integrated complex AI services with minimal latency",
+            "Built complete SaaS business model from freemium to paid subscriptions", 
+            "Overcame accessibility challenges to create production-grade AI application",
+            "Designed smart cost management preventing expensive surprises",
+            "Created viral-ready app architecture that can scale instantly"
+        ],
+        "build_notes": "<p>This project demonstrates advanced AI integration, business model implementation, and cost-conscious cloud architecture. The facial recognition pipeline uses mathematical comparison of facial features, while the HuggingFace integration required custom API client development. Built with accessibility in mind using voice commands and adaptive technologies.</p>",
+        "github_url": "https://github.com/mattyray/historyface-ai",
+        "live_url": "https://historyface.netlify.app",
+        "video_url": "https://youtu.be/rpkIL5FZbpA"
+    },
+    {
         "title": "EJ Art Moving App",
         "slug": "art-mover",
         "hero_image": "images/projects/art-mover.jpg",
-        "hero_video": "https://youtu.be/xWtrO4F0In4",  # 👈 NEW VIDEO FIELD
         "description": "A sleek logistics dashboard for managing clients, work orders, and invoices.",
         "overview": "A production-grade business dashboard for an art moving company, complete with scheduling, PDF invoicing, and a dynamic calendar.",
         "tech_stack": {
@@ -38,7 +87,7 @@ PROJECTS = [
         ],
         "build_notes": "<p>Containerized with Docker, deployed using Heroku's container stack. PostgreSQL health checks ensure app doesn't launch before DB is ready.</p>",
         "github_url": "https://github.com/mattyray/art_moving_buisness",
-        "live_url": ""
+        "live_url": "https://art-moving-buisness-0a734245a61f.herokuapp.com"
     },
     {
     "title": "AI Chat Widget (Open Source)",
@@ -77,7 +126,7 @@ PROJECTS = [
     },
 
     {
-        "title": "Matt’s Freedom Fundraiser",
+        "title": "Matt's Freedom Fundraiser",
         "slug": "fundraiser",
         "hero_image": "images/projects/fundraiser.jpg",
         "description": "A donation-based campaign platform with embedded video, blog, and outreach.",
@@ -182,7 +231,7 @@ PROJECTS = [
         "live_url": "https://www.matthewraynor.com"
     },
     {
-        "title": "Matt’s Bookstore API",
+        "title": "Matt's Bookstore API",
         "slug": "bookstore",
         "hero_image": "images/projects/bookstore.jpg",
         "description": "A Django REST API bookstore project with Google SSO, reviews, and deployment.",
@@ -267,7 +316,7 @@ PROJECTS = [
         "tools": ["django-environ", "OpenAI API", "CKEditor", "GitHub Actions"]
     },
     "problem": "Learners often struggle to find clear, custom-tailored explanations of programming topics and have no simple way to test themselves or track their growth.",
-    "solution": "The platform allows users to generate AI-driven tutorials on demand, take JavaScript quizzes, and store their learning history via user accounts. It’s optimized for accessibility and clarity.",
+    "solution": "The platform allows users to generate AI-driven tutorials on demand, take JavaScript quizzes, and store their learning history via user accounts. It's optimized for accessibility and clarity.",
     "special_features": [
         "OpenAI-powered tutorial generation engine",
         "JavaScript quiz module with Django views and templates",
