@@ -8,18 +8,22 @@
 <div class="container my-5">
 
   <!-- Back Link -->
-  <a href="{% url 'portfolio:index' %}" class="btn btn-outline-dark">← Back to Portfolio</a>
+  <a href="{% url 'portfolio:index' %}" class="btn btn-outline-dark mb-4">← Back to Portfolio</a>
 
   <!-- HERO HEADER -->
-  <div class="text-center case-section fade-in-up mb-4">
-    <h1 class="fw-bold">{{ project.title }}</h1>
-    <p class="lead text-muted">{{ project.description }}</p>
-    <div class="mt-3">
+  <div class="text-center case-section fade-in-up mb-5">
+    <h1 class="fw-bold mb-3">{{ project.title }}</h1>
+    <p class="lead text-muted mb-4">{{ project.description }}</p>
+    <div class="d-flex justify-content-center gap-3">
       {% if project.github_url %}
-        <a href="{{ project.github_url }}" class="btn btn-dark me-2" target="_blank">💻 GitHub</a>
+        <a href="{{ project.github_url }}" class="btn btn-dark" target="_blank">
+          <i class="fab fa-github me-2"></i>View Code
+        </a>
       {% endif %}
       {% if project.live_url %}
-        <a href="{{ project.live_url }}" class="btn btn-primary" target="_blank">🌍 Live Site</a>
+        <a href="{{ project.live_url }}" class="btn btn-primary" target="_blank">
+          <i class="fas fa-external-link-alt me-2"></i>Live Demo
+        </a>
       {% endif %}
     </div>
   </div>
@@ -37,32 +41,32 @@
 
   <!-- OVERVIEW -->
   {% if project.overview %}
-  <div class="card mb-4 shadow-sm case-section fade-in-up">
+  <div class="card mb-5 shadow-sm case-section fade-in-up">
     <div class="card-body">
-      <h3 class="card-title">📌 Overview</h3>
-      <p class="card-text">{{ project.overview }}</p>
+      <h3 class="card-title text-primary fw-bold">Project Overview</h3>
+      <p class="card-text lead">{{ project.overview }}</p>
     </div>
   </div>
   {% endif %}
 
   <!-- PROBLEM & SOLUTION -->
-  <div class="row mb-4 case-section fade-in-up">
+  <div class="row mb-5 case-section fade-in-up">
     {% if project.problem %}
-    <div class="col-md-6 mb-3 mb-md-0">
-      <div class="card h-100 shadow-sm">
+    <div class="col-md-6 mb-4 mb-md-0">
+      <div class="card h-100 shadow-sm border-start border-warning border-3">
         <div class="card-body">
-          <h4 class="card-title">🧩 The Problem</h4>
-          <p>{{ project.problem }}</p>
+          <h4 class="card-title text-warning fw-bold">The Challenge</h4>
+          <p class="card-text">{{ project.problem }}</p>
         </div>
       </div>
     </div>
     {% endif %}
     {% if project.solution %}
     <div class="col-md-6">
-      <div class="card h-100 shadow-sm">
+      <div class="card h-100 shadow-sm border-start border-success border-3">
         <div class="card-body">
-          <h4 class="card-title">💡 The Solution</h4>
-          <p>{{ project.solution }}</p>
+          <h4 class="card-title text-success fw-bold">The Solution</h4>
+          <p class="card-text">{{ project.solution }}</p>
         </div>
       </div>
     </div>
@@ -71,22 +75,22 @@
 
   <!-- TECH STACK -->
   {% if project.tech_stack %}
-  <div class="card mb-4 shadow-sm case-section fade-in-up">
+  <div class="card mb-5 shadow-sm case-section fade-in-up">
     <div class="card-body">
-      <h3 class="card-title">🛠️ Tech Stack</h3>
+      <h3 class="card-title text-primary fw-bold">Technology Stack</h3>
       <div class="row">
         {% for category, tools in project.tech_stack.items %}
-        <div class="col-md-6 mb-3">
-          <strong class="text-muted">{{ category|title }}:</strong>
-          <div class="mt-2">
+        <div class="col-md-6 col-lg-4 mb-4">
+          <h5 class="text-muted text-uppercase fw-semibold mb-3">{{ category|title }}</h5>
+          <div class="d-flex flex-wrap gap-2">
             {% for tool in tools %}
-              <span class="tech-pill">
-                {% if tool == "Django" %}<i class="fab fa-python me-1"></i>{% endif %}
-                {% if tool == "Python" %}<i class="fas fa-code me-1"></i>{% endif %}
-                {% if tool == "PostgreSQL" %}<i class="fas fa-database me-1"></i>{% endif %}
-                {% if tool == "Docker" %}<i class="fab fa-docker me-1"></i>{% endif %}
-                {% if tool == "Bootstrap 5" %}<i class="fab fa-bootstrap me-1"></i>{% endif %}
-                {% if tool == "Heroku" %}<i class="fas fa-cloud-upload-alt me-1"></i>{% endif %}
+              <span class="badge bg-light text-dark border px-3 py-2">
+                {% if tool == "Django" %}<i class="fab fa-python me-1 text-success"></i>{% endif %}
+                {% if tool == "Python" %}<i class="fab fa-python me-1 text-primary"></i>{% endif %}
+                {% if tool == "PostgreSQL" %}<i class="fas fa-database me-1 text-info"></i>{% endif %}
+                {% if tool == "Docker" %}<i class="fab fa-docker me-1 text-primary"></i>{% endif %}
+                {% if tool == "Bootstrap 5" %}<i class="fab fa-bootstrap me-1 text-purple"></i>{% endif %}
+                {% if tool == "React" %}<i class="fab fa-react me-1 text-info"></i>{% endif %}
                 {{ tool }}
               </span>
             {% endfor %}
@@ -98,80 +102,134 @@
   </div>
   {% endif %}
 
-  <!-- SPECIAL FEATURES -->
+  <!-- KEY FEATURES -->
   {% if project.special_features %}
-  <div class="card mb-4 shadow-sm case-section fade-in-up">
+  <div class="card mb-5 shadow-sm case-section fade-in-up">
     <div class="card-body">
-      <h3 class="card-title">✨ Special Features</h3>
-      <ul class="mb-0">
+      <h3 class="card-title text-primary fw-bold">Key Features</h3>
+      <div class="row">
         {% for feature in project.special_features %}
-        <li>🌟 {{ feature }}</li>
+        <div class="col-md-6 mb-3">
+          <div class="d-flex align-items-start">
+            <div class="flex-shrink-0 me-3">
+              <div class="bg-primary bg-opacity-10 rounded-circle p-2">
+                <i class="fas fa-check text-primary"></i>
+              </div>
+            </div>
+            <div class="flex-grow-1">
+              <p class="mb-0">{{ feature }}</p>
+            </div>
+          </div>
+        </div>
         {% endfor %}
-      </ul>
+      </div>
     </div>
   </div>
   {% endif %}
 
   <!-- PROBLEMS SOLVED -->
   {% if project.problems_solved %}
-  <div class="card mb-4 shadow-sm case-section fade-in-up">
+  <div class="card mb-5 shadow-sm case-section fade-in-up">
     <div class="card-body">
-      <h3 class="card-title">🎯 Real-World Problems Solved</h3>
-      <ul class="mb-0">
+      <h3 class="card-title text-success fw-bold">Business Impact</h3>
+      <div class="row">
         {% for item in project.problems_solved %}
-        <li>🔧 {{ item }}</li>
+        <div class="col-md-6 mb-3">
+          <div class="d-flex align-items-start">
+            <div class="flex-shrink-0 me-3">
+              <div class="bg-success bg-opacity-10 rounded-circle p-2">
+                <i class="fas fa-bullseye text-success"></i>
+              </div>
+            </div>
+            <div class="flex-grow-1">
+              <p class="mb-0">{{ item }}</p>
+            </div>
+          </div>
+        </div>
         {% endfor %}
-      </ul>
+      </div>
     </div>
   </div>
   {% endif %}
 
-  <!-- IMPROVEMENTS -->
-  {% if project.improvements %}
-  <div class="card mb-4 shadow-sm case-section fade-in-up">
-    <div class="card-body">
-      <h3 class="card-title">🚧 Improvements for Next Time</h3>
-      <ul class="mb-0">
-        {% for item in project.improvements %}
-        <li>🛠 {{ item }}</li>
-        {% endfor %}
-      </ul>
-    </div>
-  </div>
-  {% endif %}
-
-  <!-- PROUD OF -->
+  <!-- TECHNICAL ACHIEVEMENTS -->
   {% if project.proud_of %}
-  <div class="card mb-4 shadow-sm case-section fade-in-up">
+  <div class="card mb-5 shadow-sm case-section fade-in-up">
     <div class="card-body">
-      <h3 class="card-title">🏅 What I'm Proud Of</h3>
-      <ul class="mb-0">
+      <h3 class="card-title text-info fw-bold">Technical Achievements</h3>
+      <div class="row">
         {% for item in project.proud_of %}
-        <li>🌈 {{ item }}</li>
+        <div class="col-md-6 mb-3">
+          <div class="d-flex align-items-start">
+            <div class="flex-shrink-0 me-3">
+              <div class="bg-info bg-opacity-10 rounded-circle p-2">
+                <i class="fas fa-star text-info"></i>
+              </div>
+            </div>
+            <div class="flex-grow-1">
+              <p class="mb-0">{{ item }}</p>
+            </div>
+          </div>
+        </div>
         {% endfor %}
-      </ul>
+      </div>
     </div>
   </div>
   {% endif %}
 
-  <!-- BUILD NOTES -->
-  {% if project.build_notes %}
-  <div class="card mb-4 shadow-sm case-section fade-in-up">
+  <!-- FUTURE ENHANCEMENTS -->
+  {% if project.improvements %}
+  <div class="card mb-5 shadow-sm case-section fade-in-up">
     <div class="card-body">
-      <h3 class="card-title">📚 Build Notes</h3>
-      <div class="highlight">{{ project.build_notes|safe }}</div>
+      <h3 class="card-title text-secondary fw-bold">Future Enhancements</h3>
+      <div class="row">
+        {% for item in project.improvements %}
+        <div class="col-md-6 mb-3">
+          <div class="d-flex align-items-start">
+            <div class="flex-shrink-0 me-3">
+              <div class="bg-secondary bg-opacity-10 rounded-circle p-2">
+                <i class="fas fa-lightbulb text-secondary"></i>
+              </div>
+            </div>
+            <div class="flex-grow-1">
+              <p class="mb-0">{{ item }}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
     </div>
   </div>
   {% endif %}
 
-  <!-- Bottom CTAs -->
-  <div class="text-center case-section fade-in-up mt-5">
-    {% if project.live_url %}
-      <a href="{{ project.live_url }}" class="btn btn-primary btn-lg me-2" target="_blank">🌍 Visit Live Site</a>
-    {% endif %}
-    {% if project.github_url %}
-      <a href="{{ project.github_url }}" class="btn btn-outline-dark btn-lg" target="_blank">💻 GitHub Repo</a>
-    {% endif %}
+  <!-- TECHNICAL NOTES -->
+  {% if project.build_notes %}
+  <div class="card mb-5 shadow-sm case-section fade-in-up">
+    <div class="card-body">
+      <h3 class="card-title text-dark fw-bold">Technical Implementation</h3>
+      <div class="bg-light rounded p-4 border-start border-primary border-3">
+        {{ project.build_notes|safe }}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- CALL TO ACTION -->
+  <div class="text-center case-section fade-in-up mt-5 py-5 bg-light rounded">
+    <h4 class="fw-bold mb-4">Interested in This Project?</h4>
+    <p class="text-muted mb-4">View the source code or see it in action</p>
+    <div class="d-flex justify-content-center gap-3">
+      {% if project.live_url %}
+        <a href="{{ project.live_url }}" class="btn btn-primary btn-lg" target="_blank">
+          <i class="fas fa-external-link-alt me-2"></i>Live Demo
+        </a>
+      {% endif %}
+      {% if project.github_url %}
+        <a href="{{ project.github_url }}" class="btn btn-outline-dark btn-lg" target="_blank">
+          <i class="fab fa-github me-2"></i>Source Code
+        </a>
+      {% endif %}
+    </div>
   </div>
 
 </div>
