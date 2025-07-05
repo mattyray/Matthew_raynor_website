@@ -6,6 +6,7 @@ PROJECTS = [
     {
         "title": "HistoryFace AI - Face Swap SaaS",
         "slug": "historyface-ai",
+        "hero_video": "https://youtu.be/rpkIL5FZbpA",
         "hero_image": "images/projects/historyface-ai.jpg",
         "description": "An AI-powered SaaS app that transforms your face into historical figures using facial recognition and HuggingFace AI models.",
         "overview": "HistoryFace is a production-grade SaaS application that uses advanced facial recognition to match users with historical figures, then applies AI face-swapping technology to create realistic transformations. Built with a complete freemium business model, external AI integrations, and smart cost management.",
@@ -49,13 +50,14 @@ PROJECTS = [
             "Created viral-ready app architecture that can scale instantly"
         ],
         "build_notes": "<p>This project demonstrates advanced AI integration, business model implementation, and cost-conscious cloud architecture. The facial recognition pipeline uses mathematical comparison of facial features, while the HuggingFace integration required custom API client development. Built with accessibility in mind using voice commands and adaptive technologies.</p>",
-        "github_url": "https://github.com/mattyray/historyface-ai",
+        "github_url": "https://github.com/mattyray/ai-convert",
         "live_url": "https://historyface.netlify.app",
         "video_url": "https://youtu.be/rpkIL5FZbpA"
     },
     {
         "title": "EJ Art Moving App",
         "slug": "art-mover",
+        "hero_video": "https://youtu.be/xWtrO4F0In4",
         "hero_image": "images/projects/art-mover.jpg",
         "description": "A sleek logistics dashboard for managing clients, work orders, and invoices.",
         "overview": "A production-grade business dashboard for an art moving company, complete with scheduling, PDF invoicing, and a dynamic calendar.",
@@ -87,7 +89,8 @@ PROJECTS = [
         ],
         "build_notes": "<p>Containerized with Docker, deployed using Heroku's container stack. PostgreSQL health checks ensure app doesn't launch before DB is ready.</p>",
         "github_url": "https://github.com/mattyray/art_moving_buisness",
-        "live_url": "https://art-moving-buisness-0a734245a61f.herokuapp.com"
+        "video_url": "https://youtu.be/xWtrO4F0In4"
+
     },
     {
     "title": "AI Chat Widget (Open Source)",

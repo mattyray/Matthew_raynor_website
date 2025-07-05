@@ -1361,6 +1361,56 @@ from django.http import Http404
 
 PROJECTS = [
     {
+        "title": "HistoryFace AI - Face Swap SaaS",
+        "slug": "historyface-ai",
+        "hero_image": "images/projects/historyface-ai.jpg",
+        "description": "An AI-powered SaaS app that transforms your face into historical figures using facial recognition and HuggingFace AI models.",
+        "overview": "HistoryFace is a production-grade SaaS application that uses advanced facial recognition to match users with historical figures, then applies AI face-swapping technology to create realistic transformations. Built with a complete freemium business model, external AI integrations, and smart cost management.",
+        "tech_stack": {
+            "backend": ["Django 5.1.6", "Django REST Framework", "PostgreSQL", "Redis", "Celery"],
+            "frontend": ["React 18", "TypeScript", "Tailwind CSS", "Axios"],
+            "ai_integration": ["HuggingFace Spaces", "FaceFusion Model", "dlib", "face-recognition", "OpenCV"],
+            "deployment": ["Docker", "Fly.io", "Netlify", "Cloudinary"],
+            "business": ["Stripe API", "Google OAuth", "Session Tracking", "Usage Limits"]
+        },
+        "problem": "Creating a viral AI face-swapping app requires complex facial recognition, expensive GPU processing, smart cost management, and a sustainable monetization strategy - all while maintaining fast user experience.",
+        "solution": "Built a complete SaaS architecture integrating HuggingFace AI models with custom facial recognition, implemented freemium usage tracking, automated cost controls, and real-time API processing for seamless user experience.",
+        "special_features": [
+            "Advanced facial recognition using dlib and cosine similarity matching",
+            "Real-time API integration with HuggingFace Spaces GPU infrastructure", 
+            "Smart freemium model with session-based usage tracking",
+            "Automated Cloudinary storage cleanup to control costs",
+            "Google OAuth authentication with unlimited access for registered users",
+            "Responsive React frontend with live processing updates",
+            "Stripe payment integration for subscription monetization"
+        ],
+        "problems_solved": [
+            "Cost-effective AI model integration without running own GPU infrastructure",
+            "Real-time face swapping with 25-30 second processing pipeline",
+            "Sustainable business model balancing free trials with paid conversions",
+            "Scalable architecture ready for thousands of concurrent users",
+            "Automated resource cleanup preventing runaway cloud costs"
+        ],
+        "improvements": [
+            "Implement background job processing with Celery for better scaling",
+            "Add more historical figure options and categories",
+            "Create mobile app version with React Native",
+            "Integrate additional AI models for different transformation styles",
+            "Add social sharing features and user galleries"
+        ],
+        "proud_of": [
+            "Successfully integrated complex AI services with minimal latency",
+            "Built complete SaaS business model from freemium to paid subscriptions", 
+            "Overcame accessibility challenges to create production-grade AI application",
+            "Designed smart cost management preventing expensive surprises",
+            "Created viral-ready app architecture that can scale instantly"
+        ],
+        "build_notes": "<p>This project demonstrates advanced AI integration, business model implementation, and cost-conscious cloud architecture. The facial recognition pipeline uses mathematical comparison of facial features, while the HuggingFace integration required custom API client development. Built with accessibility in mind using voice commands and adaptive technologies.</p>",
+        "github_url": "https://github.com/mattyray/historyface-ai",
+        "live_url": "https://historyface.netlify.app",
+        "video_url": "https://youtu.be/rpkIL5FZbpA"
+    },
+    {
         "title": "EJ Art Moving App",
         "slug": "art-mover",
         "hero_image": "images/projects/art-mover.jpg",
@@ -1392,7 +1442,7 @@ PROJECTS = [
             "Overcame circular model dependencies",
             "Built a real-time calendar with interactive event links"
         ],
-        "build_notes": "<p>Containerized with Docker, deployed using Heroku's container stack. PostgreSQL health checks ensure app doesn’t launch before DB is ready.</p>",
+        "build_notes": "<p>Containerized with Docker, deployed using Heroku's container stack. PostgreSQL health checks ensure app doesn't launch before DB is ready.</p>",
         "github_url": "https://github.com/mattyray/art_moving_buisness",
         "live_url": "https://art-moving-buisness-0a734245a61f.herokuapp.com"
     },
@@ -1433,7 +1483,7 @@ PROJECTS = [
     },
 
     {
-        "title": "Matt’s Freedom Fundraiser",
+        "title": "Matt's Freedom Fundraiser",
         "slug": "fundraiser",
         "hero_image": "images/projects/fundraiser.jpg",
         "description": "A donation-based campaign platform with embedded video, blog, and outreach.",
@@ -1538,7 +1588,7 @@ PROJECTS = [
         "live_url": "https://www.matthewraynor.com"
     },
     {
-        "title": "Matt’s Bookstore API",
+        "title": "Matt's Bookstore API",
         "slug": "bookstore",
         "hero_image": "images/projects/bookstore.jpg",
         "description": "A Django REST API bookstore project with Google SSO, reviews, and deployment.",
@@ -1623,7 +1673,7 @@ PROJECTS = [
         "tools": ["django-environ", "OpenAI API", "CKEditor", "GitHub Actions"]
     },
     "problem": "Learners often struggle to find clear, custom-tailored explanations of programming topics and have no simple way to test themselves or track their growth.",
-    "solution": "The platform allows users to generate AI-driven tutorials on demand, take JavaScript quizzes, and store their learning history via user accounts. It’s optimized for accessibility and clarity.",
+    "solution": "The platform allows users to generate AI-driven tutorials on demand, take JavaScript quizzes, and store their learning history via user accounts. It's optimized for accessibility and clarity.",
     "special_features": [
         "OpenAI-powered tutorial generation engine",
         "JavaScript quiz module with Django views and templates",
@@ -1672,7 +1722,6 @@ class ProjectDetailView(TemplateView):
             raise Http404("Project not found")
         context["project"] = project
         return context
-
 ===== portfolio/urls.py =====
 
 
@@ -4104,6 +4153,7 @@ document.getElementById("chat-form").addEventListener("submit", async function(e
 ===== templates/portfolio/index.html =====
 {% extends "base.html" %}
 {% load static %}
+{% load embed_video_tags %}
 
 {% block title %}Portfolio - Matthew Raynor{% endblock %}
 
@@ -4125,7 +4175,7 @@ document.getElementById("chat-form").addEventListener("submit", async function(e
                 frameborder="0"></iframe>
       </div>
       <div class="text-muted text-center px-3" style="max-width: 800px; margin: 0 auto;">
-        <p>I’m Matthew Raynor—a former commercial fisherman turned full-stack web developer after a life-changing spinal cord injury. With no use of my hands, I taught myself Python and Django using a stylus and sheer determination. Today, I design production-grade systems with a focus on real-world utility, compassion, and accessibility.</p>
+        <p>I'm Matthew Raynor—a former commercial fisherman turned full-stack web developer after a life-changing spinal cord injury. With no use of my hands, I taught myself Python and Django using a stylus and sheer determination. Today, I design production-grade systems with a focus on real-world utility, compassion, and accessibility.</p>
       </div>
     </div>
   </div>
@@ -4136,7 +4186,11 @@ document.getElementById("chat-form").addEventListener("submit", async function(e
     <div class="col-md-6 col-lg-4 mb-4 fade-in-up sr-delay-{{ forloop.counter0|add:"1" }}">
       <div class="card h-100 shadow-sm">
         <div class="ratio ratio-4x3">
-          <img src="{% static project.hero_image %}" class="card-img-top object-fit-cover" alt="{{ project.title }}">
+          {% if project.hero_video %}
+            {% video project.hero_video 'small' %}
+          {% elif project.hero_image %}
+            <img src="{% static project.hero_image %}" class="card-img-top object-fit-cover" alt="{{ project.title }}">
+          {% endif %}
         </div>
         <div class="card-body d-flex flex-column">
           <h5 class="card-title">{{ project.title }}</h5>
@@ -4159,18 +4213,18 @@ document.getElementById("chat-form").addEventListener("submit", async function(e
       <h3 class="fw-bold mb-3">What I Offer</h3>
       <p>Whether you're a business owner in need of a custom web application or a company looking for a passionate developer, I build software that works in the real world.</p>
       <p>I'm <strong>Matthew Raynor</strong>—a former commercial fisherman turned full-stack web developer after a life-changing spinal cord injury. I taught myself how to code without the use of my hands, learning Django and Python from scratch with a stylus and sheer determination. That same determination drives every project I build today.</p>
-      <p>I’ve developed a <strong>full-featured logistics and invoicing system for an art moving company</strong>, complete with client management, calendar-based job scheduling, PDF invoicing, and drag-and-drop UI. I’ve built an <strong>e-commerce store</strong>, a <strong>donation platform</strong> with blog and video integration, and an <strong>AI chatbot</strong> using OpenAI’s API for real-time support.</p>
-      <p>For <strong>clients</strong>, I create secure, scalable, and easy-to-use web apps tailored to your workflow. For <strong>employers</strong>, I bring production-level skills in Django, Docker, PostgreSQL, React, and a lived perspective on problem-solving, perseverance, and accessibility. I build with both code and compassion—and I’m ready to add value from day one.</p>
+      <p>I've developed a <strong>full-featured logistics and invoicing system for an art moving company</strong>, complete with client management, calendar-based job scheduling, PDF invoicing, and drag-and-drop UI. I've built an <strong>e-commerce store</strong>, a <strong>donation platform</strong> with blog and video integration, and an <strong>AI chatbot</strong> using OpenAI's API for real-time support.</p>
+      <p>For <strong>clients</strong>, I create secure, scalable, and easy-to-use web apps tailored to your workflow. For <strong>employers</strong>, I bring production-level skills in Django, Docker, PostgreSQL, React, and a lived perspective on problem-solving, perseverance, and accessibility. I build with both code and compassion—and I'm ready to add value from day one.</p>
     </div>
   </div>
 
 </div>
 
 {% endblock %}
-
 ===== templates/portfolio/detail.html =====
 {% extends "base.html" %}
 {% load static %}
+{% load embed_video_tags %}
 
 {% block title %}{{ project.title }} – Portfolio{% endblock %}
 
@@ -4194,12 +4248,16 @@ document.getElementById("chat-form").addEventListener("submit", async function(e
     </div>
   </div>
 
-  <!-- HERO IMAGE -->
-  {% if project.hero_image %}
+  <!-- HERO MEDIA: Video first, then fallback to image -->
   <div class="text-center mb-5 case-section fade-in-up">
-    <img src="{% static project.hero_image %}" class="img-fluid rounded shadow-sm" alt="{{ project.title }}" style="max-height: 400px; object-fit: cover; width: 100%; max-width: 960px;">
+    {% if project.hero_video %}
+      <div class="ratio ratio-16x9" style="max-width: 960px; margin: 0 auto;">
+        {% video project.hero_video 'large' %}
+      </div>
+    {% elif project.hero_image %}
+      <img src="{% static project.hero_image %}" class="img-fluid rounded shadow-sm" alt="{{ project.title }}" style="max-height: 400px; object-fit: cover; width: 100%; max-width: 960px;">
+    {% endif %}
   </div>
-  {% endif %}
 
   <!-- OVERVIEW -->
   {% if project.overview %}
@@ -4342,7 +4400,6 @@ document.getElementById("chat-form").addEventListener("submit", async function(e
 
 </div>
 {% endblock %}
-
 ===== templates/account/password_reset_done.html =====
 {% extends "base.html" %}
 
@@ -5855,3 +5912,68 @@ footer {
     opacity: 1;
     transform: translateX(0);
   }
+}
+
+===== README.md =====
+# MatthewRaynor.com
+
+![CI](https://github.com/mattyray/matthew_raynor_website/actions/workflows/ci.yml/badge.svg)
+
+A personal full-stack web platform for Matthew Raynor — a quadriplegic self-taught developer, artist, and motivational creator — featuring a blog, portfolio, online store, press hub, and AI chatbot.
+
+## 🧠 Project Purpose
+
+This website showcases:
+- Inspirational blog posts and Substack content
+- A portfolio of Django and React projects
+- An online store for artwork and Matthew's book
+- Press/media features
+- A motivational AI-powered chatbot
+- Accessible UX for users with disabilities
+
+## ⚙️ Tech Stack
+
+**Backend**: Django 5.1.6, PostgreSQL, Docker, Gunicorn  
+**Frontend**: Bootstrap 5, SCSS, ScrollReveal  
+**Features**: Google SSO, Stripe Checkout, Cloudinary image hosting, Whitenoise, reCAPTCHA  
+**Deployment**: Heroku with Docker  
+**CI/CD**: GitHub Actions
+
+## 🚀 Installation (Dev)
+
+```bash
+# Clone the repo
+git clone https://github.com/mattyray/matthew_raynor_website.git
+cd matthew_raynor_website
+
+# Copy and edit .env file
+cp .env.example .env  # (You’ll need to manually add real keys)
+
+# Run Docker
+docker-compose up --build
+
+App will be available at http://localhost:8001
+
+# Enter web container
+docker-compose exec web bash
+
+# Run migrations
+python manage.py migrate
+
+# Create superuser
+python manage.py createsuperuser
+
+# Collect static files
+python manage.py collectstatic --noinput
+
+docker-compose exec web python manage.py test
+
+#deploy
+
+heroku container:login
+heroku container:push web --app matthew-raynor-site
+heroku container:release web --app matthew-raynor-site
+
+Created by Matthew Raynor
+GitHub: @mattyray
+Email: mnraynor90@gmail.com
