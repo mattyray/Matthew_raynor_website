@@ -365,3 +365,4 @@ class ProjectDetailView(TemplateView):
             raise Http404("Project not found")
         context["project"] = project
         return context
+    
