@@ -16,13 +16,15 @@
         <p class="lead">From rebuilding my life after a spinal cord injury to building production-grade software—this is how I turn resilience into real-world code.</p>
       </div>
       <div class="ratio ratio-16x9 rounded overflow-hidden mb-4">
-        <iframe src="https://www.youtube.com/embed/pWuW1AasRGY"
-                title="Matthew Raynor – How I Taught Myself Web Development"
+        <iframe src="https://www.youtube.com/embed/rpkIL5FZbpA"
+                title="HistoryFace AI - Face Swap Application Demo"
                 allowfullscreen
                 frameborder="0"></iframe>
       </div>
       <div class="text-muted text-center px-3" style="max-width: 800px; margin: 0 auto;">
-        <p>I'm Matthew Raynor—a former commercial fisherman turned full-stack web developer after a life-changing spinal cord injury. With no use of my hands, I taught myself Python and Django using a stylus and sheer determination. Today, I design production-grade systems with a focus on real-world utility, compassion, and accessibility.</p>
+        <p>I taught myself to code after a spinal cord injury left me paralyzed from the collarbone down. I invented a custom workflow to overcome my physical limitations and build modern, full-stack web apps with Django REST Framework, React, TypeScript, Tailwind, Bootstrap, and much more!</p>
+        
+        <p>My recent work includes <strong>HistoryFace</strong>, an AI-powered image generator that fuses selfies with historical figures using facial recognition and machine learning, a <strong>logistics dashboard</strong> for an art moving company, this <strong>e-commerce store</strong> which doubles as my portfolio, <strong>open source projects</strong>, and many others. Whether you need production grade code or real world solutions — I'm already in the chair, ready to ship.</p>
       </div>
     </div>
   </div>
@@ -36,7 +38,6 @@
           {% if project.hero_video %}
             {% video project.hero_video 'small' %}
           {% elif project.hero_image %}
-            <!-- FIXED: Use hero_image directly without static tag -->
             <img data-src="{{ project.hero_image }}" 
                  class="card-img-top object-fit-cover lazy-image image-placeholder" 
                  alt="{{ project.title }}">
