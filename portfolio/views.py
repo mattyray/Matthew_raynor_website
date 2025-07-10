@@ -202,6 +202,8 @@ PROJECTS = [
     {
         "title": "MatthewRaynor.com",
         "slug": "matthew-raynor",
+        "hero_video": "https://youtu.be/pWuW1AasRGY",  # ADD THIS LINE
+
         "hero_image": "https://res.cloudinary.com/dddye9wli/image/upload/w_400,h_300,c_fill,q_auto,f_auto/v1752173587/matthewraynor_rjiinl.jpg",
         "description": "My flagship website combining my story, blog, art store, and technical portfolio.",
         "overview": "A personal brand site where all my passions intersect — tech, writing, art, and accessibility.",
