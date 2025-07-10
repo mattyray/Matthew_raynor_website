@@ -53,6 +53,7 @@
       <div class="collapse navbar-collapse" id="navbarDesktop">
         <ul class="navbar-nav ms-3 me-auto">
           <li class="nav-item"><a class="nav-link" href="{% url 'pages:story' %}">Story</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'post_list' %}">Blog</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'portfolio:index' %}">Portfolio</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'pages:press' %}">Press</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'pages:contact' %}">Contact</a></li>
@@ -105,6 +106,8 @@
     </div>
     <div class="offcanvas-body">
       <ul class="list-unstyled">
+        <li><a class="offcanvas-link" href="{% url 'pages:home' %}">Home</a></li>
+        <li><a class="offcanvas-link" href="{% url 'pages:story' %}">Story</a></li>
         <li><a class="offcanvas-link" href="{% url 'post_list' %}">Blog</a></li>
         <li><a class="offcanvas-link" href="{% url 'portfolio:index' %}">Portfolio</a></li>
         <li><a class="offcanvas-link" href="{% url 'pages:press' %}">Press</a></li>
@@ -157,7 +160,7 @@
         <a href="https://www.instagram.com/matthewraynorig/" target="_blank" class="text-white me-3">
           <i class="fab fa-instagram fa-lg"></i>
         </a>
-        <a href="https://www.linkedin.com/in/mnraynor90/" target="_blank" class="text-white me-3">
+        <a href="https://www.linkedin.com/in/matthew-raynor-2b3618200/" target="_blank" class="text-white me-3">
           <i class="fab fa-linkedin fa-lg"></i>
         </a>
         <a href="https://github.com/mattyray" target="_blank" class="text-white me-3">
