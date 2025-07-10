@@ -6,7 +6,6 @@
 {% block content %}
 
 <!-- HERO BANNER -->
-<!-- HERO SECTION for STORE OVERVIEW -->
 <section class="store-hero-section text-white d-flex align-items-center justify-content-center mb-4" style="height: 55vh;">
   <div class="store-hero-overlay"></div>
   <div class="store-hero-bg" style="background-image: url('{% static "images/store-hero-1.jpg" %}');"></div>
@@ -20,7 +19,6 @@
   </div>
 </section>
 
-
 <div class="container py-5">
 
   <!-- ARTWORK COLLECTIONS -->
@@ -33,7 +31,9 @@
         <div class="card shadow-sm hover-shadow h-100">
           <div class="ratio ratio-4x3">
             {% if collection.cover_image %}
-              <img src="{{ collection.cover_image.url }}" class="card-img-top object-fit-cover" alt="{{ collection.name }}">
+              <img data-src="{{ collection.cover_image.url }}?w_400,h_300,c_fill,q_auto,f_auto" 
+                   class="card-img-top object-fit-cover lazy-image image-placeholder" 
+                   alt="{{ collection.name }}">
             {% endif %}
           </div>
           <div class="card-body text-center">
@@ -57,15 +57,17 @@
       <div class="col-md-5 mb-4 mb-md-0">
         <div class="ratio ratio-4x3">
           {% if book.image %}
-            <img src="{{ book.image.url }}" class="img-fluid object-fit-cover rounded shadow" alt="{{ book.title }}">
+            <img data-src="{{ book.image.url }}?w_500,h_600,c_fill,q_auto,f_auto" 
+                 class="img-fluid object-fit-cover rounded shadow lazy-image image-placeholder" 
+                 alt="{{ book.title }}">
           {% endif %}
         </div>
       </div>
       <div class="col-md-7">
         <h2 class="fw-bold">{{ book.title }}</h2>
-        <p class="lead text-muted mb-3">A visual memoir of hope and resilience .</p>
+        <p class="lead text-muted mb-3">A visual memoir of hope and resilience.</p>
         <p>
-          This book isn’t just a collection of photographs — it's my story of transformation.
+          This book isn't just a collection of photographs — it's my story of transformation.
           Shot from boats, aerial photos, and moments of hope, these images guided me back to myself.
           No captions. No filters. Just the truth of my journey.
         </p>
