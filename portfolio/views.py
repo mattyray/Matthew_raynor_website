@@ -1,13 +1,19 @@
+from django.urls import reverse_lazy
+from django.views import generic
+from django.contrib.auth import logout, get_user_model
+from django.shortcuts import redirect, render
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
+from django.views.generic.edit import UpdateView
 from django.http import Http404
-# 
 
+# Updated PROJECTS with Cloudinary URLs
 PROJECTS = [
     {
         "title": "HistoryFace AI - Face Swap SaaS",
         "slug": "historyface-ai",
         "hero_video": "https://youtu.be/rpkIL5FZbpA",
-        "hero_image": "images/projects/historyface-ai.jpg",
+        "hero_image": "https://res.cloudinary.com/dddye9wli/image/upload/w_400,h_300,c_fill,q_auto,f_auto/v1752173587/motivational-chatbot_b2e8qv.jpg",
         "description": "An AI-powered SaaS app that transforms your face into historical figures using facial recognition and HuggingFace AI models.",
         "overview": "HistoryFace is a production-grade SaaS application that uses advanced facial recognition to match users with historical figures, then applies AI face-swapping technology to create realistic transformations. Built with a complete freemium business model, external AI integrations, and smart cost management.",
         "tech_stack": {
@@ -57,7 +63,7 @@ PROJECTS = [
         "title": "EJ Art Moving App",
         "slug": "art-mover",
         "hero_video": "https://youtu.be/xWtrO4F0In4",
-        "hero_image": "images/projects/art-mover.jpg",
+        "hero_image": "https://res.cloudinary.com/dddye9wli/image/upload/w_400,h_300,c_fill,q_auto,f_auto/v1752173585/art-mover_tlvsny.jpg",
         "description": "A sleek logistics dashboard for managing clients, work orders, and invoices.",
         "overview": "A production-grade business dashboard for an art moving company, complete with scheduling, PDF invoicing, and a dynamic calendar.",
         "tech_stack": {
@@ -90,45 +96,44 @@ PROJECTS = [
         "github_url": "https://github.com/mattyray/art_moving_buisness",
     },
     {
-    "title": "AI Chat Widget (Open Source)",
-    "slug": "chat-widget",
-    "hero_image": "images/django-chatwidget.jpeg",  # Add an image here
-    "description": "A pip-installable Django package that adds a floating OpenAI-powered chat widget to any site.",
-    "overview": "Built for storytelling and onboarding, this widget is fully open-source, customizable, and bundled with Twine for PyPI distribution. It's designed to help others create AI-enhanced web experiences.",
-    "tech_stack": {
-        "backend": ["Django", "Python", "OpenAI SDK", "Docker"],
-        "frontend": ["Bootstrap 5", "JavaScript"],
-        "deployment": ["Heroku", "Docker"],
-        "tools": ["Twine", "Markdown", "JSON knowledge base"]
+        "title": "AI Chat Widget (Open Source)",
+        "slug": "chat-widget",
+        "hero_image": "https://res.cloudinary.com/dddye9wli/image/upload/w_400,h_300,c_fill,q_auto,f_auto/v1752173483/django-chatwidget_tpyjby.jpg",
+        "description": "A pip-installable Django package that adds a floating OpenAI-powered chat widget to any site.",
+        "overview": "Built for storytelling and onboarding, this widget is fully open-source, customizable, and bundled with Twine for PyPI distribution. It's designed to help others create AI-enhanced web experiences.",
+        "tech_stack": {
+            "backend": ["Django", "Python", "OpenAI SDK", "Docker"],
+            "frontend": ["Bootstrap 5", "JavaScript"],
+            "deployment": ["Heroku", "Docker"],
+            "tools": ["Twine", "Markdown", "JSON knowledge base"]
+        },
+        "problem": "I needed an easy way to share my story and resources interactively through an AI assistant embedded on my site.",
+        "solution": "Created a floating chat widget backed by OpenAI, styled with Bootstrap, and deployed via PyPI as a reusable Django app.",
+        "special_features": [
+            "OpenAI API integration",
+            "Floating widget UI with knowledge base",
+            "Markdown support and chat history handling"
+        ],
+        "problems_solved": [
+            "Enabled interactive onboarding and storytelling",
+            "Offered a reusable template for AI-enhanced web UX"
+        ],
+        "improvements": [
+            "Add persistence via user sessions or Firebase",
+            "Enable audio output with text-to-speech"
+        ],
+        "proud_of": [
+            "Published as a PyPI package with clean setup",
+            "Useful as both a teaching tool and real product"
+        ],
+        "build_notes": "<p>Packaged with <code>twine</code>, includes JSON knowledge base ingestion and OpenAI GPT integration. Currently being tested in multiple live environments.</p>",
+        "github_url": "https://github.com/mattyray/django-chatwidget",
+        "live_url": "https://mattsfreedomfundraiser.com"
     },
-    "problem": "I needed an easy way to share my story and resources interactively through an AI assistant embedded on my site.",
-    "solution": "Created a floating chat widget backed by OpenAI, styled with Bootstrap, and deployed via PyPI as a reusable Django app.",
-    "special_features": [
-        "OpenAI API integration",
-        "Floating widget UI with knowledge base",
-        "Markdown support and chat history handling"
-    ],
-    "problems_solved": [
-        "Enabled interactive onboarding and storytelling",
-        "Offered a reusable template for AI-enhanced web UX"
-    ],
-    "improvements": [
-        "Add persistence via user sessions or Firebase",
-        "Enable audio output with text-to-speech"
-    ],
-    "proud_of": [
-        "Published as a PyPI package with clean setup",
-        "Useful as both a teaching tool and real product"
-    ],
-    "build_notes": "<p>Packaged with <code>twine</code>, includes JSON knowledge base ingestion and OpenAI GPT integration. Currently being tested in multiple live environments.</p>",
-    "github_url": "https://github.com/mattyray/django-chatwidget",
-    "live_url": "https://mattsfreedomfundraiser.com"  # optional demo site if you make one
-    },
-
     {
         "title": "Matt's Freedom Fundraiser",
         "slug": "fundraiser",
-        "hero_image": "images/projects/fundraiser.jpg",
+        "hero_image": "https://res.cloudinary.com/dddye9wli/image/upload/w_400,h_300,c_fill,q_auto,f_auto/v1752173586/fundraiser_gsbo4o.jpg",
         "description": "A donation-based campaign platform with embedded video, blog, and outreach.",
         "overview": "Created to support my move out of a nursing home, this campaign site includes a motivational blog, caregiver outreach, and donation CTAs.",
         "tech_stack": {
@@ -160,45 +165,44 @@ PROJECTS = [
         "live_url": "https://www.mattfreedomfundraiser.com"
     },
     {
-    "title": "Work Order Manager (React + Django)",
-    "slug": "workorder-app",
-    "hero_image": "images/react-workorders.jpeg",  # Add a real screenshot
-    "description": "A modern React + Django app for managing work orders, scheduling, and client jobs.",
-    "overview": "A fully decoupled frontend and backend application for tracking work orders in real time, built with Django REST Framework and React using Vite + Tailwind CSS.",
-    "tech_stack": {
-        "backend": ["Django 5.1.6", "DRF", "PostgreSQL", "Docker"],
-        "frontend": ["React", "Vite", "Tailwind CSS", "Axios"],
-        "deployment": ["Heroku (API)", "Netlify (Frontend)", "Docker Compose"],
-        "tools": ["WeasyPrint", "FullCalendar", "environs"]
+        "title": "Work Order Manager (React + Django)",
+        "slug": "workorder-app",
+        "hero_image": "https://res.cloudinary.com/dddye9wli/image/upload/w_400,h_300,c_fill,q_auto,f_auto/v1752173520/react-workorders_u14tws.jpg",
+        "description": "A modern React + Django app for managing work orders, scheduling, and client jobs.",
+        "overview": "A fully decoupled frontend and backend application for tracking work orders in real time, built with Django REST Framework and React using Vite + Tailwind CSS.",
+        "tech_stack": {
+            "backend": ["Django 5.1.6", "DRF", "PostgreSQL", "Docker"],
+            "frontend": ["React", "Vite", "Tailwind CSS", "Axios"],
+            "deployment": ["Heroku (API)", "Netlify (Frontend)", "Docker Compose"],
+            "tools": ["WeasyPrint", "FullCalendar", "environs"]
+        },
+        "problem": "Managing client jobs and scheduling was inefficient and required a responsive, modern interface.",
+        "solution": "Built a responsive single-page React frontend with REST API integration, dynamic work order creation, scheduling calendar, and PDF generation.",
+        "special_features": [
+            "Separate React + Django architecture",
+            "PDF generation for work orders (WeasyPrint)",
+            "Tailwind UI and dynamic event syncing"
+        ],
+        "problems_solved": [
+            "Improved job tracking and scheduling",
+            "Streamlined client communication with printable summaries"
+        ],
+        "improvements": [
+            "Add notifications for due dates",
+            "Integrate role-based permissions and team accounts"
+        ],
+        "proud_of": [
+            "Seamless full-stack pipeline from UI to PDF export",
+            "Smooth React-to-DRF integration with token auth"
+        ],
+        "build_notes": "<p>Backend on Heroku using Docker. Frontend on Netlify with Vite build. Axios used for API communication, and PDF output handled via WeasyPrint on the backend.</p>",
+        "github_url": "https://github.com/mattyray/django-react-workorders",
+        "live_url": "#"
     },
-    "problem": "Managing client jobs and scheduling was inefficient and required a responsive, modern interface.",
-    "solution": "Built a responsive single-page React frontend with REST API integration, dynamic work order creation, scheduling calendar, and PDF generation.",
-    "special_features": [
-        "Separate React + Django architecture",
-        "PDF generation for work orders (WeasyPrint)",
-        "Tailwind UI and dynamic event syncing"
-    ],
-    "problems_solved": [
-        "Improved job tracking and scheduling",
-        "Streamlined client communication with printable summaries"
-    ],
-    "improvements": [
-        "Add notifications for due dates",
-        "Integrate role-based permissions and team accounts"
-    ],
-    "proud_of": [
-        "Seamless full-stack pipeline from UI to PDF export",
-        "Smooth React-to-DRF integration with token auth"
-    ],
-    "build_notes": "<p>Backend on Heroku using Docker. Frontend on Netlify with Vite build. Axios used for API communication, and PDF output handled via WeasyPrint on the backend.</p>",
-    "github_url": "https://github.com/mattyray/django-react-workorders",
-    "live_url": "#"  # add live links if available
-    },
-
     {
         "title": "MatthewRaynor.com",
         "slug": "matthew-raynor",
-        "hero_image": "images/projects/matthewraynor.jpg",
+        "hero_image": "https://res.cloudinary.com/dddye9wli/image/upload/w_400,h_300,c_fill,q_auto,f_auto/v1752173587/matthewraynor_rjiinl.jpg",
         "description": "My flagship website combining my story, blog, art store, and technical portfolio.",
         "overview": "A personal brand site where all my passions intersect — tech, writing, art, and accessibility.",
         "tech_stack": {
@@ -233,7 +237,7 @@ PROJECTS = [
     {
         "title": "Matt's Bookstore API",
         "slug": "bookstore",
-        "hero_image": "images/projects/bookstore.jpg",
+        "hero_image": "https://res.cloudinary.com/dddye9wli/image/upload/w_400,h_300,c_fill,q_auto,f_auto/v1752173585/bookstore_vw3vop.jpg",
         "description": "A Django REST API bookstore project with Google SSO, reviews, and deployment.",
         "overview": "An API-first bookstore web app with full CRUD for books, ratings, search, and Docker-based deployment.",
         "tech_stack": {
@@ -263,87 +267,85 @@ PROJECTS = [
         ],
         "build_notes": "<p>Heroku container stack deployment using `heroku.yml` and `.env` management. Includes future-ready DRF endpoints for mobile or SPA frontend.</p>",
         "github_url": "https://github.com/mattyray/ch4-bookstore",
-        "live_url": ""  # Currently broken, noted in portfolio
+        "live_url": ""
     },
     {
-    "title": "AI Motivational Chatbot",
-    "slug": "motivational-chatbot",
-    "hero_image": "images/projects/motivational-chatbot.jpg",
-    "description": "An AI-powered real-time chat interface built to uplift, motivate, and support users through guided messages and mindfulness prompts.",
-    "overview": "This web app features a real-time motivational chatbot using Django Channels and OpenAI's GPT-4 API. Designed with accessibility and emotional support in mind, it offers inspiring guidance with markdown-to-HTML formatting and secure WebSocket messaging.",
-    "tech_stack": {
-        "backend": ["Django 5.1.6", "Python 3.12", "PostgreSQL", "Docker"],
-        "frontend": ["Bootstrap 5", "Crispy Forms", "JavaScript WebSocket API"],
-        "deployment": ["Docker Compose", "Heroku", "Whitenoise"],
-        "tools": ["Channels", "OpenAI SDK (>=1.0.0)", "django-environ", "markdown"]
+        "title": "AI Motivational Chatbot",
+        "slug": "motivational-chatbot",
+        "hero_image": "https://res.cloudinary.com/dddye9wli/image/upload/w_400,h_300,c_fill,q_auto,f_auto/v1752173587/motivational-chatbot_b2e8qv.jpg",
+        "description": "An AI-powered real-time chat interface built to uplift, motivate, and support users through guided messages and mindfulness prompts.",
+        "overview": "This web app features a real-time motivational chatbot using Django Channels and OpenAI's GPT-4 API. Designed with accessibility and emotional support in mind, it offers inspiring guidance with markdown-to-HTML formatting and secure WebSocket messaging.",
+        "tech_stack": {
+            "backend": ["Django 5.1.6", "Python 3.12", "PostgreSQL", "Docker"],
+            "frontend": ["Bootstrap 5", "Crispy Forms", "JavaScript WebSocket API"],
+            "deployment": ["Docker Compose", "Heroku", "Whitenoise"],
+            "tools": ["Channels", "OpenAI SDK (>=1.0.0)", "django-environ", "markdown"]
+        },
+        "problem": "Users lacked an uplifting, real-time interface to ask spiritual, emotional, or motivational questions and receive formatted responses that felt supportive.",
+        "solution": "Built a guided AI chatbot interface that handles live input, streams OpenAI GPT-4 responses, and uses markdown formatting for expressive feedback.",
+        "special_features": [
+            "Live WebSocket chat powered by Django Channels",
+            "OpenAI GPT-4 Turbo integration with markdown-to-HTML formatting",
+            "Responsive layout with accessibility-focused design choices"
+        ],
+        "problems_solved": [
+            "Enabled real-time motivational chat for users seeking support",
+            "Removed latency by using async communication and markdown rendering",
+            "Created a safe space for users to engage with uplifting messages"
+        ],
+        "improvements": [
+            "Add user accounts and saved conversation history",
+            "Integrate voice recognition and text-to-speech for accessibility",
+            "Implement streaming response instead of chunked delivery"
+        ],
+        "proud_of": [
+            "Successfully implemented real-time async chat with OpenAI GPT-4",
+            "Handled migration to OpenAI SDK 1.0+ and updated markdown rendering",
+            "Built with performance and spiritual value in mind"
+        ],
+        "build_notes": "<p>Chat interface built with Django Channels, using Redis for pub/sub communication. WebSocket connection gracefully handles disconnects and errors, and the OpenAI SDK 1.0+ interface ensures future-proof API usage.</p>",
+        "github_url": "https://github.com/mattyray/ai_motivator_chatbot",
+        "live_url": "#"
     },
-    "problem": "Users lacked an uplifting, real-time interface to ask spiritual, emotional, or motivational questions and receive formatted responses that felt supportive.",
-    "solution": "Built a guided AI chatbot interface that handles live input, streams OpenAI GPT-4 responses, and uses markdown formatting for expressive feedback.",
-    "special_features": [
-        "Live WebSocket chat powered by Django Channels",
-        "OpenAI GPT-4 Turbo integration with markdown-to-HTML formatting",
-        "Responsive layout with accessibility-focused design choices"
-    ],
-    "problems_solved": [
-        "Enabled real-time motivational chat for users seeking support",
-        "Removed latency by using async communication and markdown rendering",
-        "Created a safe space for users to engage with uplifting messages"
-    ],
-    "improvements": [
-        "Add user accounts and saved conversation history",
-        "Integrate voice recognition and text-to-speech for accessibility",
-        "Implement streaming response instead of chunked delivery"
-    ],
-    "proud_of": [
-        "Successfully implemented real-time async chat with OpenAI GPT-4",
-        "Handled migration to OpenAI SDK 1.0+ and updated markdown rendering",
-        "Built with performance and spiritual value in mind"
-    ],
-    "build_notes": "<p>Chat interface built with Django Channels, using Redis for pub/sub communication. WebSocket connection gracefully handles disconnects and errors, and the OpenAI SDK 1.0+ interface ensures future-proof API usage.</p>",
-    "github_url": "https://github.com/mattyray/ai_motivator_chatbot",
-    "live_url": "#"
-},
-{
-    "title": "Lotus Path Learning Platform",
-    "slug": "lotus-path",
-    "hero_image": "images/projects/lotus-path.jpg",
-    "description": "An AI-powered learning platform offering custom tutorials, quizzes, and user-authenticated progress tracking.",
-    "overview": "An interactive web app that generates AI-written tutorials, hosts quizzes, and lets users track progress with a personalized dashboard. Built with Django, integrated with OpenAI, and deployed on Fly.io.",
-    "tech_stack": {
-        "backend": ["Django 5.1.6", "Python 3.10", "PostgreSQL", "Docker"],
-        "frontend": ["Bootstrap 5", "Crispy Forms"],
-        "deployment": ["Fly.io", "Docker Compose", "Whitenoise"],
-        "tools": ["django-environ", "OpenAI API", "CKEditor", "GitHub Actions"]
+    {
+        "title": "Lotus Path Learning Platform",
+        "slug": "lotus-path",
+        "hero_image": "https://res.cloudinary.com/dddye9wli/image/upload/w_400,h_300,c_fill,q_auto,f_auto/v1752173586/lotus-path_qvzp4w.jpg",
+        "description": "An AI-powered learning platform offering custom tutorials, quizzes, and user-authenticated progress tracking.",
+        "overview": "An interactive web app that generates AI-written tutorials, hosts quizzes, and lets users track progress with a personalized dashboard. Built with Django, integrated with OpenAI, and deployed on Fly.io.",
+        "tech_stack": {
+            "backend": ["Django 5.1.6", "Python 3.10", "PostgreSQL", "Docker"],
+            "frontend": ["Bootstrap 5", "Crispy Forms"],
+            "deployment": ["Fly.io", "Docker Compose", "Whitenoise"],
+            "tools": ["django-environ", "OpenAI API", "CKEditor", "GitHub Actions"]
+        },
+        "problem": "Learners often struggle to find clear, custom-tailored explanations of programming topics and have no simple way to test themselves or track their growth.",
+        "solution": "The platform allows users to generate AI-driven tutorials on demand, take JavaScript quizzes, and store their learning history via user accounts. It's optimized for accessibility and clarity.",
+        "special_features": [
+            "OpenAI-powered tutorial generation engine",
+            "JavaScript quiz module with Django views and templates",
+            "Authentication system with user dashboards and CSRF security",
+            "Styled using Bootstrap with reusable templates and layout blocks"
+        ],
+        "problems_solved": [
+            "Manual content creation bottlenecks",
+            "Lack of personalized study support",
+            "Difficulty integrating AI into a structured learning flow"
+        ],
+        "improvements": [
+            "Add real-time chat tutoring via OpenAI API",
+            "Allow users to bookmark and rate tutorials",
+            "Enable code submission and validation for interactive practice"
+        ],
+        "proud_of": [
+            "Integrated OpenAI API into a real Django application",
+            "Configured secure, production-ready deployment using Fly.io and Docker",
+            "Set up GitHub Actions for CI/CD with collectstatic and migrations"
+        ],
+        "build_notes": "<p>Deployed on Fly.io using Docker. Static files handled via Whitenoise. PostgreSQL database with `.env` integration via <code>django-environ</code>. Includes CKEditor for WYSIWYG content editing.</p>",
+        "github_url": "https://github.com/mattyray/news-root",
+        "live_url": "#"
     },
-    "problem": "Learners often struggle to find clear, custom-tailored explanations of programming topics and have no simple way to test themselves or track their growth.",
-    "solution": "The platform allows users to generate AI-driven tutorials on demand, take JavaScript quizzes, and store their learning history via user accounts. It's optimized for accessibility and clarity.",
-    "special_features": [
-        "OpenAI-powered tutorial generation engine",
-        "JavaScript quiz module with Django views and templates",
-        "Authentication system with user dashboards and CSRF security",
-        "Styled using Bootstrap with reusable templates and layout blocks"
-    ],
-    "problems_solved": [
-        "Manual content creation bottlenecks",
-        "Lack of personalized study support",
-        "Difficulty integrating AI into a structured learning flow"
-    ],
-    "improvements": [
-        "Add real-time chat tutoring via OpenAI API",
-        "Allow users to bookmark and rate tutorials",
-        "Enable code submission and validation for interactive practice"
-    ],
-    "proud_of": [
-        "Integrated OpenAI API into a real Django application",
-        "Configured secure, production-ready deployment using Fly.io and Docker",
-        "Set up GitHub Actions for CI/CD with collectstatic and migrations"
-    ],
-    "build_notes": "<p>Deployed on Fly.io using Docker. Static files handled via Whitenoise. PostgreSQL database with `.env` integration via <code>django-environ</code>. Includes CKEditor for WYSIWYG content editing.</p>",
-    "github_url": "https://github.com/mattyray/news-root",
-    "live_url": "#"
-},
-
-
 ]
 
 class PortfolioView(TemplateView):
@@ -365,4 +367,3 @@ class ProjectDetailView(TemplateView):
             raise Http404("Project not found")
         context["project"] = project
         return context
-    
