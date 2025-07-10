@@ -25,7 +25,6 @@
   <!-- Select2 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-
   {% block extra_css %}
   <style>
     .nav-icon {
@@ -40,7 +39,6 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-32ZNZY8WPH');
   </script>
 </head>
@@ -81,7 +79,6 @@
     </div>
   </nav>
   
-
   <!-- Mobile Navbar & Offcanvas -->
   <div class="d-lg-none">
     <nav class="navbar navbar-dark bg-crunchy">
@@ -150,7 +147,6 @@
   </main>
 
   <!-- Footer -->
-  <!-- Footer -->
   <footer class="mt-4 bg-crunchy text-white text-center py-4">
     <div class="container">
       <p class="mb-3">&copy; {% now "Y" %} MatthewRaynor.com V7.0</p>
@@ -174,9 +170,6 @@
       <p class="mb-0">Email: <a href="mailto:mnraynor90@gmail.com" class="text-white">mnraynor90@gmail.com</a></p>
     </div>
   </footer>
-  
-  </footer>
-
 
   <!-- AI Chatbot -->
   <div id="ai-chatbot"
@@ -191,7 +184,6 @@
       <button id="ai-chatbot-close" class="chat-close" aria-label="Close chat" title="Close chat" type="button">
         <i class="fas fa-times"></i>
       </button>
-
     </div>
     <div id="ai-chatbot-body" class="chat-body">
       <div class="chat-message ai fade-in">Hello! How can I assist you today?</div>
@@ -217,8 +209,6 @@
     Chat
   </button>
 
-
-
   <!-- JS Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -235,6 +225,32 @@
       document.querySelectorAll(".select2").forEach(el => {
         $(el).select2({ width: "100%" });
       });
+
+      // LAZY LOADING FUNCTIONALITY
+      const lazyImages = document.querySelectorAll('.lazy-image');
+      
+      if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const img = entry.target;
+              img.src = img.dataset.src;
+              img.classList.remove('lazy-image', 'image-placeholder');
+              img.classList.add('loaded');
+              observer.unobserve(img);
+            }
+          });
+        });
+
+        lazyImages.forEach(img => imageObserver.observe(img));
+      } else {
+        // Fallback for older browsers
+        lazyImages.forEach(img => {
+          img.src = img.dataset.src;
+          img.classList.remove('lazy-image', 'image-placeholder');
+          img.classList.add('loaded');
+        });
+      }
 
       const $chatToggle = $('#ai-chatbot-toggle');
       const $chatWidget = $('#ai-chatbot');
@@ -274,7 +290,7 @@
 
             const timeoutId = setTimeout(() => {
               $('#chatbot-typing').remove();
-              $chatBody.append(`<div class="chat-message ai fade-in">⚠️ Timeout: The assistant didn’t respond. Try again.</div>`);
+              $chatBody.append(`<div class="chat-message ai fade-in">⚠️ Timeout: The assistant didn't respond. Try again.</div>`);
               $chatBody.scrollTop($chatBody[0].scrollHeight);
             }, 15000);
 
@@ -329,3 +345,5 @@
       });
     });
   </script>
+</body>
+</html>

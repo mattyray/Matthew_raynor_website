@@ -4,7 +4,6 @@ import os
 import stripe
 print("💥 settings.py loaded from latest build")
 
-
 # Initialize environment variables
 env = Env()
 Env.read_env()
@@ -17,7 +16,6 @@ STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET', default='whsec_dummy')
 stripe.api_key = STRIPE_SECRET_KEY
 
 OPENAI_API_KEY = env("OPENAI_API_KEY", default="")
-
 
 # Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -71,7 +69,6 @@ INSTALLED_APPS = [
     'django_extensions',
     'ckeditor',
     'ckeditor_uploader',
-
 ]
 
 # Middleware
@@ -146,7 +143,6 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -167,15 +163,16 @@ STATICFILES_DIRS = [BASE_DIR.parent / "static"]
 STATIC_ROOT = BASE_DIR.parent / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# Media (Cloudinary)
+# Media (Cloudinary) - ENHANCED WITH OPTIMIZATION
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-# Enhanced Cloudinary settings for better performance
+
+# NEW: Cloudinary optimization settings
 CLOUDINARY_STORAGE = {
-    'CLOUDINARY_URL': env('CLOUDINARY_URL'),
+    'CLOUDINARY_URL': env('CLOUDINARY_URL', default=''),
     'TRANSFORMATION': {
-        'quality': 'auto:good',    # Automatic quality optimization
-        'fetch_format': 'auto',    # Auto WebP conversion
-        'flags': 'progressive',    # Progressive loading
+        'quality': 'auto:good',
+        'fetch_format': 'auto', 
+        'flags': 'progressive',
     }
 }
 
@@ -194,7 +191,6 @@ SILENCED_SYSTEM_CHECKS = ['django_recaptcha.recaptcha_test_key_error']
 RECAPTCHA_PUBLIC_KEY = env("RECAPTCHA_PUBLIC_KEY", default="test")
 RECAPTCHA_PRIVATE_KEY = env("RECAPTCHA_PRIVATE_KEY", default="test")
 
-
 # Email
 EMAIL_BACKEND = env("EMAIL_BACKEND", default="django.core.mail.backends.locmem.EmailBackend")
 EMAIL_HOST = env("EMAIL_HOST", default="smtp.test.com")
@@ -203,7 +199,6 @@ EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=True)
 EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="test@test.com")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="testpassword")
 DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="noreply@test.com")
-
 
 # Production security
 if not DEBUG:
@@ -226,7 +221,6 @@ IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 # Auto field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_IMAGE_BACKEND = "pillow"
