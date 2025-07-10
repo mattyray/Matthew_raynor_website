@@ -169,6 +169,15 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Media (Cloudinary)
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# Enhanced Cloudinary settings for better performance
+CLOUDINARY_STORAGE = {
+    'CLOUDINARY_URL': env('CLOUDINARY_URL'),
+    'TRANSFORMATION': {
+        'quality': 'auto:good',    # Automatic quality optimization
+        'fetch_format': 'auto',    # Auto WebP conversion
+        'flags': 'progressive',    # Progressive loading
+    }
+}
 
 # Staticfiles finders
 STATICFILES_FINDERS = [
