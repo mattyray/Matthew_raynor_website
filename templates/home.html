@@ -26,7 +26,9 @@
     <div class="container">
       <div class="row align-items-center">
         <div class="col-md-6 mb-4 mb-md-0">
-          <img src="{% static 'images/matthew_portrait.png' %}" class="img-fluid rounded shadow" alt="Matthew Raynor Portrait">
+          <img data-src="{% static 'images/matthew_portrait.png' %}?w_500,h_600,c_fill,q_auto,f_auto" 
+               class="img-fluid rounded shadow lazy-image image-placeholder" 
+               alt="Matthew Raynor Portrait">
         </div>
         <div class="col-md-6">
           <h2 class="fw-bold">My Journey</h2>
@@ -44,7 +46,9 @@
       <div class="row justify-content-center">
         <div class="col-md-4 mb-3 fade-in-up sr-delay-4">
           <div class="card h-100 shadow">
-            <img src="{% static 'images/book_cover.jpg' %}" class="card-img-top" alt="Before Me After Me Book Cover">
+            <img data-src="{% static 'images/book_cover.jpg' %}?w_400,h_500,c_fill,q_auto,f_auto" 
+                 class="card-img-top lazy-image image-placeholder" 
+                 alt="Before Me After Me Book Cover">
             <div class="card-body">
               <h5 class="card-title">Before Me After Me</h5>
               <p class="card-text">My memoir of resilience, technology, and transformation.</p>
@@ -54,7 +58,9 @@
         </div>
         <div class="col-md-4 mb-3 fade-in-up sr-delay-5">
           <div class="card h-100 shadow">
-            <img src="{% static 'images/art_sample.jpg' %}" class="card-img-top" alt="Aluminum Artwork">
+            <img data-src="{% static 'images/art_sample.jpg' %}?w_400,h_300,c_fill,q_auto,f_auto" 
+                 class="card-img-top lazy-image image-placeholder" 
+                 alt="Aluminum Artwork">
             <div class="card-body">
               <h5 class="card-title">Aluminum Prints</h5>
               <p class="card-text">Oceanic photography infused with strength and serenity.</p>
@@ -67,14 +73,13 @@
   </section>
 
   <!-- PORTFOLIO PREVIEW -->
-  <!-- PORTFOLIO PREVIEW -->
   <section class="py-5 bg-light fade-in-up sr-delay-6">
     <div class="container">
       <h2 class="text-center fw-bold mb-4">My Development Projects</h2>
 
       <div class="bg-white rounded shadow-sm p-4 mb-5 mx-auto" style="max-width: 900px;">
         <p class="lead text-center mb-0">
-          I’m a <span class="fw-bold">self-taught full-stack developer</span> with a specialty in 
+          I'm a <span class="fw-bold">self-taught full-stack developer</span> with a specialty in 
           <span class="fw-bold">Django</span>, <span class="fw-bold">Python</span>, and modern frontend tools like 
           <span class="fw-bold">React</span> and <span class="fw-bold">Tailwind CSS</span>.
           <br class="d-none d-md-block mt-2">
@@ -104,8 +109,6 @@
                 frameborder="0"></iframe>
       </div>
     </div>
-
-
 
       <div class="row g-4 text-center">
         <div class="col-md-4">
@@ -146,7 +149,6 @@
     </div>
   </section>
 
-
   <!-- BLOG PREVIEW -->
   <section class="py-5 fade-in-up sr-delay-10">
     <div class="container">
@@ -161,9 +163,15 @@
                 {% if post.video %}
                   {% video post.video 'small' %}
                 {% elif post.image %}
-                  <img src="{{ post.image.url }}" class="card-img-top object-fit-cover" alt="{{ post.title }}" style="height: 100%; width: 100%;">
+                  <img data-src="{{ post.image.url }}?w_400,h_225,c_fill,q_auto,f_auto" 
+                       class="card-img-top object-fit-cover lazy-image image-placeholder" 
+                       alt="{{ post.title }}" 
+                       style="height: 100%; width: 100%;">
                 {% else %}
-                  <img src="https://source.unsplash.com/400x250/?technology,writing" class="card-img-top object-fit-cover" alt="Fallback Blog Image" style="height: 100%; width: 100%;">
+                  <img data-src="https://source.unsplash.com/400x250/?technology,writing?w_400,h_250,c_fill,q_auto,f_auto" 
+                       class="card-img-top object-fit-cover lazy-image image-placeholder" 
+                       alt="Fallback Blog Image" 
+                       style="height: 100%; width: 100%;">
                 {% endif %}
               </div>
               <div class="card-body">
@@ -189,11 +197,10 @@
     </div>
   </section>
 
-
   <!-- CONNECT CTA -->
   <section class="py-5 position-relative text-center fade-in-up sr-delay-11" style="background-color: rgba(255, 248, 225, 0.85);">
     <div class="container text-dark">
-      <h2 class="fw-bold">Let’s Connect</h2>
+      <h2 class="fw-bold">Let's Connect</h2>
       <p class="mb-4">Got questions about my work? Need a website? Need an application? Need custom photography?</p>
       <a href="{% url 'pages:contact' %}" class="btn btn-primary btn-lg">Contact Me</a>
     </div>
