@@ -7,7 +7,7 @@
 <section class="store-hero-section text-white d-flex align-items-center justify-content-center mb-4" style="height: 40vh;">
   {% if collection.cover_image %}
     <div class="store-hero-overlay"></div>
-    <div class="store-hero-bg" style="background-image: url('{{ collection.cover_image.url }}');"></div>
+    <div class="store-hero-bg" style="background-image: url('{{ collection.cover_image.url }}?w_1200,h_400,c_fill,q_auto,f_auto');"></div>
   {% endif %}
   <div class="store-hero-content text-center p-4 rounded">
     <h1 class="display-5 fw-bold">{{ collection.name }}</h1>
@@ -24,7 +24,9 @@
         <div class="card shadow-sm hover-shadow h-100">
           <div class="ratio ratio-4x3">
             {% if artwork.image %}
-              <img src="{{ artwork.image.url }}" class="card-img-top object-fit-cover" alt="{{ artwork.title }}">
+              <img data-src="{{ artwork.image.url }}?w_400,h_300,c_fill,q_auto,f_auto" 
+                   class="card-img-top object-fit-cover lazy-image image-placeholder" 
+                   alt="{{ artwork.title }}">
             {% endif %}
           </div>
           <div class="card-body text-center">
