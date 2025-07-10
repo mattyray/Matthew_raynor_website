@@ -12515,5 +12515,31 @@ footer {
     background-position: 200% 0;
   }
 }
+/* Fix blog post grid alignment */
+.blog-grid .col-md-4 {
+  display: flex;
+  margin-bottom: 1.5rem;
+}
+
+.blog-grid .card {
+  width: 100%;
+}
+
+/* Ensure equal height cards */
+.blog-card-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.blog-card-container .card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.blog-card-container .card-text {
+  flex-grow: 1;
+}
 
 /*# sourceMappingURL=custom.css.map */
