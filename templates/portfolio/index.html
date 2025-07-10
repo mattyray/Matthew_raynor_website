@@ -36,7 +36,10 @@
           {% if project.hero_video %}
             {% video project.hero_video 'small' %}
           {% elif project.hero_image %}
-            <img data-src="{% static project.hero_image %}" class="card-img-top object-fit-cover lazy-image image-placeholder" alt="{{ project.title }}">
+            <!-- FIXED: Use hero_image directly without static tag -->
+            <img data-src="{{ project.hero_image }}" 
+                 class="card-img-top object-fit-cover lazy-image image-placeholder" 
+                 alt="{{ project.title }}">
           {% endif %}
         </div>
         <div class="card-body d-flex flex-column">
