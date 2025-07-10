@@ -20,9 +20,13 @@
           {% video post.video 'large' %}
         </div>
       {% elif post.image %}
-        <img src="{{ post.image.url }}" class="img-fluid rounded shadow my-4" alt="{{ post.title }}">
+        <img data-src="{{ post.image.url }}?w_800,h_400,c_fill,q_auto,f_auto" 
+             class="img-fluid rounded shadow my-4 lazy-image image-placeholder" 
+             alt="{{ post.title }}">
       {% else %}
-        <img src="https://source.unsplash.com/800x400/?technology,resilience" class="img-fluid rounded shadow my-4" alt="Fallback Blog Image">
+        <img data-src="https://source.unsplash.com/800x400/?technology,resilience?w_800,h_400,c_fill,q_auto,f_auto" 
+             class="img-fluid rounded shadow my-4 lazy-image image-placeholder" 
+             alt="Fallback Blog Image">
       {% endif %}
 
       <!-- Render CKEditor content as rich HTML -->
