@@ -4,6 +4,8 @@ from django.utils.text import slugify
 from embed_video.fields import EmbedVideoField
 from ckeditor_uploader.fields import RichTextUploadingField  # ✅ for rich text
 from cloudinary_storage.storage import MediaCloudinaryStorage  # ✅ for Cloudinary upload
+from django.contrib.postgres.search import SearchVectorField  # ADD THIS
+from django.contrib.postgres.indexes import GinIndex  # ADD THIS
 
 User = get_user_model()
 
@@ -29,9 +31,16 @@ class Post(models.Model):
     is_published = models.BooleanField(default=False)
     published_date = models.DateTimeField(null=True, blank=True)
     updated_date = models.DateTimeField(auto_now=True)
+    
+    # ADD THIS FIELD
+    search_vector = SearchVectorField(null=True, blank=True)
 
     class Meta:
         ordering = ['-published_date']
+        # ADD THIS INDEX
+        indexes = [
+            GinIndex(fields=['search_vector']),
+        ]
 
     def save(self, *args, **kwargs):
         if not self.slug:

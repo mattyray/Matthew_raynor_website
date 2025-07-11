@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  {% if query %}Search: "{{ query }}"{% else %}Search{% endif %} - MatthewRaynor.com
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4 fade-in-up">
+  
+  <!-- Search Header -->
+  <div class="search-header mb-4">
+    <h2 class="fw-bold">Search Results</h2>
+    {% if query %}
+      <p class="text-muted lead">
+        {% if total_results %}
+          Found <strong>{{ total_results }}</strong> result{{ total_results|pluralize }} for "<strong>{{ query }}</strong>"
+          <small class="ms-2">
+            ({{ blog_count }} blog, {{ portfolio_count }} portfolio, {{ product_count }} store)
+          </small>
+        {% else %}
+          No results found for "<strong>{{ query }}</strong>"
+        {% endif %}
+      </p>
+    {% else %}
+      <p class="text-muted">Enter a search term to find content across the site.</p>
+    {% endif %}
+  </div>
+
+  <!-- Search Form (for mobile users or direct access) -->
+  <div class="search-form-container mb-4">
+    <form method="get" class="row g-3">
+      <div class="col-md-8">
+        <input type="search" 
+               name="q" 
+               value="{{ query }}" 
+               class="form-control form-control-lg" 
+               placeholder="Search blog posts, projects, products..."
+               autofocus>
+      </div>
+      <div class="col-md-4">
+        <button type="submit" class="btn btn-primary btn-lg w-100">
+          <i class="fas fa-search me-2"></i>Search
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Results -->
+  {% if results %}
+    <div class="search-results">
+      {% for result in results %}
+        <div class="search-result-item card mb-3 shadow-sm fade-in-up sr-delay-{{ forloop.counter }}">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+              <div class="flex-grow-1">
+                
+                <!-- Result Title -->
+                <h5 class="card-title mb-2">
+                  <a href="{% if result.result_type == 'blog' %}{% url 'post_detail' result.slug %}{% elif result.result_type == 'product' %}{% url 'store:product_detail' result.slug %}{% elif result.result_type == 'portfolio' %}{% url 'portfolio:project_detail' result.slug %}{% else %}#{% endif %}" 
+                     class="text-decoration-none">
+                    {{ result.title }}
+                  </a>
+                </h5>
+                
+                <!-- Result Content Preview -->
+                <div class="search-snippet text-muted mb-3">
+                  {% if result.result_type == 'blog' %}
+                    {{ result.content|truncatewords:25|striptags }}
+                  {% elif result.result_type == 'product' %}
+                    {{ result.description|truncatewords:25 }}
+                    {% if result.price %}
+                      <span class="fw-bold text-success ms-2">${{ result.price }}</span>
+                    {% endif %}
+                  {% elif result.result_type == 'portfolio' %}
+                    {{ result.description|truncatewords:25 }}
+                    {% if result.tech_stack_text %}
+                      <div class="mt-1">
+                        <small class="text-info">
+                          <i class="fas fa-code me-1"></i>
+                          {{ result.tech_stack_text|truncatewords:10 }}
+                        </small>
+                      </div>
+                    {% endif %}
+                  {% endif %}
+                </div>
+                
+                <!-- Result Metadata -->
+                <div class="search-meta d-flex align-items-center">
+                  <span class="badge me-2 {% if result.result_type == 'blog' %}bg-primary{% elif result.result_type == 'product' %}bg-success{% elif result.result_type == 'portfolio' %}bg-info{% else %}bg-secondary{% endif %}">
+                    {% if result.result_type == 'blog' %}
+                      <i class="fas fa-blog me-1"></i>Blog Post
+                    {% elif result.result_type == 'product' %}
+                      <i class="fas fa-shopping-cart me-1"></i>Product
+                    {% elif result.result_type == 'portfolio' %}
+                      <i class="fas fa-code me-1"></i>Portfolio Project
+                    {% else %}
+                      {{ result.result_type|title }}
+                    {% endif %}
+                  </span>
+                  
+                  {% if result.rank %}
+                    <small class="text-muted">
+                      Relevance: {{ result.rank|floatformat:2 }}
+                    </small>
+                  {% endif %}
+                  
+                  {% if result.result_type == 'blog' and result.published_date %}
+                    <small class="text-muted ms-2">
+                      {{ result.published_date|date:"M d, Y" }}
+                    </small>
+                  {% endif %}
+                </div>
+                
+              </div>
+              
+              <!-- Result Action -->
+              <div class="ms-3">
+                <a href="{% if result.result_type == 'blog' %}{% url 'post_detail' result.slug %}{% elif result.result_type == 'product' %}{% url 'store:product_detail' result.slug %}{% elif result.result_type == 'portfolio' %}{% url 'portfolio:project_detail' result.slug %}{% else %}#{% endif %}" 
+                   class="btn btn-outline-primary btn-sm">
+                  {% if result.result_type == 'blog' %}
+                    Read More
+                  {% elif result.result_type == 'product' %}
+                    View Product
+                  {% elif result.result_type == 'portfolio' %}
+                    View Project
+                  {% else %}
+                    View
+                  {% endif %}
+                </a>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if is_paginated %}
+      <nav aria-label="Search results pagination" class="mt-4">
+        <ul class="pagination justify-content-center">
+          {% if page_obj.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?q={{ query }}&page={{ page_obj.previous_page_number }}">Previous</a>
+            </li>
+          {% endif %}
+          
+          <li class="page-item active">
+            <span class="page-link">
+              Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+          </li>
+          
+          {% if page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?q={{ query }}&page={{ page_obj.next_page_number }}">Next</a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+    {% endif %}
+
+  {% else %}
+    <!-- No Results -->
+    {% if query %}
+      <div class="no-results text-center py-5 fade-in-up">
+        <div class="mb-4">
+          <i class="fas fa-search fa-3x text-muted mb-3"></i>
+          <h4>No results found</h4>
+          <p class="text-muted">
+            We couldn't find anything matching "<strong>{{ query }}</strong>". 
+            Try different keywords or browse our content below.
+          </p>
+        </div>
+        
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <div class="d-flex gap-3 justify-content-center flex-wrap">
+              <a href="{% url 'post_list' %}" class="btn btn-outline-primary">
+                <i class="fas fa-blog me-2"></i>Browse Blog
+              </a>
+              <a href="{% url 'portfolio:index' %}" class="btn btn-outline-primary">
+                <i class="fas fa-code me-2"></i>View Portfolio
+              </a>
+              <a href="{% url 'store:store_overview' %}" class="btn btn-outline-primary">
+                <i class="fas fa-store me-2"></i>Visit Store
+              </a>
+              <a href="{% url 'pages:contact' %}" class="btn btn-outline-primary">
+                <i class="fas fa-envelope me-2"></i>Contact Me
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endif %}
+
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.search-result-item:hover {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease;
+}
+
+.search-snippet {
+  line-height: 1.6;
+}
+
+.search-meta .badge {
+  font-size: 0.75rem;
+}
+
+.search-form-container {
+  background-color: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #dee2e6;
+}
+
+.badge.bg-info {
+  background-color: #0dcaf0 !important;
+}
+</style>
+{% endblock %}

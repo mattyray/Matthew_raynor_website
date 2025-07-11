@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'portfolio.apps.PortfolioConfig',
     'chat.apps.ChatConfig',
+    'search.apps.SearchConfig',  # <-- ADD THIS LINE
+
 
     # Third-party
     'django.contrib.sites',
