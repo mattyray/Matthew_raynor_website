@@ -55,17 +55,23 @@
             <div class="d-flex justify-content-between align-items-start">
               <div class="flex-grow-1">
                 
-                <!-- Result Title -->
+                <!-- Result Title with Highlighting -->
                 <h5 class="card-title mb-2">
                   <a href="{% if result.result_type == 'blog' %}{% url 'post_detail' result.slug %}{% elif result.result_type == 'product' %}{% url 'store:product_detail' result.slug %}{% elif result.result_type == 'portfolio' %}{% url 'portfolio:project_detail' result.slug %}{% else %}#{% endif %}" 
                      class="text-decoration-none">
-                    {{ result.title }}
+                    {% if result.highlighted_title %}
+                      {{ result.highlighted_title|safe }}
+                    {% else %}
+                      {{ result.title }}
+                    {% endif %}
                   </a>
                 </h5>
                 
-                <!-- Result Content Preview -->
+                <!-- Result Content Preview with Highlighting -->
                 <div class="search-snippet text-muted mb-3">
-                  {% if result.result_type == 'blog' %}
+                  {% if result.search_snippet %}
+                    {{ result.search_snippet|safe }}
+                  {% elif result.result_type == 'blog' %}
                     {{ result.content|truncatewords:25|striptags }}
                   {% elif result.result_type == 'product' %}
                     {{ result.description|truncatewords:25 }}
@@ -108,6 +114,12 @@
                   {% if result.result_type == 'blog' and result.published_date %}
                     <small class="text-muted ms-2">
                       {{ result.published_date|date:"M d, Y" }}
+                    </small>
+                  {% endif %}
+                  
+                  {% if result.result_type == 'product' and result.price %}
+                    <small class="text-success ms-2 fw-bold">
+                      ${{ result.price }}
                     </small>
                   {% endif %}
                 </div>
@@ -223,6 +235,40 @@
 
 .badge.bg-info {
   background-color: #0dcaf0 !important;
+}
+
+/* Search highlighting styles */
+.search-highlight, mark.search-highlight {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 1px 3px;
+  border-radius: 3px;
+  font-weight: 600;
+  border: none;
+}
+
+.card-title .search-highlight {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.search-snippet .search-highlight {
+  background-color: #e2e3e5;
+  color: #383d41;
+  font-weight: 500;
+}
+
+/* Dark mode support for highlighting */
+@media (prefers-color-scheme: dark) {
+  .search-highlight, mark.search-highlight {
+    background-color: #664d03;
+    color: #fff3cd;
+  }
+  
+  .card-title .search-highlight {
+    background-color: #0f5132;
+    color: #d1e7dd;
+  }
 }
 </style>
 {% endblock %}

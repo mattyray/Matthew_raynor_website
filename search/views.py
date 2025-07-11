@@ -3,27 +3,35 @@ from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.db.models import Value, CharField, Q
 from blog.models import Post
 from store.models import Product
-from portfolio.views import PROJECTS  # Import the projects list
+from portfolio.views import PROJECTS
 from itertools import chain
 from operator import attrgetter
 import re
 from django.urls import reverse
+from .utils import SearchHighlighter, create_search_snippet, highlight_search_title
 
 class SearchResult:
     """Wrapper class to make portfolio results compatible with database results"""
-    def __init__(self, project_data):
+    def __init__(self, project_data, query=''):
         self.title = project_data['title']
         self.slug = project_data['slug']
         self.description = project_data['description']
         self.content = project_data.get('overview', '')
         self.result_type = 'portfolio'
-        self.rank = 0.0  # Will be set by search method
-        self.search_snippet = ''
-        # Add tech stack for richer search content
+        self.rank = 0.0
+        self.query = query
         self.tech_stack_text = self._extract_tech_stack(project_data)
         
+        # Create highlighted versions
+        if query:
+            highlighter = SearchHighlighter(query)
+            self.highlighted_title = highlighter.highlight_title(self.title)
+            self.search_snippet = highlighter.highlight_text(self.description + ' ' + self.content, 250)
+        else:
+            self.highlighted_title = self.title
+            self.search_snippet = self.description[:200] + '...'
+        
     def _extract_tech_stack(self, project_data):
-        """Extract tech stack as searchable text"""
         tech_stack = project_data.get('tech_stack', {})
         all_tech = []
         for category, tools in tech_stack.items():
@@ -60,29 +68,116 @@ class SearchView(ListView):
         return sorted(combined_results, key=attrgetter('rank'), reverse=True)
     
     def search_posts(self, query):
-        search_vector = SearchVector('title', weight='A') + SearchVector('content', weight='B')
-        search_query = SearchQuery(query)
-        
-        return Post.objects.filter(is_published=True).annotate(
-            search=search_vector,
-            rank=SearchRank(search_vector, search_query),
-            result_type=Value('blog', output_field=CharField()),
-            search_snippet=Value('', output_field=CharField())
-        ).filter(search=search_query)
+        """Search blog posts with highlighting"""
+        try:
+            # Try PostgreSQL full-text search first
+            search_vector = SearchVector('title', weight='A') + SearchVector('content', weight='B')
+            search_query = SearchQuery(query)
+            
+            results = Post.objects.filter(is_published=True).annotate(
+                search=search_vector,
+                rank=SearchRank(search_vector, search_query),
+                result_type=Value('blog', output_field=CharField())
+            ).filter(search=search_query)
+            
+            # Add highlighting to results
+            for result in results:
+                result.highlighted_title = highlight_search_title(result.title, query)
+                result.search_snippet = create_search_snippet(result, query, 'content', 250)
+                result.query = query
+            
+            # If no results, fallback to simple text search
+            if not results.exists():
+                results = Post.objects.filter(
+                    is_published=True
+                ).filter(
+                    Q(title__icontains=query) | Q(content__icontains=query)
+                ).annotate(
+                    rank=Value(1.0),
+                    result_type=Value('blog', output_field=CharField())
+                )
+                
+                # Add highlighting to fallback results
+                for result in results:
+                    result.highlighted_title = highlight_search_title(result.title, query)
+                    result.search_snippet = create_search_snippet(result, query, 'content', 250)
+                    result.query = query
+                
+            return results
+            
+        except Exception as e:
+            # Fallback to simple search
+            results = Post.objects.filter(
+                is_published=True,
+                title__icontains=query
+            ).annotate(
+                rank=Value(1.0),
+                result_type=Value('blog', output_field=CharField())
+            )
+            
+            # Add highlighting to fallback results
+            for result in results:
+                result.highlighted_title = highlight_search_title(result.title, query)
+                result.search_snippet = create_search_snippet(result, query, 'content', 250)
+                result.query = query
+                
+            return results
     
     def search_products(self, query):
-        search_vector = SearchVector('title', weight='A') + SearchVector('description', weight='B')
-        search_query = SearchQuery(query)
-        
-        return Product.objects.annotate(
-            search=search_vector,
-            rank=SearchRank(search_vector, search_query),
-            result_type=Value('product', output_field=CharField()),
-            search_snippet=Value('', output_field=CharField())
-        ).filter(search=search_query)
+        """Search products with highlighting"""
+        try:
+            # Try PostgreSQL full-text search first
+            search_vector = SearchVector('title', weight='A') + SearchVector('description', weight='B')
+            search_query = SearchQuery(query)
+            
+            results = Product.objects.annotate(
+                search=search_vector,
+                rank=SearchRank(search_vector, search_query),
+                result_type=Value('product', output_field=CharField())
+            ).filter(search=search_query)
+            
+            # Add highlighting to results
+            for result in results:
+                result.highlighted_title = highlight_search_title(result.title, query)
+                result.search_snippet = create_search_snippet(result, query, 'description', 200)
+                result.query = query
+            
+            # If no results, fallback to simple text search
+            if not results.exists():
+                results = Product.objects.filter(
+                    Q(title__icontains=query) | Q(description__icontains=query)
+                ).annotate(
+                    rank=Value(1.0),
+                    result_type=Value('product', output_field=CharField())
+                )
+                
+                # Add highlighting to fallback results
+                for result in results:
+                    result.highlighted_title = highlight_search_title(result.title, query)
+                    result.search_snippet = create_search_snippet(result, query, 'description', 200)
+                    result.query = query
+                
+            return results
+            
+        except Exception as e:
+            # Fallback to simple search
+            results = Product.objects.filter(
+                title__icontains=query
+            ).annotate(
+                rank=Value(1.0),
+                result_type=Value('product', output_field=CharField())
+            )
+            
+            # Add highlighting to fallback results
+            for result in results:
+                result.highlighted_title = highlight_search_title(result.title, query)
+                result.search_snippet = create_search_snippet(result, query, 'description', 200)
+                result.query = query
+                
+            return results
     
     def search_portfolio(self, query):
-        """Search portfolio projects using simple text matching"""
+        """Search portfolio projects using simple text matching with highlighting"""
         query_lower = query.lower()
         query_words = query_lower.split()
         
@@ -91,7 +186,7 @@ class SearchView(ListView):
         for project in PROJECTS:
             score = self._calculate_portfolio_score(project, query_lower, query_words)
             if score > 0:
-                result = SearchResult(project)
+                result = SearchResult(project, query)  # Pass query for highlighting
                 result.rank = score
                 matching_projects.append(result)
         
@@ -140,8 +235,9 @@ class SearchView(ListView):
         # Check other searchable fields
         searchable_fields = ['problem', 'solution', 'build_notes']
         for field in searchable_fields:
-            field_content = project.get(field, '').lower()
+            field_content = project.get(field, '')
             if isinstance(field_content, str):
+                field_content = field_content.lower()
                 for word in query_words:
                     if word in field_content:
                         score += 0.2

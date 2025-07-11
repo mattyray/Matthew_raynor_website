@@ -197,7 +197,6 @@ PROJECTS = [
         ],
         "build_notes": "<p>Backend on Heroku using Docker. Frontend on Netlify with Vite build. Axios used for API communication, and PDF output handled via WeasyPrint on the backend.</p>",
         "github_url": "https://github.com/mattyray/django-react-workorders",
-        "live_url": "#"
     },
     {
         "title": "MatthewRaynor.com",
@@ -269,7 +268,6 @@ PROJECTS = [
         ],
         "build_notes": "<p>Heroku container stack deployment using `heroku.yml` and `.env` management. Includes future-ready DRF endpoints for mobile or SPA frontend.</p>",
         "github_url": "https://github.com/mattyray/ch4-bookstore",
-        "live_url": ""
     },
     {
         "title": "AI Motivational Chatbot",
@@ -307,7 +305,6 @@ PROJECTS = [
         ],
         "build_notes": "<p>Chat interface built with Django Channels, using Redis for pub/sub communication. WebSocket connection gracefully handles disconnects and errors, and the OpenAI SDK 1.0+ interface ensures future-proof API usage.</p>",
         "github_url": "https://github.com/mattyray/ai_motivator_chatbot",
-        "live_url": "#"
     },
     {
         "title": "Lotus Path Learning Platform",
@@ -346,7 +343,6 @@ PROJECTS = [
         ],
         "build_notes": "<p>Deployed on Fly.io using Docker. Static files handled via Whitenoise. PostgreSQL database with `.env` integration via <code>django-environ</code>. Includes CKEditor for WYSIWYG content editing.</p>",
         "github_url": "https://github.com/mattyray/news-root",
-        "live_url": "#"
     },
 ]
 
