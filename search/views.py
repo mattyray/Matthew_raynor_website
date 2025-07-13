@@ -22,7 +22,6 @@ class SearchResult:
         self.query = query
         self.tech_stack_text = self._extract_tech_stack(project_data)
         
-        # Create highlighted versions
         if query:
             highlighter = SearchHighlighter(query)
             self.highlighted_title = highlighter.highlight_title(self.title)
@@ -52,10 +51,10 @@ class SearchView(ListView):
         if not query:
             return []
         
-        # Search blog posts
+        # Search blog posts here
         blog_results = self.search_posts(query)
         
-        # Search products
+        # Search products - hurr
         product_results = self.search_products(query)
         
         # Search portfolio projects

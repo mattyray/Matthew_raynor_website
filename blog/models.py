@@ -32,12 +32,12 @@ class Post(models.Model):
     published_date = models.DateTimeField(null=True, blank=True)
     updated_date = models.DateTimeField(auto_now=True)
     
-    # ADD THIS FIELD
+    # here!!
     search_vector = SearchVectorField(null=True, blank=True)
 
     class Meta:
         ordering = ['-published_date']
-        # ADD THIS INDEX
+        # And hurrr!!!
         indexes = [
             GinIndex(fields=['search_vector']),
         ]

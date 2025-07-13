@@ -34,14 +34,14 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
-    # ADD THIS FIELD
     search_vector = SearchVectorField(null=True, blank=True)
 
     class Meta:
-        # ADD THIS INDEX
+        # this!!!!
         indexes = [
             GinIndex(fields=['search_vector']),
         ]
+        
 
     def save(self, *args, **kwargs):
         if not self.slug:
