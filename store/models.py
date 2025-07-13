@@ -41,6 +41,7 @@ class Product(models.Model):
         indexes = [
             GinIndex(fields=['search_vector']),
         ]
+
         
 
     def save(self, *args, **kwargs):
