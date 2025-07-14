@@ -271,6 +271,8 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'portfolio.apps.PortfolioConfig',
     'chat.apps.ChatConfig',
+    'search.apps.SearchConfig',  # <-- ADD THIS LINE
+
 
     # Third-party
     'django.contrib.sites',
@@ -542,10 +544,9 @@ from django.conf import settings
 from django.views.generic import RedirectView, TemplateView
 from accounts.views import DashboardView  # if not already imported
 
-
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("dashboard/", DashboardView.as_view(), name="dashboard"),  # ✅ Add this line
+    path("dashboard/", DashboardView.as_view(), name="dashboard"),
     path("accounts/", include("accounts.urls")),
     path("accounts/", include("allauth.urls")),
     path("blog/", include("blog.urls")),
@@ -554,17 +555,12 @@ urlpatterns = [
     path("store/", include("store.urls")),
     path("portfolio/", include(("portfolio.urls", "portfolio"), namespace="portfolio")),
     path("ckeditor/", include("ckeditor_uploader.urls")),
-    path("chat/", include("chat.urls", namespace="chat")),  # 👈 Add this line
-
-
-
-
+    path("chat/", include("chat.urls", namespace="chat")),
+    path("search/", include("search.urls", namespace="search")),  # <-- ADD THIS LINE
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    #urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
 ===== django_project/wsgi.py =====
 """
 WSGI config for django_project project.
@@ -1175,6 +1171,8 @@ from django.utils.text import slugify
 from embed_video.fields import EmbedVideoField
 from ckeditor_uploader.fields import RichTextUploadingField  # ✅ for rich text
 from cloudinary_storage.storage import MediaCloudinaryStorage  # ✅ for Cloudinary upload
+from django.contrib.postgres.search import SearchVectorField  # ADD THIS
+from django.contrib.postgres.indexes import GinIndex  # ADD THIS
 
 User = get_user_model()
 
@@ -1200,9 +1198,16 @@ class Post(models.Model):
     is_published = models.BooleanField(default=False)
     published_date = models.DateTimeField(null=True, blank=True)
     updated_date = models.DateTimeField(auto_now=True)
+    
+    # here!!
+    search_vector = SearchVectorField(null=True, blank=True)
 
     class Meta:
         ordering = ['-published_date']
+        # And hurrr!!!
+        indexes = [
+            GinIndex(fields=['search_vector']),
+        ]
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -1229,7 +1234,6 @@ class Comment(models.Model):
         if self.user:
             return f"Comment by {self.user} on {self.post}"
         return f"Comment by {self.name} on {self.post}"
-
 ===== blog/views.py =====
 from django.urls import reverse
 from django.views.generic import ListView, DetailView
@@ -1346,6 +1350,7 @@ class BlogModelsSmokeTest(TestCase):
 
 == blog/migrations (filenames only) ==
 blog/migrations/0002_post_image_alter_post_content.py
+blog/migrations/0003_post_search_vector_post_blog_post_search__528e75_gin.py
 blog/migrations/0001_initial.py
 
 
@@ -1556,7 +1561,6 @@ PROJECTS = [
         ],
         "build_notes": "<p>Backend on Heroku using Docker. Frontend on Netlify with Vite build. Axios used for API communication, and PDF output handled via WeasyPrint on the backend.</p>",
         "github_url": "https://github.com/mattyray/django-react-workorders",
-        "live_url": "#"
     },
     {
         "title": "MatthewRaynor.com",
@@ -1628,7 +1632,6 @@ PROJECTS = [
         ],
         "build_notes": "<p>Heroku container stack deployment using `heroku.yml` and `.env` management. Includes future-ready DRF endpoints for mobile or SPA frontend.</p>",
         "github_url": "https://github.com/mattyray/ch4-bookstore",
-        "live_url": ""
     },
     {
         "title": "AI Motivational Chatbot",
@@ -1666,7 +1669,6 @@ PROJECTS = [
         ],
         "build_notes": "<p>Chat interface built with Django Channels, using Redis for pub/sub communication. WebSocket connection gracefully handles disconnects and errors, and the OpenAI SDK 1.0+ interface ensures future-proof API usage.</p>",
         "github_url": "https://github.com/mattyray/ai_motivator_chatbot",
-        "live_url": "#"
     },
     {
         "title": "Lotus Path Learning Platform",
@@ -1705,7 +1707,6 @@ PROJECTS = [
         ],
         "build_notes": "<p>Deployed on Fly.io using Docker. Static files handled via Whitenoise. PostgreSQL database with `.env` integration via <code>django-environ</code>. Includes CKEditor for WYSIWYG content editing.</p>",
         "github_url": "https://github.com/mattyray/news-root",
-        "live_url": "#"
     },
 ]
 
@@ -1796,6 +1797,8 @@ from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
 from cloudinary_storage.storage import MediaCloudinaryStorage
+from django.contrib.postgres.search import SearchVectorField  # ADD THIS
+from django.contrib.postgres.indexes import GinIndex  # ADD THIS
 
 User = settings.AUTH_USER_MODEL
 
@@ -1825,6 +1828,16 @@ class Product(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    search_vector = SearchVectorField(null=True, blank=True)
+
+    class Meta:
+        # this!!!!
+        indexes = [
+            GinIndex(fields=['search_vector']),
+        ]
+
+        
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -1898,7 +1911,6 @@ class Collection(models.Model):
 
     def __str__(self):
         return self.name
-
 ===== store/views.py =====
 from django.views.generic import DetailView, TemplateView, ListView
 from django.shortcuts import render, redirect, get_object_or_404
@@ -2244,6 +2256,7 @@ class StoreModelsSmokeTest(TestCase):
 == store/migrations (filenames only) ==
 store/migrations/0002_collection_product_product_type_product_collection.py
 store/migrations/0001_initial.py
+store/migrations/0004_product_search_vector_and_more.py
 store/migrations/0003_order_customer_email_order_shipping_address_and_more.py
 
 
@@ -3707,9 +3720,16 @@ document.getElementById("chat-form").addEventListener("submit", async function(e
           <li class="nav-item"><a class="nav-link" href="{% url 'pages:contact' %}">Contact</a></li>
           <li class="nav-item store"><a class="nav-link" href="{% url 'store:store_overview' %}">Store</a></li>
         </ul>
-        <form class="d-flex me-3">
-          <input class="form-control search-input" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-light" type="submit">Search</button>
+        <form class="d-flex me-3" method="get" action="{% url 'search:results' %}">
+          <input class="form-control search-input" 
+                type="search" 
+                name="q"
+                value="{{ request.GET.q }}"
+                placeholder="Search" 
+                aria-label="Search">
+          <button class="btn btn-outline-light" type="submit">
+            <i class="fas fa-search"></i>
+          </button>
         </form>
         <ul class="navbar-nav">
           {% if user.is_authenticated %}
@@ -4195,6 +4215,281 @@ document.getElementById("chat-form").addEventListener("submit", async function(e
 
 
 
+===== templates/search/results.html =====
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  {% if query %}Search: "{{ query }}"{% else %}Search{% endif %} - MatthewRaynor.com
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4 fade-in-up">
+  
+  <!-- Search Header -->
+  <div class="search-header mb-4">
+    <h2 class="fw-bold">Search Results</h2>
+    {% if query %}
+      <p class="text-muted lead">
+        {% if total_results %}
+          Found <strong>{{ total_results }}</strong> result{{ total_results|pluralize }} for "<strong>{{ query }}</strong>"
+          <small class="ms-2">
+            ({{ blog_count }} blog, {{ portfolio_count }} portfolio, {{ product_count }} store)
+          </small>
+        {% else %}
+          No results found for "<strong>{{ query }}</strong>"
+        {% endif %}
+      </p>
+    {% else %}
+      <p class="text-muted">Enter a search term to find content across the site.</p>
+    {% endif %}
+  </div>
+
+  <!-- Search Form (for mobile users or direct access) -->
+  <div class="search-form-container mb-4">
+    <form method="get" class="row g-3">
+      <div class="col-md-8">
+        <input type="search" 
+               name="q" 
+               value="{{ query }}" 
+               class="form-control form-control-lg" 
+               placeholder="Search blog posts, projects, products..."
+               autofocus>
+      </div>
+      <div class="col-md-4">
+        <button type="submit" class="btn btn-primary btn-lg w-100">
+          <i class="fas fa-search me-2"></i>Search
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Results -->
+  {% if results %}
+    <div class="search-results">
+      {% for result in results %}
+        <div class="search-result-item card mb-3 shadow-sm fade-in-up sr-delay-{{ forloop.counter }}">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+              <div class="flex-grow-1">
+                
+                <!-- Result Title with Highlighting -->
+                <h5 class="card-title mb-2">
+                  <a href="{% if result.result_type == 'blog' %}{% url 'post_detail' result.slug %}{% elif result.result_type == 'product' %}{% url 'store:product_detail' result.slug %}{% elif result.result_type == 'portfolio' %}{% url 'portfolio:project_detail' result.slug %}{% else %}#{% endif %}" 
+                     class="text-decoration-none">
+                    {% if result.highlighted_title %}
+                      {{ result.highlighted_title|safe }}
+                    {% else %}
+                      {{ result.title }}
+                    {% endif %}
+                  </a>
+                </h5>
+                
+                <!-- Result Content Preview with Highlighting -->
+                <div class="search-snippet text-muted mb-3">
+                  {% if result.search_snippet %}
+                    {{ result.search_snippet|safe }}
+                  {% elif result.result_type == 'blog' %}
+                    {{ result.content|truncatewords:25|striptags }}
+                  {% elif result.result_type == 'product' %}
+                    {{ result.description|truncatewords:25 }}
+                    {% if result.price %}
+                      <span class="fw-bold text-success ms-2">${{ result.price }}</span>
+                    {% endif %}
+                  {% elif result.result_type == 'portfolio' %}
+                    {{ result.description|truncatewords:25 }}
+                    {% if result.tech_stack_text %}
+                      <div class="mt-1">
+                        <small class="text-info">
+                          <i class="fas fa-code me-1"></i>
+                          {{ result.tech_stack_text|truncatewords:10 }}
+                        </small>
+                      </div>
+                    {% endif %}
+                  {% endif %}
+                </div>
+                
+                <!-- Result Metadata -->
+                <div class="search-meta d-flex align-items-center">
+                  <span class="badge me-2 {% if result.result_type == 'blog' %}bg-primary{% elif result.result_type == 'product' %}bg-success{% elif result.result_type == 'portfolio' %}bg-info{% else %}bg-secondary{% endif %}">
+                    {% if result.result_type == 'blog' %}
+                      <i class="fas fa-blog me-1"></i>Blog Post
+                    {% elif result.result_type == 'product' %}
+                      <i class="fas fa-shopping-cart me-1"></i>Product
+                    {% elif result.result_type == 'portfolio' %}
+                      <i class="fas fa-code me-1"></i>Portfolio Project
+                    {% else %}
+                      {{ result.result_type|title }}
+                    {% endif %}
+                  </span>
+                  
+                  {% if result.rank %}
+                    <small class="text-muted">
+                      Relevance: {{ result.rank|floatformat:2 }}
+                    </small>
+                  {% endif %}
+                  
+                  {% if result.result_type == 'blog' and result.published_date %}
+                    <small class="text-muted ms-2">
+                      {{ result.published_date|date:"M d, Y" }}
+                    </small>
+                  {% endif %}
+                  
+                  {% if result.result_type == 'product' and result.price %}
+                    <small class="text-success ms-2 fw-bold">
+                      ${{ result.price }}
+                    </small>
+                  {% endif %}
+                </div>
+                
+              </div>
+              
+              <!-- Result Action -->
+              <div class="ms-3">
+                <a href="{% if result.result_type == 'blog' %}{% url 'post_detail' result.slug %}{% elif result.result_type == 'product' %}{% url 'store:product_detail' result.slug %}{% elif result.result_type == 'portfolio' %}{% url 'portfolio:project_detail' result.slug %}{% else %}#{% endif %}" 
+                   class="btn btn-outline-primary btn-sm">
+                  {% if result.result_type == 'blog' %}
+                    Read More
+                  {% elif result.result_type == 'product' %}
+                    View Product
+                  {% elif result.result_type == 'portfolio' %}
+                    View Project
+                  {% else %}
+                    View
+                  {% endif %}
+                </a>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if is_paginated %}
+      <nav aria-label="Search results pagination" class="mt-4">
+        <ul class="pagination justify-content-center">
+          {% if page_obj.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?q={{ query }}&page={{ page_obj.previous_page_number }}">Previous</a>
+            </li>
+          {% endif %}
+          
+          <li class="page-item active">
+            <span class="page-link">
+              Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+          </li>
+          
+          {% if page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?q={{ query }}&page={{ page_obj.next_page_number }}">Next</a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+    {% endif %}
+
+  {% else %}
+    <!-- No Results -->
+    {% if query %}
+      <div class="no-results text-center py-5 fade-in-up">
+        <div class="mb-4">
+          <i class="fas fa-search fa-3x text-muted mb-3"></i>
+          <h4>No results found</h4>
+          <p class="text-muted">
+            We couldn't find anything matching "<strong>{{ query }}</strong>". 
+            Try different keywords or browse our content below.
+          </p>
+        </div>
+        
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <div class="d-flex gap-3 justify-content-center flex-wrap">
+              <a href="{% url 'post_list' %}" class="btn btn-outline-primary">
+                <i class="fas fa-blog me-2"></i>Browse Blog
+              </a>
+              <a href="{% url 'portfolio:index' %}" class="btn btn-outline-primary">
+                <i class="fas fa-code me-2"></i>View Portfolio
+              </a>
+              <a href="{% url 'store:store_overview' %}" class="btn btn-outline-primary">
+                <i class="fas fa-store me-2"></i>Visit Store
+              </a>
+              <a href="{% url 'pages:contact' %}" class="btn btn-outline-primary">
+                <i class="fas fa-envelope me-2"></i>Contact Me
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endif %}
+
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.search-result-item:hover {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease;
+}
+
+.search-snippet {
+  line-height: 1.6;
+}
+
+.search-meta .badge {
+  font-size: 0.75rem;
+}
+
+.search-form-container {
+  background-color: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #dee2e6;
+}
+
+.badge.bg-info {
+  background-color: #0dcaf0 !important;
+}
+
+/* Search highlighting styles */
+.search-highlight, mark.search-highlight {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 1px 3px;
+  border-radius: 3px;
+  font-weight: 600;
+  border: none;
+}
+
+.card-title .search-highlight {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.search-snippet .search-highlight {
+  background-color: #e2e3e5;
+  color: #383d41;
+  font-weight: 500;
+}
+
+/* Dark mode support for highlighting */
+@media (prefers-color-scheme: dark) {
+  .search-highlight, mark.search-highlight {
+    background-color: #664d03;
+    color: #fff3cd;
+  }
+  
+  .card-title .search-highlight {
+    background-color: #0f5132;
+    color: #d1e7dd;
+  }
+}
+</style>
+{% endblock %}
 ===== templates/portfolio/index.html =====
 {% extends "base.html" %}
 {% load static %}
