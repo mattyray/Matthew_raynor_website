@@ -7,7 +7,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import UpdateView
 from django.http import Http404
 
-# Updated PROJECTS with Cloudinary URLs
+# Updated PROJECTS with MatthewRaynor.com as second item and new video URL
 PROJECTS = [
     {
         "title": "HistoryFace AI - Face Swap SaaS",
@@ -58,6 +58,42 @@ PROJECTS = [
         "build_notes": "<p>This project demonstrates advanced AI integration, business model implementation, and cost-conscious cloud architecture. The facial recognition pipeline uses mathematical comparison of facial features, while the HuggingFace integration required custom API client development. Built with accessibility in mind using voice commands and adaptive technologies.</p>",
         "github_url": "https://github.com/mattyray/ai-convert",
         "video_url": "https://youtu.be/rpkIL5FZbpA"
+    },
+    {
+        "title": "MatthewRaynor.com",
+        "slug": "matthew-raynor",
+        "hero_video": "https://youtu.be/eJKmfdd19DI",  # UPDATED VIDEO URL
+        "hero_image": "https://res.cloudinary.com/dddye9wli/image/upload/w_400,h_300,c_fill,q_auto,f_auto/v1752173587/matthewraynor_rjiinl.jpg",
+        "description": "My flagship website combining my story, blog, art store, and technical portfolio.",
+        "overview": "A personal brand site where all my passions intersect — tech, writing, art, and accessibility.",
+        "tech_stack": {
+            "backend": ["Django 5.1.6", "Python 3.10", "PostgreSQL"],
+            "frontend": ["Bootstrap 5", "SCSS", "Flatpickr", "FullCalendar"],
+            "deployment": ["Docker", "Heroku (Container Stack)", "Whitenoise"],
+            "tools": ["Allauth", "Crispy Forms", "django-environ"]
+        },
+        "problem": "I needed a single platform to unify my professional work, writing, art, and personal journey to help others and represent myself to the world.",
+        "solution": "I built a full-featured Django site with custom user login, store, blog, portfolio, and press coverage hub.",
+        "special_features": [
+            "Custom user model + Allauth integration",
+            "Press hub, blog, store, and modular portfolio detail pages",
+            "AI chatbot scaffold and accessible frontend"
+        ],
+        "problems_solved": [
+            "Needed one site to host my store, blog, portfolio, and press",
+            "Reduced reliance on platforms like Shopify or Medium"
+        ],
+        "improvements": [
+            "Add Stripe cart/checkout system",
+            "Enable newsletter signup and global search"
+        ],
+        "proud_of": [
+            "Built a fully modular, multi-app Django system",
+            "Reflects my resilience and technical versatility"
+        ],
+        "build_notes": "<p>Every page is component-driven with a global base template. Portfolio is hardcoded for now, but database-driven expansion is planned.</p>",
+        "github_url": "https://github.com/mattyray/Matthew_raynor_website",
+        "live_url": "https://www.matthewraynor.com"
     },
     {
         "title": "EJ Art Moving App",
@@ -197,43 +233,6 @@ PROJECTS = [
         ],
         "build_notes": "<p>Backend on Heroku using Docker. Frontend on Netlify with Vite build. Axios used for API communication, and PDF output handled via WeasyPrint on the backend.</p>",
         "github_url": "https://github.com/mattyray/django-react-workorders",
-    },
-    {
-        "title": "MatthewRaynor.com",
-        "slug": "matthew-raynor",
-        "hero_video": "https://youtu.be/pWuW1AasRGY",  # ADD THIS LINE
-
-        "hero_image": "https://res.cloudinary.com/dddye9wli/image/upload/w_400,h_300,c_fill,q_auto,f_auto/v1752173587/matthewraynor_rjiinl.jpg",
-        "description": "My flagship website combining my story, blog, art store, and technical portfolio.",
-        "overview": "A personal brand site where all my passions intersect — tech, writing, art, and accessibility.",
-        "tech_stack": {
-            "backend": ["Django 5.1.6", "Python 3.10", "PostgreSQL"],
-            "frontend": ["Bootstrap 5", "SCSS", "Flatpickr", "FullCalendar"],
-            "deployment": ["Docker", "Heroku (Container Stack)", "Whitenoise"],
-            "tools": ["Allauth", "Crispy Forms", "django-environ"]
-        },
-        "problem": "I needed a single platform to unify my professional work, writing, art, and personal journey to help others and represent myself to the world.",
-        "solution": "I built a full-featured Django site with custom user login, store, blog, portfolio, and press coverage hub.",
-        "special_features": [
-            "Custom user model + Allauth integration",
-            "Press hub, blog, store, and modular portfolio detail pages",
-            "AI chatbot scaffold and accessible frontend"
-        ],
-        "problems_solved": [
-            "Needed one site to host my store, blog, portfolio, and press",
-            "Reduced reliance on platforms like Shopify or Medium"
-        ],
-        "improvements": [
-            "Add Stripe cart/checkout system",
-            "Enable newsletter signup and global search"
-        ],
-        "proud_of": [
-            "Built a fully modular, multi-app Django system",
-            "Reflects my resilience and technical versatility"
-        ],
-        "build_notes": "<p>Every page is component-driven with a global base template. Portfolio is hardcoded for now, but database-driven expansion is planned.</p>",
-        "github_url": "https://github.com/mattyray/Matthew_raynor_website",
-        "live_url": "https://www.matthewraynor.com"
     },
     {
         "title": "Matt's Bookstore API",
