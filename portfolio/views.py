@@ -7,7 +7,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import UpdateView
 from django.http import Http404
 
-# Updated PROJECTS with MatthewRaynor.com as second item and new video URL
+# Updated PROJECTS with Enhanced Fundraiser Entry
 PROJECTS = [
     {
         "title": "HistoryFace AI - Face Swap SaaS",
@@ -60,42 +60,6 @@ PROJECTS = [
         "video_url": "https://youtu.be/rpkIL5FZbpA"
     },
     {
-        "title": "MatthewRaynor.com",
-        "slug": "matthew-raynor",
-        "hero_video": "https://youtu.be/eJKmfdd19DI",  # UPDATED VIDEO URL
-        "hero_image": "https://res.cloudinary.com/dddye9wli/image/upload/w_400,h_300,c_fill,q_auto,f_auto/v1752173587/matthewraynor_rjiinl.jpg",
-        "description": "My flagship website combining my story, blog, art store, and technical portfolio.",
-        "overview": "A personal brand site where all my passions intersect — tech, writing, art, and accessibility.",
-        "tech_stack": {
-            "backend": ["Django 5.1.6", "Python 3.10", "PostgreSQL"],
-            "frontend": ["Bootstrap 5", "SCSS", "Flatpickr", "FullCalendar"],
-            "deployment": ["Docker", "Heroku (Container Stack)", "Whitenoise"],
-            "tools": ["Allauth", "Crispy Forms", "django-environ"]
-        },
-        "problem": "I needed a single platform to unify my professional work, writing, art, and personal journey to help others and represent myself to the world.",
-        "solution": "I built a full-featured Django site with custom user login, store, blog, portfolio, and press coverage hub.",
-        "special_features": [
-            "Custom user model + Allauth integration",
-            "Press hub, blog, store, and modular portfolio detail pages",
-            "AI chatbot scaffold and accessible frontend"
-        ],
-        "problems_solved": [
-            "Needed one site to host my store, blog, portfolio, and press",
-            "Reduced reliance on platforms like Shopify or Medium"
-        ],
-        "improvements": [
-            "Add Stripe cart/checkout system",
-            "Enable newsletter signup and global search"
-        ],
-        "proud_of": [
-            "Built a fully modular, multi-app Django system",
-            "Reflects my resilience and technical versatility"
-        ],
-        "build_notes": "<p>Every page is component-driven with a global base template. Portfolio is hardcoded for now, but database-driven expansion is planned.</p>",
-        "github_url": "https://github.com/mattyray/Matthew_raynor_website",
-        "live_url": "https://www.matthewraynor.com"
-    },
-    {
         "title": "EJ Art Moving App",
         "slug": "art-mover",
         "hero_video": "https://youtu.be/xWtrO4F0In4",
@@ -132,6 +96,96 @@ PROJECTS = [
         "github_url": "https://github.com/mattyray/art_moving_buisness",
     },
     {
+        "title": "MatthewRaynor.com",
+        "slug": "matthew-raynor",
+        "hero_video": "https://youtu.be/pWuW1AasRGY",
+        "hero_image": "https://res.cloudinary.com/dddye9wli/image/upload/w_400,h_300,c_fill,q_auto,f_auto/v1752173587/matthewraynor_rjiinl.jpg",
+        "description": "My flagship website combining my story, blog, art store, and technical portfolio.",
+        "overview": "A personal brand site where all my passions intersect — tech, writing, art, and accessibility.",
+        "tech_stack": {
+            "backend": ["Django 5.1.6", "Python 3.10", "PostgreSQL"],
+            "frontend": ["Bootstrap 5", "SCSS", "Flatpickr", "FullCalendar"],
+            "deployment": ["Docker", "Heroku (Container Stack)", "Whitenoise"],
+            "tools": ["Allauth", "Crispy Forms", "django-environ"]
+        },
+        "problem": "I needed a single platform to unify my professional work, writing, art, and personal journey to help others and represent myself to the world.",
+        "solution": "I built a full-featured Django site with custom user login, store, blog, portfolio, and press coverage hub.",
+        "special_features": [
+            "Custom user model + Allauth integration",
+            "Press hub, blog, store, and modular portfolio detail pages",
+            "AI chatbot scaffold and accessible frontend"
+        ],
+        "problems_solved": [
+            "Needed one site to host my store, blog, portfolio, and press",
+            "Reduced reliance on platforms like Shopify or Medium"
+        ],
+        "improvements": [
+            "Add Stripe cart/checkout system",
+            "Enable newsletter signup and global search"
+        ],
+        "proud_of": [
+            "Built a fully modular, multi-app Django system",
+            "Reflects my resilience and technical versatility"
+        ],
+        "build_notes": "<p>Every page is component-driven with a global base template. Portfolio is hardcoded for now, but database-driven expansion is planned.</p>",
+        "github_url": "https://github.com/mattyray/Matthew_raynor_website",
+        "live_url": "https://www.matthewraynor.com"
+    },
+    {
+        "title": "Matt's Freedom Fundraiser - When GoFundMe Almost Stole $26K",
+        "slug": "fundraiser",
+        "hero_video": "https://youtu.be/ZumlW-noN6E",
+        "hero_image": "https://res.cloudinary.com/dddye9wli/image/upload/w_400,h_300,c_fill,q_auto,f_auto/v1752173586/fundraiser_gsbo4o.jpg",
+        "description": "After GoFundMe nearly blocked my $26K withdrawal with terrible policies, I built my own donation platform with zero platform fees.",
+        "overview": "When I needed funds to escape the nursing home, I initially used GoFundMe. Big mistake. They made it nearly impossible to withdraw money, took percentage cuts, and offered zero customer service. We almost lost everything due to their predatory refund policies. So I did what any developer would do: I built my own platform with direct Stripe integration and complete donor control.",
+        "tech_stack": {
+            "backend": ["Django 5.1.6", "Django REST Framework", "PostgreSQL", "Redis", "Celery"],
+            "frontend": ["React 19", "TypeScript", "Tailwind CSS", "Responsive Design"],
+            "payments": ["Direct Stripe Integration", "Zero Platform Fees", "Custom Donation Flow"],
+            "deployment": ["Docker", "Fly.io", "Netlify", "Professional CI/CD"],
+            "features": ["Custom Email System", "Documentary Integration", "Real-time Analytics"]
+        },
+        "problem": "GoFundMe made it nearly impossible to access my own fundraised money, took percentage cuts on donations meant for my medical needs, offered zero customer service when problems arose, and their refund policies almost cost us $26,000 that donors intended for my care and housing.",
+        "solution": "Built a completely independent donation platform with React 19 + TypeScript frontend, Django REST Framework backend, direct Stripe integration bypassing all middleman fees, custom Celery-powered email system, and complete control over donor data and funds.",
+        "special_features": [
+            "Direct Stripe integration with zero platform fees (100% of donations reach recipient)",
+            "React 19 + TypeScript SPA with modern responsive design",
+            "Custom Celery email automation system for donor communication",
+            "Professional documentary integration with seamless video embedding",
+            "Real-time donation tracking and analytics dashboard",
+            "Complete donor data ownership and privacy protection",
+            "Mobile-optimized donation flow with accessibility features",
+            "PostgreSQL + Redis infrastructure for enterprise-level reliability"
+        ],
+        "problems_solved": [
+            "Eliminated predatory platform fees that siphon money from medical fundraisers",
+            "Removed withdrawal restrictions and bureaucratic barriers to accessing funds",
+            "Provided immediate access to donations without arbitrary hold periods",
+            "Created transparent donor communication without platform censorship",
+            "Built sustainable funding solution independent of third-party policy changes",
+            "Established complete legal and financial control over fundraising operations"
+        ],
+        "improvements": [
+            "Add recurring donation subscription options",
+            "Integrate cryptocurrency payment methods",
+            "Build donor portal for contribution history and tax receipts",
+            "Add social media sharing optimization and viral mechanics",
+            "Implement advanced donor analytics and engagement tracking"
+        ],
+        "proud_of": [
+            "Saved $26,000 from GoFundMe's predatory policies through technical innovation",
+            "Built enterprise-grade donation platform as a quadriplegic using adaptive technology",
+            "Created sustainable funding model that eliminates exploitative middlemen",
+            "Shipped production-ready React + Django architecture under extreme time pressure",
+            "Turned institutional barriers into opportunities for technical problem-solving",
+            "Delivered 100% fee-free donations directly to medical and housing needs"
+        ],
+        "build_notes": "<p>This platform represents a complete rebellion against exploitative fundraising platforms. Built using modern React 19 with TypeScript for type safety, Django REST Framework for robust API architecture, and direct Stripe integration to eliminate all middleman fees. The Celery email system ensures reliable donor communication, while the documentary integration provides professional storytelling capabilities. Deployed across Fly.io and Netlify for maximum reliability and performance.</p>",
+        "github_url": "https://github.com/mattyray/fundraiser-website",
+        "live_url": "https://www.mattsfreedomfundraiser.com",
+        "video_url": "https://youtu.be/ZumlW-noN6E"
+    },
+    {
         "title": "AI Chat Widget (Open Source)",
         "slug": "chat-widget",
         "hero_image": "https://res.cloudinary.com/dddye9wli/image/upload/w_400,h_300,c_fill,q_auto,f_auto/v1752173483/django-chatwidget_tpyjby.jpg",
@@ -165,40 +219,6 @@ PROJECTS = [
         "build_notes": "<p>Packaged with <code>twine</code>, includes JSON knowledge base ingestion and OpenAI GPT integration. Currently being tested in multiple live environments.</p>",
         "github_url": "https://github.com/mattyray/django-chatwidget",
         "live_url": "https://mattsfreedomfundraiser.com"
-    },
-    {
-        "title": "Matt's Freedom Fundraiser",
-        "slug": "fundraiser",
-        "hero_image": "https://res.cloudinary.com/dddye9wli/image/upload/w_400,h_300,c_fill,q_auto,f_auto/v1752173586/fundraiser_gsbo4o.jpg",
-        "description": "A donation-based campaign platform with embedded video, blog, and outreach.",
-        "overview": "Created to support my move out of a nursing home, this campaign site includes a motivational blog, caregiver outreach, and donation CTAs.",
-        "tech_stack": {
-            "backend": ["Django", "Python", "PostgreSQL"],
-            "frontend": ["Bootstrap 5", "Crispy Forms"],
-            "deployment": ["Docker", "Heroku", "Whitenoise"],
-            "tools": ["django-environ", "YouTube Embed", "Mailchimp (planned)"]
-        },
-        "problem": "I needed a way to raise funds for housing and medical needs while also telling my story and engaging my community.",
-        "solution": "I built a multi-page fundraising site that includes a blog, press coverage, embedded video, and contact outreach tools.",
-        "special_features": [
-            "Embedded YouTube campaign video with autoplay",
-            "Integrated blog with post editor and dynamic list/detail views"
-        ],
-        "problems_solved": [
-            "Unified storytelling, fundraising, and updates in one hub",
-            "Raised awareness and caregiver interest via CDPAP outreach"
-        ],
-        "improvements": [
-            "Integrate Stripe or PayPal for donations",
-            "Add comment moderation and CAPTCHA"
-        ],
-        "proud_of": [
-            "Deployed solo with Docker and Heroku",
-            "Bilingual outreach increased community engagement"
-        ],
-        "build_notes": "<p>Uses Django Pages app with static press data. Campaign blog and store are modular and reusable across other projects.</p>",
-        "github_url": "https://github.com/mattyray/fundraiser-website",
-        "live_url": "https://www.mattfreedomfundraiser.com"
     },
     {
         "title": "Work Order Manager (React + Django)",
