@@ -181,8 +181,7 @@ PROJECTS = [
             "Delivered 100% fee-free donations directly to medical and housing needs"
         ],
         "build_notes": "<p>This platform represents a complete rebellion against exploitative fundraising platforms. Built using modern React 19 with TypeScript for type safety, Django REST Framework for robust API architecture, and direct Stripe integration to eliminate all middleman fees. The Celery email system ensures reliable donor communication, while the documentary integration provides professional storytelling capabilities. Deployed across Fly.io and Netlify for maximum reliability and performance.</p>",
-        "github_url": "https://github.com/mattyray/fundraiser-website",
-        "live_url": "https://www.mattsfreedomfundraiser.com",
+        "github_url": "https://github.com/mattyray/mff-v2",
         "video_url": "https://youtu.be/ZumlW-noN6E"
     },
     {
