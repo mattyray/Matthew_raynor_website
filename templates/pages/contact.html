@@ -4,56 +4,137 @@
 {% block title %}Contact - MatthewRaynor.com{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-  <h1 class="fw-bold mb-4">Contact Me</h1>
-  <p class="lead">Got questions? Need a Website/Application? Need Drone Photos? Drop me a message below.</p>
-
-  {% if messages %}
-    {% for message in messages %}
-      <div class="alert alert-success">{{ message }}</div>
-    {% endfor %}
-  {% endif %}
-
-  <form method="post">
-    {% csrf_token %}
-    
-    <div class="mb-3">
-      <label for="{{ form.name.id_for_label }}" class="form-label">Name</label>
-      {{ form.name }}
-    </div>
-    
-    <div class="mb-3">
-      <label for="{{ form.email.id_for_label }}" class="form-label">Email</label>
-      {{ form.email }}
-    </div>
-    
-    <div class="mb-3">
-      <label for="{{ form.message.id_for_label }}" class="form-label">Message</label>
-      {{ form.message }}
-    </div>
-    
-    <!-- Hidden honeypot field -->
-    <div style="position: absolute; left: -9999px; opacity: 0;">
-      <label for="{{ form.website.id_for_label }}">Website</label>
-      {{ form.website }}
-    </div>
-    
-    <div class="mb-3">
-      {{ form.captcha }}
-    </div>
-    
-    <!-- Show form errors -->
-    {% if form.errors %}
-      <div class="alert alert-danger">
-        {% for field, errors in form.errors.items %}
-          {% for error in errors %}
-            <div>{{ error }}</div>
-          {% endfor %}
-        {% endfor %}
+<div class="container mt-5 fade-in-up">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="text-center mb-4">
+        <h1 class="fw-bold">Contact Me</h1>
+        <p class="lead">Got questions? Need a Website/Application? Need Drone Photos? Drop me a message below.</p>
       </div>
-    {% endif %}
-    
-    <button type="submit" class="btn btn-primary mt-3">Send Message</button>
-  </form>
+
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+          <form method="post" id="contact-form">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+              <label for="{{ form.name.id_for_label }}" class="form-label fw-semibold">Name *</label>
+              <input type="text" 
+                     class="form-control form-control-lg" 
+                     id="{{ form.name.id_for_label }}"
+                     name="{{ form.name.name }}"
+                     value="{{ form.name.value|default:'' }}"
+                     placeholder="Your full name"
+                     required>
+              {% if form.name.errors %}
+                <div class="text-danger small mt-1">{{ form.name.errors.0 }}</div>
+              {% endif %}
+            </div>
+
+            <div class="mb-3">
+              <label for="{{ form.email.id_for_label }}" class="form-label fw-semibold">Email *</label>
+              <input type="email" 
+                     class="form-control form-control-lg" 
+                     id="{{ form.email.id_for_label }}"
+                     name="{{ form.email.name }}"
+                     value="{{ form.email.value|default:'' }}"
+                     placeholder="your.email@example.com"
+                     required>
+              {% if form.email.errors %}
+                <div class="text-danger small mt-1">{{ form.email.errors.0 }}</div>
+              {% endif %}
+            </div>
+
+            <div class="mb-3">
+              <label for="{{ form.message.id_for_label }}" class="form-label fw-semibold">Message *</label>
+              <textarea class="form-control" 
+                        id="{{ form.message.id_for_label }}"
+                        name="{{ form.message.name }}"
+                        rows="5"
+                        placeholder="Tell me about your project, question, or how I can help..."
+                        required>{{ form.message.value|default:'' }}</textarea>
+              {% if form.message.errors %}
+                <div class="text-danger small mt-1">{{ form.message.errors.0 }}</div>
+              {% endif %}
+            </div>
+
+            <!-- Hidden honeypot field -->
+            <div style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;">
+              <label for="{{ form.website.id_for_label }}">Website (leave blank)</label>
+              <input type="text" 
+                     id="{{ form.website.id_for_label }}"
+                     name="{{ form.website.name }}"
+                     value="{{ form.website.value|default:'' }}"
+                     tabindex="-1"
+                     autocomplete="off">
+            </div>
+
+            <!-- reCAPTCHA -->
+            <div class="mb-4 d-flex justify-content-center">
+              {{ form.captcha }}
+              {% if form.captcha.errors %}
+                <div class="text-danger small mt-1">{{ form.captcha.errors.0 }}</div>
+              {% endif %}
+            </div>
+
+            <!-- Form errors -->
+            {% if form.non_field_errors %}
+              <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                  <div>{{ error }}</div>
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary btn-lg" id="submit-btn">
+                <i class="fas fa-paper-plane me-2"></i>Send Message
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Contact info -->
+      <div class="text-center mt-4">
+        <p class="text-muted">
+          Or reach me directly at 
+          <a href="mailto:mnraynor90@gmail.com" class="text-decoration-none">mnraynor90@gmail.com</a>
+        </p>
+      </div>
+    </div>
+  </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('contact-form');
+    const submitBtn = document.getElementById('submit-btn');
+    
+    form.addEventListener('submit', function(e) {
+        // Disable submit button to prevent double submission
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Sending...';
+        
+        // Re-enable after 5 seconds (in case of errors)
+        setTimeout(function() {
+            if (submitBtn.disabled) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Send Message';
+            }
+        }, 5000);
+    });
+});
+</script>
 {% endblock %}
