@@ -6,8 +6,32 @@ from django.core.mail import send_mail
 from .forms import ContactForm
 from django.conf import settings
 
-
-
+def is_spam(message, email):
+    """Simple spam detection"""
+    message_lower = message.lower()
+    
+    # Common spam indicators
+    spam_keywords = [
+        'seo', 'backlinks', 'rank higher', 'increase traffic',
+        'crypto', 'bitcoin', 'investment', 'make money online',
+        'click here', 'visit our website', 'check out our',
+    ]
+    
+    # Check for spam domains
+    spam_domains = ['.ru', '.tk', '.ml', '.ga', '.cf', 'tempmail']
+    if any(domain in email.lower() for domain in spam_domains):
+        return True
+    
+    # Check for multiple spam keywords
+    spam_count = sum(1 for keyword in spam_keywords if keyword in message_lower)
+    if spam_count >= 2:
+        return True
+    
+    # Check for links (most spam contains URLs)
+    if 'http' in message_lower:
+        return True
+        
+    return False
 
 def contact_view(request):
     if request.method == "POST":
@@ -16,6 +40,12 @@ def contact_view(request):
             name = form.cleaned_data["name"]
             email = form.cleaned_data["email"]
             message = form.cleaned_data["message"]
+
+            # Basic spam check - if message contains obvious spam, silently ignore it
+            if is_spam(message, email):
+                # Don't tell them it's spam - just pretend it worked
+                messages.success(request, "Thanks for reaching out! Your message was sent.")
+                return redirect("pages:contact")
 
             full_message = f"New contact form submission:\n\nFrom: {name} <{email}>\n\nMessage:\n{message}"
 
@@ -36,8 +66,6 @@ def contact_view(request):
 class StoryPageView(TemplateView):
     template_name = 'pages/story.html'
 
-
-
 class HomePageView(TemplateView):
     template_name = 'home.html'
 
@@ -45,8 +73,6 @@ class HomePageView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["recent_posts"] = Post.objects.filter(is_published=True).order_by('-updated_date')[:6]
         return context
-
-
 
 class PressPageView(TemplateView):
     template_name = "pages/press.html"
@@ -69,7 +95,7 @@ class PressPageView(TemplateView):
                 "image_url": "https://image.27east.com/2020/11/Matt-Raynor-beautifulbirch-scaled.jpg"
             },
             {
-                "title": "Before and After: Matt Raynor’s Life and Its Unexpected Turns",
+                "title": "Before and After: Matt Raynor's Life and Its Unexpected Turns",
                 "source": "27East",
                 "link": "https://www.27east.com/southampton-press/before-and-after-matt-raynors-life-and-its-unexpected-turns-chronicled-in-new-photography-book-2294539/",
                 "summary": "Covers your memoir 'Before Me<>After Me,' sharing your powerful personal transformation through imagery.",
@@ -98,7 +124,7 @@ class PressPageView(TemplateView):
             },
             {
                 "title": "Get Matty Ray Back On The Bay",
-                "source": "Dan’s Papers",
+                "source": "Dan's Papers",
                 "link": "https://www.danspapers.com/2019/07/get-matty-ray-back-on-the-bay/",
                 "summary": "Early community support feature spotlighting your recovery and the fundraiser to aid your journey.",
                 "image_url": "https://www.danspapers.com/wp-content/uploads/2020/11/matt-raynor-benefit.jpg"
