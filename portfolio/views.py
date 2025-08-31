@@ -9,6 +9,72 @@ from django.http import Http404
 
 # Updated PROJECTS with Enhanced Fundraiser Entry
 PROJECTS = [
+    
+
+        {
+        "title": "Production-Grade Photo Capture & Validation",
+        "slug": "photo-capture-validation",
+        "hero_video": "https://youtu.be/4g5zsY9exVw",
+        # Optional: set a placeholder image too if you like
+        # "hero_image": "path/to/thumbnail.jpg",
+        "description": "Full-stack platform with real-time camera preview, face/light/blur analysis, and dynamic backgrounds.",
+        "overview": (
+            "I engineered a production-grade photo capture and validation system. "
+            "It provides live camera preview with positioning guides, in-browser analysis for face presence/alignment, "
+            "lighting, and blur, plus dynamic backgrounds (solid colors, professional blur, or custom images). "
+            "This video walks through the architecture and a live demo."
+        ),
+        "tech_stack": {
+            "backend": ["Django 5.1.6", "Django REST Framework", "PostgreSQL", "Celery", "Redis (Upstash)"],
+            "frontend": ["React 18", "TypeScript", "Tailwind CSS"],
+            "ai_ml": ["TensorFlow.js", "BlazeFace", "BodyPix"],
+            "cloud": ["AWS S3 (storage)", "AWS SES (email)"],
+            "deployment": ["Docker", "Fly.io (API)", "Netlify (Frontend)"]
+        },
+        "problem": (
+            "Organizations need consistent, high-quality photos captured quickly with instant feedback—"
+            "without manual review bottlenecks or server-side latency."
+        ),
+        "solution": (
+            "Built a browser-first pipeline: real-time camera preview, on-device ML checks for face, lighting, and blur, "
+            "and a background processor for solid/blur/custom images. Backend manages jobs, submissions, exports, "
+            "and notifications with Celery/Redis."
+        ),
+        "special_features": [
+            "Live camera preview with positioning guides",
+            "On-device face detection, lighting analysis, and blur detection",
+            "Dynamic backgrounds: solid colors, professional blur, custom images",
+            "Configurable rules per job/use case",
+            "Async exports/cleanups via Celery + Redis",
+            "Cloud storage (S3) and email notifications (SES)"
+        ],
+        "problems_solved": [
+            "Instant, in-browser quality feedback (no round-trips)",
+            "Consistent outputs across different devices/environments",
+            "Scalable processing via Celery workers and Redis",
+            "Cost-controlled storage and automated cleanups"
+        ],
+        "improvements": [
+            "Add role-based approvals & audit trails",
+            "Offline capture mode with background sync",
+            "Batch review dashboard and advanced search"
+        ],
+        "proud_of": [
+            "Smooth React + TypeScript camera UX with validation overlays",
+            "TensorFlow.js pipeline that feels instant",
+            "Robust DRF API + Celery orchestration for scale"
+        ],
+        "build_notes": (
+            "<ul>"
+            "<li>Frontend uses React hooks to manage camera streams and a canvas pipeline for effects.</li>"
+            "<li>TensorFlow.js (BlazeFace/BodyPix) powers in-browser face/lighting/blur checks for low latency.</li>"
+            "<li>DRF provides endpoints for jobs, submissions, and settings; Postgres stores artifacts/metadata.</li>"
+            "<li>Celery + Redis handle exports, cleanups, and notifications without blocking the UI.</li>"
+            "<li>Deployed with Docker; API on Fly.io, frontend on Netlify; assets in S3, email via SES.</li>"
+            "</ul>"
+        ),
+    },
+
     {
         "title": "HistoryFace AI - Face Swap SaaS",
         "slug": "historyface-ai",
