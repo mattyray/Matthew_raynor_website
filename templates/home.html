@@ -77,83 +77,131 @@
     <div class="container">
       <h2 class="text-center fw-bold mb-4">My Development Projects</h2>
 
+      <!-- INTRO TEXT -->
       <div class="bg-white rounded shadow-sm p-4 mb-5 mx-auto" style="max-width: 900px;">
         <p class="lead text-center mb-0">
-          I'm a <span class="fw-bold">self-taught full-stack developer</span> with a specialty in 
-          <span class="fw-bold">Django</span>, <span class="fw-bold">Python</span>, and modern frontend tools like 
-          <span class="fw-bold">React</span> and <span class="fw-bold">Tailwind CSS</span>.
-          <br class="d-none d-md-block mt-2">
-          I build <span class="fw-bold">custom web applications</span> for 
-          <em>small businesses</em>, <em>artists</em>, and <em>mission-driven projects</em> — including 
-          <span class="fw-bold">logistics dashboards</span>, 
-          <span class="fw-bold">e-commerce systems</span>, and 
-          <span class="fw-bold">interactive storytelling platforms</span>.
-          <br><br>
-          Whether you're an employer looking for someone who can 
-          <span class="fw-bold">ship production-grade code with design sensibility</span>,  
-          or a client needing <span class="fw-bold">real solutions to real-world problems</span> — 
-          I bring <em>discipline, empathy, and creativity</em> to every build.
+          I'm an <span class="fw-bold">AI Engineer & Full-Stack Developer</span> who builds production-grade software from the ground up. My work spans <span class="fw-bold">computer vision</span>, <span class="fw-bold">image processing</span>, <span class="fw-bold">SaaS architecture</span>, <span class="fw-bold">workflow automation</span>, and <span class="fw-bold">full-stack web development</span> using <span class="fw-bold">React</span>, <span class="fw-bold">TypeScript</span>, <span class="fw-bold">Django</span>, and modern cloud tooling.
+        </p>
+        <p class="lead text-center mb-0 mt-3">
+          I specialize in taking complex real-world processes and transforming them into clean, reliable, user-friendly software. Because I'm paralyzed, I naturally adopted a highly structured and methodical engineering approach — I plan deeply, break down problems clearly, and design systems that scale.
+        </p>
+        <p class="lead text-center mb-0 mt-3">
+          My recent work includes an <span class="fw-bold">AI-powered ID photo capture system</span> with on-device ML and computer vision, a <span class="fw-bold">full logistics operations platform</span> for ToteTaxi.com, and a <span class="fw-bold">viral AI face-swapping SaaS</span> combining facial recognition with GPU-accelerated image generation.
         </p>
       </div>
-    </div>
-    <!-- VIDEO BLOG SHOWCASE -->
-    <div class="container mb-5 fade-in-up sr-delay-6">
-      <div class="text-center mb-4">
-        <h3 class="fw-bold">My Story as a Developer</h3>
-        <p class="lead mb-3">How I learned to code as a quadriplegic — overcoming odds, building production-grade software, and embracing creative resilience.</p>
-      </div>
-      <div class="ratio ratio-16x9 shadow rounded overflow-hidden mx-auto" style="max-width: 800px;">
-        <iframe 
-          src="https://www.youtube.com/embed/pWuW1AasRGY?rel=0&modestbranding=1" 
-          title="Matthew Raynor – How I Taught Myself Web Development" 
-          frameborder="0"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen>
-        </iframe>
-      </div>
-    </div>
 
-      <div class="row g-4 text-center">
-        <div class="col-md-4">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body">
-              <i class="fas fa-shipping-fast fa-2x text-primary mb-3"></i>
-              <h5 class="card-title fw-bold">Art Mover App</h5>
-              <p class="card-text">A scheduling and invoicing tool built for a fine art moving business.</p>
-            </div>
+      <!-- VIDEO: My Story as a Developer -->
+      <div class="container mb-5 fade-in-up sr-delay-6">
+        <div class="text-center mb-4">
+          <h3 class="fw-bold">My Story as a Developer</h3>
+          <p class="lead mb-3">How I learned to code as a quadriplegic — overcoming odds, building production-grade software, and embracing creative resilience.</p>
+        </div>
+        <div class="ratio ratio-16x9 shadow rounded overflow-hidden mx-auto" style="max-width: 800px;">
+          <iframe 
+            src="https://www.youtube.com/embed/pWuW1AasRGY?rel=0&modestbranding=1" 
+            title="Matthew Raynor – How I Taught Myself Web Development" 
+            frameborder="0"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+
+      <!-- FEATURED PROJECTS - HORIZONTAL ALTERNATING -->
+      <h3 class="text-center fw-bold mb-5 mt-5">Featured Projects</h3>
+
+      <!-- Project 1: ToteTaxi - Video Left, Text Right -->
+      <div class="row align-items-center mb-5 fade-in-up">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <div class="ratio ratio-16x9 shadow rounded overflow-hidden">
+            <iframe 
+              src="https://www.youtube.com/embed/PXJ540ZxxuY?rel=0&modestbranding=1" 
+              title="ToteTaxi Demo"
+              frameborder="0"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen>
+            </iframe>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body">
-              <i class="fas fa-laptop-code fa-2x text-primary mb-3"></i>
-              <h5 class="card-title fw-bold">Work Order Manager</h5>
-              <p class="card-text">
-                A full-stack app using Django REST and React — manage client jobs, schedule pickups, and track work orders with a modern UI.
-              </p>
-            </div>
+        <div class="col-lg-6">
+          <h4 class="fw-bold">ToteTaxi</h4>
+          <p class="lead">A full-featured logistics platform with a multi-step booking wizard, dual user models for clients and staff, and real-time delivery integration via Onfleet. Built with React 19, TypeScript, and Django REST Framework — featuring role-based dashboards, order management, Stripe integration for payment processing, and seamless third-party API orchestration.</p>
+          <a href="{% url 'portfolio:project_detail' 'totetaxi' %}" class="btn btn-primary">View Project</a>
+        </div>
+      </div>
+
+      <!-- Project 2: IDP EasyCapture - Text Left, Video Right -->
+      <div class="row align-items-center mb-5 fade-in-up flex-lg-row-reverse">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <div class="ratio ratio-16x9 shadow rounded overflow-hidden">
+            <iframe 
+              src="https://www.youtube.com/embed/4g5zsY9exVw?rel=0&modestbranding=1" 
+              title="IDP EasyCapture Demo"
+              frameborder="0"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen>
+            </iframe>
           </div>
         </div>
+        <div class="col-lg-6">
+          <h4 class="fw-bold">IDP EasyCapture</h4>
+          <p class="lead">An enterprise AI-powered photo capture and validation system. Uses machine learning to detect image quality issues in real-time, ensuring documents meet compliance standards before submission. Built with Next.js, Django REST Framework, and HuggingFace AI integration.</p>
+          <a href="{% url 'portfolio:project_detail' 'idp-easycapture' %}" class="btn btn-primary">View Project</a>
+        </div>
+      </div>
 
-        <div class="col-md-4">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body">
-              <i class="fas fa-hand-holding-heart fa-2x text-primary mb-3"></i>
-              <h5 class="card-title fw-bold">Fundraiser Website</h5>
-              <p class="card-text">Donation-based site with blogging, video embeds, and contact forms.</p>
-            </div>
+      <!-- Project 3: HistoryFace - Video Left, Text Right -->
+      <div class="row align-items-center mb-5 fade-in-up">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <div class="ratio ratio-16x9 shadow rounded overflow-hidden">
+            <iframe 
+              src="https://www.youtube.com/embed/rpkIL5FZbpA?rel=0&modestbranding=1" 
+              title="HistoryFace Demo"
+              frameborder="0"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen>
+            </iframe>
           </div>
+        </div>
+        <div class="col-lg-6">
+          <h4 class="fw-bold">HistoryFace</h4>
+          <p class="lead">An AI SaaS app that transforms selfies into historical figures using facial recognition and HuggingFace machine learning models. Features a freemium business model with Stripe integration, real-time processing, and smart cost management.</p>
+          <a href="{% url 'portfolio:project_detail' 'historyface-ai' %}" class="btn btn-primary">View Project</a>
+        </div>
+      </div>
+
+      <!-- Project 4: EJ Art Mover - Text Left, Video Right -->
+      <div class="row align-items-center mb-5 fade-in-up flex-lg-row-reverse">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <div class="ratio ratio-16x9 shadow rounded overflow-hidden">
+            <iframe 
+              src="https://www.youtube.com/embed/xWtrO4F0In4?rel=0&modestbranding=1" 
+              title="EJ Art Mover Demo"
+              frameborder="0"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <h4 class="fw-bold">EJ Art Mover</h4>
+          <p class="lead">A complete business management system for a fine art moving company. Features work order tracking, client management, an interactive FullCalendar dashboard with color-coded job scheduling, PDF invoice generation, and AJAX-powered forms. Built with Django, PostgreSQL, Bootstrap 5, and WeasyPrint — deployed via Docker on Heroku.</p>
+          <a href="{% url 'portfolio:project_detail' 'art-mover' %}" class="btn btn-primary">View Project</a>
         </div>
       </div>
 
       <div class="text-center mt-4">
-        <a href="{% url 'portfolio:index' %}" class="btn btn-outline-dark">View Full Portfolio</a>
+        <a href="{% url 'portfolio:index' %}" class="btn btn-outline-dark btn-lg">View Full Portfolio</a>
       </div>
     </div>
   </section>
 
-  <!-- BLOG PREVIEW - FIXED GRID ALIGNMENT -->
+  <!-- BLOG PREVIEW -->
   <section class="py-5 fade-in-up sr-delay-10">
     <div class="container">
       <h2 class="text-center fw-bold mb-4">Recent Blog Posts</h2>
