@@ -103,10 +103,14 @@
         <p class="lead mb-3">How I learned to code as a quadriplegic — overcoming odds, building production-grade software, and embracing creative resilience.</p>
       </div>
       <div class="ratio ratio-16x9 shadow rounded overflow-hidden mx-auto" style="max-width: 800px;">
-        <iframe src="https://www.youtube.com/embed/pWuW1AasRGY" 
-                title="Matthew Raynor – How I Taught Myself Web Development" 
-                allowfullscreen 
-                frameborder="0"></iframe>
+        <iframe 
+          src="https://www.youtube.com/embed/pWuW1AasRGY?rel=0&modestbranding=1" 
+          title="Matthew Raynor – How I Taught Myself Web Development" 
+          frameborder="0"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen>
+        </iframe>
       </div>
     </div>
 
@@ -162,10 +166,11 @@
               <div class="ratio ratio-16x9">
                 {% if post.video %}
                   <iframe 
-                    src="https://www.youtube.com/embed/{{ post.video|youtube_id }}" 
+                    src="https://www.youtube.com/embed/{{ post.video|youtube_id }}?rel=0&modestbranding=1" 
                     title="{{ post.title }}"
                     frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                     allowfullscreen>
                   </iframe>
                 {% elif post.image %}
@@ -210,7 +215,7 @@
   <!-- CONNECT CTA -->
   <section class="py-5 position-relative text-center fade-in-up sr-delay-11" style="background-color: rgba(255, 248, 225, 0.85);">
     <div class="container text-dark">
-      <h2 class="fw-bold">Let's Connec!t</h2>
+      <h2 class="fw-bold">Let's Connect</h2>
       <p class="mb-4">Got questions about my work? Need a website? Need an application? Need custom photography?</p>
       <a href="{% url 'pages:contact' %}" class="btn btn-primary btn-lg">Contact Me</a>
     </div>
