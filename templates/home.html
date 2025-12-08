@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% load embed_video_tags %}
+{% load youtube_tags %}
 
 {% block title %}Matthew Raynor – Home{% endblock %}
 
@@ -161,14 +161,20 @@
             <div class="card h-100 shadow-sm w-100">
               <div class="ratio ratio-16x9">
                 {% if post.video %}
-                  {% video post.video 'small' %}
+                  <iframe 
+                    src="https://www.youtube.com/embed/{{ post.video|youtube_id }}" 
+                    title="{{ post.title }}"
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                  </iframe>
                 {% elif post.image %}
                   <img data-src="{{ post.image.url }}?w_400,h_225,c_fill,q_auto,f_auto" 
                        class="card-img-top object-fit-cover lazy-image image-placeholder" 
                        alt="{{ post.title }}" 
                        style="height: 100%; width: 100%;">
                 {% else %}
-                  <img data-src="https://source.unsplash.com/400x250/?technology,writing?w_400,h_250,c_fill,q_auto,f_auto" 
+                  <img data-src="https://source.unsplash.com/400x250/?technology,writing" 
                        class="card-img-top object-fit-cover lazy-image image-placeholder" 
                        alt="Fallback Blog Image" 
                        style="height: 100%; width: 100%;">
