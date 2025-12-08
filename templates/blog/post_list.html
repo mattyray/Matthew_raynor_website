@@ -20,10 +20,11 @@
               {% if post.video %}
                 <div class="ratio ratio-16x9">
                   <iframe 
-                    src="https://www.youtube.com/embed/{{ post.video|youtube_id }}" 
+                    src="https://www.youtube.com/embed/{{ post.video|youtube_id }}?rel=0&modestbranding=1" 
                     title="{{ post.title }}"
                     frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                     allowfullscreen>
                   </iframe>
                 </div>
