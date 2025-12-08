@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %} 
-{% load embed_video_tags %}
+{% load youtube_tags %}
 {% load crispy_forms_tags %}
 
 {% block title %}{{ post.title }} – Blog{% endblock %}
@@ -17,14 +17,20 @@
       <!-- Media Section: Video > Image > Fallback -->
       {% if post.video %}
         <div class="ratio ratio-16x9 my-4">
-          {% video post.video 'large' %}
+          <iframe 
+            src="https://www.youtube.com/embed/{{ post.video|youtube_id }}" 
+            title="{{ post.title }}"
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+          </iframe>
         </div>
       {% elif post.image %}
         <img data-src="{{ post.image.url }}?w_800,h_400,c_fill,q_auto,f_auto" 
              class="img-fluid rounded shadow my-4 lazy-image image-placeholder" 
              alt="{{ post.title }}">
       {% else %}
-        <img data-src="https://source.unsplash.com/800x400/?technology,resilience?w_800,h_400,c_fill,q_auto,f_auto" 
+        <img data-src="https://source.unsplash.com/800x400/?technology,resilience" 
              class="img-fluid rounded shadow my-4 lazy-image image-placeholder" 
              alt="Fallback Blog Image">
       {% endif %}
@@ -67,5 +73,3 @@
 
 </div>
 {% endblock %}
-
-
