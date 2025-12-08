@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %} 
-{% load embed_video_tags %}
+{% load youtube_tags %}
 
 {% block title %}Blog – Updates & Stories{% endblock %}
 
@@ -19,7 +19,13 @@
             <div class="col-md-4">
               {% if post.video %}
                 <div class="ratio ratio-16x9">
-                  {% video post.video 'small' %}
+                  <iframe 
+                    src="https://www.youtube.com/embed/{{ post.video|youtube_id }}" 
+                    title="{{ post.title }}"
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                  </iframe>
                 </div>
               {% elif post.image %}
                 <div class="ratio ratio-16x9">
@@ -30,7 +36,7 @@
                 </div>
               {% else %}
                 <div class="ratio ratio-16x9">
-                  <img data-src="https://source.unsplash.com/400x250/?technology,writing?w_400,h_250,c_fill,q_auto,f_auto" 
+                  <img data-src="https://source.unsplash.com/400x250/?technology,writing" 
                        class="img-fluid rounded-start object-fit-cover lazy-image image-placeholder" 
                        style="width: 100%; height: 100%;" 
                        alt="Default blog image">
