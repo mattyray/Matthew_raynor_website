@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% load embed_video_tags %}
+{% load youtube_tags %}
 
 {% block title %}Portfolio - Matthew Raynor{% endblock %}
 
@@ -36,10 +36,15 @@
       <div class="card h-100 shadow-sm">
         <div class="ratio ratio-4x3">
           {% if project.hero_video %}
-            {% video project.hero_video 'small' %}
+            <iframe src="https://www.youtube.com/embed/{{ project.hero_video|youtube_id }}?rel=0&modestbranding=1"
+                    title="{{ project.title }}"
+                    frameborder="0"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
           {% elif project.hero_image %}
-            <img data-src="{{ project.hero_image }}" 
-                 class="card-img-top object-fit-cover lazy-image image-placeholder" 
+            <img data-src="{{ project.hero_image }}"
+                 class="card-img-top object-fit-cover lazy-image image-placeholder"
                  alt="{{ project.title }}">
           {% endif %}
         </div>

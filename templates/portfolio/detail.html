@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% load embed_video_tags %}
+{% load youtube_tags %}
 
 {% block title %}{{ project.title }} – Portfolio{% endblock %}
 
@@ -32,7 +32,12 @@
   <div class="text-center mb-5 case-section fade-in-up">
     {% if project.hero_video %}
       <div class="ratio ratio-16x9" style="max-width: 960px; margin: 0 auto;">
-        {% video project.hero_video 'large' %}
+        <iframe src="https://www.youtube.com/embed/{{ project.hero_video|youtube_id }}?rel=0&modestbranding=1"
+                title="{{ project.title }}"
+                frameborder="0"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
       </div>
     {% elif project.hero_image %}
       <img src="{% static project.hero_image %}" class="img-fluid rounded shadow-sm" alt="{{ project.title }}" style="max-height: 400px; object-fit: cover; width: 100%; max-width: 960px;">
