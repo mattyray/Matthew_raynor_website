@@ -16,7 +16,7 @@
         {% if total_results %}
           Found <strong>{{ total_results }}</strong> result{{ total_results|pluralize }} for "<strong>{{ query }}</strong>"
           <small class="ms-2">
-            ({{ blog_count }} blog, {{ portfolio_count }} portfolio, {{ product_count }} store)
+            ({{ blog_count }} blog, {{ portfolio_count }} portfolio)
           </small>
         {% else %}
           No results found for "<strong>{{ query }}</strong>"
@@ -35,7 +35,7 @@
                name="q" 
                value="{{ query }}" 
                class="form-control form-control-lg" 
-               placeholder="Search blog posts, projects, products..."
+               placeholder="Search blog posts and projects..."
                autofocus>
       </div>
       <div class="col-md-4">
@@ -57,7 +57,7 @@
                 
                 <!-- Result Title with Highlighting -->
                 <h5 class="card-title mb-2">
-                  <a href="{% if result.result_type == 'blog' %}{% url 'post_detail' result.slug %}{% elif result.result_type == 'product' %}{% url 'store:product_detail' result.slug %}{% elif result.result_type == 'portfolio' %}{% url 'portfolio:project_detail' result.slug %}{% else %}#{% endif %}" 
+                  <a href="{% if result.result_type == 'blog' %}{% url 'post_detail' result.slug %}{% elif result.result_type == 'portfolio' %}{% url 'portfolio:project_detail' result.slug %}{% else %}#{% endif %}"
                      class="text-decoration-none">
                     {% if result.highlighted_title %}
                       {{ result.highlighted_title|safe }}
@@ -73,11 +73,6 @@
                     {{ result.search_snippet|safe }}
                   {% elif result.result_type == 'blog' %}
                     {{ result.content|truncatewords:25|striptags }}
-                  {% elif result.result_type == 'product' %}
-                    {{ result.description|truncatewords:25 }}
-                    {% if result.price %}
-                      <span class="fw-bold text-success ms-2">${{ result.price }}</span>
-                    {% endif %}
                   {% elif result.result_type == 'portfolio' %}
                     {{ result.description|truncatewords:25 }}
                     {% if result.tech_stack_text %}
@@ -93,33 +88,25 @@
                 
                 <!-- Result Metadata -->
                 <div class="search-meta d-flex align-items-center">
-                  <span class="badge me-2 {% if result.result_type == 'blog' %}bg-primary{% elif result.result_type == 'product' %}bg-success{% elif result.result_type == 'portfolio' %}bg-info{% else %}bg-secondary{% endif %}">
+                  <span class="badge me-2 {% if result.result_type == 'blog' %}bg-primary{% elif result.result_type == 'portfolio' %}bg-info{% else %}bg-secondary{% endif %}">
                     {% if result.result_type == 'blog' %}
                       <i class="fas fa-blog me-1"></i>Blog Post
-                    {% elif result.result_type == 'product' %}
-                      <i class="fas fa-shopping-cart me-1"></i>Product
                     {% elif result.result_type == 'portfolio' %}
                       <i class="fas fa-code me-1"></i>Portfolio Project
                     {% else %}
                       {{ result.result_type|title }}
                     {% endif %}
                   </span>
-                  
+
                   {% if result.rank %}
                     <small class="text-muted">
                       Relevance: {{ result.rank|floatformat:2 }}
                     </small>
                   {% endif %}
-                  
+
                   {% if result.result_type == 'blog' and result.published_date %}
                     <small class="text-muted ms-2">
                       {{ result.published_date|date:"M d, Y" }}
-                    </small>
-                  {% endif %}
-                  
-                  {% if result.result_type == 'product' and result.price %}
-                    <small class="text-success ms-2 fw-bold">
-                      ${{ result.price }}
                     </small>
                   {% endif %}
                 </div>
@@ -128,12 +115,10 @@
               
               <!-- Result Action -->
               <div class="ms-3">
-                <a href="{% if result.result_type == 'blog' %}{% url 'post_detail' result.slug %}{% elif result.result_type == 'product' %}{% url 'store:product_detail' result.slug %}{% elif result.result_type == 'portfolio' %}{% url 'portfolio:project_detail' result.slug %}{% else %}#{% endif %}" 
+                <a href="{% if result.result_type == 'blog' %}{% url 'post_detail' result.slug %}{% elif result.result_type == 'portfolio' %}{% url 'portfolio:project_detail' result.slug %}{% else %}#{% endif %}"
                    class="btn btn-outline-primary btn-sm">
                   {% if result.result_type == 'blog' %}
                     Read More
-                  {% elif result.result_type == 'product' %}
-                    View Product
                   {% elif result.result_type == 'portfolio' %}
                     View Project
                   {% else %}
@@ -195,7 +180,7 @@
               <a href="{% url 'portfolio:index' %}" class="btn btn-outline-primary">
                 <i class="fas fa-code me-2"></i>View Portfolio
               </a>
-              <a href="{% url 'store:store_overview' %}" class="btn btn-outline-primary">
+              <a href="https://store.matthewraynor.com" target="_blank" class="btn btn-outline-primary">
                 <i class="fas fa-store me-2"></i>Visit Store
               </a>
               <a href="{% url 'pages:contact' %}" class="btn btn-outline-primary">

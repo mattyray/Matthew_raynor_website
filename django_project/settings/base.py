@@ -1,19 +1,10 @@
 from environ import Env
 from pathlib import Path
-import os
-import stripe
 print("💥 settings.py loaded from latest build")
 
 # Initialize environment variables
 env = Env()
 Env.read_env()
-
-# Stripe keys
-STRIPE_PUBLISHABLE_KEY = env('STRIPE_PUBLISHABLE_KEY', default='pk_test_dummy')
-STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY', default='sk_test_dummy')
-STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET', default='whsec_dummy')
-
-stripe.api_key = STRIPE_SECRET_KEY
 
 OPENAI_API_KEY = env("OPENAI_API_KEY", default="")
 
@@ -62,10 +53,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'import_export',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
     'embed_video',
     'django_recaptcha',
     'django_extensions',
@@ -78,7 +65,6 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'allauth.account.middleware.AccountMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -117,33 +103,10 @@ DATABASES = {
 AUTH_USER_MODEL = 'accounts.CustomUser'
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-# Allauth settings
+# Required for django.contrib.sites
 SITE_ID = env.int("DJANGO_SITE_ID", default=1)
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USER_MODEL_USERNAME_FIELD = "email"
-ACCOUNT_EMAIL_VERIFICATION = 'optional'
-ACCOUNT_SIGNUP_REDIRECT_URL = '/dashboard/'
-LOGIN_REDIRECT_URL = '/accounts/dashboard/'
-LOGOUT_REDIRECT_URL = '/'
-
-# Google SSO credentials from .env
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': ['profile', 'email'],
-        'AUTH_PARAMS': {'access_type': 'online'},
-        'OAUTH_PKCE_ENABLED': True,
-        'APP': {
-            'client_id': env('GOOGLE_CLIENT_ID', default='test-client-id'),
-            'secret': env('GOOGLE_CLIENT_SECRET', default='test-secret'),
-            'key': ''
-        }
-    }
-}
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
