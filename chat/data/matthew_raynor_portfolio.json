@@ -1,80 +1,49 @@
 {
-  "project": "MatthewRaynor.com",
-  "summary": "MatthewRaynor.com is a full-stack Django-based personal website built by Matthew Raynor, a quadriplegic full-stack developer. It combines e-commerce, blogging, AI chatbot integration, press coverage, and a developer portfolio into one cohesive site.",
+  "developer": "Matthew Raynor",
+  "title": "AI Engineer & Full-Stack Developer",
+  "summary": "Matthew Raynor is an AI Engineer & Full-Stack Developer who builds production-grade software from the ground up. His work spans computer vision, LLM integration, agentic AI systems, and full-stack web development using React, TypeScript, Django, and modern cloud tooling.",
+  "specializations": [
+    "Computer Vision (TensorFlow.js, MediaPipe, BlazeFace, BodyPix)",
+    "LLM Integration (LangChain, Claude, OpenAI)",
+    "Agentic AI Systems",
+    "Full-Stack Web Development (React, TypeScript, Django)"
+  ],
   "tech_stack": {
-    "frontend": [
-      "HTML5",
-      "SCSS (Sass)",
-      "Bootstrap 5",
-      "Flatpickr",
-      "Select2",
-      "FullCalendar",
-      "ScrollReveal.js",
-      "CKEditor",
-      "Cloudinary",
-      "JavaScript",
-      "jQuery"
-    ],
-    "backend": [
-      "Django 5.1",
-      "PostgreSQL",
-      "Django REST Framework",
-      "Django Allauth",
-      "Whitenoise",
-      "Gunicorn",
-      "WeasyPrint",
-      "OpenAI SDK"
-    ],
-    "devops": [
-      "Docker",
-      "Docker Compose",
-      "Heroku",
-      "GitHub Actions",
-      "django-environ"
-    ]
+    "ai_ml": ["LangChain", "Claude API", "OpenAI", "TensorFlow.js", "MediaPipe", "MiDaS", "face_recognition", "HuggingFace", "BlazeFace", "BodyPix"],
+    "frontend": ["React 19", "TypeScript", "Tailwind CSS", "Bootstrap 5", "Next.js"],
+    "backend": ["Django 5.x", "Django REST Framework", "PostgreSQL", "Redis", "Celery"],
+    "devops": ["Docker", "Fly.io", "Heroku", "Netlify", "AWS S3/SES", "GitHub Actions"]
   },
-  "features": {
-    "ai_chat_widget": "Floating chatbot integrated with OpenAI API. Context-aware and styled to match the site branding.",
-    "store": "E-commerce store with Stripe checkout, product catalog for prints and memoir, custom emails, product reviews.",
-    "blog": "Rich text blog with video and image support, comments, and fallback logic using CKEditor and Cloudinary.",
-    "portfolio": "Case study-style project pages with structured sections and ScrollReveal animations.",
-    "press": "Dynamically rendered press articles with image, summary, and external links.",
-    "contact": "SMTP-enabled contact form with Gmail and reCAPTCHA integration.",
-    "authentication": "Custom user model with email login and Google SSO, profile/dashboard, password management."
+  "featured_projects": {
+    "agentic_ai_shopping_assistant": {
+      "description": "Production agentic AI assistant using LangChain and Claude that manages carts, searches photos semantically, and helps visualize art on walls",
+      "technologies": ["LangChain", "Claude", "Semantic Search", "MiDaS Depth Estimation"],
+      "live_demo": "https://store.matthewraynor.com"
+    },
+    "enterprise_computer_vision": {
+      "description": "Photo capture and validation system using TensorFlow.js and MediaPipe for real-time image quality detection",
+      "technologies": ["TensorFlow.js", "MediaPipe", "BlazeFace", "BodyPix", "React", "TypeScript"],
+      "client": "IDP Americas"
+    },
+    "wall_visualization": {
+      "description": "ML-powered feature that lets customers visualize prints on their walls using depth estimation",
+      "technologies": ["MiDaS", "Depth Estimation", "Canvas API"]
+    },
+    "totetaxi": {
+      "description": "Full-stack logistics platform with multi-step booking, dynamic pricing, and real-time delivery tracking",
+      "technologies": ["React 19", "TypeScript", "Django REST", "Stripe", "Onfleet API"]
+    },
+    "historyface_ai": {
+      "description": "AI SaaS app using facial recognition and HuggingFace models for face transformation",
+      "technologies": ["face_recognition", "dlib", "HuggingFace", "Stripe"]
+    }
   },
-  "problems_solved": [
-    "Accessible navigation and layout",
-    "Production-grade deployment with Docker and Heroku",
-    "Client-friendly interfaces with contact and chatbot tools",
-    "Income generation through product sales",
-    "SEO-ready press and story pages for visibility"
-  ],
-  "special_features": [
-    "Custom floating AI assistant",
-    "ScrollReveal animation system",
-    "Stripe Checkout integration with shipping",
-    "Rich text editor with image/video support",
-    "Case study-based portfolio",
-    "Glass blur hero banners and custom SCSS theme"
-  ],
-  "improvements": [
-    "Add chatbot memory and personalization",
-    "Integrate Google Analytics or PostHog",
-    "Perform full accessibility audit",
-    "Add blog search and tagging system",
-    "Enable Enter key and multiline input for chatbot"
-  ],
-  "proud_of": [
-    "Self-taught Django, Docker, and frontend development with no hand function",
-    "Complete full-stack production site independently built",
-    "Powerful integrations across Stripe, OpenAI, SSO, and more",
-    "Clear and inspiring storytelling combined with technical polish"
-  ],
-  "build_notes": [
-    "Theme inspired by Crunchyroll, implemented in SCSS",
-    "Reusable animation classes and delay system in _reveal.scss",
-    "Graceful fallback for blog media",
-    "Deployment via Heroku container stack with heroku.yml",
-    "Environment variables handled with django-environ"
-  ]
+  "professional_links": {
+    "portfolio": "https://www.matthewraynor.com",
+    "store_with_ai_agent": "https://store.matthewraynor.com",
+    "linkedin": "https://www.linkedin.com/in/matthew-raynor-2b3618200/",
+    "github": "https://github.com/mattyray"
+  },
+  "approach": "Methodical engineering - plans deeply, breaks down problems clearly, and designs systems that scale. Specializes in taking complex real-world processes and transforming them into clean, reliable, user-friendly software.",
+  "background": "Self-taught using adaptive technology after a spinal cord injury. Former commercial fisherman who rebuilt his life through code and creativity."
 }

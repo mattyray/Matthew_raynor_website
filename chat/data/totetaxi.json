@@ -1,0 +1,36 @@
+{
+  "project_name": "ToteTaxi.com",
+  "summary": "A full-stack logistics platform for a Manhattan-to-Hamptons delivery service, featuring a multi-step booking wizard, dynamic pricing engine, dual user models, and real-time delivery tracking via Onfleet API.",
+  "description": "ToteTaxi is a production-grade logistics platform built for a company that transports clients from Manhattan to their second homes in the Hamptons. The platform handles complex booking workflows, role-based dashboards for clients and staff, payment processing, and seamless third-party API orchestration.",
+  "tech_stack": {
+    "frontend": ["React 19", "TypeScript", "Tailwind CSS"],
+    "backend": ["Django REST Framework", "PostgreSQL", "Celery", "Redis"],
+    "integrations": ["Stripe API", "Onfleet API"],
+    "deployment": ["Docker", "Heroku"]
+  },
+  "features": [
+    "Multi-step booking wizard with address validation and scheduling",
+    "Dynamic pricing engine based on distance, service type, and items",
+    "Dual user models for clients and staff with role-based dashboards",
+    "Real-time delivery integration via Onfleet API",
+    "Stripe payment processing with secure checkout",
+    "Order management and tracking system",
+    "Complex third-party API orchestration"
+  ],
+  "problems_solved": [
+    "Automated complex booking and pricing calculations",
+    "Unified client and staff workflows in one platform",
+    "Real-time delivery tracking and status updates",
+    "Secure payment processing with proper error handling",
+    "Streamlined operations for seasonal delivery business"
+  ],
+  "technical_highlights": [
+    "React 19 with TypeScript for type-safe frontend development",
+    "Django REST Framework API design with proper serialization",
+    "Onfleet webhook integration for real-time delivery updates",
+    "Stripe Checkout integration with webhook handling",
+    "Role-based authentication and authorization"
+  ],
+  "live_demo": "Contact for demo access",
+  "github": "Private client repository"
+}

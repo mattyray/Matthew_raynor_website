@@ -1,0 +1,45 @@
+{
+  "project_name": "Agentic AI Shopping Assistant",
+  "summary": "A production agentic AI shopping assistant built with LangChain and Claude that manages shopping carts, searches photos semantically, recommends pieces based on customer preferences, and helps visualize art on walls using ML-powered depth estimation.",
+  "live_demo": "https://store.matthewraynor.com",
+  "description": "This is a full-featured AI sales agent deployed on a live e-commerce store. It uses LangChain for agent orchestration and Claude (Anthropic) as the LLM backbone. The agent can have natural conversations with customers, manage their shopping carts, search the photo catalog using semantic similarity, recommend pieces based on room descriptions or style preferences, and help customers visualize prints on their walls.",
+  "tech_stack": {
+    "ai_core": ["LangChain", "Claude (Anthropic)", "OpenAI Embeddings"],
+    "ml_features": ["Semantic Search", "MiDaS Depth Estimation", "Vector Embeddings"],
+    "backend": ["Django REST Framework", "PostgreSQL", "Celery", "Redis"],
+    "frontend": ["React", "TypeScript", "Tailwind CSS"],
+    "deployment": ["Docker", "Fly.io", "Netlify"]
+  },
+  "agent_capabilities": [
+    "Natural language conversation with context awareness",
+    "Shopping cart management (add, remove, view items)",
+    "Semantic photo search using vector embeddings",
+    "Personalized recommendations based on space and style",
+    "Wall visualization using MiDaS depth estimation",
+    "Answer questions about sizing, materials, and pricing",
+    "Handle checkout flow and order inquiries"
+  ],
+  "agentic_features": [
+    "Tool use with LangChain agent framework",
+    "Multi-turn conversation with memory",
+    "Dynamic tool selection based on user intent",
+    "Structured output parsing for cart operations",
+    "Graceful error handling and fallbacks"
+  ],
+  "technical_highlights": [
+    "LangChain agent with custom tools for e-commerce operations",
+    "Claude API integration with proper prompt engineering",
+    "Vector similarity search for semantic photo matching",
+    "MiDaS depth estimation for realistic wall placement",
+    "Real-time streaming responses for better UX",
+    "Session-based conversation history"
+  ],
+  "problems_solved": [
+    "Provides 24/7 intelligent customer support",
+    "Helps customers find perfect pieces through natural conversation",
+    "Reduces friction in the buying process",
+    "Offers personalized recommendations at scale",
+    "Demonstrates production-grade agentic AI capabilities"
+  ],
+  "why_this_matters": "This project demonstrates real-world agentic AI implementation - not just a chatbot, but an AI agent that can take actions (manage carts, search inventory, generate visualizations) on behalf of users. It shows practical LLM integration, tool orchestration, and production deployment of AI systems."
+}

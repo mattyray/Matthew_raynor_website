@@ -1,60 +1,50 @@
 {
-    "title": "Matt Raynor – Assistance Overview",
-    "last_updated": "May 2025",
-    "summary": "Matt is a talented, self-taught full-stack web developer and quadriplegic (C5–C6) who is transitioning out of a nursing home. He is actively seeking employment, independent housing with appropriate subsidies, and consistent personal care to live and work autonomously.",
+    "title": "Matt Raynor – Professional Overview",
+    "last_updated": "January 2026",
+    "summary": "Matt is a talented AI Engineer & Full-Stack Developer and quadriplegic (C5–C6) who has successfully transitioned to independent living. He is actively seeking employment in AI engineering, applied ML, or full-stack development roles.",
     "job_search": {
       "goals": [
-        "Secure a remote-friendly full-time or freelance web development role",
+        "Secure a remote-friendly AI engineering or full-stack development role",
         "Avoid live coding/whiteboard interviews due to his disability",
-        "Highlight his adaptive tech usage (styluses, AI tools)"
+        "Highlight production-grade AI/ML work and adaptive technology usage"
+      ],
+      "specializations": [
+        "Computer Vision (TensorFlow.js, MediaPipe, BlazeFace, BodyPix)",
+        "LLM Integration (LangChain, Claude, OpenAI)",
+        "Agentic AI Systems",
+        "Full-Stack Web Development (React, TypeScript, Django)"
       ],
       "skills_stack": {
-        "backend": ["Django", "Django REST Framework", "PostgreSQL", "Docker", "Heroku", "Stripe", "OpenAI"],
-        "frontend": ["React (1 month)", "Bootstrap", "Tailwind", "CKEditor", "Cloudinary"],
-        "devops": ["Docker", "Git", "GitHub CI", "deployment automation"],
-        "content": ["Substack", "YouTube/TikTok embedding", "custom blog CMS", "AI chatbot widget"]
+        "ai_ml": ["LangChain", "Claude API", "OpenAI", "TensorFlow.js", "MediaPipe", "MiDaS", "face_recognition", "HuggingFace"],
+        "backend": ["Django", "Django REST Framework", "PostgreSQL", "Redis", "Celery", "Docker"],
+        "frontend": ["React 19", "TypeScript", "Tailwind CSS", "Bootstrap"],
+        "devops": ["Docker", "Fly.io", "Heroku", "Netlify", "AWS S3/SES", "GitHub Actions"]
+      },
+      "recent_projects": {
+        "ai_shopping_assistant": "Agentic AI shopping assistant using LangChain and Claude - live at store.matthewraynor.com",
+        "computer_vision_pipeline": "Enterprise photo validation system with TensorFlow.js and MediaPipe",
+        "wall_visualization": "ML-powered wall visualization using MiDaS depth estimation",
+        "totetaxi": "Full-stack logistics platform with React 19, TypeScript, Django REST",
+        "historyface": "AI face swap SaaS using face_recognition and HuggingFace models"
       },
       "portfolio": {
-        "matthewraynor": "https://www.matthewraynor.com",
-        "art_moving_app": "https://art-moving-buisness-0a734245a61f.herokuapp.com",
-        "bookstore": "https://mattsbookstore-c15521949514.herokuapp.com",
-        "fundraiser": "Live version TBD"
+        "main_site": "https://www.matthewraynor.com",
+        "store_with_ai_agent": "https://store.matthewraynor.com",
+        "linkedin": "https://www.linkedin.com/in/matthew-raynor-2b3618200/",
+        "github": "https://github.com/mattyray"
       },
-      "barriers": [
-        "Discriminatory interviews favoring memorization",
-        "Needs value shown through portfolio, not trivia",
-        "Workflow flexibility required"
-      ],
       "ideal_roles": [
-        "Startups hiring based on portfolio",
-        "Backend/frontend roles without live testing",
-        "Remote-first environments"
+        "AI/Applied Engineering positions",
+        "Full-stack roles with AI/ML components",
+        "Remote-first environments",
+        "Companies hiring based on portfolio over whiteboard tests"
       ]
     },
-    "housing_search": {
-      "goal": "Move into independent subsidized housing with 24/7 care",
-      "status": "Approved for Olmstead Housing Subsidy (OHS)",
-      "details": {
-        "amount": "$2,250/month",
-        "coordination": ["SILO", "Medicaid"],
-        "barriers": ["Waitlists", "Accessibility", "Landlord education"]
-      }
-    },
-    "caregiving_support": {
-      "needs": [
-        "Daily support with ADLs",
-        "Bowel program, hygiene, transfers, feeding"
-      ],
-      "support_options": ["CDPAP", "TBI Waiver", "Medicaid Service Coordinators"],
-      "barriers": [
-        "Inconsistent aides",
-        "Needs aide skilled in tech and independent living"
-      ]
-    },
-    "why_help": [
-      "Overcame injury, addiction, and nursing home life",
-      "Self-taught developer and content creator",
-      "Helping others through blogs, chatbot, and videos"
+    "why_hire": [
+      "Production-grade AI/ML experience with computer vision and LLM integration",
+      "Self-taught using adaptive technology - demonstrates exceptional problem-solving",
+      "Ships real products: agentic AI assistants, computer vision pipelines, full-stack platforms",
+      "Methodical engineering approach - plans deeply, breaks down problems clearly"
     ]
   }
   

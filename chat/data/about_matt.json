@@ -5,7 +5,7 @@
       "former_life": "Deep-sea commercial fisherman and shellfish harvester in Shinnecock, NY.",
       "accident": "Suffered a spinal cord injury in a diving accident and became quadriplegic.",
       "recovery": "Overcame addiction, shame, and despair. Member of AA since age 26.",
-      "self_reinvention": "Taught himself web development using styluses, voice commands, and hotkeys.",
+      "self_reinvention": "Taught himself web development using adaptive technology and voice commands.",
       "current_mission": "Creates digital tools, art, and stories that help others navigate suffering and discover hope."
     },
     "spiritual_identity": [
@@ -38,11 +38,14 @@
       "Spiritual freedom through emotional alignment"
     ],
     "current_work": {
-      "developer": "Full-stack developer (Django + React) with production-level experience",
+      "developer": "AI Engineer & Full-Stack Developer building production-grade software",
+      "specializations": ["Computer Vision (TensorFlow.js, MediaPipe)", "LLM Integration (LangChain, Claude)", "Agentic AI Systems", "Full-Stack Web Development (React, TypeScript, Django)"],
       "projects": [
-        "Art Moving Business Management System",
-        "E-commerce platform (store for book/art)",
-        "AI-powered motivational chatbot",
+        "Agentic AI Shopping Assistant using LangChain and Claude (live at store.matthewraynor.com)",
+        "Enterprise Computer Vision Pipeline with TensorFlow.js and MediaPipe for photo validation",
+        "ML-powered Wall Visualization using MiDaS depth estimation",
+        "ToteTaxi.com - Full-stack logistics platform with React 19, TypeScript, Django REST",
+        "HistoryFace AI - Face swap SaaS using face_recognition and HuggingFace models",
         "Personal website MatthewRaynor.com"
       ],
       "storyteller": "Publishes essays on sobriety, compassion, and growth on Substack and TikTok",
@@ -55,10 +58,9 @@
       "message": "He rebuilt everything from nothing. Not a victim — a creator and guide."
     },
     "support_options": [
-      "Share Matt’s story on social media",
-      "Hire him for web development or drone photography",
-      "Buy his book or art prints",
-      "Donate to his fundraiser to support housing and care needs",
+      "Share Matt's story on social media",
+      "Hire him for AI engineering, web development, or drone photography",
+      "Buy fine art prints at store.matthewraynor.com",
       "Send words of encouragement — every message matters",
       "Offer help with his documentary project"
     ],
