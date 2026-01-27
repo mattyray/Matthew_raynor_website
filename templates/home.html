@@ -48,36 +48,23 @@
       <!-- INTRO TEXT -->
       <div class="bg-white rounded shadow-sm p-4 mb-5 mx-auto" style="max-width: 900px;">
         <p class="lead text-center mb-0">
-          I'm an <span class="fw-bold">AI Engineer & Full-Stack Developer</span> who builds production-grade software from the ground up. My work spans <span class="fw-bold">computer vision</span>, <span class="fw-bold">image processing</span>, <span class="fw-bold">SaaS architecture</span>, <span class="fw-bold">workflow automation</span>, and <span class="fw-bold">full-stack web development</span> using <span class="fw-bold">React</span>, <span class="fw-bold">TypeScript</span>, <span class="fw-bold">Django</span>, and modern cloud tooling.
+          I'm an <span class="fw-bold">AI Engineer & Full-Stack Developer</span> who builds production-grade software from the ground up. My work spans <span class="fw-bold">computer vision</span>, <span class="fw-bold">LLM integration</span>, <span class="fw-bold">agentic AI systems</span>, and <span class="fw-bold">full-stack web development</span> using <span class="fw-bold">React</span>, <span class="fw-bold">TypeScript</span>, <span class="fw-bold">Django</span>, and modern cloud tooling.
         </p>
         <p class="lead text-center mb-0 mt-3">
-          I specialize in taking complex real-world processes and transforming them into clean, reliable, user-friendly software. Because I'm paralyzed, I naturally adopted a highly structured and methodical engineering approach — I plan deeply, break down problems clearly, and design systems that scale.
+          I specialize in taking complex real-world processes and transforming them into clean, reliable, user-friendly software. My engineering approach is methodical — I plan deeply, break down problems clearly, and design systems that scale.
         </p>
         <p class="lead text-center mb-0 mt-3">
-          My recent work includes an <span class="fw-bold">AI-powered ID photo capture system</span> with on-device ML and computer vision, a <span class="fw-bold">full logistics operations platform</span> for ToteTaxi.com, and a <span class="fw-bold">viral AI face-swapping SaaS</span> combining facial recognition with GPU-accelerated image generation.
+          Recent work includes an <a href="https://store.matthewraynor.com" target="_blank" class="fw-bold text-decoration-none">agentic AI shopping assistant</a> using LangChain and Claude that manages carts and searches photos semantically — <a href="https://store.matthewraynor.com" target="_blank">try it live</a>. Also: an <span class="fw-bold">enterprise computer vision pipeline</span> with TensorFlow.js and MediaPipe for real-time photo validation, and <span class="fw-bold">ML-powered wall visualization</span> using MiDaS depth estimation. I also build full-stack platforms like ToteTaxi.com with complex pricing engines and third-party API orchestration.
         </p>
-      </div>
-
-      <!-- VIDEO: My Story as a Developer -->
-      <div class="container mb-5 fade-in-up sr-delay-6">
-        <div class="text-center mb-4">
-          <h3 class="fw-bold">My Story as a Developer (old video, i have a home now :-)</h3>
-          <p class="lead mb-3">How I learned to code as a quadriplegic — overcoming odds, building production-grade software, and embracing creative resilience.</p>
-        </div>
-        <div class="ratio ratio-16x9 shadow rounded overflow-hidden mx-auto" style="max-width: 800px;">
-          <iframe 
-            src="https://www.youtube.com/embed/pWuW1AasRGY?rel=0&modestbranding=1" 
-            title="Matthew Raynor – How I Taught Myself Web Development" 
-            frameborder="0"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen>
-          </iframe>
-        </div>
+        <p class="text-center mt-3 mb-0">
+          <a href="https://www.linkedin.com/in/matthew-raynor-2b3618200/" target="_blank" class="text-decoration-none me-3"><i class="fab fa-linkedin me-1"></i>LinkedIn</a>
+          <a href="https://github.com/mattyray" target="_blank" class="text-decoration-none"><i class="fab fa-github me-1"></i>GitHub</a>
+        </p>
       </div>
 
       <!-- FEATURED PROJECTS - HORIZONTAL ALTERNATING -->
-      <h3 class="text-center fw-bold mb-5 mt-5">Featured Projects</h3>
+      <h3 class="text-center fw-bold mb-4 mt-3">Featured Projects</h3>
+      <p class="text-center text-muted mb-5" style="max-width: 700px; margin: 0 auto;">Video walkthroughs of select projects. For my most recent AI/ML work—including RAG systems, semantic search, and production LLM integrations—see my <a href="https://www.linkedin.com/in/matthew-raynor-2b3618200/" target="_blank">LinkedIn</a> or <a href="https://github.com/mattyray" target="_blank">GitHub</a>.</p>
 
       <!-- Project 1: ToteTaxi - Video Left, Text Right -->
       <div class="row align-items-center mb-5 fade-in-up">
@@ -95,7 +82,8 @@
         </div>
         <div class="col-lg-6">
           <h4 class="fw-bold">ToteTaxi.com</h4>
-          <p class="lead">A full-featured logistics platform built for a company that transports clients from Manhattan to their second homes in the Hamptons. Features a multi-step booking wizard, dual user models for clients and staff, and real-time delivery integration via Onfleet. Built with React 19, TypeScript, and Django REST Framework — featuring role-based dashboards, order management, Stripe integration for payment processing, and seamless third-party API orchestration.</p>          <a href="{% url 'portfolio:project_detail' 'totetaxi' %}" class="btn btn-primary">View Project</a>
+          <p class="lead">A full-stack logistics platform for Manhattan-to-Hamptons delivery services. Features a multi-step booking wizard with dynamic pricing engine, dual user models, and real-time delivery tracking via Onfleet API. Built with React 19, TypeScript, and Django REST Framework — includes role-based dashboards, Stripe payment processing, and complex third-party API orchestration.</p>
+          <a href="{% url 'portfolio:project_detail' 'totetaxi' %}" class="btn btn-primary">View Project</a>
         </div>
       </div>
 
@@ -115,7 +103,8 @@
         </div>
         <div class="col-lg-6">
           <h4 class="fw-bold">IDP EasyCapture</h4>
-          <p class="lead">An enterprise AI-powered photo capture and validation system built for IDP Americas, a multinational corporation headquartered in Rhode Island. Uses machine learning to detect image quality issues in real-time, ensuring documents meet compliance standards before submission. Built with Next.js, Django REST Framework, and HuggingFace AI integration.</p>          <a href="{% url 'portfolio:project_detail' 'idp-easycapture' %}" class="btn btn-primary">View Project</a>
+          <p class="lead">An enterprise computer vision system built for IDP Americas, a multinational corporation. Uses TensorFlow.js and MediaPipe for real-time image quality validation — detecting blur, lighting issues, face positioning, and document alignment before submission. Built with Next.js, Django REST Framework, and deployed as a production pipeline processing thousands of photos.</p>
+          <a href="{% url 'portfolio:project_detail' 'idp-easycapture' %}" class="btn btn-primary">View Project</a>
         </div>
       </div>
 
@@ -138,7 +127,7 @@
         </div>
         <div class="col-lg-6">
           <h4 class="fw-bold">HistoryFace</h4>
-          <p class="lead">An AI SaaS app that transforms selfies into historical figures using facial recognition and HuggingFace machine learning models. Features a freemium business model with Stripe integration, real-time processing, and smart cost management.</p>
+          <p class="lead">An AI SaaS app that transforms selfies into historical figures using the face_recognition library (dlib) for facial landmark detection and HuggingFace diffusion models for image generation. Features intelligent face swapping, a freemium business model with Stripe, and optimized inference for cost management at scale.</p>
           <a href="{% url 'portfolio:project_detail' 'historyface-ai' %}" class="btn btn-primary">View Project</a>
         </div>
       </div>
