@@ -239,4 +239,40 @@
   </section>
 
 </div>
+
+<!-- Store Announcement Modal -->
+<div class="modal fade" id="storeAnnouncementModal" tabindex="-1" aria-labelledby="storeAnnouncementModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header border-0 pb-0">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center px-4 pt-0 pb-4">
+        <h3 class="fw-bold mb-3" id="storeAnnouncementModalLabel">The Print Shop is Now Open</h3>
+        <p class="mb-4">Shop fine art photography prints from my Hamptons and travel collections. Each piece is available as a matted paper print or premium aluminum — ready to hang and built to last.</p>
+        <p class="text-muted mb-4">Need help choosing? Our AI shopping assistant can recommend pieces based on your space, help you visualize prints on your wall, and answer any questions about sizing or materials.</p>
+        <a href="https://store.matthewraynor.com" target="_blank" class="btn btn-primary btn-lg">
+          Visit the Shop <i class="fas fa-arrow-right ms-2"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Check if user has seen the modal in this session
+    if (!sessionStorage.getItem('storeModalSeen')) {
+      // Show modal after a short delay
+      setTimeout(function() {
+        var modal = new bootstrap.Modal(document.getElementById('storeAnnouncementModal'));
+        modal.show();
+        // Mark as seen for this session
+        sessionStorage.setItem('storeModalSeen', 'true');
+      }, 1000);
+    }
+  });
+</script>
 {% endblock %}
