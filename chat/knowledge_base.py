@@ -3,7 +3,6 @@
 KNOWLEDGE_BASE = """
 About Matthew:
 - Matthew Raynor is an AI Engineer & Full-Stack Developer with 3 years of experience building production applications.
-- He has four live production apps deployed and six projects in his portfolio.
 - He's a freelance developer based in Hampton Bays, NY, actively seeking a full-time remote role.
 - Former commercial fisherman from Long Island who rebuilt his life through code and creativity after a spinal cord injury.
 - He builds better than most — and his portfolio proves it.

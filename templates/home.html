@@ -15,8 +15,8 @@
       <div class="p-4 rounded-4 bg-dark bg-opacity-50 shadow-lg d-inline-block">
         <h1 class="display-4 fw-bold text-shadow">From Sea to Source Code</h1>
         <p class="lead">Writer • Engineer • Artist</p>
-        <a href="https://store.matthewraynor.com" target="_blank" class="btn btn-primary btn-lg mt-3">Explore My Store</a>
-        <a href="{% url 'post_list' %}" class="btn btn-outline-light btn-lg mt-3 ms-2">Check the V/Blog</a>
+        <a href="{% url 'portfolio:index' %}" class="btn btn-primary btn-lg mt-3">View My Portfolio</a>
+        <a href="{% url 'post_list' %}" class="btn btn-outline-light btn-lg mt-3 ms-2">Read My Blog</a>
       </div>
     </div>
   </section>
@@ -48,7 +48,7 @@
       <!-- INTRO TEXT -->
       <div class="bg-white rounded shadow-sm p-4 mb-5 mx-auto" style="max-width: 900px;">
         <p class="lead text-center mb-0">
-          I'm an <span class="fw-bold">AI Engineer & Full-Stack Developer</span> with four live production apps and six projects in my portfolio. I build <span class="fw-bold">agentic AI systems</span>, <span class="fw-bold">computer vision pipelines</span>, and <span class="fw-bold">full-stack platforms</span> with React, TypeScript, Django, and modern cloud tooling.
+          I'm an <span class="fw-bold">AI Engineer & Full-Stack Developer</span> building <span class="fw-bold">agentic AI systems</span>, <span class="fw-bold">computer vision pipelines</span>, and <span class="fw-bold">full-stack platforms</span> with React, TypeScript, Django, and modern cloud tooling.
         </p>
         <p class="lead text-center mb-0 mt-3">
           My two flagship projects: <a href="https://totetaxi.com" target="_blank" class="fw-bold text-decoration-none">ToteTaxi</a> — a luxury delivery platform with a LangGraph AI agent, dynamic pricing, Stripe, and Onfleet dispatch. And <a href="https://store.matthewraynor.com" target="_blank" class="fw-bold text-decoration-none">my Photography Store</a> — with an AI shopping assistant that searches photos semantically, visualizes prints on your wall, and handles checkout through conversation.
@@ -159,7 +159,7 @@
   <section class="py-5 fade-in-up sr-delay-10">
     <div class="container">
       <h2 class="text-center fw-bold mb-4">Recent Blog Posts</h2>
-      <p class="lead text-center">My hilarious and entertaining videos paired with inspirational writing</p>
+      <p class="lead text-center">Technical deep-dives, project breakdowns, and reflections on building software</p>
 
       <div class="row g-4">
         {% for post in recent_posts %}
@@ -225,7 +225,7 @@
 
 </div>
 
-<!-- Store Announcement Modal -->
+<!-- AI Assistant Modal -->
 <div class="modal fade" id="storeAnnouncementModal" tabindex="-1" aria-labelledby="storeAnnouncementModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -233,11 +233,11 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body text-center px-4 pt-0 pb-4">
-        <h3 class="fw-bold mb-3" id="storeAnnouncementModalLabel">The Print Shop is Now Open</h3>
-        <p class="mb-4">Shop fine art photography prints from my Hamptons and travel collections. Each piece is available as a matted paper print or premium aluminum — ready to hang and built to last.</p>
-        <p class="text-muted mb-4">Need help choosing? Our AI shopping assistant can recommend pieces based on your space, help you visualize prints on your wall, and answer any questions about sizing or materials.</p>
+        <h3 class="fw-bold mb-3" id="storeAnnouncementModalLabel"><i class="fas fa-robot me-2"></i>Try My AI Shopping Assistant</h3>
+        <p class="mb-4">I built an AI-powered shopping assistant for my photography store using LangChain and Claude. It searches photos semantically, visualizes prints on your wall, and handles checkout through conversation.</p>
+        <p class="text-muted mb-4">Ask it to find "moody ocean sunset" or upload a wall photo to see how a print would look in your space. It's a 14-tool LangChain agent with pgvector semantic search and MiDaS depth estimation.</p>
         <a href="https://store.matthewraynor.com" target="_blank" class="btn btn-primary btn-lg">
-          Visit the Shop <i class="fas fa-arrow-right ms-2"></i>
+          Try the AI Assistant <i class="fas fa-arrow-right ms-2"></i>
         </a>
       </div>
     </div>
