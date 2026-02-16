@@ -1,45 +1,42 @@
 {
-  "project_name": "Agentic AI Shopping Assistant",
-  "summary": "A production agentic AI shopping assistant built with LangChain and Claude that manages shopping carts, searches photos semantically, recommends pieces based on customer preferences, and helps visualize art on walls using ML-powered depth estimation.",
-  "live_demo": "https://store.matthewraynor.com",
-  "description": "This is a full-featured AI sales agent deployed on a live e-commerce store. It uses LangChain for agent orchestration and Claude (Anthropic) as the LLM backbone. The agent can have natural conversations with customers, manage their shopping carts, search the photo catalog using semantic similarity, recommend pieces based on room descriptions or style preferences, and help customers visualize prints on their walls.",
+  "project_name": "Matthew Raynor Photography Store & AI Shopping Assistant",
+  "url": "store.matthewraynor.com",
+  "github": "github.com/mattyray/store",
+  "summary": "A full e-commerce platform for fine art photography targeting the Hamptons luxury art market, featuring an AI-powered shopping assistant built with LangChain and Claude that searches photos semantically, manages carts, and lets customers visualize prints on their walls.",
+  "description": "The Matthew Raynor Photography Store is an e-commerce platform for fine art photography prints targeting the Hamptons luxury art market. The store sells archival paper prints, dye-sublimated aluminum prints, a photography book, and gift cards through Stripe Checkout with support for gift card redemption and promotional codes.",
   "tech_stack": {
-    "ai_core": ["LangChain", "Claude (Anthropic)", "OpenAI Embeddings"],
-    "ml_features": ["Semantic Search", "MiDaS Depth Estimation", "Vector Embeddings"],
-    "backend": ["Django REST Framework", "PostgreSQL", "Celery", "Redis"],
-    "frontend": ["React", "TypeScript", "Tailwind CSS"],
-    "deployment": ["Docker", "Fly.io", "Netlify"]
+    "backend": ["Django 5", "Django REST Framework", "PostgreSQL", "Celery", "Redis", "AWS S3"],
+    "frontend": ["Next.js 15", "TypeScript", "Tailwind CSS"],
+    "ai": ["LangChain", "Claude API", "OpenAI text-embedding-ada-002", "pgvector"],
+    "ml": ["MiDaS depth estimation", "RANSAC plane-fitting"],
+    "integrations": ["Stripe Checkout", "Resend", "MailerLite", "Sentry"],
+    "deployment": ["Railway", "Netlify"]
   },
-  "agent_capabilities": [
-    "Natural language conversation with context awareness",
-    "Shopping cart management (add, remove, view items)",
-    "Semantic photo search using vector embeddings",
-    "Personalized recommendations based on space and style",
-    "Wall visualization using MiDaS depth estimation",
-    "Answer questions about sizing, materials, and pricing",
-    "Handle checkout flow and order inquiries"
+  "ai_agent": {
+    "description": "AI-powered shopping assistant built with LangChain and Claude, streamed to the frontend over Server-Sent Events.",
+    "capabilities": [
+      "Semantic photo search using pgvector embeddings for natural language queries",
+      "Cart management — add, remove, view items through conversation",
+      "Photo filtering by descriptions, colors, mood, and subjects",
+      "Gift card balance checks",
+      "Answer questions about sizing, materials, and pricing"
+    ],
+    "embeddings": "Photo embeddings are generated using OpenAI's text-embedding-ada-002 and stored in PostgreSQL with pgvector for cosine similarity search.",
+    "metadata": "Claude Vision auto-generates all photo metadata (descriptions, colors, mood, subjects) stored with vector embeddings."
+  },
+  "see_in_room_feature": {
+    "description": "ML-powered wall visualization that lets customers see prints in their own space",
+    "technology": "MiDaS depth estimation + RANSAC plane-fitting composites prints at correct scale on customer-uploaded wall photos"
+  },
+  "ecommerce_features": [
+    "Session-based cart persistence with cross-origin cookie handling",
+    "Stripe Checkout for secure payments",
+    "Gift card redemption and promotional codes",
+    "Honeypot spam protection on contact form",
+    "Automated order confirmation emails via Resend SMTP",
+    "Tailwind dark mode support",
+    "Optimized image loading from S3"
   ],
-  "agentic_features": [
-    "Tool use with LangChain agent framework",
-    "Multi-turn conversation with memory",
-    "Dynamic tool selection based on user intent",
-    "Structured output parsing for cart operations",
-    "Graceful error handling and fallbacks"
-  ],
-  "technical_highlights": [
-    "LangChain agent with custom tools for e-commerce operations",
-    "Claude API integration with proper prompt engineering",
-    "Vector similarity search for semantic photo matching",
-    "MiDaS depth estimation for realistic wall placement",
-    "Real-time streaming responses for better UX",
-    "Session-based conversation history"
-  ],
-  "problems_solved": [
-    "Provides 24/7 intelligent customer support",
-    "Helps customers find perfect pieces through natural conversation",
-    "Reduces friction in the buying process",
-    "Offers personalized recommendations at scale",
-    "Demonstrates production-grade agentic AI capabilities"
-  ],
-  "why_this_matters": "This project demonstrates real-world agentic AI implementation - not just a chatbot, but an AI agent that can take actions (manage carts, search inventory, generate visualizations) on behalf of users. It shows practical LLM integration, tool orchestration, and production deployment of AI systems."
+  "architecture_notes": "The frontend uses Next.js App Router with server-side rendering. The architecture separates server components (using internal API URLs) from client components (using public API URLs) for efficient data fetching.",
+  "why_this_matters": "This project demonstrates production agentic AI — not just a chatbot, but an AI agent that takes real actions on behalf of customers. Semantic search, cart management, wall visualization, and full e-commerce in one platform."
 }

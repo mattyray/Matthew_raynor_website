@@ -1,36 +1,47 @@
 {
-  "project_name": "ToteTaxi.com",
-  "summary": "A full-stack logistics platform for a Manhattan-to-Hamptons delivery service, featuring a multi-step booking wizard, dynamic pricing engine, dual user models, and real-time delivery tracking via Onfleet API.",
-  "description": "ToteTaxi is a production-grade logistics platform built for a company that transports clients from Manhattan to their second homes in the Hamptons. The platform handles complex booking workflows, role-based dashboards for clients and staff, payment processing, and seamless third-party API orchestration.",
+  "project_name": "ToteTaxi",
+  "url": "totetaxi.com",
+  "github": "github.com/mattyray/totetaxi",
+  "summary": "A full-stack luxury delivery and mini-moving platform serving the NYC tri-state area, the Hamptons, and South Florida. Built with Django 5.2, Django REST Framework, Next.js 16, React 19, TypeScript, and a deep integration stack including Stripe, Onfleet, LangGraph, Claude API, Google Places API, and AWS.",
+  "description": "ToteTaxi is a full-stack luxury delivery service operating Manhattan to Hamptons, South Florida to NYC airports, and more. The system handles four service types (Mini Moves with tiered packages, Standard Delivery, Specialty Items, and Airport Transfers) with dynamic pricing that accounts for geographic surcharges, weekend/peak premiums, same-day restrictions, and promotional discount codes.",
   "tech_stack": {
-    "frontend": ["React 19", "TypeScript", "Tailwind CSS"],
-    "backend": ["Django REST Framework", "PostgreSQL", "Celery", "Redis"],
-    "integrations": ["Stripe API", "Onfleet API"],
-    "deployment": ["Docker", "Heroku"]
+    "backend": ["Django 5.2", "Django REST Framework", "PostgreSQL", "Redis", "Celery"],
+    "frontend": ["Next.js 16", "React 19", "TypeScript"],
+    "integrations": ["Stripe", "Onfleet", "LangGraph", "Claude API", "AWS SES/S3", "Google Places API", "Fly.io", "Netlify"],
+    "testing": ["pytest", "Playwright E2E"]
   },
-  "features": [
-    "Multi-step booking wizard with address validation and scheduling",
-    "Dynamic pricing engine based on distance, service type, and items",
-    "Dual user models for clients and staff with role-based dashboards",
-    "Real-time delivery integration via Onfleet API",
-    "Stripe payment processing with secure checkout",
-    "Order management and tracking system",
-    "Complex third-party API orchestration"
-  ],
-  "problems_solved": [
-    "Automated complex booking and pricing calculations",
-    "Unified client and staff workflows in one platform",
-    "Real-time delivery tracking and status updates",
-    "Secure payment processing with proper error handling",
-    "Streamlined operations for seasonal delivery business"
-  ],
-  "technical_highlights": [
-    "React 19 with TypeScript for type-safe frontend development",
-    "Django REST Framework API design with proper serialization",
-    "Onfleet webhook integration for real-time delivery updates",
-    "Stripe Checkout integration with webhook handling",
-    "Role-based authentication and authorization"
-  ],
-  "live_demo": "Contact for demo access",
-  "github": "Private client repository"
+  "ai_features": {
+    "description": "The platform features an AI-powered customer service assistant built with LangGraph and Claude, streamed to the frontend over Server-Sent Events.",
+    "agent_tools": [
+      "ZIP code coverage lookup",
+      "Real-time pricing estimates",
+      "Date availability checking",
+      "Authenticated booking lookups",
+      "Hand-off to booking wizard with up to 22 pre-filled parameters"
+    ],
+    "agent_details": "The system prompt was iteratively refined through adversarial testing to ensure accurate service routing, date validation, and appropriate single-service recommendations. Auth-scoped tool binding enforces data access boundaries at the code level, and LangSmith provides full observability into agent behavior in production."
+  },
+  "architecture": {
+    "auth": "Dual authentication — httpOnly cookies for desktop with session-based fallback for mobile browser compatibility",
+    "portals": "Separate customer and staff portals with role-based access control",
+    "dispatch": "Onfleet driver dispatch with real-time webhook status tracking",
+    "payments": "Stripe payment processing with atomic booking creation",
+    "notifications": "Automated email confirmations with calendar invites",
+    "infrastructure": "Backend runs on Fly.io with gevent workers to support concurrent SSE streaming alongside standard API traffic"
+  },
+  "pricing_engine": {
+    "description": "Sophisticated pricing engine handling geographic surcharges, weekend fees, and service area restrictions",
+    "features": [
+      "Dynamic pricing based on distance, service type, and item count",
+      "Geographic surcharges for different delivery zones",
+      "Weekend and peak premium calculations",
+      "Same-day restriction handling",
+      "Promotional discount code support"
+    ]
+  },
+  "testing_and_security": {
+    "test_suite": "Comprehensive test suite with 310+ backend tests via pytest and Playwright E2E tests",
+    "security_audit": "Full security audit covering payment flow hardening, input validation, rate limiting, and LLM-specific attack surface analysis"
+  },
+  "why_this_matters": "ToteTaxi demonstrates full-stack engineering at scale — a production logistics platform with AI customer service, complex pricing logic, real-time dispatch, payment processing, and 310+ tests. This is not a demo project. It's a live business platform."
 }

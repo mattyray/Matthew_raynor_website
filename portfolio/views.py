@@ -121,7 +121,7 @@ PROJECTS = [
             "Designed smart cost management preventing expensive surprises",
             "Created viral-ready app architecture that can scale instantly"
         ],
-        "build_notes": "<p>This project demonstrates advanced AI integration, business model implementation, and cost-conscious cloud architecture. The facial recognition pipeline uses mathematical comparison of facial features, while the HuggingFace integration required custom API client development. Built with accessibility in mind using voice commands and adaptive technologies.</p>",
+        "build_notes": "<p>This project demonstrates advanced AI integration, business model implementation, and cost-conscious cloud architecture. The facial recognition pipeline uses mathematical comparison of facial features, while the HuggingFace integration required custom API client development.</p>",
         "github_url": "https://github.com/mattyray/ai-convert",
         "video_url": "https://youtu.be/rpkIL5FZbpA"
     },
@@ -240,7 +240,7 @@ PROJECTS = [
         ],
         "proud_of": [
             "Saved $26,000 from GoFundMe's predatory policies through technical innovation",
-            "Built enterprise-grade donation platform as a quadriplegic using adaptive technology",
+            "Built enterprise-grade donation platform from scratch under extreme constraints",
             "Created sustainable funding model that eliminates exploitative middlemen",
             "Shipped production-ready React + Django architecture under extreme time pressure",
             "Turned institutional barriers into opportunities for technical problem-solving",
