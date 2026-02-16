@@ -9,11 +9,131 @@ from django.http import Http404
 
 # Updated PROJECTS with Enhanced Fundraiser Entry
 PROJECTS = [
-    
-
-        {
-        "title": "Production-Grade Photo Capture & Validation",
-        "slug": "photo-capture-validation",
+    {
+        "title": "ToteTaxi — Luxury Delivery Platform",
+        "slug": "totetaxi",
+        "hero_video": "https://youtu.be/PXJ540ZxxuY",
+        "description": "Full-stack luxury delivery and mini-moving platform with an AI customer service agent, dynamic pricing, Stripe payments, and Onfleet dispatch.",
+        "overview": (
+            "ToteTaxi is a production logistics platform serving Manhattan to Hamptons, South Florida to NYC airports, and the NYC tri-state area. "
+            "It handles four service types — Mini Moves (tiered packages), Standard Delivery, Specialty Items, and Airport Transfers — with a sophisticated "
+            "dynamic pricing engine that accounts for geographic surcharges, weekend/peak premiums, same-day restrictions, and promotional discount codes."
+        ),
+        "tech_stack": {
+            "backend": ["Django 5.2", "Django REST Framework", "PostgreSQL", "Redis", "Celery"],
+            "frontend": ["Next.js 16", "React 19", "TypeScript"],
+            "ai": ["LangGraph", "Claude API", "LangSmith"],
+            "integrations": ["Stripe", "Onfleet", "Google Places API", "AWS SES/S3"],
+            "deployment": ["Fly.io (gevent workers)", "Netlify"]
+        },
+        "problem": (
+            "A luxury delivery business needed a complete platform — booking, pricing, payment, dispatch, customer service — "
+            "that could handle complex logistics across multiple service areas and service types."
+        ),
+        "solution": (
+            "Built a full-stack platform with an AI customer service agent (LangGraph + Claude, 6 tools, SSE streaming), "
+            "dynamic pricing engine, Stripe payment processing with atomic booking creation, Onfleet driver dispatch with "
+            "real-time webhook tracking, and separate customer/staff portals with role-based access."
+        ),
+        "special_features": [
+            "AI agent with 6 tools: ZIP coverage, real-time pricing, date availability, booking lookups, hand-off to booking wizard with up to 22 pre-filled parameters",
+            "Dynamic pricing engine with geographic surcharges, weekend premiums, same-day restrictions, and promo codes",
+            "Dual authentication — httpOnly cookies for desktop, session fallback for mobile",
+            "Onfleet driver dispatch with real-time webhook status tracking",
+            "Stripe payment processing with atomic booking creation",
+            "Automated email confirmations with calendar invites",
+            "310+ backend tests via pytest, Playwright E2E tests"
+        ],
+        "problems_solved": [
+            "Complex multi-zone pricing with dynamic surcharges and restrictions",
+            "AI agent that accurately routes services, validates dates, and pre-fills booking forms",
+            "Concurrent SSE streaming alongside standard API traffic via gevent workers",
+            "Auth-scoped tool binding preventing LLM data access violations"
+        ],
+        "improvements": [
+            "Real-time driver tracking map for customers",
+            "Recurring delivery scheduling",
+            "Multi-language support"
+        ],
+        "proud_of": [
+            "Production LangGraph agent with adversarial-tested system prompt",
+            "Full security audit covering payment hardening, rate limiting, and LLM attack surface",
+            "310+ tests and Playwright E2E coverage",
+            "Gevent worker architecture for concurrent SSE + API traffic"
+        ],
+        "build_notes": (
+            "<p>Built with Django 5.2 and Next.js 16. The AI agent uses LangGraph's ReAct pattern with Claude, streamed via SSE. "
+            "The system prompt was iteratively refined through adversarial testing. Auth-scoped tool binding enforces data access "
+            "boundaries at the code level. LangSmith provides full observability into agent behavior in production. "
+            "Backend runs on Fly.io with gevent workers for concurrent streaming.</p>"
+        ),
+        "github_url": "https://github.com/mattyray/totetaxi",
+        "live_url": "https://totetaxi.com",
+        "blog_url": "/blog/tote-taxi-langgraph/"
+    },
+    {
+        "title": "Matthew Raynor Photography Store",
+        "slug": "photography-store",
+        "description": "Full e-commerce platform for fine art photography with an AI shopping assistant, semantic search, and wall visualization.",
+        "overview": (
+            "A complete e-commerce platform for fine art drone and seascape photography targeting the Hamptons luxury art market. "
+            "Features an AI shopping assistant built with LangChain and Claude that can search photos semantically, manage carts, "
+            "visualize prints on customer walls using depth estimation, and handle checkout through conversation."
+        ),
+        "tech_stack": {
+            "backend": ["Django 5", "Django REST Framework", "PostgreSQL", "pgvector", "Celery", "Redis"],
+            "frontend": ["Next.js 15", "TypeScript", "Tailwind CSS"],
+            "ai": ["LangChain", "Claude API", "Claude Vision", "OpenAI Embeddings", "MiDaS Depth Estimation"],
+            "integrations": ["Stripe Checkout", "AWS S3", "Resend", "MailerLite", "Sentry"],
+            "deployment": ["Railway", "Netlify"]
+        },
+        "problem": (
+            "Selling fine art photography online requires more than a product grid — customers need to discover art by mood and meaning, "
+            "visualize how pieces look in their space, and feel confident about size and materials before purchasing."
+        ),
+        "solution": (
+            "Built an AI shopping assistant with 14 tools that searches photos semantically using pgvector embeddings, manages carts, "
+            "filters by color/mood/subject, checks gift card balances, and answers sizing questions. The 'See It In Room' feature uses "
+            "MiDaS depth estimation + RANSAC plane-fitting to composite prints at correct scale on customer-uploaded wall photos."
+        ),
+        "special_features": [
+            "AI shopping assistant with 14 tools — search, cart, checkout, wall visualization all through conversation",
+            "pgvector semantic search using OpenAI text-embedding-ada-002 for meaning-based photo discovery",
+            "Claude Vision auto-generates all photo metadata (descriptions, moods, colors, subjects)",
+            "'See It In Room': MiDaS depth estimation + RANSAC plane-fitting composites prints at correct scale on wall photos",
+            "Stripe Checkout with gift card redemption and promotional codes",
+            "Session-based cart persistence with cross-origin cookie handling",
+            "Next.js App Router with server-side rendering — server components (internal API) vs client components (public API)"
+        ],
+        "problems_solved": [
+            "Semantic photo discovery — customers find art by meaning, not just keywords",
+            "Realistic wall visualization reduces purchase hesitation for expensive prints",
+            "Conversational commerce handles the entire shopping experience through the AI assistant",
+            "Automated metadata generation eliminates manual photo tagging"
+        ],
+        "improvements": [
+            "AR-based room visualization using device camera",
+            "Multi-currency support for international buyers",
+            "Artist collaboration marketplace"
+        ],
+        "proud_of": [
+            "MiDaS + RANSAC pipeline that accurately places prints on real walls",
+            "Semantic search that understands 'moody ocean sunset' or 'bright aerial beach'",
+            "Full conversational commerce — customers can browse, add to cart, and check out without leaving the chat",
+            "Claude Vision metadata pipeline that auto-tags every photo"
+        ],
+        "build_notes": (
+            "<p>Photo embeddings generated with OpenAI text-embedding-ada-002, stored in PostgreSQL with pgvector for cosine similarity search. "
+            "The AI assistant uses LangChain with Claude and 14 tools for a complete shopping experience. The 'See It In Room' feature uses "
+            "MiDaS depth estimation to find walls in uploaded photos, then RANSAC plane-fitting to composite prints at physically accurate scale. "
+            "Next.js App Router separates server components (which call internal API) from client components (which use the public API).</p>"
+        ),
+        "live_url": "https://store.matthewraynor.com",
+        "blog_url": "/blog/i-built-an-ai-shopping-assistant-that-sees-your-wa/"
+    },
+    {
+        "title": "IDP EasyCapture — Enterprise Photo Validation",
+        "slug": "idp-easycapture",
         "hero_video": "https://youtu.be/4g5zsY9exVw",
         # Optional: set a placeholder image too if you like
         # "hero_image": "path/to/thumbnail.jpg",
@@ -75,56 +195,6 @@ PROJECTS = [
         ),
     },
 
-    {
-        "title": "HistoryFace AI - Face Swap SaaS",
-        "slug": "historyface-ai",
-        "hero_video": "https://youtu.be/rpkIL5FZbpA",
-        "hero_image": "https://res.cloudinary.com/dddye9wli/image/upload/w_400,h_300,c_fill,q_auto,f_auto/v1752173587/motivational-chatbot_b2e8qv.jpg",
-        "description": "An AI-powered SaaS app that transforms your face into historical figures using facial recognition and HuggingFace AI models.",
-        "overview": "HistoryFace is a production-grade SaaS application that uses advanced facial recognition to match users with historical figures, then applies AI face-swapping technology to create realistic transformations. Built with a complete freemium business model, external AI integrations, and smart cost management.",
-        "tech_stack": {
-            "backend": ["Django 5.1.6", "Django REST Framework", "PostgreSQL", "Redis", "Celery"],
-            "frontend": ["React 18", "TypeScript", "Tailwind CSS", "Axios"],
-            "ai_integration": ["HuggingFace Spaces", "FaceFusion Model", "dlib", "face-recognition", "OpenCV"],
-            "deployment": ["Docker", "Fly.io", "Netlify", "Cloudinary"],
-            "business": ["Stripe API", "Google OAuth", "Session Tracking", "Usage Limits"]
-        },
-        "problem": "Creating a viral AI face-swapping app requires complex facial recognition, expensive GPU processing, smart cost management, and a sustainable monetization strategy - all while maintaining fast user experience.",
-        "solution": "Built a complete SaaS architecture integrating HuggingFace AI models with custom facial recognition, implemented freemium usage tracking, automated cost controls, and real-time API processing for seamless user experience.",
-        "special_features": [
-            "Advanced facial recognition using dlib and cosine similarity matching",
-            "Real-time API integration with HuggingFace Spaces GPU infrastructure", 
-            "Smart freemium model with session-based usage tracking",
-            "Automated Cloudinary storage cleanup to control costs",
-            "Google OAuth authentication with unlimited access for registered users",
-            "Responsive React frontend with live processing updates",
-            "Stripe payment integration for subscription monetization"
-        ],
-        "problems_solved": [
-            "Cost-effective AI model integration without running own GPU infrastructure",
-            "Real-time face swapping with 25-30 second processing pipeline",
-            "Sustainable business model balancing free trials with paid conversions",
-            "Scalable architecture ready for thousands of concurrent users",
-            "Automated resource cleanup preventing runaway cloud costs"
-        ],
-        "improvements": [
-            "Implement background job processing with Celery for better scaling",
-            "Add more historical figure options and categories",
-            "Create mobile app version with React Native",
-            "Integrate additional AI models for different transformation styles",
-            "Add social sharing features and user galleries"
-        ],
-        "proud_of": [
-            "Successfully integrated complex AI services with minimal latency",
-            "Built complete SaaS business model from freemium to paid subscriptions", 
-            "Overcame accessibility challenges to create production-grade AI application",
-            "Designed smart cost management preventing expensive surprises",
-            "Created viral-ready app architecture that can scale instantly"
-        ],
-        "build_notes": "<p>This project demonstrates advanced AI integration, business model implementation, and cost-conscious cloud architecture. The facial recognition pipeline uses mathematical comparison of facial features, while the HuggingFace integration required custom API client development.</p>",
-        "github_url": "https://github.com/mattyray/ai-convert",
-        "video_url": "https://youtu.be/rpkIL5FZbpA"
-    },
     {
         "title": "EJ Art Moving App",
         "slug": "art-mover",
@@ -391,42 +461,53 @@ PROJECTS = [
         "github_url": "https://github.com/mattyray/ai_motivator_chatbot",
     },
     {
-        "title": "Lotus Path Learning Platform",
-        "slug": "lotus-path",
-        "hero_image": "https://res.cloudinary.com/dddye9wli/image/upload/w_400,h_300,c_fill,q_auto,f_auto/v1752173586/lotus-path_qvzp4w.jpg",
-        "description": "An AI-powered learning platform offering custom tutorials, quizzes, and user-authenticated progress tracking.",
-        "overview": "An interactive web app that generates AI-written tutorials, hosts quizzes, and lets users track progress with a personalized dashboard. Built with Django, integrated with OpenAI, and deployed on Fly.io.",
+        "title": "HistoryFace AI - Face Swap SaaS",
+        "slug": "historyface-ai",
+        "hero_video": "https://youtu.be/rpkIL5FZbpA",
+        "hero_image": "https://res.cloudinary.com/dddye9wli/image/upload/w_400,h_300,c_fill,q_auto,f_auto/v1752173587/motivational-chatbot_b2e8qv.jpg",
+        "description": "An AI-powered SaaS app that transforms your face into historical figures using facial recognition and HuggingFace AI models.",
+        "overview": "HistoryFace is a production-grade SaaS application that uses advanced facial recognition to match users with historical figures, then applies AI face-swapping technology to create realistic transformations. Built with a complete freemium business model, external AI integrations, and smart cost management.",
         "tech_stack": {
-            "backend": ["Django 5.1.6", "Python 3.10", "PostgreSQL", "Docker"],
-            "frontend": ["Bootstrap 5", "Crispy Forms"],
-            "deployment": ["Fly.io", "Docker Compose", "Whitenoise"],
-            "tools": ["django-environ", "OpenAI API", "CKEditor", "GitHub Actions"]
+            "backend": ["Django 5.1.6", "Django REST Framework", "PostgreSQL", "Redis", "Celery"],
+            "frontend": ["React 18", "TypeScript", "Tailwind CSS", "Axios"],
+            "ai_integration": ["HuggingFace Spaces", "FaceFusion Model", "dlib", "face-recognition", "OpenCV"],
+            "deployment": ["Docker", "Fly.io", "Netlify", "Cloudinary"],
+            "business": ["Stripe API", "Google OAuth", "Session Tracking", "Usage Limits"]
         },
-        "problem": "Learners often struggle to find clear, custom-tailored explanations of programming topics and have no simple way to test themselves or track their growth.",
-        "solution": "The platform allows users to generate AI-driven tutorials on demand, take JavaScript quizzes, and store their learning history via user accounts. It's optimized for accessibility and clarity.",
+        "problem": "Creating a viral AI face-swapping app requires complex facial recognition, expensive GPU processing, smart cost management, and a sustainable monetization strategy - all while maintaining fast user experience.",
+        "solution": "Built a complete SaaS architecture integrating HuggingFace AI models with custom facial recognition, implemented freemium usage tracking, automated cost controls, and real-time API processing for seamless user experience.",
         "special_features": [
-            "OpenAI-powered tutorial generation engine",
-            "JavaScript quiz module with Django views and templates",
-            "Authentication system with user dashboards and CSRF security",
-            "Styled using Bootstrap with reusable templates and layout blocks"
+            "Advanced facial recognition using dlib and cosine similarity matching",
+            "Real-time API integration with HuggingFace Spaces GPU infrastructure",
+            "Smart freemium model with session-based usage tracking",
+            "Automated Cloudinary storage cleanup to control costs",
+            "Google OAuth authentication with unlimited access for registered users",
+            "Responsive React frontend with live processing updates",
+            "Stripe payment integration for subscription monetization"
         ],
         "problems_solved": [
-            "Manual content creation bottlenecks",
-            "Lack of personalized study support",
-            "Difficulty integrating AI into a structured learning flow"
+            "Cost-effective AI model integration without running own GPU infrastructure",
+            "Real-time face swapping with 25-30 second processing pipeline",
+            "Sustainable business model balancing free trials with paid conversions",
+            "Scalable architecture ready for thousands of concurrent users",
+            "Automated resource cleanup preventing runaway cloud costs"
         ],
         "improvements": [
-            "Add real-time chat tutoring via OpenAI API",
-            "Allow users to bookmark and rate tutorials",
-            "Enable code submission and validation for interactive practice"
+            "Implement background job processing with Celery for better scaling",
+            "Add more historical figure options and categories",
+            "Create mobile app version with React Native",
+            "Integrate additional AI models for different transformation styles",
+            "Add social sharing features and user galleries"
         ],
         "proud_of": [
-            "Integrated OpenAI API into a real Django application",
-            "Configured secure, production-ready deployment using Fly.io and Docker",
-            "Set up GitHub Actions for CI/CD with collectstatic and migrations"
+            "Successfully integrated complex AI services with minimal latency",
+            "Built complete SaaS business model from freemium to paid subscriptions",
+            "Designed smart cost management preventing expensive surprises",
+            "Created viral-ready app architecture that can scale instantly"
         ],
-        "build_notes": "<p>Deployed on Fly.io using Docker. Static files handled via Whitenoise. PostgreSQL database with `.env` integration via <code>django-environ</code>. Includes CKEditor for WYSIWYG content editing.</p>",
-        "github_url": "https://github.com/mattyray/news-root",
+        "build_notes": "<p>This project demonstrates advanced AI integration, business model implementation, and cost-conscious cloud architecture. The facial recognition pipeline uses mathematical comparison of facial features, while the HuggingFace integration required custom API client development.</p>",
+        "github_url": "https://github.com/mattyray/ai-convert",
+        "video_url": "https://youtu.be/rpkIL5FZbpA"
     },
 ]
 

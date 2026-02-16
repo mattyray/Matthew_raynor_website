@@ -82,8 +82,12 @@
         </div>
         <div class="col-lg-6">
           <h4 class="fw-bold">ToteTaxi.com</h4>
-          <p class="lead">A full-stack logistics platform for Manhattan-to-Hamptons delivery services. Features a multi-step booking wizard with dynamic pricing engine, dual user models, and real-time delivery tracking via Onfleet API. Built with React 19, TypeScript, and Django REST Framework — includes role-based dashboards, Stripe payment processing, and complex third-party API orchestration.</p>
-          <a href="{% url 'portfolio:project_detail' 'totetaxi' %}" class="btn btn-primary">View Project</a>
+          <p class="lead">A full-stack luxury delivery and mini-moving platform with an AI customer service agent built on LangGraph and Claude — 6 tools, SSE streaming, and hand-off to a booking wizard with up to 22 pre-filled parameters. Dynamic pricing engine with geographic surcharges and weekend premiums. Stripe payments, Onfleet driver dispatch with real-time webhook tracking, dual auth, and 310+ backend tests.</p>
+          <div class="d-flex flex-wrap gap-2">
+            <a href="https://totetaxi.com" target="_blank" class="btn btn-primary">Try It Live</a>
+            <a href="{% url 'portfolio:project_detail' 'totetaxi' %}" class="btn btn-outline-primary">View Project</a>
+            <a href="{% url 'post_list' %}tote-taxi-langgraph/" class="btn btn-outline-primary">Read the Build Post</a>
+          </div>
         </div>
       </div>
 
