@@ -15,8 +15,10 @@
     </div>
     <div class="col-md-6">
       <h2 class="fw-bold">Who I Am</h2>
-      <p class="lead">I'm Matthew Raynor — an AI Engineer & Full-Stack Developer based in Hampton Bays, NY. I'm freelancing and looking for the right full-time remote role.</p>
-      <p>Before code, I was a commercial fisherman working off the coast of Montauk. A diving accident left me a tetraplegic — but it didn't stop me from building. I rebuilt my life through code, creativity, and grit. Three years later, I'm shipping production software that competes with anything out there.</p>
+      <p class="lead">I'm Matthew Raynor — an AI Engineer & Full-Stack Developer based in Hampton Bays, NY.</p>
+      <p>I grew up on the East End of Long Island, drawn to the ocean from a young age. I became a commercial fisherman working off the coast of Montauk — long days on rough water, hauling nets, reading weather and tides. It was hard, honest work and I loved it.</p>
+      <p>In 2020, a diving accident left me a tetraplegic. In one moment, the life I knew was gone. I spent months in hospitals and rehab learning to do everything differently — eating, breathing without full lung capacity, navigating the world in a wheelchair.</p>
+      <p>But I refused to let the injury define me. I taught myself to code, starting with Python tutorials and building small projects with limited hand function. Three years later, I'm shipping production AI systems and full-stack platforms — building things I never could have imagined back on the boat.</p>
       <p>Want to dive deeper into my story? Explore my writing on my blog and Substack:</p>
       <div class="d-flex flex-wrap gap-2 mt-3">
         <a href="{% url 'post_list' %}" class="btn btn-primary fw-bold">Blog</a>
@@ -30,17 +32,25 @@
     <div class="col-md-6 mb-4 mb-md-0">
       <div class="row g-3">
         <div class="col-12">
-          <a href="{% url 'post_list' %}tote-taxi-langgraph/" class="text-decoration-none">
+          <a href="{% url 'post_list' %}tote-taxi-langgraph/" class="text-decoration-none d-block position-relative rounded shadow overflow-hidden">
             <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,h_400,c_fill,q_auto,f_auto/v1/blog_images/photoallicons_ygoclt"
-                 class="img-fluid rounded shadow lazy-image image-placeholder"
+                 class="img-fluid lazy-image image-placeholder w-100"
                  alt="ToteTaxi Technical Deep-Dive">
+            <div class="position-absolute bottom-0 start-0 w-100 p-3" style="background: linear-gradient(transparent, rgba(0,0,0,0.8));">
+              <span class="text-white fw-bold">How I Built ToteTaxi's AI Agent</span><br>
+              <small class="text-white-50">LangGraph, Claude, SSE Streaming, 6 Tools</small>
+            </div>
           </a>
         </div>
         <div class="col-12">
-          <a href="{% url 'post_list' %}i-built-an-ai-shopping-assistant-that-sees-your-wa/" class="text-decoration-none">
+          <a href="{% url 'post_list' %}i-built-an-ai-shopping-assistant-that-sees-your-wa/" class="text-decoration-none d-block position-relative rounded shadow overflow-hidden">
             <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,h_400,c_fill,q_auto,f_auto/v1/blog_images/photo_odmswq"
-                 class="img-fluid rounded shadow lazy-image image-placeholder"
+                 class="img-fluid lazy-image image-placeholder w-100"
                  alt="AI Shopping Assistant Deep-Dive">
+            <div class="position-absolute bottom-0 start-0 w-100 p-3" style="background: linear-gradient(transparent, rgba(0,0,0,0.8));">
+              <span class="text-white fw-bold">AI Shopping Assistant That Sees Your Wall</span><br>
+              <small class="text-white-50">LangChain, pgvector, MiDaS Depth, Claude Vision</small>
+            </div>
           </a>
         </div>
       </div>

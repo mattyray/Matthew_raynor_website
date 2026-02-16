@@ -1,6 +1,5 @@
 from environ import Env
 from pathlib import Path
-print("💥 settings.py loaded from latest build")
 
 # Initialize environment variables
 env = Env()
@@ -12,7 +11,7 @@ OPENAI_API_KEY = env("OPENAI_API_KEY", default="")
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security
-SECRET_KEY = env("DJANGO_SECRET_KEY", default="No Secret Key Found")
+SECRET_KEY = env("DJANGO_SECRET_KEY")
 DEBUG = env.bool("DJANGO_DEBUG", default=False)
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 

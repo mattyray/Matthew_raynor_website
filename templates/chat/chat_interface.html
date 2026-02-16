@@ -19,6 +19,12 @@
 
 {% block extra_js %}
 <script>
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
 document.getElementById("chat-form").addEventListener("submit", async function(event) {
   event.preventDefault();
   const input = document.getElementById("user-input");
@@ -26,17 +32,20 @@ document.getElementById("chat-form").addEventListener("submit", async function(e
   if (!message) return;
 
   const chatBox = document.getElementById("chat-box");
-  chatBox.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
+  chatBox.innerHTML += `<p><strong>You:</strong> ${escapeHtml(message)}</p>`;
   input.value = "";
 
-  // Send to backend (to be implemented)
-  const response = await fetch("/chat/api/message/", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "X-CSRFToken": "{{ csrf_token }}" },
-    body: JSON.stringify({ message })
-  });
-  const data = await response.json();
-  chatBox.innerHTML += `<p><strong>AI:</strong> ${data.reply}</p>`;
+  try {
+    const response = await fetch("/chat/api/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-CSRFToken": "{{ csrf_token }}" },
+      body: JSON.stringify({ message })
+    });
+    const data = await response.json();
+    chatBox.innerHTML += `<p><strong>AI:</strong> ${escapeHtml(data.reply || "Sorry, something went wrong.")}</p>`;
+  } catch (err) {
+    chatBox.innerHTML += `<p><strong>AI:</strong> Something went wrong. Please try again.</p>`;
+  }
   chatBox.scrollTop = chatBox.scrollHeight;
 });
 </script>

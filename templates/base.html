@@ -102,8 +102,8 @@
         <li><a class="offcanvas-link" href="https://store.matthewraynor.com" target="_blank">Store</a></li>
       </ul>
       <div class="mt-3">
-        <form class="d-flex">
-          <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+        <form class="d-flex" method="get" action="{% url 'search:results' %}">
+          <input class="form-control" type="search" name="q" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-light" type="submit">Search</button>
         </form>
       </div>
@@ -234,13 +234,19 @@
         $chatToggle.attr('aria-expanded', 'false');
       });
 
+      function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+      }
+
       if ($chatInput.length) {
         $chatInput.on('keydown', function (e) {
           if (e.key === "Enter" && this.value.trim() !== "") {
             const message = this.value;
             this.value = "";
 
-            $chatBody.append(`<div class="chat-message user fade-in">${message}</div>`);
+            $chatBody.append(`<div class="chat-message user fade-in">${escapeHtml(message)}</div>`);
 
             const loadingHTML = `
               <div class="chat-message system typing" id="chatbot-typing">
@@ -266,14 +272,14 @@
               $('#chatbot-typing').remove();
               const reply = data.reply || data.error || "Sorry, something went wrong.";
               const paragraphs = reply.split(/\n\s*\n/);
-              const formattedReply = paragraphs.map(p => `<p>${p.trim()}</p>`).join("");
+              const formattedReply = paragraphs.map(p => `<p>${escapeHtml(p.trim())}</p>`).join("");
               $chatBody.append(`<div class="chat-message ai fade-in">${formattedReply}</div>`);
               $chatBody.scrollTop($chatBody[0].scrollHeight);
             })
             .catch(err => {
               clearTimeout(timeoutId);
               $('#chatbot-typing').remove();
-              $chatBody.append(`<div class="chat-message ai fade-in">⚠️ Error: ${err.message}</div>`);
+              $chatBody.append(`<div class="chat-message ai fade-in">⚠️ Something went wrong. Please try again.</div>`);
               $chatBody.scrollTop($chatBody[0].scrollHeight);
             });
           }

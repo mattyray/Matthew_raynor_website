@@ -1,5 +1,5 @@
 import re
-from django.utils.html import format_html
+from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
 class SearchHighlighter:
@@ -29,9 +29,9 @@ class SearchHighlighter:
         if snippet_start + max_length < len(text):
             snippet = snippet + "..."
         
-        # Highlight terms
-        highlighted = self._highlight_terms(snippet)
-        
+        # Escape HTML first, then highlight terms
+        highlighted = self._highlight_terms(escape(snippet))
+
         return mark_safe(highlighted)
     
     def highlight_title(self, title):
@@ -39,7 +39,7 @@ class SearchHighlighter:
         if not title or not self.query_words:
             return title
         
-        return mark_safe(self._highlight_terms(str(title)))
+        return mark_safe(self._highlight_terms(escape(str(title))))
     
     def _find_best_snippet_start(self, text, max_length):
         """Find the best place to start the snippet (around first match)"""

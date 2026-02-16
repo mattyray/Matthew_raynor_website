@@ -1,12 +1,15 @@
-from django.views.decorators.csrf import csrf_exempt
+import json
+import logging
+
+from django.conf import settings
+from django.http import JsonResponse
+from django.views import View
 from django.views.generic import TemplateView
 from openai import OpenAI
-from django.conf import settings
-from django.views import View
-from django.http import JsonResponse
-import json
-from .utils import load_combined_context  # 👈 add this import
 
+from .utils import load_combined_context
+
+logger = logging.getLogger(__name__)
 
 client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
@@ -16,7 +19,10 @@ class ChatAPIView(View):
         try:
             data = json.loads(request.body)
             message = data.get("message", "")
-            full_context = load_combined_context()  # 👈 now uses both blog + KB
+            if not message or len(message) > 2000:
+                return JsonResponse({"error": "Invalid message."}, status=400)
+
+            full_context = load_combined_context()
 
             chat_response = client.chat.completions.create(
                 model="gpt-4",
@@ -28,7 +34,8 @@ class ChatAPIView(View):
             reply = chat_response.choices[0].message.content.strip()
             return JsonResponse({"reply": reply})
         except Exception as e:
-            return JsonResponse({"error": str(e)}, status=500)
+            logger.exception("Chat API error")
+            return JsonResponse({"error": "Something went wrong. Please try again."}, status=500)
 
 
 class ChatInterfaceView(TemplateView):
