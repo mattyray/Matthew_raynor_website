@@ -203,7 +203,7 @@ PROJECTS = [
         "hero_video": "https://youtu.be/ZumlW-noN6E",
         "hero_image": "https://res.cloudinary.com/dddye9wli/image/upload/w_400,h_300,c_fill,q_auto,f_auto/v1752173586/fundraiser_gsbo4o.jpg",
         "description": "After GoFundMe nearly blocked my $26K withdrawal with terrible policies, I built my own donation platform with zero platform fees.",
-        "overview": "When I needed funds to escape the nursing home, I initially used GoFundMe. Big mistake. They made it nearly impossible to withdraw money, took percentage cuts, and offered zero customer service. We almost lost everything due to their predatory refund policies. So I did what any developer would do: I built my own platform with direct Stripe integration and complete donor control.",
+        "overview": "When I needed to raise funds for my transition to independent living, I initially used GoFundMe. Big mistake. They made it nearly impossible to withdraw money, took percentage cuts, and offered zero customer service. We almost lost everything due to their predatory refund policies. So I did what any developer would do: I built my own platform with direct Stripe integration and complete donor control. Mission accomplished — I'm now living independently.",
         "tech_stack": {
             "backend": ["Django 5.1.6", "Django REST Framework", "PostgreSQL", "Redis", "Celery"],
             "frontend": ["React 19", "TypeScript", "Tailwind CSS", "Responsive Design"],

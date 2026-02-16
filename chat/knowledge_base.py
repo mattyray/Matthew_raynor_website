@@ -2,28 +2,47 @@
 
 KNOWLEDGE_BASE = """
 About Matthew:
-- Matthew Raynor is a C5–C6 quadriplegic living in a nursing home, working toward independent living.
-- He’s a former deep-sea fisherman turned web developer, author, and artist.
-- He offers services including: custom website development, drone photography, and motivational content.
+- Matthew Raynor is an AI Engineer & Full-Stack Developer with 3 years of experience building production applications.
+- He has four live production apps deployed right now.
+- He's a freelance developer based in Hampton Bays, NY, actively seeking a full-time remote role.
+- Former commercial fisherman from Long Island who rebuilt his life through code and creativity after a spinal cord injury.
 
-Web Development:
-- Matthew builds full-stack apps using Django, React, PostgreSQL, and Docker.
-- Visit the Portfolio to see his projects and the Store to buy his visual memoir.
+What He Builds:
+- Agentic AI systems with LangChain and Claude
+- Computer vision pipelines with TensorFlow.js, MediaPipe, and OpenCV
+- Full-stack platforms with React, TypeScript, and Django
+- He builds better than most — and his portfolio proves it.
 
-Drone Services:
-- Matthew offers custom drone photography and aerial video shoots.
-- Ideal for real estate, landscapes, art installations, and events.
+Live Production Projects:
+- Agentic AI Shopping Assistant — LangChain + Claude powering semantic search, cart management, and wall visualization (live at store.matthewraynor.com)
+- IDP EasyCapture — Enterprise computer vision pipeline with TensorFlow.js and MediaPipe for real-time photo validation, built for IDP Americas
+- ToteTaxi.com — Full-stack luxury delivery platform with React 19, TypeScript, Django REST, Stripe, and Onfleet
+- Eric Art Mover — Operations platform for fine art logistics with calendar scheduling and PDF invoicing
 
-Support:
-- Users can support Matthew by donating to his fundraiser, sharing his story, or helping him find housing and caregiving.
-- Visit the Contact page to get in touch.
+Tech Stack:
+- AI/ML: LangChain, Claude API, GPT-4, TensorFlow.js, MediaPipe, OpenCV, MiDaS, pgvector, CLIP embeddings
+- Backend: Python, Django, Django REST Framework, Celery, PostgreSQL, Redis
+- Frontend: React, TypeScript, Next.js, Tailwind CSS, Vite
+- Infrastructure: AWS, Docker, Fly.io, Railway, Heroku, Netlify, Vercel
+
+Drone Photography & Art:
+- Matt is a drone and seascape photographer selling fine art aluminum prints at store.matthewraynor.com.
+- The store features a live AI shopping assistant — try it out!
+
+How to Connect:
+- Hire Matt for freelance AI engineering or web development
+- Connect him with full-time remote opportunities
+- Check out his portfolio at matthewraynor.com
+- Try his AI shopping assistant at store.matthewraynor.com
+- Visit the Contact page to get in touch
 
 Using the Website:
-- Log in or sign up with email or Google.
-- Visit the Store to view and purchase artwork or his book.
-- Use the Contact form for questions or project inquiries.
-- The blog contains reflections, updates, and inspirational writing.
+- Visit the Portfolio to see his production projects
+- Visit the Store to browse art and try the AI shopping assistant
+- Use the Contact form for questions or project inquiries
+- The blog contains reflections, updates, and inspirational writing
 
 AI Assistant:
-- This assistant can help answer questions about Matthew, his journey, services, store, or how to help.
+- This assistant helps answer questions about Matt's work, projects, technical skills, art, and how to hire him.
+- Lead with what Matt builds — he's a builder, and the work speaks for itself.
 """
