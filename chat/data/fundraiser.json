@@ -1,52 +1,36 @@
 {
-    "fundraiser": {
-      "title": "Matt’s Freedom Fundraiser",
-      "description": "Matt’s Freedom Fundraiser is about helping me, Matt Raynor, a C5 quadriplegic, transition from life in a nursing home into independent living after a year and a half of institutional care. I’ve secured a housing subsidy but am currently searching for an accessible apartment that can accommodate my needs. Until then, I’m raising funds to cover essential living expenses so I can safely and sustainably move out.",
-      "goals": [
-        "Cover out-of-pocket caregiver costs during coverage gaps",
-        "Pay for rent, groceries, utilities, and personal care supplies",
-        "Purchase and maintain medical essentials like catheters and gloves",
-        "Set up a Special Needs Trust to protect Medicaid eligibility",
-        "Fund transportation and accessibility needs during apartment search"
+  "fundraiser": {
+    "title": "Matt's Freedom Fundraiser — Mission Accomplished",
+    "description": "Matt's Freedom Fundraiser successfully helped Matt Raynor transition from institutional care into independent living. The mission is complete — Matt now lives independently in Hampton Bays, NY, has his own care, and is building his career as a freelance AI Engineer & Full-Stack Developer while seeking a full-time remote role.",
+    "outcome": "Success. Matt is living independently, has care, and is actively building and shipping production software.",
+    "creator": {
+      "name": "Matt Raynor",
+      "title": "AI Engineer & Full-Stack Developer",
+      "skills": [
+        "AI/ML (LangChain, Claude, TensorFlow.js, MediaPipe, OpenCV)",
+        "Python, Django, Django REST Framework",
+        "React, TypeScript, Next.js, Tailwind CSS",
+        "Docker, Fly.io, AWS, Railway"
       ],
-      "creator": {
-        "name": "Matt Raynor",
-        "condition": "C5 quadriplegic",
-        "skills": [
-          "Python",
-          "Django",
-          "Web development",
-          "Bootstrap",
-          "Digital storytelling"
-        ],
-        "goal": "Regain independence and dignity through housing and self-employment"
-      },
-      "status": {
-        "housing": "Currently searching for accessible apartment",
-        "care": "Receiving Medicaid-funded long-term care, gaps in coverage exist",
-        "income": "Not currently employed; seeking sustainable freelance/remote work"
-      },
-      "links": {
-        "website": "https://www.mattsfreedomfundraiser.com",
-        "gofundme": "https://tinyurl.com/yrmf3u7d",
-        "instagram": "https://www.instagram.com/mattsfreedomfundraiser/",
-        "facebook": "https://www.facebook.com/MattsFreedomFundraiser"
-      },
-      "media": {
-        "video": "Promotional video explaining fundraiser and journey",
-        "flyer": "Printable campaign flyer available",
-        "images": [
-          "Group photo with Buddhist sangha",
-          "Laptop-in-lap photo from nursing home"
-        ]
-      },
-      "how_to_help": [
-        "Donate via GoFundMe",
-        "Share the fundraiser on social media",
-        "Suggest accessible apartments on Long Island",
-        "Refer reliable CDPAP caregivers",
-        "Invite media or local press contacts to feature Matt's story"
-      ]
-    }
+      "current_status": "Freelancing, four live production apps, seeking full-time remote role"
+    },
+    "status": {
+      "housing": "Living independently in Hampton Bays, NY",
+      "care": "Has care in place",
+      "career": "Freelance AI Engineer & Full-Stack Developer, actively seeking full-time remote employment"
+    },
+    "technical_achievement": "When GoFundMe nearly blocked a $26K withdrawal through predatory policies, Matt built his own donation platform from scratch using React 19, TypeScript, Django REST Framework, and direct Stripe integration — eliminating all middleman fees. That's the kind of builder he is.",
+    "links": {
+      "website": "https://www.mattsfreedomfundraiser.com",
+      "instagram": "https://www.instagram.com/mattsfreedomfundraiser/",
+      "facebook": "https://www.facebook.com/MattsFreedomFundraiser"
+    },
+    "how_to_support_matt_now": [
+      "Hire Matt for freelance AI engineering or web development work",
+      "Connect him with full-time remote opportunities",
+      "Check out his portfolio at matthewraynor.com",
+      "Try his AI shopping assistant at store.matthewraynor.com",
+      "Share his work on social media"
+    ]
   }
-  
+}

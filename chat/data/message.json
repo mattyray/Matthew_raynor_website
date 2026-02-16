@@ -1,44 +1,38 @@
 [
   {
-    "title": "Matt’s Core Message",
-    "content": "No matter how dark life gets, Matt believes you can create light from it — and shine that light on others. He’s been to the depths: paralyzed, addicted, abandoned, humiliated, and isolated. But he turned toward life. With nothing but willpower, styluses, code, and chanting, he rebuilt himself. He didn’t wait to be saved. He became the person he needed — and now helps others do the same.",
+    "title": "Matt's Core Message",
+    "content": "Matt Raynor is an AI Engineer & Full-Stack Developer who builds production-grade software — agentic AI systems with LangChain and Claude, computer vision pipelines with TensorFlow.js and MediaPipe, and full-stack platforms with React 19 and Django. He has four production applications live and is freelancing while seeking a full-time remote role. Try his AI shopping assistant at store.matthewraynor.com.",
     "topic": "core_message",
-    "keywords": ["resilience", "light", "healing", "adversity", "inspiration", "willpower"]
+    "keywords": ["AI engineer", "LangChain", "Claude", "computer vision", "full-stack", "production", "freelance", "remote"]
   },
   {
-    "title": "Spiritual Message",
-    "content": "Matt believes that suffering doesn’t disqualify anyone — it’s the path to transformation. Spiritually, he sees pain as sacred fuel. His experience taught him to use hardship as a stepping stone toward awakening.",
-    "topic": "spirituality",
-    "keywords": ["suffering", "transformation", "spiritual path", "awakening"]
+    "title": "Engineering Philosophy",
+    "content": "Matt's engineering approach is methodical — he plans deeply, breaks down problems clearly, and designs systems that scale. He specializes in taking complex real-world processes and transforming them into clean, reliable, user-friendly software. His work ranges from agentic AI assistants to enterprise computer vision to logistics platforms. He builds better than most — and his portfolio proves it.",
+    "topic": "engineering",
+    "keywords": ["engineering", "architecture", "systems design", "methodical", "production-grade"]
   },
   {
     "title": "Technical Message",
-    "content": "Even though Matt is a quadriplegic, he proves every day that you can build beautiful things — even if you can barely move. He developed his own adaptive typing system and taught himself to code using styluses. Now he builds real tools that serve real people.",
+    "content": "Matt builds with LangChain, Claude, TensorFlow.js, MediaPipe, OpenCV, MiDaS, React 19, TypeScript, Django REST Framework, and modern cloud infrastructure. His production projects include an agentic AI shopping assistant, an enterprise computer vision pipeline for IDP Americas, ML-powered wall visualization, a full-stack luxury delivery platform (ToteTaxi), and an operations platform for fine art logistics (Eric Art Mover). Everything he builds is production-deployed and battle-tested.",
     "topic": "technology",
-    "keywords": ["coding", "accessibility", "adaptive technology", "quadriplegic", "web development"]
+    "keywords": ["LangChain", "Claude", "TensorFlow.js", "React", "TypeScript", "Django", "AI", "ML"]
   },
   {
-    "title": "Emotional Message",
-    "content": "Matt knows what it’s like to feel broken — and to believe that brokenness means being unlovable. He now sees clearly: being imperfect doesn’t make you unworthy. Everyone deserves love and dignity, no matter their past or pain.",
-    "topic": "emotions",
-    "keywords": ["self-worth", "brokenness", "emotional healing", "dignity", "acceptance"]
+    "title": "Spiritual Message",
+    "content": "Matt is a practitioner of SGI Nichiren Buddhism, a student of Taoism, and a member of AA. His spiritual practice informs his work ethic and creative approach. He believes in presence over performance, growth without attachment, and building things that genuinely help people.",
+    "topic": "spirituality",
+    "keywords": ["Buddhism", "Taoism", "mindfulness", "practice", "growth"]
   },
   {
-    "title": "Philosophical Message",
-    "content": "Matt believes that the present moment is the only place with real power. He lives by it. Instead of getting trapped in fear or regret, he returns to now — through breath, chanting, reflection, or writing.",
-    "topic": "philosophy",
-    "keywords": ["present", "mindfulness", "now", "power", "Tao", "Buddhism"]
-  },
-  {
-    "title": "Relational Message",
-    "content": "Matt believes in being kind, being real, and letting people in. He leads with warmth and vulnerability. He knows love is what heals — and he invites others to open their hearts, too.",
-    "topic": "relationships",
-    "keywords": ["connection", "vulnerability", "kindness", "realness", "love"]
+    "title": "Background",
+    "content": "Matt is a former commercial fisherman from Long Island who became a quadriplegic after a diving accident. He taught himself to code, and now builds production AI systems and full-stack applications. He lives independently in Hampton Bays, NY, works as a freelance developer, and is actively pursuing a full-time remote AI engineering role.",
+    "topic": "background",
+    "keywords": ["background", "story", "self-taught", "builder", "independent", "freelance"]
   },
   {
     "title": "One-Line Summary",
-    "content": "Matt went from abandoned to awakened — and now he helps others find their light, too. He’s living proof that you don’t need to be perfect, healed, or even fully mobile to be powerful, impactful, and deeply needed.",
+    "content": "Matt Raynor is a freelance AI Engineer & Full-Stack Developer with four live production applications, based in Hampton Bays, NY, seeking a full-time remote role. Try his AI shopping assistant at store.matthewraynor.com.",
     "topic": "summary",
-    "keywords": ["abandonment", "awakening", "light", "impact", "purpose", "hope"]
+    "keywords": ["AI engineer", "full-stack", "freelance", "remote", "production", "Hampton Bays"]
   }
 ]
