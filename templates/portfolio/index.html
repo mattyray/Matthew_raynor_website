@@ -8,38 +8,79 @@
 
 <div class="container mt-5 case-section fade-in-up">
 
-  <!-- Combined Story + Portfolio Intro Section -->
-  <div class="container mb-5 fade-in-up sr-delay-1">
-    <div class="card shadow-sm rounded-4 p-4" style="background-color: white; max-width: 1000px; margin: 0 auto;">
-      <div class="text-center mb-4">
-        <h1 class="fw-bold">My Portfolio & Story</h1>
-        <p class="lead">From rebuilding my life after a spinal cord injury to building production-grade software—this is how I turn resilience into real-world code.</p>
-      </div>
-      <div class="ratio ratio-16x9 rounded overflow-hidden mb-4">
-        <iframe src="https://www.youtube.com/embed/rpkIL5FZbpA?rel=0&modestbranding=1"
-                title="HistoryFace AI - Face Swap Application Demo"
-                frameborder="0"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen></iframe>
-      </div>
-      <div class="text-muted text-center px-3" style="max-width: 800px; margin: 0 auto;">
-        <p>I'm an <strong>AI Engineer & Full-Stack Developer</strong> who builds production-grade software from the ground up. My work spans <strong>computer vision</strong>, <strong>LLM integration</strong>, <strong>agentic AI systems</strong>, and <strong>full-stack web development</strong> using React, TypeScript, Django, and modern cloud tooling.</p>
+  <!-- Portfolio Intro -->
+  <div class="text-center mb-5 fade-in-up sr-delay-1" style="max-width: 900px; margin: 0 auto;">
+    <h1 class="fw-bold mb-3">Portfolio</h1>
+    <p class="lead">I'm an AI Engineer & Full-Stack Developer with four live production apps and six projects in my portfolio. I build agentic AI systems, computer vision pipelines, and full-stack platforms.</p>
+    <p class="text-muted">
+      <a href="https://www.linkedin.com/in/matthew-raynor-2b3618200/" target="_blank" class="text-decoration-none me-3"><i class="fab fa-linkedin me-1"></i>LinkedIn</a>
+      <a href="https://github.com/mattyray" target="_blank" class="text-decoration-none"><i class="fab fa-github me-1"></i>GitHub</a>
+    </p>
+  </div>
 
-        <p>Recent work includes an <strong>agentic AI shopping assistant</strong> using LangChain and Claude, an <strong>enterprise computer vision pipeline</strong> with TensorFlow.js and MediaPipe, and <strong>ML-powered wall visualization</strong> using MiDaS depth estimation. I also build full-stack platforms like ToteTaxi.com with complex pricing engines and third-party API orchestration.</p>
+  <!-- Featured Technical Deep-Dives -->
+  <div class="mb-5 fade-in-up sr-delay-2">
+    <h2 class="text-center fw-bold mb-4">Technical Deep-Dives</h2>
+    <div class="row g-4 justify-content-center">
 
-        <p class="mt-3 mb-0">
-          <a href="https://www.linkedin.com/in/matthew-raynor-2b3618200/" target="_blank" class="text-decoration-none me-3"><i class="fab fa-linkedin me-1"></i>LinkedIn</a>
-          <a href="https://github.com/mattyray" target="_blank" class="text-decoration-none"><i class="fab fa-github me-1"></i>GitHub</a>
-        </p>
+      <!-- ToteTaxi Blog Post -->
+      <div class="col-md-6">
+        <a href="/blog/tote-taxi-langgraph/" class="text-decoration-none">
+          <div class="card h-100 shadow-sm border-0 overflow-hidden" style="transition: transform 0.2s;">
+            <div class="ratio ratio-16x9">
+              <img src="https://img.youtube.com/vi/PXJ540ZxxuY/maxresdefault.jpg"
+                   class="card-img-top object-fit-cover"
+                   alt="ToteTaxi AI Agent">
+            </div>
+            <div class="card-body">
+              <span class="badge bg-primary mb-2">Blog Post</span>
+              <h5 class="card-title fw-bold text-dark">How I Built ToteTaxi's AI Agent with LangGraph</h5>
+              <p class="card-text text-muted">LangGraph + Claude, 6 tools, SSE streaming, adversarial prompt testing, and a security audit that caught 35 vulnerabilities. The full technical breakdown.</p>
+              <div class="d-flex gap-2 mt-3">
+                <span class="badge bg-light text-dark border">LangGraph</span>
+                <span class="badge bg-light text-dark border">Claude API</span>
+                <span class="badge bg-light text-dark border">Django 5.2</span>
+                <span class="badge bg-light text-dark border">Next.js 16</span>
+              </div>
+            </div>
+          </div>
+        </a>
       </div>
+
+      <!-- Store Blog Post -->
+      <div class="col-md-6">
+        <a href="/blog/i-built-an-ai-shopping-assistant-that-sees-your-wa/" class="text-decoration-none">
+          <div class="card h-100 shadow-sm border-0 overflow-hidden" style="transition: transform 0.2s;">
+            <div class="ratio ratio-16x9 bg-dark d-flex align-items-center justify-content-center" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);">
+              <div class="text-center text-white p-4">
+                <i class="fas fa-robot fa-3x mb-3" style="opacity: 0.9;"></i>
+                <h5 class="fw-bold mb-1">AI Shopping Assistant</h5>
+                <p class="small mb-0" style="opacity: 0.8;">Semantic Search + Wall Visualization</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <span class="badge bg-primary mb-2">Blog Post</span>
+              <h5 class="card-title fw-bold text-dark">I Built an AI Shopping Assistant That Sees Your Wall</h5>
+              <p class="card-text text-muted">14-tool LangChain agent with pgvector semantic search, MiDaS depth estimation for room visualization, and Claude Vision auto-tagging every photo.</p>
+              <div class="d-flex gap-2 mt-3">
+                <span class="badge bg-light text-dark border">LangChain</span>
+                <span class="badge bg-light text-dark border">pgvector</span>
+                <span class="badge bg-light text-dark border">MiDaS</span>
+                <span class="badge bg-light text-dark border">Stripe</span>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+
     </div>
   </div>
 
   <!-- Project Cards -->
+  <h2 class="text-center fw-bold mb-4 fade-in-up sr-delay-3">All Projects</h2>
   <div class="row justify-content-center">
     {% for project in projects %}
-    <div class="col-md-6 col-lg-4 mb-4 fade-in-up sr-delay-{{ forloop.counter0|add:"1" }}">
+    <div class="col-md-6 col-lg-4 mb-4 fade-in-up sr-delay-{{ forloop.counter0|add:"3" }}">
       <div class="card h-100 shadow-sm">
         <div class="ratio ratio-4x3">
           {% if project.hero_video %}
@@ -53,13 +94,23 @@
             <img data-src="{{ project.hero_image }}"
                  class="card-img-top object-fit-cover lazy-image image-placeholder"
                  alt="{{ project.title }}">
+          {% elif project.live_url %}
+            <div class="bg-light d-flex align-items-center justify-content-center h-100">
+              <div class="text-center p-3">
+                <i class="fas fa-external-link-alt fa-2x text-primary mb-2"></i>
+                <p class="small text-muted mb-0">Live Project</p>
+              </div>
+            </div>
           {% endif %}
         </div>
         <div class="card-body d-flex flex-column">
           <h5 class="card-title">{{ project.title }}</h5>
           <p class="card-text">{{ project.description|truncatewords:20 }}</p>
-          <div class="mt-auto">
-            <a href="{% url 'portfolio:project_detail' project.slug %}" class="btn btn-outline-primary w-100">View Project</a>
+          <div class="mt-auto d-flex flex-wrap gap-2">
+            <a href="{% url 'portfolio:project_detail' project.slug %}" class="btn btn-outline-primary flex-grow-1">View Project</a>
+            {% if project.live_url %}
+              <a href="{{ project.live_url }}" target="_blank" class="btn btn-primary flex-grow-1">Try It Live</a>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -67,19 +118,22 @@
     {% endfor %}
   </div>
 
-  <!-- Detailed Description Section -->
+  <!-- Bottom Section -->
   <div class="row align-items-center mt-5 fade-in-up sr-delay-7">
     <div class="col-md-6 mb-4 mb-md-0">
-      <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_500,h_600,c_fill,q_auto,f_auto/v1752173521/matt-fowlers_bfhl89.jpg" 
-           class="img-fluid rounded shadow lazy-image image-placeholder" 
+      <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_500,h_600,c_fill,q_auto,f_auto/v1752173521/matt-fowlers_bfhl89.jpg"
+           class="img-fluid rounded shadow lazy-image image-placeholder"
            alt="Matthew Raynor Portrait">
     </div>
     <div class="col-md-6">
-      <h3 class="fw-bold mb-3">What I Offer</h3>
+      <h3 class="fw-bold mb-3">Work With Me</h3>
       <p>Whether you're a business owner in need of a custom web application or a company looking for an AI engineer, I build software that works in the real world.</p>
-      <p>I'm <strong>Matthew Raynor</strong>—a former commercial fisherman turned AI engineer and full-stack developer after a life-changing spinal cord injury. I taught myself to code using adaptive technology, learning Django and Python from scratch. That same determination drives every project I build today.</p>
-      <p>My recent work includes an <strong>agentic AI shopping assistant</strong> using LangChain and Claude, an <strong>enterprise computer vision pipeline</strong> with TensorFlow.js and MediaPipe for real-time photo validation, <strong>ML-powered wall visualization</strong> using MiDaS depth estimation, and full-stack platforms with complex pricing engines and third-party API orchestration.</p>
-      <p>For <strong>clients</strong>, I create secure, scalable, and easy-to-use applications tailored to your workflow. For <strong>employers</strong>, I bring production-level skills in AI/ML, computer vision, LLM integration, Django, Docker, PostgreSQL, React, and a lived perspective on problem-solving and perseverance. I'm ready to add value from day one.</p>
+      <p>I'm <strong>Matthew Raynor</strong> — a former commercial fisherman turned AI Engineer & Full-Stack Developer. Three years of building, four live production apps, and a portfolio that speaks for itself.</p>
+      <p>For <strong>clients</strong>, I create secure, scalable, and easy-to-use applications tailored to your workflow. For <strong>employers</strong>, I bring production-level skills in AI/ML, computer vision, LLM integration, Django, Docker, PostgreSQL, React, TypeScript, and real-world problem-solving. I'm ready to add value from day one.</p>
+      <div class="d-flex flex-wrap gap-2 mt-3">
+        <a href="{% url 'pages:contact' %}" class="btn btn-primary fw-bold">Get In Touch</a>
+        <a href="https://store.matthewraynor.com" target="_blank" class="btn btn-outline-primary fw-bold">Visit My Store</a>
+      </div>
     </div>
   </div>
 
