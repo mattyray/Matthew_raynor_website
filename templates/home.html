@@ -32,7 +32,7 @@
         </div>
         <div class="col-md-6">
           <h2 class="fw-bold">My Journey</h2>
-          <p class="lead">Once a commercial fisherman, I became tetraplegic after a life-altering injury. But I turned pain into purpose, teaching myself to code with an adaptive workflow, building apps, and inspiring others through writing and art.</p>
+          <p class="lead">Once a commercial fisherman off Montauk, I became tetraplegic after a diving accident. I rebuilt my life through code and creativity — now I ship production AI systems and full-stack platforms, create fine art drone photography, and inspire others through writing.</p>
           <a href="{% url 'pages:story' %}" class="btn btn-outline-primary">Read More</a>
         </div>
       </div>
@@ -48,13 +48,13 @@
       <!-- INTRO TEXT -->
       <div class="bg-white rounded shadow-sm p-4 mb-5 mx-auto" style="max-width: 900px;">
         <p class="lead text-center mb-0">
-          I'm an <span class="fw-bold">AI Engineer & Full-Stack Developer</span> who builds production-grade software from the ground up. My work spans <span class="fw-bold">computer vision</span>, <span class="fw-bold">LLM integration</span>, <span class="fw-bold">agentic AI systems</span>, and <span class="fw-bold">full-stack web development</span> using <span class="fw-bold">React</span>, <span class="fw-bold">TypeScript</span>, <span class="fw-bold">Django</span>, and modern cloud tooling.
+          I'm an <span class="fw-bold">AI Engineer & Full-Stack Developer</span> with four live production apps and six projects in my portfolio. I build <span class="fw-bold">agentic AI systems</span>, <span class="fw-bold">computer vision pipelines</span>, and <span class="fw-bold">full-stack platforms</span> with React, TypeScript, Django, and modern cloud tooling.
         </p>
         <p class="lead text-center mb-0 mt-3">
-          I specialize in taking complex real-world processes and transforming them into clean, reliable, user-friendly software. My engineering approach is methodical — I plan deeply, break down problems clearly, and design systems that scale.
+          My two flagship projects: <a href="https://totetaxi.com" target="_blank" class="fw-bold text-decoration-none">ToteTaxi</a> — a luxury delivery platform with a LangGraph AI agent, dynamic pricing, Stripe, and Onfleet dispatch. And <a href="https://store.matthewraynor.com" target="_blank" class="fw-bold text-decoration-none">my Photography Store</a> — with an AI shopping assistant that searches photos semantically, visualizes prints on your wall, and handles checkout through conversation.
         </p>
         <p class="lead text-center mb-0 mt-3">
-          Recent work includes an <a href="https://store.matthewraynor.com" target="_blank" class="fw-bold text-decoration-none">agentic AI shopping assistant</a> using LangChain and Claude that manages carts and searches photos semantically — <a href="https://store.matthewraynor.com" target="_blank">try it live</a>. Also: an <span class="fw-bold">enterprise computer vision pipeline</span> with TensorFlow.js and MediaPipe for real-time photo validation, and <span class="fw-bold">ML-powered wall visualization</span> using MiDaS depth estimation. I also build full-stack platforms like ToteTaxi.com with complex pricing engines and third-party API orchestration.
+          Read the technical deep-dives: <a href="{% url 'post_list' %}tote-taxi-langgraph/" class="fw-bold text-decoration-none">How I Built ToteTaxi's AI Agent</a> and <a href="{% url 'post_list' %}i-built-an-ai-shopping-assistant-that-sees-your-wa/" class="fw-bold text-decoration-none">How I Built an AI Shopping Assistant That Sees Your Wall</a>.
         </p>
         <p class="text-center mt-3 mb-0">
           <a href="https://www.linkedin.com/in/matthew-raynor-2b3618200/" target="_blank" class="text-decoration-none me-3"><i class="fab fa-linkedin me-1"></i>LinkedIn</a>
@@ -108,27 +108,19 @@
         </div>
       </div>
 
-      <!-- Project 3: HistoryFace - Video Left, Text Right -->
+      <!-- Project 3: Photography Store - Video Left, Text Right -->
       <div class="row align-items-center mb-5 fade-in-up">
         <div class="col-lg-6 mb-4 mb-lg-0">
-          <div class="ratio ratio-16x9 shadow rounded overflow-hidden">
-            <iframe 
-              src="https://www.youtube.com/embed/rpkIL5FZbpA?rel=0&modestbranding=1" 
-              title="HistoryFace Demo"
-              frameborder="0"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen>
-
-              
-            </iframe>
-
+          <div class="bg-light rounded shadow p-4 text-center">
+            <h5 class="fw-bold mb-3">AI Shopping Assistant</h5>
+            <p class="mb-3">Try the live AI assistant — search photos by mood, visualize prints on your wall, and check out through conversation.</p>
+            <a href="https://store.matthewraynor.com" target="_blank" class="btn btn-primary btn-lg">Try It Live</a>
           </div>
         </div>
         <div class="col-lg-6">
-          <h4 class="fw-bold">HistoryFace</h4>
-          <p class="lead">An AI SaaS app that transforms selfies into historical figures using the face_recognition library (dlib) for facial landmark detection and HuggingFace diffusion models for image generation. Features intelligent face swapping, a freemium business model with Stripe, and optimized inference for cost management at scale.</p>
-          <a href="{% url 'portfolio:project_detail' 'historyface-ai' %}" class="btn btn-primary">View Project</a>
+          <h4 class="fw-bold">Matthew Raynor Photography Store</h4>
+          <p class="lead">A full e-commerce platform for fine art photography with an AI shopping assistant built on LangChain and Claude. Features pgvector semantic search, MiDaS depth estimation for "See It In Room" wall visualization, Claude Vision metadata generation, Stripe Checkout, and session-based cart persistence. Live at <a href="https://store.matthewraynor.com" target="_blank">store.matthewraynor.com</a>.</p>
+          <a href="{% url 'post_list' %}i-built-an-ai-shopping-assistant-that-sees-your-wa/" class="btn btn-outline-primary">Read the Build Post</a>
         </div>
       </div>
 

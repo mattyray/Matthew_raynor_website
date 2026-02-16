@@ -1,0 +1,18 @@
+{
+  "project_name": "SkyClip — AI Video Editor",
+  "summary": "A native desktop application for automated drone footage analysis and highlight reel generation. Built with Rust, Tauri, React, TypeScript, OpenCV, CLIP embeddings, Claude API, and FFmpeg.",
+  "description": "SkyClip is a desktop AI video editor that takes raw drone footage and automatically identifies the best clips, analyzes scenes semantically, and compiles polished highlight reels. Built as a native app with Tauri (Rust backend) for fast local processing without cloud dependencies.",
+  "tech_stack": {
+    "backend": ["Rust", "Tauri"],
+    "frontend": ["React", "TypeScript"],
+    "ai_ml": ["CLIP embeddings", "Claude API", "OpenCV"],
+    "video": ["FFmpeg"]
+  },
+  "key_features": {
+    "scene_analysis": "CLIP embeddings for semantic scene understanding — identifies what's in each frame (ocean, sunset, buildings, action) without manual tagging",
+    "intelligent_selection": "Claude API for intelligent clip selection and sequencing based on visual content and storytelling flow",
+    "video_processing": "OpenCV handles frame extraction and video analysis; FFmpeg powers the final highlight reel compilation",
+    "native_desktop": "Built with Tauri (Rust) for fast, native performance — processes video locally without uploading to the cloud"
+  },
+  "why_this_matters": "SkyClip demonstrates Matt's range beyond web development — native desktop apps, Rust, computer vision, and AI-driven video processing. It combines multiple AI technologies (CLIP, Claude) with systems-level programming (Rust, FFmpeg) in a practical creative tool."
+}

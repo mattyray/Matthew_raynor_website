@@ -3,7 +3,7 @@
 KNOWLEDGE_BASE = """
 About Matthew:
 - Matthew Raynor is an AI Engineer & Full-Stack Developer with 3 years of experience building production applications.
-- He has four live production apps deployed right now.
+- He has four live production apps deployed and six projects in his portfolio.
 - He's a freelance developer based in Hampton Bays, NY, actively seeking a full-time remote role.
 - Former commercial fisherman from Long Island who rebuilt his life through code and creativity after a spinal cord injury.
 - He builds better than most — and his portfolio proves it.
@@ -12,6 +12,8 @@ What He Builds:
 - Agentic AI systems with LangChain, LangGraph, and Claude
 - Computer vision pipelines with TensorFlow.js, MediaPipe, and OpenCV
 - Full-stack platforms with React, TypeScript, Next.js, and Django
+- Desktop applications with Rust, Tauri, and FFmpeg
+- Real-time systems with Django Channels and WebSocket
 - Production AI agents with tool use, SSE streaming, and observability via LangSmith
 
 Tech Stack:
@@ -57,6 +59,25 @@ Eric Art Mover (ericartmover.net):
 - Tech: Django, PostgreSQL, Heroku, Docker, Cloudinary, WeasyPrint.
 - Calendar scheduling with FullCalendar, dynamic AJAX invoice creation from work orders, PDF invoice generation, and centralized client/job management.
 - Digitized manual scheduling and invoicing workflows for a real business.
+
+=== ADDITIONAL PORTFOLIO PROJECTS ===
+
+SkyClip — AI Video Editor:
+- Desktop application for automated drone footage analysis and highlight reel generation.
+- Tech: Rust, Tauri, React, TypeScript, OpenCV, CLIP embeddings, Claude API, FFmpeg.
+- Analyzes drone video footage using CLIP embeddings for semantic scene understanding and Claude API for intelligent clip selection.
+- OpenCV handles frame extraction and video processing; FFmpeg powers the final highlight reel compilation.
+- Built as a native desktop app with Tauri (Rust backend) and React/TypeScript frontend for fast, local processing without cloud dependencies.
+- Demonstrates Matt's range — from web platforms to native desktop apps, from Python to Rust.
+
+Matty's Crew — Care Team Scheduler:
+- Real-time care team scheduling and coordination platform.
+- Tech: Django, Django Channels, WebSocket, PostgreSQL, JWT authentication, AWS SES/SNS, multi-view calendar.
+- Live WebSocket updates for real-time schedule changes and notifications across the care team.
+- Multi-view calendar (day/week/month) for managing shifts and appointments.
+- JWT-based authentication for secure access across team members.
+- AWS SES for email notifications and SNS for push notifications when schedules change.
+- Built to solve a real problem — coordinating care teams efficiently with instant communication.
 
 Drone Photography & Art:
 - Matt is a drone and seascape photographer selling fine art aluminum prints at store.matthewraynor.com.

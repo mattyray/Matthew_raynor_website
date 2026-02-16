@@ -18,25 +18,33 @@
     "infrastructure": ["AWS (S3, SES, SNS)", "Docker", "Fly.io", "Railway", "Heroku", "Netlify", "Vercel", "Sentry"]
   },
   "featured_projects": {
+    "totetaxi": {
+      "description": "Full-stack luxury delivery platform with LangGraph AI agent (6 tools, SSE streaming), dynamic pricing engine, Stripe payments, Onfleet dispatch, dual authentication, and 310+ backend tests",
+      "technologies": ["Django 5.2", "DRF", "Next.js 16", "React 19", "TypeScript", "LangGraph", "Claude API", "Stripe", "Onfleet", "Google Places API", "AWS SES/S3", "Fly.io"],
+      "live_demo": "https://totetaxi.com"
+    },
     "agentic_ai_shopping_assistant": {
-      "description": "Production agentic AI assistant using LangChain and Claude that manages carts, searches photos semantically via pgvector, and visualizes art on walls with MiDaS depth estimation",
-      "technologies": ["LangChain", "Claude", "pgvector", "Semantic Search", "MiDaS Depth Estimation", "Django", "Celery", "Stripe", "AWS S3"],
+      "description": "Full e-commerce platform with AI shopping assistant using LangChain and Claude — pgvector semantic search, MiDaS depth estimation for wall visualization, Claude Vision metadata, Stripe Checkout",
+      "technologies": ["LangChain", "Claude", "pgvector", "MiDaS", "Django 5", "Next.js 15", "Stripe", "Celery", "Redis", "AWS S3", "Railway"],
       "live_demo": "https://store.matthewraynor.com"
     },
     "idp_easycapture": {
-      "description": "Enterprise computer vision pipeline using TensorFlow.js, MediaPipe, and OpenCV for real-time photo validation, background compositing, blur effects, and auto-capture for smartphone-based photo booth workflows",
-      "technologies": ["TensorFlow.js", "MediaPipe", "OpenCV", "React", "TypeScript", "Tailwind CSS", "Celery", "AWS S3"],
+      "description": "Enterprise computer vision pipeline using TensorFlow.js, MediaPipe, and OpenCV for real-time photo validation, background compositing, and auto-capture",
+      "technologies": ["TensorFlow.js", "MediaPipe", "OpenCV", "React", "TypeScript", "Django REST", "Celery", "AWS S3/SES", "Docker", "Fly.io"],
       "client": "IDP Americas"
-    },
-    "totetaxi": {
-      "description": "Full-stack luxury delivery platform with multi-step booking, dynamic geographic pricing, Stripe payments, Onfleet dispatch integration, and 310+ backend tests",
-      "technologies": ["React 19", "TypeScript", "Django REST", "Stripe", "Onfleet API", "Google Places API", "AWS SES", "Fly.io"],
-      "live_demo": "https://totetaxi.com"
     },
     "eric_art_mover": {
       "description": "Operations platform for fine art logistics business with calendar scheduling, PDF invoicing, and AJAX-powered forms",
       "technologies": ["Django", "PostgreSQL", "Heroku", "Docker", "Cloudinary", "WeasyPrint"],
       "client": "Eric Art Mover"
+    },
+    "skyclip": {
+      "description": "Native desktop AI video editor for automated drone footage analysis and highlight reel generation using CLIP embeddings, Claude API, and FFmpeg",
+      "technologies": ["Rust", "Tauri", "React", "TypeScript", "OpenCV", "CLIP", "Claude API", "FFmpeg"]
+    },
+    "mattys_crew": {
+      "description": "Real-time care team scheduling platform with WebSocket updates, multi-view calendar, JWT auth, and AWS SES/SNS notifications",
+      "technologies": ["Django", "Django Channels", "WebSocket", "PostgreSQL", "JWT", "AWS SES/SNS"]
     }
   },
   "professional_links": {

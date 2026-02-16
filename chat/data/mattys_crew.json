@@ -1,0 +1,20 @@
+{
+  "project_name": "Matty's Crew — Care Team Scheduler",
+  "summary": "A real-time care team scheduling and coordination platform built with Django Channels, WebSocket, JWT authentication, and AWS SES/SNS notifications.",
+  "description": "Matty's Crew is a scheduling platform designed to coordinate care teams efficiently. It features real-time WebSocket updates so the entire team sees schedule changes instantly, a multi-view calendar for managing shifts and appointments, and automated notifications via AWS SES and SNS.",
+  "tech_stack": {
+    "backend": ["Django", "Django Channels", "PostgreSQL", "Redis"],
+    "frontend": ["Multi-view calendar (day/week/month)"],
+    "auth": ["JWT authentication"],
+    "notifications": ["AWS SES (email)", "AWS SNS (push notifications)"],
+    "realtime": ["WebSocket via Django Channels"]
+  },
+  "key_features": {
+    "realtime_updates": "Live WebSocket connections push schedule changes to all connected team members instantly — no page refresh needed",
+    "multi_view_calendar": "Day, week, and month calendar views for flexible shift management and appointment scheduling",
+    "jwt_auth": "JWT-based authentication for secure access across care team members",
+    "notifications": "AWS SES for email notifications and SNS for push notifications when schedules change",
+    "coordination": "Built to solve a real problem — coordinating care teams efficiently with instant communication"
+  },
+  "why_this_matters": "Matty's Crew shows Matt building real-time systems with WebSocket and Django Channels, plus cloud notification infrastructure with AWS. It solves a genuine coordination problem and demonstrates his ability to build tools for real-world needs."
+}

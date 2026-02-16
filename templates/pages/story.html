@@ -9,14 +9,14 @@
   <!-- WHO I AM -->
   <div class="row mb-5 align-items-center">
     <div class="col-md-6 mb-4 mb-md-0">
-      <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_500,h_600,c_fill,q_auto,f_auto/v1752173484/fisherman_qgsds8.jpg" 
-           class="img-fluid rounded shadow lazy-image image-placeholder" 
+      <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_500,h_600,c_fill,q_auto,f_auto/v1752173484/fisherman_qgsds8.jpg"
+           class="img-fluid rounded shadow lazy-image image-placeholder"
            alt="Matthew as Fisherman">
     </div>
     <div class="col-md-6">
-      <h2 class="fw-bold">Who I Am & What I've Been Through</h2>
-      <p class="lead">I'm Matthew Raynor — a quadriplegic full-stack developer, artist, and writer who survived a catastrophic diving accident that left me paralyzed from the chest down.</p>
-      <p>Before that day, I was a commercial fisherman working off the coast of Montauk, living wild and braving storms. A dive meant to ease tendonitis ended my mobility — but began my rebirth. I taught myself how to use a computer through adaptive technology and voice commands. From that place of near-total limitation, I rebuilt my life with code, creativity, and spiritual grit.</p>
+      <h2 class="fw-bold">Who I Am</h2>
+      <p class="lead">I'm Matthew Raynor — an AI Engineer & Full-Stack Developer with four live production apps and six projects in my portfolio. I'm based in Hampton Bays, NY, freelancing and looking for the right full-time remote role.</p>
+      <p>Before code, I was a commercial fisherman working off the coast of Montauk. A diving accident left me a tetraplegic — but it didn't stop me from building. I rebuilt my life through code, creativity, and grit. Three years later, I'm shipping production software that competes with anything out there.</p>
       <p>Want to dive deeper into my story? Explore my writing on my blog and Substack:</p>
       <div class="d-flex flex-wrap gap-2 mt-3">
         <a href="{% url 'post_list' %}" class="btn btn-primary fw-bold">Blog</a>
@@ -46,30 +46,23 @@
     </div>
   </div>
 
-  <!-- PROGRAMMING - UPDATED WITH HISTORYFACE VIDEO -->
+  <!-- WHAT I BUILD -->
   <div class="row mb-5 align-items-center">
-    <div class="col-md-6 mb-4 mb-md-0">
-      <!-- NEW: HistoryFace YouTube Video -->
-      <div class="ratio ratio-16x9 shadow rounded overflow-hidden">
-        <iframe src="https://www.youtube.com/embed/rpkIL5FZbpA?rel=0&modestbranding=1"
-                title="HistoryFace AI - Face Swap Application Demo"
-                frameborder="0"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen></iframe>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <!-- Updated Text Content -->
-      <h2 class="fw-bold">What I Build And Why You Need Me</h2>
-      <p>I taught myself to code as a way to rebuild my life after a spinal cord injury left me paralyzed from the collarbone down. At first, I had lost my ability to create—and with it, my sense of purpose. So I invented a custom workflow using adaptive technology that let me overcome my physical limitations and start programming.</p>
+    <div class="col-md-12">
+      <h2 class="fw-bold">What I Build</h2>
+      <p>I build agentic AI systems, computer vision pipelines, and full-stack platforms. My two flagship projects:</p>
 
-      <p>Now, I'm an <strong>AI Engineer & Full-Stack Developer</strong> building production-grade software. My work spans <strong>computer vision</strong> (TensorFlow.js, MediaPipe), <strong>LLM integration</strong> (LangChain, Claude), <strong>agentic AI systems</strong>, and full-stack web development with React, TypeScript, and Django. Recent projects include an agentic AI shopping assistant, an enterprise computer vision pipeline for photo validation, and ML-powered wall visualization using MiDaS depth estimation.</p>
+      <p><strong>ToteTaxi</strong> — A luxury delivery platform with a LangGraph AI agent (6 tools, SSE streaming), dynamic pricing engine, Stripe payments, Onfleet dispatch, dual authentication, and 310+ backend tests. Live at <a href="https://totetaxi.com" target="_blank">totetaxi.com</a>.</p>
 
-      <p>If you're looking for someone to take your idea from concept to deployment, I'm already in the chair—ready to ship.</p>
-      
-      <div class="mt-3">
-        <a href="{% url 'portfolio:index' %}" class="btn btn-primary fw-bold">View My Portfolio</a>
+      <p><strong>Matthew Raynor Photography Store</strong> — An AI shopping assistant with pgvector semantic search, MiDaS depth estimation for "See It In Room" wall visualization, Claude Vision metadata generation, and full Stripe Checkout e-commerce. Live at <a href="https://store.matthewraynor.com" target="_blank">store.matthewraynor.com</a>.</p>
+
+      <p>Both are live. Both are real businesses. I also built an enterprise computer vision pipeline for IDP Americas, an operations platform for a fine art logistics company, a native desktop AI video editor in Rust, and a real-time care team scheduler with WebSocket.</p>
+
+      <p>Read the technical deep-dives:</p>
+      <div class="d-flex flex-wrap gap-2 mt-3">
+        <a href="{% url 'post_list' %}tote-taxi-langgraph/" class="btn btn-primary fw-bold">ToteTaxi Build Post</a>
+        <a href="{% url 'post_list' %}i-built-an-ai-shopping-assistant-that-sees-your-wa/" class="btn btn-outline-primary fw-bold">Store Build Post</a>
+        <a href="{% url 'portfolio:index' %}" class="btn btn-outline-primary fw-bold">View Full Portfolio</a>
       </div>
     </div>
   </div>
