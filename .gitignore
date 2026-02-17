@@ -3,4 +3,5 @@ __pycache__/
 db.sqlite3
 .DS_Store
 docker-compose-prod.yml
-.env 
+.env
+.mcp.json
