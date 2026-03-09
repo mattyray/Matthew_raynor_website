@@ -10,7 +10,8 @@ urlpatterns = [
     path("", include("pages.urls")),  # This must come first so "pages:home" is registered
     path("home/", RedirectView.as_view(url=reverse_lazy("pages:home"), permanent=False), name="home"),
     path("store/", RedirectView.as_view(url="https://store.matthewraynor.com", permanent=False), name="store_redirect"),
-    path("portfolio/", include(("portfolio.urls", "portfolio"), namespace="portfolio")),
+    path("services/", include(("portfolio.urls", "portfolio"), namespace="portfolio")),
+    path("portfolio/", RedirectView.as_view(url=reverse_lazy("portfolio:index"), permanent=True), name="portfolio_redirect"),
     path("ckeditor/", include("ckeditor_uploader.urls")),
     path("chat/", include("chat.urls", namespace="chat")),
     path("search/", include("search.urls", namespace="search")),

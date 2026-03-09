@@ -2,24 +2,45 @@
 {% load static %}
 {% load youtube_tags %}
 
-{% block title %}Portfolio - Matthew Raynor{% endblock %}
+{% block title %}Services - Matthew Raynor{% endblock %}
 
 {% block content %}
 
 <div class="container mt-5 case-section fade-in-up">
 
-  <!-- Portfolio Intro -->
+  <!-- Hero Section -->
   <div class="text-center mb-5 fade-in-up sr-delay-1" style="max-width: 900px; margin: 0 auto;">
-    <h1 class="fw-bold mb-3">Portfolio</h1>
-    <p class="lead">I'm an AI Engineer & Full-Stack Developer. I build agentic AI systems, computer vision pipelines, and full-stack platforms.</p>
+    <h1 class="fw-bold mb-3">Services</h1>
+    <p class="lead">
+      If your business has a problem that could be solved with software &mdash; getting online, automating a workflow,
+      replacing a spreadsheet, managing invoices, sending reminders, taking payments &mdash; I can build it.
+    </p>
     <p class="text-muted">
       <a href="https://www.linkedin.com/in/matthew-raynor-2b3618200/" target="_blank" class="text-decoration-none me-3"><i class="fab fa-linkedin me-1"></i>LinkedIn</a>
       <a href="https://github.com/mattyray" target="_blank" class="text-decoration-none"><i class="fab fa-github me-1"></i>GitHub</a>
     </p>
   </div>
 
+  <!-- Services Grid -->
+  <div class="row g-4 mb-5 fade-in-up sr-delay-2">
+    {% for service in services %}
+    <div class="col-md-6 col-lg-4{% if forloop.counter == 5 %} offset-lg-4{% endif %}">
+      <div class="card h-100 shadow-sm border-0 text-center p-4">
+        <div class="card-body d-flex flex-column">
+          <div class="mb-3">
+            <i class="{{ service.icon }} fa-2x text-primary"></i>
+          </div>
+          <h5 class="card-title fw-bold">{{ service.title }}</h5>
+          <p class="card-text">{{ service.headline }}</p>
+          <p class="text-muted small mt-auto"><em>{{ service.tech }}</em></p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
   <!-- Featured Technical Deep-Dives -->
-  <div class="mb-5 fade-in-up sr-delay-2">
+  <div class="mb-5 fade-in-up sr-delay-3">
     <h2 class="text-center fw-bold mb-4">Technical Deep-Dives</h2>
     <div class="row g-4 justify-content-center">
 
@@ -41,7 +62,7 @@
             <div class="card-body">
               <span class="badge bg-primary mb-2">Blog Post</span>
               <h5 class="card-title fw-bold text-dark">How I Built ToteTaxi's AI Agent with LangGraph</h5>
-              <p class="card-text text-muted">LangGraph + Claude, 6 tools, SSE streaming, adversarial prompt testing, and a security audit that caught 35 vulnerabilities. The full technical breakdown.</p>
+              <p class="card-text text-muted">LangGraph + Claude, 6 tools, SSE streaming, adversarial prompt testing, and a security audit that caught 35 vulnerabilities.</p>
               <div class="d-flex flex-wrap gap-2 mt-3">
                 <span class="badge bg-light text-dark border">LangGraph</span>
                 <span class="badge bg-light text-dark border">Claude API</span>
@@ -86,11 +107,11 @@
     </div>
   </div>
 
-  <!-- Project Cards -->
-  <h2 class="text-center fw-bold mb-4 fade-in-up sr-delay-3">All Projects</h2>
+  <!-- Project Showcase -->
+  <h2 class="text-center fw-bold mb-4 fade-in-up sr-delay-4">Live Work</h2>
   <div class="row justify-content-center">
     {% for project in projects %}
-    <div class="col-md-6 col-lg-4 mb-4 fade-in-up sr-delay-{{ forloop.counter0|add:"3" }}">
+    <div class="col-md-6 col-lg-4 mb-4 fade-in-up sr-delay-{{ forloop.counter0|add:"4" }}">
       <div class="card h-100 shadow-sm">
         <div class="ratio ratio-4x3">
           {% if project.hero_video %}
@@ -114,12 +135,15 @@
           {% endif %}
         </div>
         <div class="card-body d-flex flex-column">
-          <h5 class="card-title">{{ project.title }}</h5>
-          <p class="card-text">{{ project.description|truncatewords:20 }}</p>
+          <h5 class="card-title fw-bold">{{ project.title }}</h5>
+          <p class="card-text small">{{ project.description|truncatewords:30 }}</p>
+          <p class="text-muted small mb-3"><em>{{ project.tech_line }}</em></p>
           <div class="mt-auto d-flex flex-wrap gap-2">
-            <a href="{% url 'portfolio:project_detail' project.slug %}" class="btn btn-outline-primary flex-grow-1">View Project</a>
+            <a href="{% url 'portfolio:project_detail' project.slug %}" class="btn btn-outline-primary flex-grow-1">Details</a>
             {% if project.live_url %}
-              <a href="{{ project.live_url }}" target="_blank" class="btn btn-primary flex-grow-1">Try It Live</a>
+              <a href="{{ project.live_url }}" target="_blank" class="btn btn-primary flex-grow-1">Visit Site</a>
+            {% elif project.github_url %}
+              <a href="{{ project.github_url }}" target="_blank" class="btn btn-dark flex-grow-1"><i class="fab fa-github me-1"></i>Code</a>
             {% endif %}
           </div>
         </div>
@@ -128,7 +152,7 @@
     {% endfor %}
   </div>
 
-  <!-- Bottom Section -->
+  <!-- Bottom CTA -->
   <div class="row align-items-center mt-5 fade-in-up sr-delay-7">
     <div class="col-md-6 mb-4 mb-md-0">
       <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_500,h_600,c_fill,q_auto,f_auto/v1752173521/matt-fowlers_bfhl89.jpg"
@@ -136,10 +160,9 @@
            alt="Matthew Raynor Portrait">
     </div>
     <div class="col-md-6">
-      <h3 class="fw-bold mb-3">Work With Me</h3>
-      <p>Whether you're a business owner in need of a custom web application or a company looking for an AI engineer, I build software that works in the real world.</p>
-      <p>I'm <strong>Matthew Raynor</strong> — a former commercial fisherman turned AI Engineer & Full-Stack Developer. Three years of building and a portfolio that speaks for itself.</p>
-      <p>For <strong>clients</strong>, I create secure, scalable, and easy-to-use applications tailored to your workflow. For <strong>employers</strong>, I bring production-level skills in AI/ML, computer vision, LLM integration, Django, Docker, PostgreSQL, React, TypeScript, and real-world problem-solving. I'm ready to add value from day one.</p>
+      <h3 class="fw-bold mb-3">Have a Problem? Let's Talk.</h3>
+      <p>Whether you're a business owner who needs a custom solution or a company looking for an engineer, I build software that works in the real world.</p>
+      <p>I'm <strong>Matthew Raynor</strong> &mdash; a former commercial fisherman turned AI Engineer & Full-Stack Developer. Everything you see on this page is live, in production, and being used by real people.</p>
       <div class="d-flex flex-wrap gap-2 mt-3">
         <a href="{% url 'pages:contact' %}" class="btn btn-primary fw-bold">Get In Touch</a>
         <a href="https://store.matthewraynor.com" target="_blank" class="btn btn-outline-primary fw-bold">Visit My Store</a>
