@@ -39,7 +39,11 @@ PROJECTS = [
     {
         "title": "ToteTaxi",
         "slug": "totetaxi",
+        "featured": True,
         "hero_video": "https://youtu.be/PXJ540ZxxuY",
+        "case_problem": "Customers had to call for quotes and couldn't book online.",
+        "case_built": "Full booking platform with AI-powered customer service, online payments, and driver dispatch.",
+        "case_result": "Live at totetaxi.com — processing real bookings across Long Island and NYC.",
         "description": (
             "Booking and logistics platform for a luxury transport company on Long Island. "
             "Customers book through a step-by-step wizard, pay online, and get automated confirmations. "
@@ -101,6 +105,10 @@ PROJECTS = [
     {
         "title": "RepoRadar",
         "slug": "reporadar",
+        "featured": True,
+        "case_problem": "Job searching on LinkedIn is broken — ghost jobs, black-hole applications, no signal.",
+        "case_built": "A tool that scans GitHub to find companies using your tech stack, scores them, and finds open roles.",
+        "case_result": "Live tool used by developers to find companies that actually build with their tools.",
         "description": (
             "Job search tool that scans GitHub to find companies building with specific tech stacks. "
             "Instead of applying to LinkedIn ghost jobs, search for companies that use the same tools you do "
@@ -163,7 +171,11 @@ PROJECTS = [
     {
         "title": "IDP EasyCapture",
         "slug": "idp-easycapture",
+        "featured": True,
         "hero_video": "https://youtu.be/4g5zsY9exVw",
+        "case_problem": "Organizations needed consistent ID photos at scale without hauling photo booth setups on-site.",
+        "case_built": "Enterprise SaaS with AI-powered photo capture from any smartphone — face detection, background replacement, badge-ready exports.",
+        "case_result": "Live enterprise platform built under contract for IDP Americas (2024–2025).",
         "description": (
             "Enterprise ID photo management platform that replaces traditional photo booth setups. "
             "Organizations collecting employee or student photos at scale use it to capture, validate, and process photos "
@@ -173,6 +185,7 @@ PROJECTS = [
         ),
         "tech_line": "Django REST Framework \u00b7 React \u00b7 TypeScript \u00b7 TensorFlow.js \u00b7 BlazeFace \u00b7 MediaPipe \u00b7 OpenCV \u00b7 AWS S3 \u00b7 Celery \u00b7 Multi-tenant SaaS \u00b7 Fly.io \u00b7 Netlify",
         "live_url": "https://idpeasycapture.com",
+        "login_only": True,
         "github_url": None,
         "overview": (
             "EasyCapture is an enterprise ID photo management SaaS platform built for IDP Americas (contract, 2024\u20132025). "
@@ -227,125 +240,12 @@ PROJECTS = [
         ),
     },
     {
-        "title": "EJ Art Mover",
-        "slug": "art-mover",
-        "hero_video": "https://youtu.be/xWtrO4F0In4",
-        "hero_image": "https://res.cloudinary.com/dddye9wli/image/upload/w_400,h_300,c_fill,q_auto,f_auto/v1752173585/art-mover_tlvsny.jpg",
-        "description": (
-            "Job management app built for a professional art moving company. "
-            "Handles the full workflow \u2014 clients, work orders, scheduling, photo documentation, invoicing, and printable PDFs. "
-            "A drag-and-drop calendar plans daily routes. Built for the field \u2014 works on a phone as well as a desktop. "
-            "Rebuilt from a Django monolith into a decoupled architecture."
-        ),
-        "tech_line": "Django REST Framework \u00b7 Next.js \u00b7 React \u00b7 TypeScript \u00b7 shadcn/ui \u00b7 FullCalendar \u00b7 WeasyPrint \u00b7 Cloudinary \u00b7 JWT \u00b7 TanStack Query \u00b7 Railway \u00b7 Netlify",
-        "live_url": "https://app.ejartmover.net",
-        "github_url": "https://github.com/mattyray/ej-art-mover-v2",
-        "overview": (
-            "A production-grade job management application for an art moving business. It manages the entire workflow from "
-            "client intake through job scheduling, execution, and invoicing. Originally built as a Django monolith with Bootstrap "
-            "templates, it was rebuilt as a decoupled system \u2014 Django REST Framework API backend with a Next.js/React/TypeScript frontend."
-        ),
-        "tech_stack": {
-            "backend": ["Django 5", "Django REST Framework", "PostgreSQL", "WeasyPrint"],
-            "frontend": ["Next.js", "React", "TypeScript", "Tailwind CSS", "shadcn/ui", "FullCalendar"],
-            "auth": ["JWT with automatic token refresh via Axios interceptors"],
-            "deployment": ["Railway", "Netlify", "Cloudinary"],
-        },
-        "problem": "The client was managing logistics, invoicing, and scheduling manually via email and spreadsheets, which caused delays and errors.",
-        "solution": (
-            "Built a centralized system that tracks jobs, clients, and invoices with a drag-and-drop calendar for daily route planning, "
-            "PDF generation for work orders and invoices, and a mobile-first responsive design for field use."
-        ),
-        "special_features": [
-            "Drag-and-drop calendar with month, week, and day views \u2014 reorder stops to plan daily routes",
-            "PDF generation for work orders and invoices via WeasyPrint",
-            "Invoicing with three-stage status flow (unpaid, in QuickBooks, paid)",
-            "Mobile-first: card layouts on phones, table layouts on desktop",
-            "Work orders track jobs through pending, in progress, completed, invoiced",
-            "File attachments with Cloudinary storage for photos and documents",
-            "Google Places address autocomplete for service and billing addresses",
-        ],
-        "problems_solved": [
-            "Digitized manual scheduling and invoicing",
-            "Visual overview of work orders via FullCalendar with drag-and-drop",
-            "Mobile-responsive design means the app works in the field on a phone",
-            "Rebuilt from monolith to decoupled architecture for maintainability",
-        ],
-        "proud_of": [
-            "Full monolith-to-decoupled rebuild with direct data migration via pg_dump",
-            "Mobile-first UX with bottom sheet drawers on phones, dropdown menus on desktop",
-            "Drag-and-drop calendar for daily route planning",
-            "Production app used daily by a real business",
-        ],
-        "build_notes": (
-            "<p>Originally a Django monolith with Bootstrap templates and jQuery deployed on Heroku. Rebuilt as a decoupled "
-            "system with a DRF API backend and Next.js frontend. Authentication uses JWT with automatic token refresh via "
-            "Axios interceptors. Server state managed with TanStack Query. Forms use React Hook Form with Zod validation. "
-            "Same PostgreSQL schema allowed direct data migration via pg_dump.</p>"
-        ),
-    },
-    {
-        "title": "Chef Bawss",
-        "slug": "chef-bawss",
-        "description": (
-            "Operations platform for private chef businesses. Owners manage clients, invite contract chefs, "
-            "schedule events, and track financials \u2014 what the client pays, what the chef earns, and the profit. "
-            "Chefs see only their own assignments. Automated email reminders before events. "
-            "Built as multi-tenant SaaS so any private chef business can sign up."
-        ),
-        "tech_line": "Django REST Framework \u00b7 Next.js \u00b7 TypeScript \u00b7 Celery \u00b7 Amazon SES \u00b7 FullCalendar \u00b7 PostgreSQL \u00b7 Redis \u00b7 JWT \u00b7 Multi-tenant architecture \u00b7 Fly.io \u00b7 Netlify",
-        "live_url": "https://chef-bawss.netlify.app",
-        "github_url": None,
-        "overview": (
-            "Chef Bawss is a multi-tenant SaaS platform built for private chefs and small catering business owners who hire "
-            "freelance chefs to work events. It's the back-office tool for managing the whole operation \u2014 clients, chefs, events, "
-            "and finances \u2014 all in one place."
-        ),
-        "tech_stack": {
-            "backend": ["Django 5", "Django REST Framework", "PostgreSQL", "Redis", "Celery"],
-            "frontend": ["Next.js 16", "TypeScript", "Tailwind CSS", "FullCalendar"],
-            "integrations": ["Amazon SES", "JWT auth (httpOnly cookies)"],
-            "deployment": ["Fly.io", "Netlify", "Docker Compose"],
-        },
-        "problem": (
-            "Private chef businesses juggle clients, freelance chefs, event scheduling, and financial tracking "
-            "across spreadsheets, texts, and email. There's no tool built for how they actually work."
-        ),
-        "solution": (
-            "Built a multi-tenant SaaS with two roles: admins see everything (clients, chefs, events, profit margins), "
-            "chefs see only their own assignments and pay. Automated email reminders via Celery + Amazon SES. "
-            "Google Calendar-style interface with chef color-coding and drag-to-reschedule."
-        ),
-        "special_features": [
-            "Multi-tenant architecture \u2014 every organization's data is fully isolated",
-            "Two-role system: Admin (full control, financials) vs Chef (own assignments only)",
-            "Chef invitation flow \u2014 admin enters details, system sends email invite, chef sets password",
-            "FullCalendar with auto-assigned chef colors, filtering, drag-to-reschedule, resize-to-change-duration",
-            "Automated email notifications: assignment, changes, cancellations, 3-day and 1-day reminders",
-            "Event financial tracking: client pay, chef pay, deposits, profit calculation",
-        ],
-        "problems_solved": [
-            "Centralized operations for businesses that were running on spreadsheets and texts",
-            "Role-based access so chefs see their pay but not client revenue or profit",
-            "Automated reminders eliminate missed events and last-minute confusion",
-            "Multi-tenancy means any private chef business can sign up and be isolated",
-        ],
-        "proud_of": [
-            "Multi-tenant architecture with tenant-scoped querysets and middleware",
-            "Chef invitation flow that handles the full onboarding lifecycle",
-            "Automated Celery task scheduling for event reminders",
-            "Built as a real SaaS product, not just a one-off client project",
-        ],
-        "build_notes": (
-            "<p>Multi-tenant SaaS with full data isolation via tenant-scoped querysets and middleware. "
-            "JWT auth stored in httpOnly cookies. Celery Beat schedules automated reminder emails (3-day and 1-day) "
-            "via Amazon SES with SNS bounce/complaint handling. FullCalendar integration with chef color assignment, "
-            "event filtering, and drag-and-drop rescheduling.</p>"
-        ),
-    },
-    {
         "title": "Photography Store",
         "slug": "photography-store",
+        "featured": True,
+        "case_problem": "Selling fine art photography online requires more than a product grid — customers need to discover art by mood, visualize it in their space, and feel confident before buying.",
+        "case_built": "E-commerce platform with an AI shopping assistant that searches photos by meaning, manages carts through conversation, and previews prints on your actual wall using ML depth estimation.",
+        "case_result": "Live at store.matthewraynor.com — try the AI assistant yourself.",
         "description": (
             "E-commerce platform for fine art photography prints. Three collections of Hamptons landscape photography, "
             "museum-quality printing in multiple formats, gift cards, and promo codes. An AI shopping assistant "
@@ -405,6 +305,133 @@ PROJECTS = [
             "Self-hosted Listmonk newsletter on Railway with Amazon SES for delivery and SNS for bounce/complaint handling.</p>"
         ),
         "blog_url": "/blog/i-built-an-ai-shopping-assistant-that-sees-your-wa/",
+    },
+    {
+        "title": "EJ Art Mover",
+        "slug": "art-mover",
+        "featured": True,
+        "hero_video": "https://youtu.be/xWtrO4F0In4",
+        "hero_image": "https://res.cloudinary.com/dddye9wli/image/upload/w_400,h_300,c_fill,q_auto,f_auto/v1752173585/art-mover_tlvsny.jpg",
+        "case_problem": "An art moving company was managing scheduling, invoicing, and job tracking through spreadsheets and email.",
+        "case_built": "A job management app with drag-and-drop scheduling, PDF invoicing, photo documentation, and mobile-first field use.",
+        "case_result": "In daily production use — the business runs on it.",
+        "login_only": True,
+        "description": (
+            "Job management app built for a professional art moving company. "
+            "Handles the full workflow \u2014 clients, work orders, scheduling, photo documentation, invoicing, and printable PDFs. "
+            "A drag-and-drop calendar plans daily routes. Built for the field \u2014 works on a phone as well as a desktop. "
+            "Rebuilt from a Django monolith into a decoupled architecture."
+        ),
+        "tech_line": "Django REST Framework \u00b7 Next.js \u00b7 React \u00b7 TypeScript \u00b7 shadcn/ui \u00b7 FullCalendar \u00b7 WeasyPrint \u00b7 Cloudinary \u00b7 JWT \u00b7 TanStack Query \u00b7 Railway \u00b7 Netlify",
+        "live_url": "https://app.ejartmover.net",
+        "github_url": "https://github.com/mattyray/ej-art-mover-v2",
+        "overview": (
+            "A production-grade job management application for an art moving business. It manages the entire workflow from "
+            "client intake through job scheduling, execution, and invoicing. Originally built as a Django monolith with Bootstrap "
+            "templates, it was rebuilt as a decoupled system \u2014 Django REST Framework API backend with a Next.js/React/TypeScript frontend."
+        ),
+        "tech_stack": {
+            "backend": ["Django 5", "Django REST Framework", "PostgreSQL", "WeasyPrint"],
+            "frontend": ["Next.js", "React", "TypeScript", "Tailwind CSS", "shadcn/ui", "FullCalendar"],
+            "auth": ["JWT with automatic token refresh via Axios interceptors"],
+            "deployment": ["Railway", "Netlify", "Cloudinary"],
+        },
+        "problem": "The client was managing logistics, invoicing, and scheduling manually via email and spreadsheets, which caused delays and errors.",
+        "solution": (
+            "Built a centralized system that tracks jobs, clients, and invoices with a drag-and-drop calendar for daily route planning, "
+            "PDF generation for work orders and invoices, and a mobile-first responsive design for field use."
+        ),
+        "special_features": [
+            "Drag-and-drop calendar with month, week, and day views \u2014 reorder stops to plan daily routes",
+            "PDF generation for work orders and invoices via WeasyPrint",
+            "Invoicing with three-stage status flow (unpaid, in QuickBooks, paid)",
+            "Mobile-first: card layouts on phones, table layouts on desktop",
+            "Work orders track jobs through pending, in progress, completed, invoiced",
+            "File attachments with Cloudinary storage for photos and documents",
+            "Google Places address autocomplete for service and billing addresses",
+        ],
+        "problems_solved": [
+            "Digitized manual scheduling and invoicing",
+            "Visual overview of work orders via FullCalendar with drag-and-drop",
+            "Mobile-responsive design means the app works in the field on a phone",
+            "Rebuilt from monolith to decoupled architecture for maintainability",
+        ],
+        "proud_of": [
+            "Full monolith-to-decoupled rebuild with direct data migration via pg_dump",
+            "Mobile-first UX with bottom sheet drawers on phones, dropdown menus on desktop",
+            "Drag-and-drop calendar for daily route planning",
+            "Production app used daily by a real business",
+        ],
+        "build_notes": (
+            "<p>Originally a Django monolith with Bootstrap templates and jQuery deployed on Heroku. Rebuilt as a decoupled "
+            "system with a DRF API backend and Next.js frontend. Authentication uses JWT with automatic token refresh via "
+            "Axios interceptors. Server state managed with TanStack Query. Forms use React Hook Form with Zod validation. "
+            "Same PostgreSQL schema allowed direct data migration via pg_dump.</p>"
+        ),
+    },
+    {
+        "title": "Chef Bawss",
+        "slug": "chef-bawss",
+        "featured": True,
+        "case_problem": "Private chef businesses juggle clients, chefs, events, and finances across spreadsheets and texts.",
+        "case_built": "Multi-tenant SaaS with role-based access, event scheduling, financial tracking, and automated reminders.",
+        "case_result": "Live platform — any private chef business can sign up and run their operation from one place.",
+        "login_only": True,
+        "description": (
+            "Operations platform for private chef businesses. Owners manage clients, invite contract chefs, "
+            "schedule events, and track financials \u2014 what the client pays, what the chef earns, and the profit. "
+            "Chefs see only their own assignments. Automated email reminders before events. "
+            "Built as multi-tenant SaaS so any private chef business can sign up."
+        ),
+        "tech_line": "Django REST Framework \u00b7 Next.js \u00b7 TypeScript \u00b7 Celery \u00b7 Amazon SES \u00b7 FullCalendar \u00b7 PostgreSQL \u00b7 Redis \u00b7 JWT \u00b7 Multi-tenant architecture \u00b7 Fly.io \u00b7 Netlify",
+        "live_url": "https://chef-bawss.netlify.app",
+        "github_url": None,
+        "overview": (
+            "Chef Bawss is a multi-tenant SaaS platform built for private chefs and small catering business owners who hire "
+            "freelance chefs to work events. It's the back-office tool for managing the whole operation \u2014 clients, chefs, events, "
+            "and finances \u2014 all in one place."
+        ),
+        "tech_stack": {
+            "backend": ["Django 5", "Django REST Framework", "PostgreSQL", "Redis", "Celery"],
+            "frontend": ["Next.js 16", "TypeScript", "Tailwind CSS", "FullCalendar"],
+            "integrations": ["Amazon SES", "JWT auth (httpOnly cookies)"],
+            "deployment": ["Fly.io", "Netlify", "Docker Compose"],
+        },
+        "problem": (
+            "Private chef businesses juggle clients, freelance chefs, event scheduling, and financial tracking "
+            "across spreadsheets, texts, and email. There's no tool built for how they actually work."
+        ),
+        "solution": (
+            "Built a multi-tenant SaaS with two roles: admins see everything (clients, chefs, events, profit margins), "
+            "chefs see only their own assignments and pay. Automated email reminders via Celery + Amazon SES. "
+            "Google Calendar-style interface with chef color-coding and drag-to-reschedule."
+        ),
+        "special_features": [
+            "Multi-tenant architecture \u2014 every organization's data is fully isolated",
+            "Two-role system: Admin (full control, financials) vs Chef (own assignments only)",
+            "Chef invitation flow \u2014 admin enters details, system sends email invite, chef sets password",
+            "FullCalendar with auto-assigned chef colors, filtering, drag-to-reschedule, resize-to-change-duration",
+            "Automated email notifications: assignment, changes, cancellations, 3-day and 1-day reminders",
+            "Event financial tracking: client pay, chef pay, deposits, profit calculation",
+        ],
+        "problems_solved": [
+            "Centralized operations for businesses that were running on spreadsheets and texts",
+            "Role-based access so chefs see their pay but not client revenue or profit",
+            "Automated reminders eliminate missed events and last-minute confusion",
+            "Multi-tenancy means any private chef business can sign up and be isolated",
+        ],
+        "proud_of": [
+            "Multi-tenant architecture with tenant-scoped querysets and middleware",
+            "Chef invitation flow that handles the full onboarding lifecycle",
+            "Automated Celery task scheduling for event reminders",
+            "Built as a real SaaS product, not just a one-off client project",
+        ],
+        "build_notes": (
+            "<p>Multi-tenant SaaS with full data isolation via tenant-scoped querysets and middleware. "
+            "JWT auth stored in httpOnly cookies. Celery Beat schedules automated reminder emails (3-day and 1-day) "
+            "via Amazon SES with SNS bounce/complaint handling. FullCalendar integration with chef color assignment, "
+            "event filtering, and drag-and-drop rescheduling.</p>"
+        ),
     },
     {
         "title": "HistoryFace AI",
@@ -543,7 +570,8 @@ class PortfolioView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["services"] = SERVICES
-        context["projects"] = PROJECTS
+        context["featured_projects"] = [p for p in PROJECTS if p.get("featured")]
+        context["more_projects"] = [p for p in PROJECTS if not p.get("featured")]
         return context
 
 

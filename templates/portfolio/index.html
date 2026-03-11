@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load static %}
-{% load youtube_tags %}
 
 {% block title %}Services - Matthew Raynor{% endblock %}
 
@@ -9,19 +8,24 @@
 <div class="container mt-5 case-section fade-in-up">
 
   <!-- Hero Section -->
-  <div class="text-center mb-5 fade-in-up sr-delay-1" style="max-width: 900px; margin: 0 auto;">
-    <h1 class="fw-bold mb-3">Services</h1>
+  <div class="text-center mb-5 fade-in-up sr-delay-1" style="max-width: 800px; margin: 0 auto;">
+    <h1 class="fw-bold mb-3">I Build Software That Works in the Real World</h1>
     <p class="lead">
-      If your business has a problem that could be solved with software &mdash; getting online, automating a workflow,
-      replacing a spreadsheet, managing invoices, sending reminders, taking payments &mdash; I can build it.
+      From websites for local businesses to AI-powered web applications &mdash;
+      if your business has a problem that could be solved with software, I can build it.
     </p>
-    <p class="text-muted">
-      <a href="https://www.linkedin.com/in/matthew-raynor-2b3618200/" target="_blank" class="text-decoration-none me-3"><i class="fab fa-linkedin me-1"></i>LinkedIn</a>
-      <a href="https://github.com/mattyray" target="_blank" class="text-decoration-none"><i class="fab fa-github me-1"></i>GitHub</a>
-    </p>
+    <div class="d-flex justify-content-center gap-3 mt-4">
+      <a href="{% url 'pages:contact' %}" class="btn btn-primary btn-lg fw-bold">Get In Touch</a>
+      <a href="https://www.linkedin.com/in/matthew-raynor-2b3618200/" target="_blank" class="btn btn-outline-dark"><i class="fab fa-linkedin me-1"></i>LinkedIn</a>
+      <a href="https://github.com/mattyray" target="_blank" class="btn btn-outline-dark"><i class="fab fa-github me-1"></i>GitHub</a>
+    </div>
   </div>
 
   <!-- Services Grid -->
+  <h2 class="text-center fw-bold mb-2 fade-in-up sr-delay-2">What I Can Build For You</h2>
+  <p class="text-center text-muted mb-4 fade-in-up sr-delay-2" style="max-width: 600px; margin: 0 auto;">
+    Whether you need a simple website or a complex application, here's how I can help.
+  </p>
   <div class="row g-4 mb-5 fade-in-up sr-delay-2">
     {% for service in services %}
     <div class="col-md-6 col-lg-4{% if forloop.counter == 5 %} offset-lg-4{% endif %}">
@@ -39,12 +43,86 @@
     {% endfor %}
   </div>
 
-  <!-- Featured Technical Deep-Dives -->
-  <div class="mb-5 fade-in-up sr-delay-3">
-    <h2 class="text-center fw-bold mb-4">Technical Deep-Dives</h2>
+  <!-- Featured Work — Case Studies -->
+  <h2 class="text-center fw-bold mb-2 fade-in-up sr-delay-3">Live Work</h2>
+  <p class="text-center text-muted mb-5 fade-in-up sr-delay-3" style="max-width: 700px; margin: 0 auto;">
+    These are real applications in production &mdash; built by me, used by real businesses and real people.
+  </p>
+
+  {% for project in featured_projects %}
+  <div class="card shadow-sm mb-4 border-0 fade-in-up sr-delay-{{ forloop.counter|add:"3" }}">
+    <div class="card-body p-4 p-md-5">
+      <h3 class="fw-bold mb-4">{{ project.title }}</h3>
+
+      <div class="row g-4 mb-4">
+        <div class="col-md-4">
+          <div class="border-start border-warning border-3 ps-3">
+            <h6 class="text-uppercase text-muted fw-semibold mb-2" style="font-size: 0.75rem; letter-spacing: 0.05em;">The Problem</h6>
+            <p class="mb-0">{{ project.case_problem }}</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="border-start border-primary border-3 ps-3">
+            <h6 class="text-uppercase text-muted fw-semibold mb-2" style="font-size: 0.75rem; letter-spacing: 0.05em;">What I Built</h6>
+            <p class="mb-0">{{ project.case_built }}</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="border-start border-success border-3 ps-3">
+            <h6 class="text-uppercase text-muted fw-semibold mb-2" style="font-size: 0.75rem; letter-spacing: 0.05em;">The Result</h6>
+            <p class="mb-0">{{ project.case_result }}</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="text-muted small mb-3"><em>{{ project.tech_line }}</em></p>
+
+      <div class="d-flex flex-wrap gap-2">
+        {% if project.live_url %}
+          {% if project.login_only %}
+            <a href="{{ project.live_url }}" target="_blank" class="btn btn-sm btn-outline-secondary"><i class="fas fa-lock me-1"></i>Staff Login</a>
+          {% else %}
+            <a href="{{ project.live_url }}" target="_blank" class="btn btn-sm btn-primary">Visit Site</a>
+          {% endif %}
+        {% endif %}
+        {% if project.github_url %}
+          <a href="{{ project.github_url }}" target="_blank" class="btn btn-sm btn-dark"><i class="fab fa-github me-1"></i>Code</a>
+        {% endif %}
+        <a href="{% url 'portfolio:project_detail' project.slug %}" class="btn btn-sm btn-outline-primary">Full Case Study &rarr;</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+  <!-- More Projects — Compact Grid -->
+  <h3 class="text-center fw-bold mb-4 mt-5 fade-in-up sr-delay-7">More Projects</h3>
+  <div class="row g-4 mb-5 justify-content-center fade-in-up sr-delay-7">
+    {% for project in more_projects %}
+    <div class="col-md-6">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body d-flex flex-column p-4">
+          <h5 class="card-title fw-bold mb-2">{{ project.title }}</h5>
+          <p class="card-text mb-3">{{ project.description|truncatewords:25 }}</p>
+          <div class="mt-auto d-flex flex-wrap gap-2">
+            {% if project.live_url %}
+              <a href="{{ project.live_url }}" target="_blank" class="btn btn-sm btn-outline-primary">Visit Site</a>
+            {% endif %}
+            <a href="{% url 'portfolio:project_detail' project.slug %}" class="btn btn-sm btn-outline-dark">Details &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Technical Deep-Dives -->
+  <div class="mt-5 mb-5 fade-in-up sr-delay-8">
+    <h3 class="text-center fw-bold mb-2">Want to See How It's Built?</h3>
+    <p class="text-center text-muted mb-4" style="max-width: 600px; margin: 0 auto;">
+      I write about the engineering behind these projects.
+    </p>
     <div class="row g-4 justify-content-center">
 
-      <!-- ToteTaxi Blog Post -->
       <div class="col-md-6">
         <a href="/blog/tote-taxi-langgraph/" class="text-decoration-none">
           <div class="card h-100 shadow-sm border-0 overflow-hidden" style="transition: transform 0.2s;">
@@ -74,7 +152,6 @@
         </a>
       </div>
 
-      <!-- Store Blog Post -->
       <div class="col-md-6">
         <a href="/blog/i-built-an-ai-shopping-assistant-that-sees-your-wa/" class="text-decoration-none">
           <div class="card h-100 shadow-sm border-0 overflow-hidden" style="transition: transform 0.2s;">
@@ -107,53 +184,8 @@
     </div>
   </div>
 
-  <!-- Project Showcase -->
-  <h2 class="text-center fw-bold mb-4 fade-in-up sr-delay-4">Live Work</h2>
-  <div class="row justify-content-center">
-    {% for project in projects %}
-    <div class="col-md-6 col-lg-4 mb-4 fade-in-up sr-delay-{{ forloop.counter0|add:"4" }}">
-      <div class="card h-100 shadow-sm">
-        <div class="ratio ratio-4x3">
-          {% if project.hero_video %}
-            <iframe src="https://www.youtube.com/embed/{{ project.hero_video|youtube_id }}?rel=0&modestbranding=1"
-                    title="{{ project.title }}"
-                    frameborder="0"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen></iframe>
-          {% elif project.hero_image %}
-            <img data-src="{{ project.hero_image }}"
-                 class="card-img-top object-fit-cover lazy-image image-placeholder"
-                 alt="{{ project.title }}">
-          {% elif project.live_url %}
-            <div class="bg-light d-flex align-items-center justify-content-center h-100">
-              <div class="text-center p-3">
-                <i class="fas fa-external-link-alt fa-2x text-primary mb-2"></i>
-                <p class="small text-muted mb-0">Live Project</p>
-              </div>
-            </div>
-          {% endif %}
-        </div>
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title fw-bold">{{ project.title }}</h5>
-          <p class="card-text small">{{ project.description|truncatewords:30 }}</p>
-          <p class="text-muted small mb-3"><em>{{ project.tech_line }}</em></p>
-          <div class="mt-auto d-flex flex-wrap gap-2">
-            <a href="{% url 'portfolio:project_detail' project.slug %}" class="btn btn-outline-primary flex-grow-1">Details</a>
-            {% if project.live_url %}
-              <a href="{{ project.live_url }}" target="_blank" class="btn btn-primary flex-grow-1">Visit Site</a>
-            {% elif project.github_url %}
-              <a href="{{ project.github_url }}" target="_blank" class="btn btn-dark flex-grow-1"><i class="fab fa-github me-1"></i>Code</a>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-
   <!-- Bottom CTA -->
-  <div class="row align-items-center mt-5 fade-in-up sr-delay-7">
+  <div class="row align-items-center mt-5 fade-in-up sr-delay-9">
     <div class="col-md-6 mb-4 mb-md-0">
       <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_500,h_600,c_fill,q_auto,f_auto/v1752173521/matt-fowlers_bfhl89.jpg"
            class="img-fluid rounded shadow lazy-image image-placeholder"
