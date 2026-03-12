@@ -15,7 +15,7 @@
       <div class="p-4 rounded-4 bg-dark bg-opacity-50 shadow-lg d-inline-block">
         <h1 class="display-4 fw-bold text-shadow">From Sea to Source Code</h1>
         <p class="lead">Writer • Engineer • Artist</p>
-        <a href="{% url 'portfolio:index' %}" class="btn btn-primary btn-lg mt-3">View My Portfolio</a>
+        <a href="{% url 'portfolio:index' %}" class="btn btn-primary btn-lg mt-3">View My Services</a>
         <a href="{% url 'post_list' %}" class="btn btn-outline-light btn-lg mt-3 ms-2">Read My Blog</a>
       </div>
     </div>
@@ -150,7 +150,7 @@
       </div>
 
       <div class="text-center mt-4">
-        <a href="{% url 'portfolio:index' %}" class="btn btn-outline-dark btn-lg">View Full Portfolio</a>
+        <a href="{% url 'portfolio:index' %}" class="btn btn-outline-dark btn-lg">View All Services</a>
       </div>
     </div>
   </section>
@@ -225,41 +225,6 @@
 
 </div>
 
-<!-- AI Assistant Modal -->
-<div class="modal fade" id="storeAnnouncementModal" tabindex="-1" aria-labelledby="storeAnnouncementModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header border-0 pb-0">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body text-center px-4 pt-0 pb-4">
-        <h3 class="fw-bold mb-3" id="storeAnnouncementModalLabel"><i class="fas fa-robot me-2"></i>Try My AI Shopping Assistant</h3>
-        <p class="mb-4">I built an AI-powered shopping assistant for my photography store using LangChain and Claude. It searches photos semantically, visualizes prints on your wall, and handles checkout through conversation.</p>
-        <p class="text-muted mb-4">Ask it to find "moody ocean sunset" or upload a wall photo to see how a print would look in your space. It's a 14-tool LangChain agent with pgvector semantic search and MiDaS depth estimation.</p>
-        <a href="https://store.matthewraynor.com" target="_blank" class="btn btn-primary btn-lg">
-          Try the AI Assistant <i class="fas fa-arrow-right ms-2"></i>
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Check if user has seen the modal in this session
-    if (!sessionStorage.getItem('storeModalSeen')) {
-      // Show modal after a short delay
-      setTimeout(function() {
-        var modal = new bootstrap.Modal(document.getElementById('storeAnnouncementModal'));
-        modal.show();
-        // Mark as seen for this session
-        sessionStorage.setItem('storeModalSeen', 'true');
-      }, 1000);
-    }
-  });
-</script>
 {% endblock %}
 
 
