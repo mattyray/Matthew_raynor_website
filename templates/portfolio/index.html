@@ -88,6 +88,9 @@
         {% if project.github_url %}
           <a href="{{ project.github_url }}" target="_blank" class="btn btn-sm btn-dark"><i class="fab fa-github me-1"></i>Code</a>
         {% endif %}
+        {% if project.blog_url %}
+          <a href="{{ project.blog_url }}" class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen-fancy me-1"></i>Blog Post</a>
+        {% endif %}
         <a href="{% url 'portfolio:project_detail' project.slug %}" class="btn btn-sm btn-outline-primary">Full Case Study &rarr;</a>
       </div>
     </div>
@@ -123,7 +126,7 @@
     </p>
     <div class="row g-4 justify-content-center">
 
-      <div class="col-md-6">
+      <div class="col-md-6 col-lg-4">
         <a href="/blog/tote-taxi-langgraph/" class="text-decoration-none">
           <div class="card h-100 shadow-sm border-0 overflow-hidden" style="transition: transform 0.2s;">
             <div class="position-relative">
@@ -152,7 +155,36 @@
         </a>
       </div>
 
-      <div class="col-md-6">
+      <div class="col-md-6 col-lg-4">
+        <a href="/blog/i-got-tired-of-linkedins-black-hole-so-i-built-my/" class="text-decoration-none">
+          <div class="card h-100 shadow-sm border-0 overflow-hidden" style="transition: transform 0.2s;">
+            <div class="position-relative">
+              <div class="ratio ratio-16x9">
+                <img src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,h_400,c_fill,q_auto,f_auto/v1/blog_images/reporadaricon_fotea1"
+                     class="card-img-top object-fit-cover"
+                     alt="RepoRadar Job Search Engine">
+              </div>
+              <div class="position-absolute bottom-0 start-0 w-100 p-3" style="background: linear-gradient(transparent, rgba(0,0,0,0.8));">
+                <span class="text-white fw-bold">Building RepoRadar: A Job Search Engine</span><br>
+                <small class="text-white-50">Django, React, Celery, Claude API, ATS Scraping</small>
+              </div>
+            </div>
+            <div class="card-body">
+              <span class="badge bg-primary mb-2">Blog Post</span>
+              <h5 class="card-title fw-bold text-dark">I Got Tired of LinkedIn's Black Hole, So I Built My Own</h5>
+              <p class="card-text text-muted">185K+ jobs from 6,500+ companies via ATS APIs, resume parsing with Claude, and the pivot from GitHub scanning to job aggregation.</p>
+              <div class="d-flex flex-wrap gap-2 mt-3">
+                <span class="badge bg-light text-dark border">Django 5</span>
+                <span class="badge bg-light text-dark border">React 19</span>
+                <span class="badge bg-light text-dark border">Claude API</span>
+                <span class="badge bg-light text-dark border">Celery</span>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
         <a href="/blog/i-built-an-ai-shopping-assistant-that-sees-your-wa/" class="text-decoration-none">
           <div class="card h-100 shadow-sm border-0 overflow-hidden" style="transition: transform 0.2s;">
             <div class="position-relative">

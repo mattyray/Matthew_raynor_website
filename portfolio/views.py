@@ -53,6 +53,7 @@ PROJECTS = [
         "tech_line": "Django REST Framework \u00b7 Next.js \u00b7 React \u00b7 TypeScript \u00b7 Stripe \u00b7 Onfleet \u00b7 LangGraph + Claude \u00b7 Celery \u00b7 PostgreSQL \u00b7 Redis \u00b7 Sentry \u00b7 LangSmith \u00b7 Fly.io \u00b7 Netlify",
         "live_url": "https://totetaxi.com",
         "github_url": "https://github.com/mattyray/totetaxi",
+        "blog_url": "/blog/tote-taxi-langgraph/",
         "overview": (
             "ToteTaxi is a production logistics platform serving Manhattan to Hamptons, South Florida to NYC airports, and the NYC tri-state area. "
             "It handles four service types \u2014 Mini Moves (tiered packages), Standard Delivery, Specialty Items, and Airport Transfers \u2014 with a sophisticated "
@@ -117,7 +118,8 @@ PROJECTS = [
         ),
         "tech_line": "Django REST Framework \u00b7 React \u00b7 TypeScript \u00b7 Celery \u00b7 Redis \u00b7 PostgreSQL \u00b7 Claude API \u00b7 GitHub API \u00b7 Hunter.io \u00b7 Apollo.io \u00b7 Railway \u00b7 Netlify",
         "live_url": "https://reporadar-app.netlify.app",
-        "github_url": None,
+        "github_url": "https://github.com/mattyray/reporadar",
+        "blog_url": "/blog/i-got-tired-of-linkedins-black-hole-so-i-built-my/",
         "overview": (
             "RepoRadar flips job searching on its head. Instead of 'find jobs, then figure out if the company matches,' "
             "it's 'find companies that build like you build, then reach out directly.' It scans GitHub for requirements.txt, "
