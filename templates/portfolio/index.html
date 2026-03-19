@@ -89,7 +89,7 @@
           <a href="{{ project.github_url }}" target="_blank" class="btn btn-sm btn-dark"><i class="fab fa-github me-1"></i>Code</a>
         {% endif %}
         {% if project.blog_url %}
-          <a href="{{ project.blog_url }}" class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen-fancy me-1"></i>Blog Post</a>
+          <a href="{{ project.blog_url }}" class="btn btn-sm btn-outline-dark"><i class="fas fa-pen-fancy me-1"></i>Blog Post</a>
         {% endif %}
         <a href="{% url 'portfolio:project_detail' project.slug %}" class="btn btn-sm btn-outline-primary">Full Case Study &rarr;</a>
       </div>
