@@ -83,30 +83,30 @@ class PressPageView(TemplateView):
             {
                 "title": "Matthew Raynor Finds A New Lease On Life Through Art",
                 "source": "27East",
-                "link": "https://www.27east.com/arts/matthew-raynor-finds-a-new-lease-on-life-through-art-1506186/",
+                "link": "https://www.27east.com/arts-living/article_6bf2ddd9-5302-5056-b727-7e1d5d02be71.html",
                 "summary": "Explores your transition into photography and art exhibitions as a form of healing and purpose.",
-                "image_url": "https://image.27east.com/2019/08/8.15x10.65_BackofBoat2.jpg"
+                "image_url": "https://res.cloudinary.com/dddye9wli/image/upload/w_800,h_400,c_fill,q_auto,f_auto/v1/press_images/press_lease_on_life"
             },
             {
                 "title": "Matthew Raynor Photography At Southampton Cultural Center",
                 "source": "27East",
                 "link": "https://www.27east.com/arts/matthew-raynor-photography-at-southampton-cultural-center-1738556/",
                 "summary": "Highlights your stunning drone and seascape photography exhibit at the SCC, blending grit and serenity.",
-                "image_url": "https://image.27east.com/2020/11/Matt-Raynor-beautifulbirch-scaled.jpg"
+                "image_url": "https://res.cloudinary.com/dddye9wli/image/upload/w_800,h_400,c_fill,q_auto,f_auto/v1/press_images/press_southampton_cultural"
             },
             {
                 "title": "Before and After: Matt Raynor's Life and Its Unexpected Turns",
                 "source": "27East",
                 "link": "https://www.27east.com/southampton-press/before-and-after-matt-raynors-life-and-its-unexpected-turns-chronicled-in-new-photography-book-2294539/",
                 "summary": "Covers your memoir 'Before Me<>After Me,' sharing your powerful personal transformation through imagery.",
-                "image_url": "https://image.27east.com/2024/10/party-1.jpg"
+                "image_url": "https://res.cloudinary.com/dddye9wli/image/upload/w_800,h_400,c_fill,q_auto,f_auto/v1/press_images/press_before_after"
             },
             {
                 "title": "Matthew Raynor Exhibits His Art at LTV Studios",
                 "source": "27East",
                 "link": "https://www.27east.com/arts/matthew-raynor-exhibits-his-art-at-ltv-studios-2249981/",
                 "summary": "Your LTV Studios debut showcasing new aluminum prints, textures, and emotional storytelling through art.",
-                "image_url": "https://image.27east.com/2024/05/Matt-Raynor-Boardwalk.jpg"
+                "image_url": "https://res.cloudinary.com/dddye9wli/image/upload/w_800,h_400,c_fill,q_auto,f_auto/v1/press_images/press_ltv_studios"
             },
             {
                 "title": "Man Paralyzed While Diving Has No Health Aide: 'This Is A Crisis'",
