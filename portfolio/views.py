@@ -104,8 +104,8 @@ PROJECTS = [
         ),
     },
     {
-        "title": "RepoRadar",
-        "slug": "reporadar",
+        "title": "StackJefe",
+        "slug": "stackjefe",
         "featured": True,
         "case_problem": "Job searching on LinkedIn is broken — ghost jobs, black-hole applications, no signal.",
         "case_built": "A tool that scans GitHub to find companies using your tech stack, scores them, and finds open roles.",
@@ -117,11 +117,11 @@ PROJECTS = [
             "stack match, AI tool signals, and activity. Automatically checks Greenhouse, Lever, Ashby, and Workable for open roles."
         ),
         "tech_line": "Django REST Framework \u00b7 React \u00b7 TypeScript \u00b7 Celery \u00b7 Redis \u00b7 PostgreSQL \u00b7 Claude API \u00b7 GitHub API \u00b7 Hunter.io \u00b7 Apollo.io \u00b7 Railway \u00b7 Netlify",
-        "live_url": "https://reporadar-app.netlify.app",
+        "live_url": "https://stackjefe.com",
         "github_url": "https://github.com/mattyray/reporadar",
         "blog_url": "/blog/i-got-tired-of-linkedins-black-hole-so-i-built-my/",
         "overview": (
-            "RepoRadar flips job searching on its head. Instead of 'find jobs, then figure out if the company matches,' "
+            "StackJefe flips job searching on its head. Instead of 'find jobs, then figure out if the company matches,' "
             "it's 'find companies that build like you build, then reach out directly.' It scans GitHub for requirements.txt, "
             "package.json, CLAUDE.md and other dependency files, detects tech stacks across 200+ known packages, scores prospects, "
             "probes ATS job boards, and generates AI-powered personalized outreach."
