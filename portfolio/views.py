@@ -107,24 +107,25 @@ PROJECTS = [
         "title": "StackJefe",
         "slug": "stackjefe",
         "featured": True,
-        "case_problem": "Job searching on LinkedIn is broken — ghost jobs, black-hole applications, no signal.",
-        "case_built": "A tool that scans GitHub to find companies using your tech stack, scores them, and finds open roles.",
-        "case_result": "Live tool used by developers to find companies that actually build with their tools.",
+        "case_problem": "Job searching on LinkedIn is broken — ghost jobs, black-hole applications, no way to filter by tech stack.",
+        "case_built": "A job search engine that queries ATS APIs by technology, parses resumes with AI, and generates personalized outreach.",
+        "case_result": "185K+ job listings, 20 users, 9 resume uploads — live in production at stackjefe.com.",
         "description": (
-            "Job search tool that scans GitHub to find companies building with specific tech stacks. "
-            "Instead of applying to LinkedIn ghost jobs, search for companies that use the same tools you do "
-            "by reading their dependency files, then reach out directly. Scores prospects 0\u2013100 based on "
-            "stack match, AI tool signals, and activity. Automatically checks Greenhouse, Lever, Ashby, and Workable for open roles."
+            "Job search engine that lets developers search by the technologies they actually work with. "
+            "Queries Greenhouse, Lever, Ashby, and Workable APIs to surface real listings — no login required to search. "
+            "Upload a resume and Claude AI parses your skills to generate personalized outreach for any company. "
+            "Power users can connect GitHub to scan orgs by tech stack, score them 0–100, and find companies before they even post jobs."
         ),
         "tech_line": "Django REST Framework \u00b7 React \u00b7 TypeScript \u00b7 Celery \u00b7 Redis \u00b7 PostgreSQL \u00b7 Claude API \u00b7 GitHub API \u00b7 Hunter.io \u00b7 Apollo.io \u00b7 Railway \u00b7 Netlify",
         "live_url": "https://stackjefe.com",
         "github_url": "https://github.com/mattyray/reporadar",
         "blog_url": "/blog/i-got-tired-of-linkedins-black-hole-so-i-built-my/",
         "overview": (
-            "StackJefe flips job searching on its head. Instead of 'find jobs, then figure out if the company matches,' "
-            "it's 'find companies that build like you build, then reach out directly.' It scans GitHub for requirements.txt, "
-            "package.json, CLAUDE.md and other dependency files, detects tech stacks across 200+ known packages, scores prospects, "
-            "probes ATS job boards, and generates AI-powered personalized outreach."
+            "StackJefe is a job search engine built for developers. Search by the tech you want to work with — Django, React, "
+            "TypeScript — and get real listings from 185K+ jobs across Greenhouse, Lever, Ashby, and Workable. No login required "
+            "to search. Sign up with Google OAuth, upload your resume, and Claude AI extracts your skills to generate personalized "
+            "outreach for any company. For power users, the GitHub org scanner finds companies building with your stack before "
+            "they even post jobs — scoring them 0–100 on stack match, AI tool signals, and infrastructure maturity."
         ),
         "tech_stack": {
             "backend": ["Django 5", "Django REST Framework", "PostgreSQL 16", "Redis", "Celery"],
@@ -134,40 +135,42 @@ PROJECTS = [
             "deployment": ["Railway", "Netlify"],
         },
         "problem": (
-            "Job searching on LinkedIn is broken. Posts are stale, ghost jobs are everywhere, and applications "
-            "disappear into a black hole. But there's a signal nobody's using: GitHub."
+            "Job searching on LinkedIn is broken. You can't filter by tech stack, ghost jobs waste your time, and applications "
+            "disappear into a black hole. Engineers deserve a search engine that speaks their language."
         ),
         "solution": (
-            "Built a tool that scans GitHub to find companies using the same tech stack you do, scores them 0-100, "
-            "checks their ATS job boards for open roles, and generates personalized outreach using Claude AI."
+            "Built a job search engine that queries ATS APIs (Greenhouse, Lever, Ashby, Workable) by technology. "
+            "Anonymous users search freely with results blurred behind a free signup wall. Signed-up users upload resumes, "
+            "get AI-parsed skills, and generate personalized outreach. GitHub org scanning finds companies before they post jobs."
         ),
         "special_features": [
-            "GitHub code search scanning requirements.txt, package.json, CLAUDE.md, and more",
-            "Stack detection across 200+ known packages in Python and JavaScript ecosystems",
-            "Prospect scoring 0-100 based on stack match, AI tool signals, production readiness, and activity",
-            "ATS job probing across Greenhouse, Lever, Ashby, and Workable \u2014 no API keys needed",
+            "Public job search — no login required, search by tech stack across 185K+ listings from 4 ATS platforms",
+            "Anonymous-to-signup funnel with blurred results (5 visible, rest behind free signup wall)",
+            "Google OAuth one-click signup with JWT cross-domain auth (Railway backend ↔ Netlify frontend)",
+            "Resume parsing via Claude AI — extracts skills, experience, and talking points automatically",
+            "Personalized outreach generation tailored to both company stack and user background",
+            "GitHub org scanner — scans dependency files, detects 200+ packages, scores orgs 0–100",
+            "ATS probing across Greenhouse, Lever, Ashby, and Workable — no API keys needed",
             "Contact enrichment via Hunter.io and Apollo.io (BYOK model)",
-            "AI-powered outreach generation using resume + prospect data via Claude",
-            "Provider adapter pattern \u2014 external APIs abstracted behind mockable interfaces",
-            "132 tests passing across 13 test files",
         ],
         "problems_solved": [
-            "Finds companies building with your exact tech stack using public GitHub data",
-            "Eliminates ghost job applications by connecting directly to real engineering teams",
-            "Caches all external API responses (24hr-30day TTLs) to minimize rate limit consumption",
-            "BYOK model means free tier costs nothing to run",
+            "Lets developers search jobs by actual tech stack instead of keyword-stuffed LinkedIn posts",
+            "Drives signups through a low-friction anon search funnel — users convert after seeing real results",
+            "AI resume parsing + outreach generation makes direct outreach practical at scale",
+            "GitHub scanner finds companies before they post jobs — proactive, not reactive job searching",
         ],
         "proud_of": [
-            "Provider adapter architecture that makes the system provider-agnostic",
+            "Anonymous → signup funnel that actually converts (anon search → blur wall CTA → OAuth → full results)",
+            "Cross-domain JWT auth between Railway and Netlify — clean solution to the cookie-sharing problem",
+            "Same React component serves both anon and auth users — one codebase, two experiences",
             "Auth design separating identity (Google OAuth) from data access (GitHub OAuth) from paid services (BYOK)",
-            "Caching layer that makes the database grow organically as users scan",
-            "132 tests with TDD as the standard",
         ],
         "build_notes": (
-            "<p>7 Django apps with clean separation of concerns. External APIs abstracted behind provider adapters \u2014 "
-            "views and tasks receive provider instances; tests inject mocks. Identity separated from data access: "
-            "Google OAuth for login, GitHub OAuth for API access, Hunter/Apollo as BYOK. "
-            "All multi-step workflows run as Celery tasks with frontend polling via TanStack Query.</p>"
+            "<p>Django 5 + DRF backend on Railway, React 19 + TypeScript frontend on Netlify. Google OAuth via django-allauth "
+            "with JWT passed through redirect URL for cross-domain auth. The anon job search and authenticated dashboard use "
+            "the same React component — visibility controlled by auth state. Celery handles background jobs (ATS scraping, "
+            "GitHub scanning, resume parsing). External APIs abstracted behind provider adapters. "
+            "TanStack Query for frontend polling and cache management.</p>"
         ),
     },
     {
