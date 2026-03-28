@@ -27,8 +27,8 @@
           </iframe>
         </div>
       {% elif post.image %}
-        <img data-src="{{ post.image.url }}?w_800,h_400,c_fill,q_auto,f_auto" 
-             class="img-fluid rounded shadow my-4 lazy-image image-placeholder" 
+        <img data-src="{{ post.image.url|cloudinary_transform:'w_800,h_400,c_fill,q_auto,f_auto' }}"
+             class="img-fluid rounded shadow my-4 lazy-image image-placeholder"
              alt="{{ post.title }}">
       {% else %}
         <img data-src="https://source.unsplash.com/800x400/?technology,resilience" 

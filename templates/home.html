@@ -176,9 +176,9 @@
                     allowfullscreen>
                   </iframe>
                 {% elif post.image %}
-                  <img data-src="{{ post.image.url }}?w_400,h_225,c_fill,q_auto,f_auto" 
-                       class="card-img-top object-fit-cover lazy-image image-placeholder" 
-                       alt="{{ post.title }}" 
+                  <img data-src="{{ post.image.url|cloudinary_transform:'w_400,h_225,c_fill,q_auto,f_auto' }}"
+                       class="card-img-top object-fit-cover lazy-image image-placeholder"
+                       alt="{{ post.title }}"
                        style="height: 100%; width: 100%;">
                 {% else %}
                   <img data-src="https://source.unsplash.com/400x250/?technology,writing" 

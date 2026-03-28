@@ -38,3 +38,19 @@ def youtube_thumbnail(url):
     if video_id:
         return f"https://img.youtube.com/vi/{video_id}/hqdefault.jpg"
     return ""
+
+
+@register.filter
+def cloudinary_transform(url, transforms):
+    """
+    Insert Cloudinary transforms into a Cloudinary URL path.
+    Usage: {{ post.image.url|cloudinary_transform:"w_400,h_225,c_fill,q_auto,f_auto" }}
+    """
+    if not url:
+        return ""
+    url = str(url)
+    marker = "/upload/"
+    if marker in url:
+        idx = url.index(marker) + len(marker)
+        return url[:idx] + transforms + "/" + url[idx:]
+    return url
