@@ -261,7 +261,7 @@
             fetch("/chat/api/", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ message })
+              body: JSON.stringify({ message, page_url: window.location.href })
             })
             .then(response => response.json())
             .then(data => {

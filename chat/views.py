@@ -7,6 +7,7 @@ from django.views import View
 from django.views.generic import TemplateView
 from openai import OpenAI
 
+from .models import ChatMessage
 from .utils import load_combined_context
 
 logger = logging.getLogger(__name__)
@@ -32,6 +33,16 @@ class ChatAPIView(View):
                 ]
             )
             reply = chat_response.choices[0].message.content.strip()
+
+            if not request.session.session_key:
+                request.session.create()
+            ChatMessage.objects.create(
+                session_key=request.session.session_key or "",
+                page_url=data.get("page_url", ""),
+                user_message=message,
+                ai_response=reply,
+            )
+
             return JsonResponse({"reply": reply})
         except Exception as e:
             logger.exception("Chat API error")
