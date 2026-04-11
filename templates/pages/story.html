@@ -3,15 +3,123 @@
 
 {% block title %}My Story - Matthew Raynor{% endblock %}
 
+{% block extra_css %}
+<style>
+  .story-carousel {
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.15);
+    background: #000;
+  }
+  .story-carousel .carousel-item {
+    aspect-ratio: 4/5;
+  }
+  @media (min-width: 768px) {
+    .story-carousel .carousel-item {
+      aspect-ratio: 3/4;
+    }
+  }
+  .story-carousel .carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .story-carousel .carousel-control-prev,
+  .story-carousel .carousel-control-next {
+    width: 12%;
+    background: linear-gradient(90deg, rgba(0,0,0,0.4), transparent);
+  }
+  .story-carousel .carousel-control-next {
+    background: linear-gradient(270deg, rgba(0,0,0,0.4), transparent);
+  }
+  .story-carousel .carousel-indicators {
+    margin-bottom: 0.5rem;
+  }
+  .story-carousel .carousel-indicators [data-bs-target] {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.5);
+  }
+  .story-quote {
+    font-style: italic;
+    border-left: 3px solid var(--bs-primary);
+    padding-left: 1rem;
+    margin-top: 1.25rem;
+    color: #555;
+  }
+  .story-section {
+    margin-bottom: 4rem;
+  }
+  @media (max-width: 767px) {
+    .story-section {
+      margin-bottom: 2.5rem;
+    }
+    .story-section h2 {
+      margin-top: 1.5rem;
+    }
+  }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="container py-5 fade-in-up">
 
   <!-- THE FISHERMAN -->
-  <div class="row mb-5 align-items-center">
+  <section class="row align-items-center story-section">
     <div class="col-md-6 mb-4 mb-md-0">
-      <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_500,h_600,c_fill,q_auto,f_auto/v1752173484/fisherman_qgsds8.jpg"
-           class="img-fluid rounded shadow lazy-image image-placeholder"
-           alt="Matthew Raynor Commercial Fishing">
+      <div id="carouselFisherman" class="carousel slide story-carousel" data-bs-ride="false" data-bs-touch="true">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselFisherman" data-bs-slide-to="0" class="active" aria-current="true"></button>
+          <button type="button" data-bs-target="#carouselFisherman" data-bs-slide-to="1"></button>
+          <button type="button" data-bs-target="#carouselFisherman" data-bs-slide-to="2"></button>
+          <button type="button" data-bs-target="#carouselFisherman" data-bs-slide-to="3"></button>
+          <button type="button" data-bs-target="#carouselFisherman" data-bs-slide-to="4"></button>
+          <button type="button" data-bs-target="#carouselFisherman" data-bs-slide-to="5"></button>
+          <button type="button" data-bs-target="#carouselFisherman" data-bs-slide-to="6"></button>
+          <button type="button" data-bs-target="#carouselFisherman" data-bs-slide-to="7"></button>
+          <button type="button" data-bs-target="#carouselFisherman" data-bs-slide-to="8"></button>
+          <button type="button" data-bs-target="#carouselFisherman" data-bs-slide-to="9"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_fisherman_01_trawler" alt="View from the back of a trawler at sea">
+          </div>
+          <div class="carousel-item">
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_fisherman_02_alisha_aerial" alt="Aerial drone shot of fishing trawler">
+          </div>
+          <div class="carousel-item">
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_fisherman_03_sunset_dock" alt="Fishing boats at sunset">
+          </div>
+          <div class="carousel-item">
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_fisherman_04_sunset_rigging" alt="Sunset through ship rigging">
+          </div>
+          <div class="carousel-item">
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_fisherman_05_clams_boots" alt="Bags of clams on the dock">
+          </div>
+          <div class="carousel-item">
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_fisherman_06_scallop_dredge" alt="Bay scallops in dredge basket">
+          </div>
+          <div class="carousel-item">
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_fisherman_07_oilskin_nets" alt="Fisherman in oilskin working nets">
+          </div>
+          <div class="carousel-item">
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_fisherman_08_scallop_closeup" alt="Bay scallop close up">
+          </div>
+          <div class="carousel-item">
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_fisherman_09_yellow_nets" alt="Scallop boat with yellow nets at the dock">
+          </div>
+          <div class="carousel-item">
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_fisherman_10_boats_overhead" alt="Fishing boats from above">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselFisherman" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselFisherman" data-bs-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </button>
+      </div>
     </div>
     <div class="col-md-6">
       <h2 class="fw-bold">The Fisherman</h2>
@@ -22,36 +130,86 @@
         <a href="https://store.matthewraynor.com" target="_blank" class="btn btn-outline-dark">Photography</a>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- APRIL 18, 2019 -->
-  <div class="row mb-5 align-items-center flex-md-row-reverse">
+  <section class="row align-items-center flex-md-row-reverse story-section">
     <div class="col-md-6 mb-4 mb-md-0">
-      <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_500,h_600,c_fill,q_auto,f_auto/v1/press_images/press_before_after"
-           class="img-fluid rounded shadow lazy-image image-placeholder"
-           alt="Matthew Raynor Before and After">
+      <div id="carouselAccident" class="carousel slide story-carousel" data-bs-ride="false" data-bs-touch="true">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselAccident" data-bs-slide-to="0" class="active" aria-current="true"></button>
+          <button type="button" data-bs-target="#carouselAccident" data-bs-slide-to="1"></button>
+          <button type="button" data-bs-target="#carouselAccident" data-bs-slide-to="2"></button>
+          <button type="button" data-bs-target="#carouselAccident" data-bs-slide-to="3"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_accident_01_dive" alt="Matt diving into the water at Towd Point">
+          </div>
+          <div class="carousel-item">
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_accident_02_neck_brace" alt="Matt in hospital bed with neck brace">
+          </div>
+          <div class="carousel-item">
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_accident_03_hospital_gown" alt="Matt in hospital gown">
+          </div>
+          <div class="carousel-item">
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_accident_04_recovery" alt="Matt during recovery">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselAccident" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselAccident" data-bs-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </button>
+      </div>
     </div>
     <div class="col-md-6">
       <h2 class="fw-bold">April 18, 2019</h2>
       <p>After three back-to-back six-day trips on the fishing vessel <em>Perception</em> out of Montauk, I went to Towd Point in North Sea Harbor for a cold morning swim to ease my tendonitis. It was a full moon tide. Strong current. I dove a few times — the channel goes from sand to twenty feet in a short distance. The first dives I made it. But I was cold and tired, and the last one I didn't.</p>
       <p>I hit the bottom. I opened my eyes and watched the sandy bottom go by and knew immediately — I was completely paralyzed. I didn't drown. I suffocated. I broke the vertebrae responsible for respiration. My friend Jerome pulled me out and performed CPR on the beach. A medevac helicopter took me to Stony Brook, then Mount Sinai in Manhattan.</p>
       <p>C3 through C7. Catastrophic spinal damage. Paralyzed from the collarbone down. I lost feeling and movement in 80% of my body. It was really bad at first. But I've learned to live with it.</p>
-      <blockquote class="blockquote mt-3 ps-3 border-start border-3 border-primary">
-        <p class="fst-italic">"I view whatever time I have here as extra. I should have died that day, but here I am — and I'm enjoying living."</p>
+      <blockquote class="story-quote">
+        "I view whatever time I have here as extra. I should have died that day, but here I am — and I'm enjoying living."
       </blockquote>
       <div class="d-flex flex-wrap gap-2 mt-3">
         <a href="{% url 'post_list' %}the-day-i-broke-my-neck-part-1/" class="btn btn-outline-dark">Read the Full Story</a>
         <a href="{% url 'pages:press' %}" class="btn btn-outline-dark">Press Coverage</a>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- 30 MONTHS -->
-  <div class="row mb-5 align-items-center">
+  <section class="row align-items-center story-section">
     <div class="col-md-6 mb-4 mb-md-0">
-      <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_500,h_600,c_fill,q_auto,f_auto/v1752173521/sign_idfwoz.jpg"
-           class="img-fluid rounded shadow lazy-image image-placeholder"
-           alt="Inspirational Sign">
+      <div id="carousel30Months" class="carousel slide story-carousel" data-bs-ride="false" data-bs-touch="true">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carousel30Months" data-bs-slide-to="0" class="active" aria-current="true"></button>
+          <button type="button" data-bs-target="#carousel30Months" data-bs-slide-to="1"></button>
+          <button type="button" data-bs-target="#carousel30Months" data-bs-slide-to="2"></button>
+          <button type="button" data-bs-target="#carousel30Months" data-bs-slide-to="3"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_30months_01_headphones" alt="Matt in nursing home with headphones">
+          </div>
+          <div class="carousel-item">
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_30months_02_with_dog" alt="Matt with a small dog">
+          </div>
+          <div class="carousel-item">
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_30months_03_strawberries" alt="Matt with strawberries">
+          </div>
+          <div class="carousel-item">
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_30months_04_bundled" alt="Matt bundled in winter clothing">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carousel30Months" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carousel30Months" data-bs-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </button>
+      </div>
     </div>
     <div class="col-md-6">
       <h2 class="fw-bold">30 Months</h2>
@@ -60,20 +218,20 @@
       <p>If you let them, these difficulties can forge you into the person you were always meant to be. But you have to use the pressure to push you to perform at your best — especially when there's no option for failure.</p>
       <p>I found a room dubbed the meditation room — even though it was really for conferences. The staff let me stay there. I made it my classroom, my retreat, my place of solitude. Even though the wallpaper was stained, I made it as serene as the ocean in my mind. I had privacy here. Every day, all day, for thirty months. I studied software engineering, teaching myself to code with a custom workflow. I learned Spanish so I could expand my caretaking options. And I went very deep into <a href="{% url 'post_list' %}a-journey-from-chaos-to-stillness/">Buddhism, Taoism, breathwork, and meditation</a> — creating a spiritual foundation I could bring with me wherever I go, through good times and bad.</p>
       <p>The conditions were poor. The care was inconsistent. But everybody loved me there and I loved them. I created a spiritual framework for living, and I prevailed.</p>
-      <blockquote class="blockquote mt-3 ps-3 border-start border-3 border-primary">
-        <p class="fst-italic">"Do your work, then step back."</p>
+      <blockquote class="story-quote">
+        "Do your work, then step back."
       </blockquote>
     </div>
-  </div>
+  </section>
 
   <!-- WHAT I BUILT -->
-  <div class="row mb-5 align-items-center flex-md-row-reverse">
+  <section class="row align-items-center flex-md-row-reverse story-section">
     <div class="col-md-6 mb-4 mb-md-0">
       <div class="row g-3">
         <div class="col-12">
           <a href="{% url 'post_list' %}tote-taxi-langgraph/" class="text-decoration-none d-block position-relative rounded shadow overflow-hidden">
-            <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,h_400,c_fill,q_auto,f_auto/v1/blog_images/photoallicons_ygoclt"
-                 class="img-fluid lazy-image image-placeholder w-100"
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,h_400,c_fill,q_auto,f_auto/v1/blog_images/photoallicons_ygoclt"
+                 class="img-fluid w-100"
                  alt="ToteTaxi Technical Deep-Dive">
             <div class="position-absolute bottom-0 start-0 w-100 p-3" style="background: linear-gradient(transparent, rgba(0,0,0,0.8));">
               <span class="text-white fw-bold">How I Built ToteTaxi's AI Agent</span><br>
@@ -83,8 +241,8 @@
         </div>
         <div class="col-12">
           <a href="{% url 'post_list' %}i-got-tired-of-linkedins-black-hole-so-i-built-my/" class="text-decoration-none d-block position-relative rounded shadow overflow-hidden">
-            <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,h_400,c_fill,q_auto,f_auto/v1/blog_images/reporadaricon_fotea1"
-                 class="img-fluid lazy-image image-placeholder w-100"
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,h_400,c_fill,q_auto,f_auto/v1/blog_images/reporadaricon_fotea1"
+                 class="img-fluid w-100"
                  alt="StackJefe Build Post">
             <div class="position-absolute bottom-0 start-0 w-100 p-3" style="background: linear-gradient(transparent, rgba(0,0,0,0.8));">
               <span class="text-white fw-bold">Building StackJefe: A Job Search Engine</span><br>
@@ -106,14 +264,63 @@
         <a href="{% url 'portfolio:index' %}" class="btn btn-outline-primary fw-bold">View My Services</a>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- PHOTOGRAPHY -->
-  <div class="row mb-5 align-items-center">
+  <section class="row align-items-center story-section">
     <div class="col-md-6 mb-4 mb-md-0">
-      <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_500,h_600,c_fill,q_auto,f_auto/v1752173483/artwork_svhtdx.jpg"
-           class="img-fluid rounded shadow lazy-image image-placeholder"
-           alt="Matthew Raynor Photography">
+      <div id="carouselPhoto" class="carousel slide story-carousel" data-bs-ride="false" data-bs-touch="true">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselPhoto" data-bs-slide-to="0" class="active" aria-current="true"></button>
+          <button type="button" data-bs-target="#carouselPhoto" data-bs-slide-to="1"></button>
+          <button type="button" data-bs-target="#carouselPhoto" data-bs-slide-to="2"></button>
+          <button type="button" data-bs-target="#carouselPhoto" data-bs-slide-to="3"></button>
+          <button type="button" data-bs-target="#carouselPhoto" data-bs-slide-to="4"></button>
+          <button type="button" data-bs-target="#carouselPhoto" data-bs-slide-to="5"></button>
+          <button type="button" data-bs-target="#carouselPhoto" data-bs-slide-to="6"></button>
+          <button type="button" data-bs-target="#carouselPhoto" data-bs-slide-to="7"></button>
+          <button type="button" data-bs-target="#carouselPhoto" data-bs-slide-to="8"></button>
+          <button type="button" data-bs-target="#carouselPhoto" data-bs-slide-to="9"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_photo_01_alisha_aerial" alt="Aerial drone shot of fishing trawler">
+          </div>
+          <div class="carousel-item">
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_photo_02_jetty" alt="Jetty from above">
+          </div>
+          <div class="carousel-item">
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_photo_03_marsh_road" alt="Road through golden marsh">
+          </div>
+          <div class="carousel-item">
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_photo_04_boardwalk_marsh" alt="Boardwalk through marsh">
+          </div>
+          <div class="carousel-item">
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_photo_05_boardwalk_sunset" alt="Boardwalk at sunset">
+          </div>
+          <div class="carousel-item">
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_photo_06_sunset_waves" alt="Sunset over waves">
+          </div>
+          <div class="carousel-item">
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_photo_07_dunes_sunset" alt="Sunset over dunes">
+          </div>
+          <div class="carousel-item">
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_photo_08_birch_overhead" alt="Birch trees from above">
+          </div>
+          <div class="carousel-item">
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_photo_09_winding_river" alt="Winding river through marsh">
+          </div>
+          <div class="carousel-item">
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_photo_10_bridge" alt="Bridge over canal">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselPhoto" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselPhoto" data-bs-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </button>
+      </div>
     </div>
     <div class="col-md-6">
       <h2 class="fw-bold">Photography — Before and After</h2>
@@ -126,13 +333,13 @@
         <a href="{% url 'pages:contact' %}" class="btn btn-outline-dark">Contact Me for Custom Work</a>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- WHAT I WRITE ABOUT -->
-  <div class="row mb-5 align-items-center flex-md-row-reverse">
+  <section class="row align-items-center flex-md-row-reverse story-section">
     <div class="col-md-6 mb-4 mb-md-0">
-      <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_500,h_600,c_fill,q_auto,f_auto/v1752173484/book_wh3xu9.jpg"
-           class="img-fluid rounded shadow lazy-image image-placeholder"
+      <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto/v1752173484/book_wh3xu9.jpg"
+           class="img-fluid rounded shadow w-100"
            alt="Before Me After Me Book">
     </div>
     <div class="col-md-6">
@@ -140,39 +347,64 @@
       <p>I write about the things that saved my life — Buddhism, Taoism, meditation, recovery, and the power of discipline. I share raw, honest reflections on disability, trauma, spiritual growth, and building a life worth living. It's kind of my therapy. I don't do it for money — I mean, I make a little bit — but it's mainly for me to release whatever I'm going through and help my friends on Facebook.</p>
       <p>My <a href="https://substack.com/@mnraynor90" target="_blank">Substack</a> and <a href="{% url 'post_list' %}">blog posts</a> aren't just BS from somebody trying to fake it. They're real stories from somebody who's been through a lot — locked up, nearly died a few times even before my spinal cord injury — who had to fight for a reason to keep going when I was in the nursing home and when I got out. It's also pretty funny. I'm funny even though the subject matter is serious. So you might want to check it out.</p>
       <p>My mission is to inspire others who are in dark places — whether they're going through addiction, depression, anxiety, whatever. Anyone in their slice of life can read it.</p>
-      <blockquote class="blockquote mt-3 ps-3 border-start border-3 border-primary">
-        <p class="fst-italic">"Pain doesn't mean you're broken. It means you're being shaped."</p>
+      <blockquote class="story-quote">
+        "Pain doesn't mean you're broken. It means you're being shaped."
       </blockquote>
       <div class="d-flex flex-wrap gap-2 mt-3">
         <a href="https://substack.com/@mnraynor90" target="_blank" class="btn btn-outline-primary fw-bold">Visit My Substack</a>
         <a href="{% url 'post_list' %}" class="btn btn-outline-dark">Read My Blog</a>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- WHERE I AM NOW -->
-  <div class="row mb-5 align-items-center">
+  <section class="row align-items-center story-section">
     <div class="col-md-6 mb-4 mb-md-0">
-      <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_500,h_600,c_fill,q_auto,f_auto/v1752173519/matthew_portrait_ih4qar.png"
-           class="img-fluid rounded shadow lazy-image image-placeholder"
-           alt="Matthew Raynor Portrait">
+      <div id="carouselNow" class="carousel slide story-carousel" data-bs-ride="false" data-bs-touch="true">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselNow" data-bs-slide-to="0" class="active" aria-current="true"></button>
+          <button type="button" data-bs-target="#carouselNow" data-bs-slide-to="1"></button>
+          <button type="button" data-bs-target="#carouselNow" data-bs-slide-to="2"></button>
+          <button type="button" data-bs-target="#carouselNow" data-bs-slide-to="3"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_now_01_gallery_fishing_print" alt="Matt at gallery with fishing print on the wall">
+          </div>
+          <div class="carousel-item">
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_now_02_gallery_booth" alt="Matt at his pop-up gallery booth">
+          </div>
+          <div class="carousel-item">
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_now_03_with_friend" alt="Matt with a friend smiling outdoors">
+          </div>
+          <div class="carousel-item">
+            <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto,a_auto/v1/story_images/story_now_04_nyc_sidewalk" alt="Matt on a NYC sidewalk">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselNow" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselNow" data-bs-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </button>
+      </div>
     </div>
     <div class="col-md-6">
       <h2 class="fw-bold">Where I Am Now</h2>
       <p>I live independently in Hampton Bays — back in my hometown. I have my art on the walls. I have Jerome Lucani's Buddhist art hanging here. I have good caretakers that I speak Spanish with every day. I'm interviewing for the software engineering job I always wanted. I'm writing, creating, and building.</p>
       <p>I went from drowning in the ocean to drowning in a nursing home to living the life I designed. My disability isn't my limitation — it's the reason I found my purpose.</p>
-      <blockquote class="blockquote mt-3 ps-3 border-start border-3 border-primary">
-        <p class="fst-italic">"Even tired, I am whole."</p>
+      <blockquote class="story-quote">
+        "Even tired, I am whole."
       </blockquote>
     </div>
-  </div>
+  </section>
 
   <!-- FIND ME -->
-  <div class="row mb-5 align-items-center flex-md-row-reverse">
+  <section class="row align-items-center flex-md-row-reverse story-section">
     <div class="col-md-6 mb-4 mb-md-0">
-      <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_500,h_600,c_fill,q_auto,f_auto/v1752173484/book_wh3xu9.jpg"
-           class="img-fluid rounded shadow lazy-image image-placeholder"
-           alt="Matthew Raynor">
+      <img loading="lazy" src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,c_fill,q_auto,f_auto/v1752173519/matthew_portrait_ih4qar.png"
+           class="img-fluid rounded shadow w-100"
+           alt="Matthew Raynor Portrait">
     </div>
     <div class="col-md-6">
       <h2 class="fw-bold">Find Me</h2>
@@ -188,7 +420,7 @@
         <a href="https://store.matthewraynor.com" target="_blank" class="btn btn-outline-primary fw-bold">Visit My Store</a>
       </div>
     </div>
-  </div>
+  </section>
 
 </div>
 {% endblock %}
