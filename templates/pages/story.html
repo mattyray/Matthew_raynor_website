@@ -6,27 +6,67 @@
 {% block content %}
 <div class="container py-5 fade-in-up">
 
-  <!-- WHO I AM -->
+  <!-- THE FISHERMAN -->
   <div class="row mb-5 align-items-center">
     <div class="col-md-6 mb-4 mb-md-0">
       <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_500,h_600,c_fill,q_auto,f_auto/v1752173484/fisherman_qgsds8.jpg"
            class="img-fluid rounded shadow lazy-image image-placeholder"
-           alt="Matthew as Fisherman">
+           alt="Matthew Raynor Commercial Fishing">
     </div>
     <div class="col-md-6">
-      <h2 class="fw-bold">Who I Am</h2>
-      <p class="lead">I'm Matthew Raynor — an AI Engineer & Full-Stack Developer based in Hampton Bays, NY.</p>
-      <p>I build agentic AI systems, computer vision pipelines, and full-stack platforms. I maintain multiple production applications — including a luxury delivery platform with a LangGraph AI agent, an e-commerce store with a 14-tool AI shopping assistant, and an enterprise computer vision pipeline built for a multinational corporation.</p>
-      <p>Former commercial fisherman off Montauk. Broke my neck in 2019, became tetraplegic, taught myself to code. Now I live independently and ship production software every week.</p>
-      <p>For the full story:</p>
+      <h2 class="fw-bold">The Fisherman</h2>
+      <p>I grew up on the East End of Long Island. By my early twenties I was a commercial fisherman — first in Shinnecock, then out of Montauk. Deep-sea trips anywhere from a day to a month. In the fall I'd catch bay scallops and clam in the Peconics. The ocean was my holy place — a place where my mind could rest. Peace and solitude.</p>
+      <p>Between fishing seasons I'd travel — the Far East, South America, Europe, the Caribbean — always with my camera. I shot everything on a Nikon D7100. The fishing, the storms, the quiet sunrises offshore. All of my early photography tells the story of a dying industry on Long Island.</p>
       <div class="d-flex flex-wrap gap-2 mt-3">
-        <a href="{% url 'post_list' %}" class="btn btn-primary fw-bold">Blog</a>
-        <a href="https://substack.com/@mnraynor90" target="_blank" class="btn btn-outline-primary fw-bold">Substack</a>
+        <a href="https://substack.com/@mnraynor90" target="_blank" class="btn btn-outline-dark">Writing</a>
+        <a href="https://store.matthewraynor.com" target="_blank" class="btn btn-outline-dark">Photography</a>
       </div>
     </div>
   </div>
 
-  <!-- WHAT I BUILD -->
+  <!-- APRIL 18, 2019 -->
+  <div class="row mb-5 align-items-center flex-md-row-reverse">
+    <div class="col-md-6 mb-4 mb-md-0">
+      <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_500,h_600,c_fill,q_auto,f_auto/v1/press_images/press_before_after"
+           class="img-fluid rounded shadow lazy-image image-placeholder"
+           alt="Matthew Raynor Before and After">
+    </div>
+    <div class="col-md-6">
+      <h2 class="fw-bold">April 18, 2019</h2>
+      <p>After three back-to-back six-day trips on the fishing vessel <em>Perception</em> out of Montauk, I went to Towd Point in North Sea Harbor for a cold morning swim to ease my tendonitis. It was a full moon tide. Strong current. I dove a few times — the channel goes from sand to twenty feet in a short distance. The first dives I made it. But I was cold and tired, and the last one I didn't.</p>
+      <p>I hit the bottom. I opened my eyes and watched the sandy bottom go by and knew immediately — I was completely paralyzed. I didn't drown. I suffocated. I broke the vertebrae responsible for respiration. My friend Jerome pulled me out and performed CPR on the beach. A medevac helicopter took me to Stony Brook, then Mount Sinai in Manhattan.</p>
+      <p>C3 through C7. Catastrophic spinal damage. Paralyzed from the collarbone down. I lost feeling and movement in 80% of my body. It was really bad at first. But I've learned to live with it.</p>
+      <blockquote class="blockquote mt-3 ps-3 border-start border-3 border-primary">
+        <p class="fst-italic">"I view whatever time I have here as extra. I should have died that day, but here I am — and I'm enjoying living."</p>
+      </blockquote>
+      <div class="d-flex flex-wrap gap-2 mt-3">
+        <a href="{% url 'post_list' %}the-day-i-broke-my-neck-part-1/" class="btn btn-outline-dark">Read the Full Story</a>
+        <a href="{% url 'pages:press' %}" class="btn btn-outline-dark">Press Coverage</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 30 MONTHS -->
+  <div class="row mb-5 align-items-center">
+    <div class="col-md-6 mb-4 mb-md-0">
+      <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_500,h_600,c_fill,q_auto,f_auto/v1752173521/sign_idfwoz.jpg"
+           class="img-fluid rounded shadow lazy-image image-placeholder"
+           alt="Inspirational Sign">
+    </div>
+    <div class="col-md-6">
+      <h2 class="fw-bold">30 Months</h2>
+      <p>I spent a few months at Mount Sinai, then moved home to my mother's house. I'm grateful for her — she's done so much for me — but once you move out, you just can't go back. Then I got to go to the Shepherd Center in Atlanta, which was nice because I got to travel a little, take an airplane. It was kind of like Disneyland for paralyzed people.</p>
+      <p>But back home wasn't sustainable. I ended up unhoused, depressed, on a thousand different prescription pills, without money or a place to live. So I moved into a nursing home in Southampton. It was the most difficult thing I'd endured since my accident. But it was also where I decided this is not where Matt Raynor's story would end.</p>
+      <p>If you let them, these difficulties can forge you into the person you were always meant to be. But you have to use the pressure to push you to perform at your best — especially when there's no option for failure.</p>
+      <p>I found a room dubbed the meditation room — even though it was really for conferences. The staff let me stay there. I made it my classroom, my retreat, my place of solitude. Even though the wallpaper was stained, I made it as serene as the ocean in my mind. I had privacy here. Every day, all day, for thirty months. I studied software engineering, teaching myself to code with a custom workflow. I learned Spanish so I could expand my caretaking options. And I went very deep into <a href="{% url 'post_list' %}a-journey-from-chaos-to-stillness/">Buddhism, Taoism, breathwork, and meditation</a> — creating a spiritual foundation I could bring with me wherever I go, through good times and bad.</p>
+      <p>The conditions were poor. The care was inconsistent. But everybody loved me there and I loved them. I created a spiritual framework for living, and I prevailed.</p>
+      <blockquote class="blockquote mt-3 ps-3 border-start border-3 border-primary">
+        <p class="fst-italic">"Do your work, then step back."</p>
+      </blockquote>
+    </div>
+  </div>
+
+  <!-- WHAT I BUILT -->
   <div class="row mb-5 align-items-center flex-md-row-reverse">
     <div class="col-md-6 mb-4 mb-md-0">
       <div class="row g-3">
@@ -42,103 +82,111 @@
           </a>
         </div>
         <div class="col-12">
-          <a href="{% url 'post_list' %}i-built-an-ai-shopping-assistant-that-sees-your-wa/" class="text-decoration-none d-block position-relative rounded shadow overflow-hidden">
-            <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,h_400,c_fill,q_auto,f_auto/v1/blog_images/photo_odmswq"
+          <a href="{% url 'post_list' %}i-got-tired-of-linkedins-black-hole-so-i-built-my/" class="text-decoration-none d-block position-relative rounded shadow overflow-hidden">
+            <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,h_400,c_fill,q_auto,f_auto/v1/blog_images/reporadaricon_fotea1"
                  class="img-fluid lazy-image image-placeholder w-100"
-                 alt="AI Shopping Assistant Deep-Dive">
+                 alt="StackJefe Build Post">
             <div class="position-absolute bottom-0 start-0 w-100 p-3" style="background: linear-gradient(transparent, rgba(0,0,0,0.8));">
-              <span class="text-white fw-bold">AI Shopping Assistant That Sees Your Wall</span><br>
-              <small class="text-white-50">LangChain, pgvector, MiDaS Depth, Claude Vision</small>
+              <span class="text-white fw-bold">Building StackJefe: A Job Search Engine</span><br>
+              <small class="text-white-50">Django, React, Celery, Claude API, ATS Scraping</small>
             </div>
           </a>
         </div>
       </div>
     </div>
     <div class="col-md-6">
-      <h2 class="fw-bold">What I Build</h2>
-      <p>I build agentic AI systems, computer vision pipelines, and full-stack platforms. My two flagship projects:</p>
-
-      <p><strong>ToteTaxi</strong> — A luxury delivery platform with a LangGraph AI agent (6 tools, SSE streaming), dynamic pricing engine, Stripe payments, Onfleet dispatch, dual authentication, and 310+ backend tests. Live at <a href="https://totetaxi.com" target="_blank">totetaxi.com</a>.</p>
-
-      <p><strong>Matthew Raynor Photography Store</strong> — An AI shopping assistant with pgvector semantic search, MiDaS depth estimation for "See It In Room" wall visualization, Claude Vision metadata generation, and full Stripe Checkout e-commerce. Live at <a href="https://store.matthewraynor.com" target="_blank">store.matthewraynor.com</a>.</p>
-
-      <p>Both are live. Both are real businesses. I also built an enterprise computer vision pipeline for IDP Americas, an operations platform for a fine art logistics company, a native desktop AI video editor in Rust, and a real-time care team scheduler with WebSocket.</p>
-
+      <h2 class="fw-bold">What I Built</h2>
+      <p>While I was in the nursing home, I started freelancing. I wanted to build real projects — the best way to learn is to build. So I built applications for real businesses.</p>
+      <p><strong><a href="{% url 'portfolio:project_detail' 'art-mover' %}">EJArtMover.net</a></strong> — My close friend's husband has a fine art moving business on Long Island. I built him an operations platform — work order tracking, calendar scheduling, PDF invoicing. My first client project.</p>
+      <p><strong><a href="https://totetaxi.com" target="_blank">ToteTaxi.com</a></strong> — A luxury delivery platform with an AI customer service agent, dynamic pricing, Stripe payments, and driver dispatch. I financed my accessible bathroom with proceeds from this work.</p>
+      <p><strong><a href="{% url 'portfolio:project_detail' 'freedom-fundraiser' %}">Matt's Freedom Fundraiser</a></strong> — When GoFundMe nearly blocked a $26K withdrawal, I built my own donation platform from scratch with React, Django, and Stripe. It was my first production app with a decoupled frontend. I raised the money I needed to get out, set up a Medicaid trust, and did everything legally and by the book. For the first time in my life.</p>
+      <p>Now I build AI-powered platforms professionally. <strong><a href="https://stackjefe.com" target="_blank">StackJefe.com</a></strong> — a job search engine querying 185K+ listings by tech stack. <strong><a href="https://store.matthewraynor.com" target="_blank">My Photography Store</a></strong> — an e-commerce platform with an AI shopping assistant. <strong><a href="{% url 'portfolio:project_detail' 'idp-easycapture' %}">IDP EasyCapture</a></strong> — an enterprise computer vision pipeline I built under contract for a multinational corporation.</p>
+      <p>I'm a software engineer. I code with a custom workflow — styluses, voice commands, and hotkeys. And I ship production software every week.</p>
       <div class="d-flex flex-wrap gap-2 mt-3">
-        <a href="{% url 'post_list' %}tote-taxi-langgraph/" class="btn btn-primary fw-bold">ToteTaxi Build Post</a>
-        <a href="{% url 'post_list' %}i-built-an-ai-shopping-assistant-that-sees-your-wa/" class="btn btn-outline-primary fw-bold">Store Build Post</a>
-        <a href="{% url 'portfolio:index' %}" class="btn btn-outline-primary fw-bold">View Full Portfolio</a>
+        <a href="{% url 'portfolio:index' %}" class="btn btn-outline-primary fw-bold">View My Services</a>
       </div>
     </div>
   </div>
 
-  <!-- ART, WRITING, PRESS + PHOTOGRAPHY & ART -->
+  <!-- PHOTOGRAPHY -->
   <div class="row mb-5 align-items-center">
     <div class="col-md-6 mb-4 mb-md-0">
       <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_500,h_600,c_fill,q_auto,f_auto/v1752173483/artwork_svhtdx.jpg"
            class="img-fluid rounded shadow lazy-image image-placeholder"
-           alt="Art and Memoir">
+           alt="Matthew Raynor Photography">
     </div>
     <div class="col-md-6">
-      <h2 class="fw-bold">What I Do – Art, Writing & Press</h2>
-      <p>I'm a multidisciplinary creator. My drone and landscape photography becomes fine art prints. My memoir, <em>Before Me After Me</em>, documents my physical and spiritual transformation. My work has been shown in local art shows and featured in the press — including <em>National Fisherman</em>, <em>The James Lane Post</em>, <em>The Southampton Press</em>, and more — not just for surviving, but for creating beauty in the aftermath.</p>
-
-      <h2 class="fw-bold mt-4">Photography & Art – Before and After</h2>
-      <p>Before my accident, I took photos from fishing boats and during my travels — capturing wild seascapes and distant places. After I became paralyzed, I adapted through drone photography.</p>
-      <p>Aerial shots gave me a way to keep creating — and a way to rise above. I've shown my work in pop-up art fairs and galleries across Long Island. Now, I offer custom drone photography and aluminum prints.</p>
+      <h2 class="fw-bold">Photography — Before and After</h2>
+      <p>Before my accident, I photographed from fishing boats and during my travels — crazy seascapes, distant lands, storms at sea, everything with my Nikon D7100.</p>
+      <p>After I became paralyzed, I needed a way to express myself — especially when I was living at my mother's house. I needed an outlet. So I got my FAA drone certification and adapted a custom workflow for it. Aerial photography gave me a way to keep creating — and a way to rise above.</p>
+      <p>My work has been exhibited at the <a href="{% url 'pages:press' %}">Southampton Cultural Center</a>, LTV Studios in Wainscott, the Parrish Art Museum (<a href="https://www.pechakucha.com/presentations/the-matthew-raynor-story" target="_blank">PechaKucha Night</a>), HarborFest in Sag Harbor, the Maritime Festival in Greenport, and a ton of other pop-up galleries across Long Island.</p>
+      <p>My friend helped me create a kind of autobiography and documentation called <em>Before Me&lt;&gt;After Me</em> — it chronicles my whole story from commercial fisherman to photographer. It's all from before I was a software engineer. I loved photography, but it's just too much — I can make software by myself and it's just better for me.</p>
       <div class="d-flex flex-wrap gap-2 mt-3">
-        <a href="{% url 'pages:contact' %}" class="btn btn-primary fw-bold">Contact Me for Custom Work</a>
-        <a href="https://store.matthewraynor.com" target="_blank" class="btn btn-outline-primary fw-bold">Browse My Aluminum Prints</a>
+        <a href="https://store.matthewraynor.com" target="_blank" class="btn btn-outline-primary fw-bold">Browse My Photography</a>
+        <a href="{% url 'pages:contact' %}" class="btn btn-outline-dark">Contact Me for Custom Work</a>
       </div>
     </div>
   </div>
 
-  <!-- MOTIVATIONAL WORK -->
+  <!-- WHAT I WRITE ABOUT -->
   <div class="row mb-5 align-items-center flex-md-row-reverse">
     <div class="col-md-6 mb-4 mb-md-0">
-      <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_500,h_600,c_fill,q_auto,f_auto/v1752173521/sign_idfwoz.jpg" 
-           class="img-fluid rounded shadow lazy-image image-placeholder" 
-           alt="Inspirational Work">
+      <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_500,h_600,c_fill,q_auto,f_auto/v1752173484/book_wh3xu9.jpg"
+           class="img-fluid rounded shadow lazy-image image-placeholder"
+           alt="Before Me After Me Book">
     </div>
     <div class="col-md-6">
-      <h2 class="fw-bold">What I Inspire – Motivational Work</h2>
-      <p>My mission is to inspire others who are in dark places. I share raw reflections on recovery, faith, and building a life worth living through Substack and YouTube. I write honestly about Buddhism, trauma, spiritual growth, and the power of discipline. I mix humor and heart to help others find their light — because I had to find mine the hard way, too.</p>
-      <p>Read my essays and reflections on Substack:</p>
-      <div class="mt-2 mb-4">
-        <a href="https://substack.com/@mnraynor90/posts" target="_blank" class="btn btn-primary fw-bold">Visit My Substack</a>
-      </div>
-
-      <h2 class="fw-bold mt-5">Work With Me</h2>
-      <p>I'm living independently in Hampton Bays, NY, freelancing as an AI Engineer & Full-Stack Developer, and looking for the right full-time remote role. Here's how to connect:</p>
-      <ul>
-        <li><strong>Hire Me:</strong> I'm available for freelance AI engineering, computer vision, and full-stack web development projects.</li>
-        <li><strong>Full-Time Roles:</strong> I'm actively seeking a remote position — if you know of opportunities, let's talk.</li>
-        <li><strong>Art:</strong> Browse and buy fine art drone photography prints at my store.</li>
-      </ul>
+      <h2 class="fw-bold">What I Write About</h2>
+      <p>I write about the things that saved my life — Buddhism, Taoism, meditation, recovery, and the power of discipline. I share raw, honest reflections on disability, trauma, spiritual growth, and building a life worth living. It's kind of my therapy. I don't do it for money — I mean, I make a little bit — but it's mainly for me to release whatever I'm going through and help my friends on Facebook.</p>
+      <p>My <a href="https://substack.com/@mnraynor90" target="_blank">Substack</a> and <a href="{% url 'post_list' %}">blog posts</a> aren't just BS from somebody trying to fake it. They're real stories from somebody who's been through a lot — locked up, nearly died a few times even before my spinal cord injury — who had to fight for a reason to keep going when I was in the nursing home and when I got out. It's also pretty funny. I'm funny even though the subject matter is serious. So you might want to check it out.</p>
+      <p>My mission is to inspire others who are in dark places — whether they're going through addiction, depression, anxiety, whatever. Anyone in their slice of life can read it.</p>
+      <blockquote class="blockquote mt-3 ps-3 border-start border-3 border-primary">
+        <p class="fst-italic">"Pain doesn't mean you're broken. It means you're being shaped."</p>
+      </blockquote>
       <div class="d-flex flex-wrap gap-2 mt-3">
-        <a href="{% url 'portfolio:index' %}" class="btn btn-primary fw-bold">View My Portfolio</a>
-        <a href="https://store.matthewraynor.com" target="_blank" class="btn btn-outline-primary fw-bold">Visit My Store</a>
+        <a href="https://substack.com/@mnraynor90" target="_blank" class="btn btn-outline-primary fw-bold">Visit My Substack</a>
+        <a href="{% url 'post_list' %}" class="btn btn-outline-dark">Read My Blog</a>
       </div>
     </div>
   </div>
 
-  <!-- SOCIAL PRESENCE -->
+  <!-- WHERE I AM NOW -->
   <div class="row mb-5 align-items-center">
     <div class="col-md-6 mb-4 mb-md-0">
-      <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_500,h_600,c_fill,q_auto,f_auto/v1752173484/book_wh3xu9.jpg" 
-           class="img-fluid rounded shadow lazy-image image-placeholder" 
-           alt="Social Media">
+      <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_500,h_600,c_fill,q_auto,f_auto/v1752173519/matthew_portrait_ih4qar.png"
+           class="img-fluid rounded shadow lazy-image image-placeholder"
+           alt="Matthew Raynor Portrait">
     </div>
     <div class="col-md-6">
-      <h2 class="fw-bold">Where I Show Up – Online</h2>
-      <p>Across platforms, I share stories of resilience, code, art, and laughter. Find me at:</p>
+      <h2 class="fw-bold">Where I Am Now</h2>
+      <p>I live independently in Hampton Bays — back in my hometown. I have my art on the walls. I have Jerome Lucani's Buddhist art hanging here. I have good caretakers that I speak Spanish with every day. I'm interviewing for the software engineering job I always wanted. I'm writing, creating, and building.</p>
+      <p>I went from drowning in the ocean to drowning in a nursing home to living the life I designed. My disability isn't my limitation — it's the reason I found my purpose.</p>
+      <blockquote class="blockquote mt-3 ps-3 border-start border-3 border-primary">
+        <p class="fst-italic">"Even tired, I am whole."</p>
+      </blockquote>
+    </div>
+  </div>
+
+  <!-- FIND ME -->
+  <div class="row mb-5 align-items-center flex-md-row-reverse">
+    <div class="col-md-6 mb-4 mb-md-0">
+      <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_500,h_600,c_fill,q_auto,f_auto/v1752173484/book_wh3xu9.jpg"
+           class="img-fluid rounded shadow lazy-image image-placeholder"
+           alt="Matthew Raynor">
+    </div>
+    <div class="col-md-6">
+      <h2 class="fw-bold">Find Me</h2>
       <ul class="list-unstyled">
-        <li><i class="fas fa-book-open me-2"></i><a href="https://substack.com/@mnraynor90/posts" target="_blank"><strong>Substack</strong> – Essays & Reflections</a></li>
-        <li><i class="fab fa-instagram me-2"></i><a href="https://www.instagram.com/matthewraynorig/" target="_blank"><strong>Instagram</strong> – Visual Art & Daily Life</a></li>
-        <li><i class="fab fa-linkedin me-2"></i><a href="https://www.linkedin.com/in/matthew-raynor-2b3618200/" target="_blank"><strong>LinkedIn</strong> – Professional Profile</a></li>
-        <li><i class="fab fa-github me-2"></i><a href="https://github.com/mattyray" target="_blank"><strong>GitHub</strong> – Code & Projects</a></li>
-        <li><i class="fa fa-envelope me-2"></i><a href="mailto:mnraynor90@gmail.com"><strong>Email</strong> – mnraynor90@gmail.com</a></li>
+        <li class="mb-2"><i class="fas fa-book-open me-2"></i><a href="https://substack.com/@mnraynor90/posts" target="_blank"><strong>Substack</strong> — Essays & Reflections</a></li>
+        <li class="mb-2"><i class="fab fa-instagram me-2"></i><a href="https://www.instagram.com/matthewraynorig/" target="_blank"><strong>Instagram</strong> — @matthewraynorig</a></li>
+        <li class="mb-2"><i class="fab fa-linkedin me-2"></i><a href="https://www.linkedin.com/in/matthew-raynor-2b3618200/" target="_blank"><strong>LinkedIn</strong> — Professional Profile</a></li>
+        <li class="mb-2"><i class="fab fa-github me-2"></i><a href="https://github.com/mattyray" target="_blank"><strong>GitHub</strong> — Code & Projects</a></li>
+        <li class="mb-2"><i class="fa fa-envelope me-2"></i><a href="mailto:mnraynor90@gmail.com"><strong>Email</strong> — mnraynor90@gmail.com</a></li>
       </ul>
+      <div class="d-flex flex-wrap gap-2 mt-3">
+        <a href="{% url 'portfolio:index' %}" class="btn btn-primary fw-bold">View My Services</a>
+        <a href="https://store.matthewraynor.com" target="_blank" class="btn btn-outline-primary fw-bold">Visit My Store</a>
+      </div>
     </div>
   </div>
 
