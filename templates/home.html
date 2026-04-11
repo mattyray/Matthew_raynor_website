@@ -54,13 +54,13 @@
       <!-- INTRO TEXT -->
       <div class="bg-white rounded shadow-sm p-4 mb-5 mx-auto" style="max-width: 900px;">
         <p class="lead text-center mb-0">
-          I'm an <span class="fw-bold">AI Engineer & Full-Stack Developer</span> building <span class="fw-bold">agentic AI systems</span>, <span class="fw-bold">computer vision pipelines</span>, and <span class="fw-bold">full-stack platforms</span> with React, TypeScript, Django, and modern cloud tooling.
+          I'm a <span class="fw-bold">Software Engineer</span> building <span class="fw-bold">agentic AI systems</span>, <span class="fw-bold">computer vision pipelines</span>, and <span class="fw-bold">full-stack platforms</span> with React, TypeScript, Django, and modern cloud tooling.
         </p>
         <p class="lead text-center mb-0 mt-3">
-          My two flagship projects: <a href="https://totetaxi.com" target="_blank" class="fw-bold text-decoration-none">ToteTaxi</a> — a luxury delivery platform with a LangGraph AI agent, dynamic pricing, Stripe, and Onfleet dispatch. And <a href="https://store.matthewraynor.com" target="_blank" class="fw-bold text-decoration-none">my Photography Store</a> — with an AI shopping assistant that searches photos semantically, visualizes prints on your wall, and handles checkout through conversation.
+          My flagship projects: <a href="https://totetaxi.com" target="_blank" class="fw-bold text-decoration-none">ToteTaxi</a> — a luxury delivery platform with a LangGraph AI agent. <a href="https://stackjefe.com" target="_blank" class="fw-bold text-decoration-none">StackJefe</a> — a job search engine querying ATS APIs by tech stack. And <a href="https://store.matthewraynor.com" target="_blank" class="fw-bold text-decoration-none">my Photography Store</a> — with an AI shopping assistant that searches photos semantically and visualizes prints on your wall.
         </p>
         <p class="lead text-center mb-0 mt-3">
-          Read the technical deep-dives: <a href="{% url 'post_list' %}tote-taxi-langgraph/" class="fw-bold text-decoration-none">How I Built ToteTaxi's AI Agent</a> and <a href="{% url 'post_list' %}i-built-an-ai-shopping-assistant-that-sees-your-wa/" class="fw-bold text-decoration-none">How I Built an AI Shopping Assistant That Sees Your Wall</a>.
+          Read the technical deep-dives: <a href="{% url 'post_list' %}tote-taxi-langgraph/" class="fw-bold text-decoration-none">ToteTaxi's AI Agent</a>, <a href="{% url 'post_list' %}i-got-tired-of-linkedins-black-hole-so-i-built-my/" class="fw-bold text-decoration-none">Building StackJefe</a>, and <a href="{% url 'post_list' %}i-built-an-ai-shopping-assistant-that-sees-your-wa/" class="fw-bold text-decoration-none">AI Shopping Assistant</a>.
         </p>
         <p class="text-center mt-3 mb-0">
           <a href="https://www.linkedin.com/in/matthew-raynor-2b3618200/" target="_blank" class="text-decoration-none me-3"><i class="fab fa-linkedin me-1"></i>LinkedIn</a>
@@ -134,7 +134,27 @@
         </div>
       </div>
 
-      <!-- Project 4: EJ Art Mover - Text Left, Video Right -->
+      <!-- Project 4: StackJefe - Text Left, Image Right -->
+      <div class="row align-items-center mb-5 fade-in-up flex-lg-row-reverse">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <div class="ratio ratio-16x9 shadow rounded overflow-hidden">
+            <img data-src="https://res.cloudinary.com/dddye9wli/image/upload/w_800,h_450,c_fill,q_auto,f_auto/v1/blog_images/reporadaricon_fotea1"
+                 class="img-fluid object-fit-cover lazy-image image-placeholder"
+                 alt="StackJefe Job Search Engine">
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <h4 class="fw-bold">StackJefe.com</h4>
+          <p class="lead">A job search engine that lets developers search by the technologies they actually work with. Queries Greenhouse, Lever, Ashby, and Workable APIs across 185K+ listings. Upload a resume and Claude AI parses your skills to generate personalized outreach. Power users connect GitHub to scan orgs by tech stack and score them 0–100.</p>
+          <div class="d-flex flex-wrap gap-2">
+            <a href="https://stackjefe.com" target="_blank" class="btn btn-primary">Try It Live</a>
+            <a href="{% url 'portfolio:project_detail' 'stackjefe' %}" class="btn btn-outline-primary">View Project</a>
+            <a href="{% url 'post_list' %}i-got-tired-of-linkedins-black-hole-so-i-built-my/" class="btn btn-outline-primary">Read the Build Post</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 5: EJ Art Mover - Text Left, Video Right -->
       <div class="row align-items-center mb-5 fade-in-up flex-lg-row-reverse">
         <div class="col-lg-6 mb-4 mb-lg-0">
           <div class="ratio ratio-16x9 shadow rounded overflow-hidden">
