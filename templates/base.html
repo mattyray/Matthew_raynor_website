@@ -7,7 +7,7 @@
   <title>{% block title %}MatthewRaynor.com{% endblock %}</title>
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" sizes="64x64" href="{% static 'images/icon.png' %}">
+  <link rel="icon" type="image/svg+xml" href="{% static 'images/icon.svg' %}">
 
   <!-- Font Awesome for Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -39,7 +39,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-crunchy d-none d-lg-flex">
     <div class="container">
       <a class="navbar-brand fw-bold" href="{% url 'pages:home' %}">
-        <img src="{% static 'images/icon.png' %}" alt="Site Icon" class="nav-icon">
+        <img src="{% static 'images/icon.svg' %}" alt="Site Icon" class="nav-icon">
         <span class="brand-text">Matthew Raynor</span>
       </a>
       <div class="collapse navbar-collapse" id="navbarDesktop">
@@ -71,7 +71,7 @@
     <nav class="navbar navbar-dark bg-crunchy">
       <div class="container">
         <a class="navbar-brand fw-bold" href="{% url 'pages:home' %}">
-          <img src="{% static 'images/icon.png' %}" alt="Site Icon" class="nav-icon">
+          <img src="{% static 'images/icon.svg' %}" alt="Site Icon" class="nav-icon">
           <span class="brand-text">Matthew Raynor</span>
         </a>
         <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar"
@@ -85,7 +85,7 @@
   <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="offcanvasSidebarLabel">
-        <img src="{% static 'images/icon.png' %}" alt="Site Icon" class="nav-icon">
+        <img src="{% static 'images/icon.svg' %}" alt="Site Icon" class="nav-icon">
         <span class="brand-text">Matthew Raynor</span>
       </h5>
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
