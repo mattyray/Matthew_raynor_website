@@ -7,7 +7,8 @@
   <title>{% block title %}MatthewRaynor.com{% endblock %}</title>
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" sizes="64x64" href="{% static 'images/icon.png' %}">
+  <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/apple-touch-icon.png' %}">
 
   <!-- Font Awesome for Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -17,14 +18,16 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Montserrat:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet">
 
-  {% block extra_css %}
+  <!-- Nav icon sizing (outside extra_css so it can't be overridden) -->
   <style>
     .nav-icon {
       height: 40px;
+      width: 40px;
       margin-right: 10px;
     }
   </style>
-  {% endblock %}
+
+  {% block extra_css %}{% endblock %}
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-32ZNZY8WPH"></script>
   <script>
